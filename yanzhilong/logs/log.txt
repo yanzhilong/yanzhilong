@@ -1,0 +1,2 @@
+INFO  2017-03-29 10:08:05,286   376ms HomeController         Index              - index
+INFO  2017-03-29 10:09:24,902 13167ms HomeController         Index              - index

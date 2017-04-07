@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Article" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+  <!-- 设置别名，用于底下指定类型的时候不需要全全类名(包括长的空间名 ),最后一个参数是项目的命名空间名 -->
+  <alias>
+    <typeAlias alias="Article" type="yanzhilong.Models.Article, yanzhilong"/>
+  </alias>
+
+  <!-- 数据库到实体类的映射表 -->
+  <resultMaps>
+    
+    <!-- 数据库的全部字段到实体类的映射 -->
+    <resultMap id="SelectAllResult" class="Article">
+      <result property="ArticleID" column="ArticleID" dbType="char" type="string" />
+      <result property="Title" column="Title" dbType="varchar" type="string" />
+      <result property="Content" column="Content" dbType="text" type="string" />
+      <result property="ImageUrl" column="ImageUrl" dbType="varchar" type="string" />
+      <result property="Disc" column="Disc" dbType="varchar" type="string" />
+      <result property="Notes" column="Notes" dbType="varchar" type="string" />
+      <result property="CreateAt" column="CreateAt" dbType="datetime" type="DateTime" />
+      <result property="UpdateAt" column="UpdateAt" dbType="datetime" type="DateTime" />
+      <result property="category.CategoryID" column="CategoryId" dbType="char" type="string" />
+      <result property="user.UserID" column="UserId" dbType="char" type="string" />
+    </resultMap>
+    
+    <!-- 这里可以配置其它只需要指定字段的映射文件(这里是不返回ID) -->
+  </resultMaps>
+
+  <!-- 声明执行语句列表，可以包含多个<select>、<insert>、<update>、<delete>节点 -->
+  <!-- 为了避免SQL语句出现的'<'和'>'会和配置文件的<>冲突，所以SQL语句都写在<![CDATA[  与  ]]>之间 -->
+  <statements>
+
+    <!-- 添加句子SQL语句 -->
+    <insert id="InsertArticle" parameterClass="Article" >
+      <![CDATA[  
+      insert into Article  
+      (ArticleID,Title,Content,ImageUrl,Disc,Notes,CreateAt,UpdateAt,CategoryId,UserId)  
+      values  
+      (#ArticleID#,#Title#,#Content#,#ImageUrl#,#Disc#,#Notes#,#CreateAt#,#UpdateAt#,#category.CategoryID#,#user.UserID#)  
+      ]]>
+    </insert>
+
+    <!-- parameterClass表示传入的参数为int -->
+    <delete id="DeleteArticle" parameterClass="string">
+      <![CDATA[
+          delete from Article  
+          where  
+          ArticleID = #value#  
+          ]]>
+    </delete>
+    
+    <!-- #UserName# 表示传入实体类参数的属性，表示实体的的属性 -->
+    <update id="UpdateArticle" parameterClass="Article">
+      <![CDATA[  
+          UPDATE Article SET  
+          Title=#Title#,
+          Content=#Content#,
+          ImageUrl=#ImageUrl#,
+          Disc=#Disc#,
+          Notes=#Notes#,
+          CreateAt=#CreateAt#,
+          UpdateAt=#UpdateAt#,
+          CategoryId=#category.CategoryID#,
+          UserId=#user.UserID#
+          WHERE  
+          ArticleID=#ArticleID#
+          ]]>
+    </update>
+
+     <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
+    <select id="SelectAllArticle" resultMap="SelectAllResult">
+      <![CDATA[  
+          SELECT ArticleID
+          ,Title
+          ,Content
+          ,ImageUrl
+          ,Disc
+          ,Notes
+          ,CreateAt
+          ,UpdateAt
+          ,CategoryId
+          ,UserId
+          FROM Article
+          ]]>
+    </select>
+    
+     <!--#value# 是点位符会被传入的parameterClass的string类型代替--> 
+    <select id="SelectArticleById" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllArticle">
+      <![CDATA[  
+          where ArticleID = #value#  
+          ]]>
+    </select>
+
+  </statements>
+
+</sqlMap>
