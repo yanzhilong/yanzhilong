@@ -2,23 +2,35 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using yanzhilong.Models;
 using System.Collections.Generic;
+using System.IO;
 
 namespace yanzhilongtest
 {
     [TestClass]
     public class TutorialsTest
     {
+
+        public string ReadFile(string filename)
+        {
+            string basedir = Path.GetFullPath("..\\..\\");
+            string file = basedir + "Models\\File\\" + filename;
+            StreamReader sr = new StreamReader(file);
+            string result = sr.ReadToEnd();
+            sr.Close();
+            return result;
+        }
+
         [TestMethod]
         public void TutorialsCreate()
         {
             TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
             Tutorials tutorials = new Tutorials();
             tutorials.TutorialsID = Guid.NewGuid().ToString();
-            tutorials.Title = "爬虫学习";
-            tutorials.Content = "asdasdasd";
+            tutorials.Title = "测试";
+            tutorials.Content = ReadFile("aa.txt");
             tutorials.CreateAt = DateTime.Now;
-            tutorials.Disc = "第一次学习好紧张";
-            tutorials.Notes = "asd";
+            tutorials.Disc = "Disc 测试";
+            tutorials.Notes = "Notes 测试";
             User user = new User();
             user.UserID = "1f1c4189-3792-4a91-8d08-c0d04e18a0ae";
             tutorials.user = user;

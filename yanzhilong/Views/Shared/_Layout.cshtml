@@ -2,30 +2,103 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <!-- 引用 移动设备优先设置项-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@ViewBag.Title</title>
 
-    <!-- 加载压缩过的css和css5支持验证的js -->
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+        <title>@ViewBag.Title</title>
 
-</head>
-<body>
-    
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - yanzhilong</p>
-        </footer>
-    </div>
+        <!-- 加载压缩过的css和css5支持验证的js -->
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    </head>
+    <body>
 
-    <!-- 这里是一个占位符，用于加载子页面的需要加载的东西, required表示这个占位在子页面是否是必须指定的 -->
-    <!-- 子页面中指定的方式就是@section scripts{//这里面可以引用当前子页面需要的css及js等} //子页面的scripts名字的要模版页的名字一样 -->
-    @RenderSection("scripts", required: false)
-</body>
+        <!-- 定义导航 -->
+        <nav class="navbar navbar-default navmain">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li 
+                            @{ 
+                                if (ViewBag.NavActive == 0)
+                                {
+                                    @:class="active"
+                                }
+                            }
+                            >
+                            @Html.ActionLink("首页", "Index", "Home")
+                        </li>
+                        <li
+                            @{ 
+                                if (ViewBag.NavActive == 1)
+                                {
+                                    @:class="active"
+                                }
+                            }
+                            >
+                            @Html.ActionLink("文章", "Index", "Article")
+                        </li>
+                        <li
+                             @{ 
+                                if (ViewBag.NavActive == 2)
+                                {
+                                    @:class="active"
+                                }
+                            }
+                            >
+                            
+                            @Html.ActionLink("教程", "Index", "Tutorials")
+                            @*<a href="/ghost-cheat-sheet/">教程</a>*@
+                        </li>
+                        <li
+                            @{ 
+                                if (ViewBag.NavActive == 3)
+                                {
+                                    @:class="active"
+                                }
+                            }
+                            >
+                            <a href="http://docs.ghostchina.com/zh/">产品中心</a>
+                        </li>
+                        <li
+                            @{ 
+                                if (ViewBag.NavActive == 4)
+                                {
+                                    @:class="active"
+                                }
+                            }
+                            >
+                            <a href="/about/">关于</a>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn btn-default navbar-btn navbar-right">登陆</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - yanzhilong</p>
+            </footer>
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+
+        <!-- 这里是一个占位符，用于加载子页面的需要加载的东西, required表示这个占位在子页面是否是必须指定的 -->
+        <!-- 子页面中指定的方式就是@section scripts{//这里面可以引用当前子页面需要的css及js等} //子页面的scripts名字的要模版页的名字一样 -->
+        @RenderSection("scripts", required: false)
+    </body>
 </html>

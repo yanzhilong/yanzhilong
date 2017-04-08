@@ -42,12 +42,17 @@ namespace yanzhilong.Models
             
             return category;
         }
-
-
+        
         public IList<Category> GetCategorys()
         {
             IList<Category> categorys = sqlMapper.QueryForList<Category>("SelectAllCategory", null);
             return categorys;
+        }
+
+        public IList<ActicleCount> GetArticlesCountGroupByCategory()
+        {
+            IList<ActicleCount> articlecounts = sqlMapper.QueryForList<ActicleCount>("SelectArticlesNumGroupByCategory", null);
+            return articlecounts;
         }
 
         public IList<Category> GetCategorys(int index, int size)

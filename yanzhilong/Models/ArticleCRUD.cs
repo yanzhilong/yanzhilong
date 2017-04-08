@@ -57,6 +57,14 @@ namespace yanzhilong.Models
             return articles;
         }
 
+        public IList<Article> GetArticlesByCategoryId(string categoryID)
+        {
+            IList<Article> articles = sqlMapper.QueryForList<Article>("SelectArticlesByCategoryId", categoryID);
+            return articles;
+        }
+
+        
+
         public IList<Article> GetArticles(int index, int size)
         {
             IList<Article> articleList = sqlMapper.QueryForList<Article>("SelectAllArticle", null, index, size);

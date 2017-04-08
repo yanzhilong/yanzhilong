@@ -14,7 +14,7 @@ namespace yanzhilongtest
             CategoryCRUD categoryCRUD = new CategoryCRUD();
             Category category = new Category();
             category.CategoryID = Guid.NewGuid().ToString();
-            category.Name = "Python";
+            category.Name = "英文";
             Assert.IsTrue(categoryCRUD.Create(category));
     }
 

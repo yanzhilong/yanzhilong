@@ -5,6 +5,7 @@
   <!-- 设置别名，用于底下指定类型的时候不需要全全类名(包括长的空间名 ),最后一个参数是项目的命名空间名 -->
   <alias>
     <typeAlias alias="Article" type="yanzhilong.Models.Article, yanzhilong"/>
+    
   </alias>
 
   <!-- 数据库到实体类的映射表 -->
@@ -24,7 +25,7 @@
       <result property="user.UserID" column="UserId" dbType="char" type="string" />
     </resultMap>
     
-    <!-- 这里可以配置其它只需要指定字段的映射文件(这里是不返回ID) -->
+    
   </resultMaps>
 
   <!-- 声明执行语句列表，可以包含多个<select>、<insert>、<update>、<delete>节点 -->
@@ -91,6 +92,15 @@
           where ArticleID = #value#  
           ]]>
     </select>
+
+    <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
+    <select id="SelectArticlesByCategoryId" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllArticle">
+      <![CDATA[  
+          where CategoryId = #value#  
+          ]]>
+    </select>
+    
+    
 
   </statements>
 

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<yanzhilong.Models.Tutorials>
+@{
+    ViewBag.Title = "教程中心";
+    ViewBag.NavActive = 2;//设置导航激活
+}
+
+<!-- 热门的文章 -->
+<div class="container marketing">
+
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+        <div class="col-sm-12">
+            
+            @foreach (var item in Model)
+            {
+                <div class="course_item">
+                    <h2>@Html.DisplayFor(modleItem => item.Title)</h2>
+                    <p>@Html.DisplayFor(modleItem => item.Disc)</p>
+                    <p class="pull-right">
+                        @*<a class="btn btn-default" href="#" role="button">马上学习 &raquo;</a>*@
+                        @Html.ActionLink("马上学习", "Details", new { id = item.TutorialsID }, new { @class = "btn btn-default", role = "button" })
+                    </p>
+                </div>
+
+                <hr class="featurette-divider">
+            }
+            <nav>
+                <ul class="pager">
+                    <li><a href="#">上一页</a></li>
+                    <li><a href="#">下一页</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,7 @@
   <!-- 设置别名，用于底下指定类型的时候不需要全全类名(包括长的空间名 ),最后一个参数是项目的命名空间名 -->
   <alias>
     <typeAlias alias="Category" type="yanzhilong.Models.Category, yanzhilong"/>
+    <typeAlias alias="ArticleCount" type="yanzhilong.Models.ActicleCount, yanzhilong"/>
   </alias>
 
   <!-- 数据库到实体类的映射表 -->
@@ -15,8 +16,14 @@
       <result property="CategoryID" column="CategoryID" dbType="char" type="string" />
       <result property="Name" column="Name" dbType="varchar" type="string" />
     </resultMap>
+
+    <!-- 返回ActicleCount用于生成侧边列表 -->
+    <resultMap id="SelectActicleCountResult" class="ArticleCount">
+      <result property="category.CategoryID" column="CategoryID" dbType="char" type="string"/>
+      <result property="category.Name" column="Name" dbType="varchar" type="string"/>
+      <result property="Count" column="Count" dbType="int" type="int"/>
+    </resultMap>
     
-    <!-- 这里可以配置其它只需要指定字段的映射文件(这里是不返回ID) -->
   </resultMaps>
 
   <!-- 声明执行语句列表，可以包含多个<select>、<insert>、<update>、<delete>节点 -->
@@ -68,6 +75,18 @@
           ]]>
     </select>
 
+    <!-- 获得每个分类下面的文章数 -->
+    <select id="SelectArticlesNumGroupByCategory" resultMap="SelectActicleCountResult">
+      <![CDATA[  
+          SELECT a.CategoryID
+          ,a.Name
+          ,b.Count
+          FROM category a left join
+          (select CategoryID,Count from(select CategoryID,count(*) as Count from article group by CategoryID)tmp) b on a.CategoryID=b.CategoryId
+          ]]>
+      <!--select a.CategoryID,a.Name,b.Count from category a left join (select CategoryID,Count from(select CategoryID,count(*) as Count from article group by CategoryID)tmp) b on a.CategoryID=b.CategoryId-->  
+    </select>
+    
   </statements>
 
 </sqlMap>

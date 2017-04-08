@@ -24,8 +24,11 @@ namespace yanzhilong
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.min.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/tutorials_details").Include(
+                      "~/Scripts/tutorials_details.js"));
         }
     }
 }

@@ -35,9 +35,8 @@ namespace yanzhilongtest
         public void UserUpdate()
         {
             UserCRUD userCRUD = new UserCRUD();
-            User user = new User();
-            user.UserID = "1b6971fd-1aea-475f-bf06-03dbeae233bb";
-            user.Email = "gfdonx@163.com";
+            User user = userCRUD.GetUserById("1f1c4189-3792-4a91-8d08-c0d04e18a0ae");
+            user.DisplayName = "严志龙";
             Assert.IsTrue(userCRUD.Update(user));
         }
 
