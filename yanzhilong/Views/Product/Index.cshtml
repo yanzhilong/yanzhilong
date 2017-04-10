@@ -1,0 +1,30 @@
+﻿@model IEnumerable<yanzhilong.Models.Product>
+@{
+    ViewBag.Title = "产品中心";
+    ViewBag.NavActive = 3;//设置导航激活
+}
+
+<!-- 教程详情 -->
+
+<!-- 底部布局 -->
+<div class="container product-main">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-xs-12 col-md-6">
+                    <article class="post tag-ad">
+                        <h3 class="post-title">
+                            @Html.ActionLink(item.Name, "Details", new { id = item.ProductID })
+                        </h3>
+                        <div class="post-featured-image">
+                            <a class="thumbnail loaded" href="@Url.Action("Details", new { id = item.ProductID })">
+                                <img src="@item.ImageUrl" width="700" height="438"/>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+        }
+    </div>
+</div>
+
+<!-- /.container -->

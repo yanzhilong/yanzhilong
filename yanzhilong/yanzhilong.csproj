@@ -226,13 +226,18 @@
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\TutorialsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\PasswordHelper.cs" />
+    <Compile Include="Helper\ResourceType.cs" />
     <Compile Include="Models\ActicleCount.cs" />
     <Compile Include="Models\Article.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
+    <Compile Include="Models\ResourceStarCRUD.cs" />
+    <Compile Include="Models\ResourceStar.cs" />
     <Compile Include="Models\TutorialsCRUD.cs" />
     <Compile Include="Models\CategoryCRUD.cs" />
     <Compile Include="Models\Category.cs" />
@@ -264,6 +269,7 @@
     <EmbeddedResource Include="MapFiles\User.xml" />
     <EmbeddedResource Include="MapFiles\Category.xml" />
     <EmbeddedResource Include="MapFiles\Tutorials.xml" />
+    <EmbeddedResource Include="MapFiles\ResourceStar.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -306,6 +312,8 @@
     <Content Include="Views\Shared\CategorySide.cshtml" />
     <Content Include="Views\Tutorials\Index.cshtml" />
     <Content Include="Views\Tutorials\Details.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

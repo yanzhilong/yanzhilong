@@ -70,11 +70,20 @@ namespace yanzhilongtest
         }
 
         [TestMethod]
-        public void GetProducts()
+        public void GetTutorialses()
         {
-            ArticleCRUD articleCRUD = new ArticleCRUD();
-            IList<Article> articles = articleCRUD.GetArticles();
-            Assert.IsNotNull(articles);
+            TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
+            IList<Tutorials> tutorialses = tutorialsCRUD.GetTutorialses();
+            Assert.IsNotNull(tutorialses);
         }
+
+        [TestMethod]
+        public void GetStarTutorialses()
+        {
+            TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
+            IList<Tutorials> tutorialses = tutorialsCRUD.GetStarTutorialses();
+            Assert.IsNotNull(tutorialses);
+        }
+        
     }
 }

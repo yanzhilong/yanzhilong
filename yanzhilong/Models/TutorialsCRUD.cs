@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using yanzhilong.Helper;
 using yanzhilong.Models;
 
 namespace yanzhilong.Models
@@ -50,6 +51,12 @@ namespace yanzhilong.Models
         public IList<Tutorials> GetTutorialses()
         {
             IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectAllTutorials", null);
+            return tutorialses;
+        }
+
+        public IList<Tutorials> GetStarTutorialses()
+        {
+            IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectStarTutorials", ResourceType.TUTORIALS);
             return tutorialses;
         }
 

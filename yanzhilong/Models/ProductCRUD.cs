@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using yanzhilong.Helper;
 using yanzhilong.Models;
 
 namespace yanzhilong.Models
@@ -46,6 +47,12 @@ namespace yanzhilong.Models
         public IList<Product> GetProducts()
         {
             IList<Product> products = sqlMapper.QueryForList<Product>("SelectAllProduct", null);
+            return products;
+        }
+
+        public IList<Product> GetStarProducts()
+        {
+            IList<Product> products = sqlMapper.QueryForList<Product>("SelectStarProduct", ResourceType.PRODUCT);
             return products;
         }
 

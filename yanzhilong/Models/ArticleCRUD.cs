@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using yanzhilong.Helper;
 using yanzhilong.Models;
 
 namespace yanzhilong.Models
@@ -71,7 +72,12 @@ namespace yanzhilong.Models
             return articleList;
         }
 
-        
+        public IList<Article> GetStarArticles()
+        {
+            IList<Article> articles = sqlMapper.QueryForList<Article>("SelectStarArticle", ResourceType.ARTICLE);
+            return articles;
+        }
+
         public bool Update(Article article)
         {
             int result = sqlMapper.Update("UpdateArticle", article);

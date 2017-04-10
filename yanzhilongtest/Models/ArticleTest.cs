@@ -64,11 +64,19 @@ namespace yanzhilongtest
         }
 
         [TestMethod]
-        public void GetProducts()
+        public void GetArticles()
         {
             ArticleCRUD articleCRUD = new ArticleCRUD();
             IList<Article> articles = articleCRUD.GetArticles();
             Assert.IsNotNull(articles);
+        }
+
+        [TestMethod]
+        public void GetStarArticles()
+        {
+            ArticleCRUD articleCRUD = new ArticleCRUD();
+            IList<Article> articles = articleCRUD.GetStarArticles();
+            Assert.IsTrue(articles.Count > 0);
         }
     }
 }

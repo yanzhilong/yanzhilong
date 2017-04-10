@@ -81,6 +81,13 @@
           FROM Tutorials
           ]]>
     </select>
+
+    <!-- 获得星推荐的教程，用于首页展示 -->
+    <select id="SelectStarTutorials" parameterClass="int" resultMap="SelectAllResult"  extends="SelectAllTutorials">
+      <![CDATA[  
+          where TutorialsID in (SELECT ResourceID FROM ResourceStar Where ResourceType = #value#)
+          ]]>
+    </select>
     
      <!--#value# 是点位符会被传入的parameterClass的string类型代替--> 
     <select id="SelectTutorialsById" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllTutorials">
