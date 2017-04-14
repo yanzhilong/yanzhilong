@@ -66,7 +66,16 @@
           ]]>
     </update>
 
-     <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
+
+    <select id="SelectTutorialsCount" resultClass="int">
+      <![CDATA[  
+          SELECT  
+          COUNT(TutorialsID)  
+          FROM Tutorials  
+          ]]>
+    </select>
+
+    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
     <select id="SelectAllTutorials" resultMap="SelectAllResult">
       <![CDATA[  
           SELECT TutorialsID

@@ -105,6 +105,10 @@ namespace yanzhilong.Models
                 count = sqlMapper.QueryForObject<int>("SelectArticleCountByCategory", categoryID);
             }
             int pagecount = count / pageSize;
+            if(count % pageSize == 0 && pagecount > 0)
+            {
+                pagecount--;
+            }
             pvm.PageCount = pagecount;
             return pvm;
         }

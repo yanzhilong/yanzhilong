@@ -22,11 +22,16 @@ namespace yanzhilong.Controllers
         [Route("Article/List/{page:int}")]
         public ActionResult List(int page = 1, string CategoryID = null)
         {
+            return Result("List", page, CategoryID);
+        }
+
+        public ActionResult Result(string actionName,int page = 1, string CategoryID = null)
+        {
             page--;
             ActicleViewModel avm = new ActicleViewModel();
             avm.articles = articleCRUD.GetArticles(page, CategoryID != null ? CategoryID : null);
             avm.pvm = articleCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE, CategoryID);
-            avm.pvm.actionName = "List";
+            avm.pvm.actionName = actionName;
             avm.pvm.controllerName = "Article";
             return View("Index", avm);
         }
@@ -38,14 +43,15 @@ namespace yanzhilong.Controllers
             return View(article);
         }
 
-        public ActionResult Category(string CategoryID)
+        [Route("Article/Category/{CategoryID}")]
+        [Route("Article/Category/{CategoryID}/{page}")]
+        public ActionResult Category(int page = 1, string CategoryID = null)
         {
             if (CategoryID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //return List(page, CategoryID);
-            return null;
+            return Result("Category", page, CategoryID);
         }
     }
 }

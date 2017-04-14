@@ -54,6 +54,27 @@ namespace yanzhilong.Models
             return tutorialses;
         }
 
+        public IList<Tutorials> GetTutorialses(int pageCount)
+        {
+            Page page = PageHelper.makePage(pageCount);
+            IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectAllTutorials", null, page.PageSkip, page.PageSize);
+            return tutorialses;
+        }
+
+        public PagingViewModel GetPagingViewModel(int currentPage, int pageSize)
+        {
+            PagingViewModel pvm = new PagingViewModel();
+            pvm.CurrentPage = currentPage;
+            int count = sqlMapper.QueryForObject<int>("SelectTutorialsCount", null);
+            int pagecount = count / pageSize;
+            if (count % pageSize == 0 && pagecount > 0)
+            {
+                pagecount--;
+            }
+            pvm.PageCount = pagecount;
+            return pvm;
+        }
+
         public IList<Tutorials> GetStarTutorialses()
         {
             IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectStarTutorials", ResourceType.TUTORIALS);

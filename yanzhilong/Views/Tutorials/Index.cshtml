@@ -1,4 +1,4 @@
-﻿@model IEnumerable<yanzhilong.Models.Tutorials>
+﻿@model yanzhilong.Models.TutorialsViewModel
 @{
     ViewBag.Title = "教程中心";
     ViewBag.NavActive = 2;//设置导航激活
@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-sm-12">
             
-            @foreach (var item in Model)
+            @foreach (var item in Model.tutorials)
             {
                 <div class="course_item">
                     <h2>@Html.DisplayFor(modleItem => item.Title)</h2>
@@ -24,12 +24,16 @@
 
                 <hr class="featurette-divider">
             }
-            <nav>
+            <div class="container">
+                <!--  分页视图 -->
+                @Html.Action("Index", "Paging", new { pvm = Model.pvm })
+            </div>
+            @*<nav>
                 <ul class="pager">
                     <li><a href="#">上一页</a></li>
                     <li><a href="#">下一页</a></li>
                 </ul>
-            </nav>
+            </nav>*@
         </div>
     </div>
 </div>

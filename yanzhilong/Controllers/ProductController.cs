@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using yanzhilong.Helper;
 using yanzhilong.Models;
 
 namespace yanzhilong.Controllers
@@ -11,11 +12,23 @@ namespace yanzhilong.Controllers
     public class ProductController : Controller
     {
         private ProductCRUD productCRUD = new ProductCRUD();
+
         // GET: Product
         public ActionResult Index()
         {
-            IList<Product> products = productCRUD.GetProducts();
-            return View(products);
+            return List();
+        }
+
+        [Route("Product/List/{page:int}")]
+        public ActionResult List(int page = 1)
+        {
+            page--;
+            ProductViewModel pvm = new ProductViewModel();
+            pvm.products = productCRUD.GetProducts(page);
+            pvm.pvm = productCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
+            pvm.pvm.actionName = "List";
+            pvm.pvm.controllerName = "Product";
+            return View("Index", pvm);
         }
 
         public ActionResult Details(string id)

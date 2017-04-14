@@ -62,7 +62,27 @@ namespace yanzhilong.Models
             return productList;
         }
 
-        
+        public IList<Product> GetProducts(int pageCount)
+        {
+            Page page = PageHelper.makePage(pageCount);
+            IList<Product> productList = sqlMapper.QueryForList<Product>("SelectAllProduct", null, page.PageSkip, page.PageSize);
+            return productList;
+        }
+
+        public PagingViewModel GetPagingViewModel(int currentPage, int pageSize)
+        {
+            PagingViewModel pvm = new PagingViewModel();
+            pvm.CurrentPage = currentPage;
+            int count = sqlMapper.QueryForObject<int>("SelecProductCount", null);
+            int pagecount = count / pageSize;
+            if (count % pageSize == 0 && pagecount > 0)
+            {
+                pagecount--;
+            }
+            pvm.PageCount = pagecount;
+            return pvm;
+        }
+
         public bool Update(Product product)
         {
             int result = sqlMapper.Update("UpdateProduct", product);

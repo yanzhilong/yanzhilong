@@ -223,9 +223,11 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\TutorialsController.cs" />
@@ -236,6 +238,8 @@
     <Compile Include="Helper\PasswordHelper.cs" />
     <Compile Include="Helper\ResourceType.cs" />
     <Compile Include="Models\ActicleCount.cs" />
+    <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Models\TutorialsViewModel.cs" />
     <Compile Include="Models\ActicleViewModel.cs" />
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
@@ -319,6 +323,10 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Shared\Paging.cshtml" />
+    <Content Include="Views\About\Index.cshtml" />
+    <Content Include="Views\Manager\Index.cshtml" />
+    <Content Include="Views\Manager\Shared\_Layout.cshtml" />
+    <Content Include="Views\Manager\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
