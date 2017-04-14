@@ -1,0 +1,105 @@
+﻿@model yanzhilong.Models.PagingViewModel
+
+@{ 
+    int MAXSHOWPAGE = 5;
+}
+
+@*<ol class="list-unstyled">
+
+    @foreach (var item in Model)
+    {
+        <li>@Html.ActionLink(item.category.Name, "Category", "Article", new { id = item.category.CategoryID }, null)<span>(@item.Count)</span></li>
+    }
+</ol>*@
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        @{ 
+            <!-- 生成上一页按钮 -->
+            if (Model.CurrentPage == 0)
+            {
+                <!-- 上一页不可点,用span代替 -->
+                <li class="disabled">
+                    <span>
+                        <span aria-hidden="true">&laquo;</span>
+                    </span>
+                </li>
+            }
+            else
+            {
+                <!-- 上一页可点 -->
+                <li>
+                    <a href="@Url.Action(Model.actionName,Model.controllerName, new { page = Model.CurrentPage})" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            }
+        }
+        
+        <!-- 生成页码 -->
+        @{ 
+            int startIndex = 0;
+            int endIndex = Model.PageCount;
+            /*
+            分页逻辑伪代码
+            if (最后页下标 < 最大页数){
+                起始页 = 0;
+                终止页 = 最后页下标;
+            }else{
+                起始页 = 当前页 - (最大显示页数 / 2);
+                if (起始页 < 0){
+                    起始页 = 0;
+                }
+                终止页 = 起始页 + 最大显示页数 - 1;
+                if (终止页 > 最后页下标){
+                    终止页 = 最后页下标;
+                }
+            }
+            */
+
+            if (endIndex >= MAXSHOWPAGE)
+            {
+                startIndex = Model.CurrentPage - (endIndex / 2);
+                if (startIndex < 0)
+                {
+                    startIndex = 0;
+                }
+                endIndex = startIndex + MAXSHOWPAGE - 1;
+                if (endIndex > Model.PageCount)
+                {
+                    endIndex = Model.PageCount;
+                    startIndex = endIndex - (MAXSHOWPAGE - 1);//显示最大页数
+                }
+            }
+        }
+        @for (int i = startIndex; i <= endIndex; i++)
+        {
+            <li class="@(i == Model.CurrentPage ? "active" : "")"><a href="@Url.Action(Model.actionName,Model.controllerName, new { page = i + 1 })">@(i + 1)</a></li>
+        }
+
+        @{
+            <!-- 生成下一页按钮 -->
+            if (Model.CurrentPage == Model.PageCount)
+            {
+                <!-- 下一页不可点,用span代替 -->
+                <li class="disabled">
+                    <span>
+                        <span aria-hidden="true">&raquo;</span>
+                    </span>
+                </li>
+            }
+            else
+            {
+                <!-- 下一页可点 -->
+                <li>
+
+                   
+
+                        <a href="@Url.Action(Model.actionName,Model.controllerName, new { page = Model.CurrentPage + 2})" aria-label="Previous">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+</li>
+            }
+        }
+    </ul>
+</nav>

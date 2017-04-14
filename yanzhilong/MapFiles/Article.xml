@@ -69,6 +69,20 @@
           ]]>
     </update>
 
+    <select id="SelectArticleCount" resultClass="int">
+      <![CDATA[  
+          SELECT  
+          COUNT(ArticleID)  
+          FROM Article  
+          ]]>
+    </select>
+    
+    <select id="SelectArticleCountByCategory" parameterClass="string" resultClass="int" extends="SelectArticleCount">
+      <![CDATA[  
+          where CategoryId = #value#
+          ]]>
+    </select>
+
      <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
     <select id="SelectAllArticle" resultMap="SelectAllResult">
       <![CDATA[  

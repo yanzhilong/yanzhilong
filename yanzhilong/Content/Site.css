@@ -195,6 +195,16 @@ body{
   letter-spacing: -1px;
 }
 
+.featurette-heading a{
+    color: #777;
+}
+
+/*.featurette-heading a:hover, .featurette-heading a:focus{
+    text-decoration: none;
+}*/
+    
+
+
 /* 首页产品 内容 */
 .featurette p{
 	margin-top: 15px;

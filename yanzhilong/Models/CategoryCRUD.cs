@@ -42,7 +42,14 @@ namespace yanzhilong.Models
             
             return category;
         }
-        
+
+        public Category GetCategoryByName(string Name)
+        {
+            Category category = sqlMapper.QueryForObject<Category>("SelectCategoryByName", Name);
+
+            return category;
+        }
+
         public IList<Category> GetCategorys()
         {
             IList<Category> categorys = sqlMapper.QueryForList<Category>("SelectAllCategory", null);

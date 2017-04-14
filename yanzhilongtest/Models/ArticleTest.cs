@@ -72,6 +72,23 @@ namespace yanzhilongtest
         }
 
         [TestMethod]
+        public void GetArticlesByPage()
+        {
+            ArticleCRUD articleCRUD = new ArticleCRUD();
+            IList<Article> articles = articleCRUD.GetArticles(1);
+            Assert.IsNotNull(articles);
+        }
+
+        [TestMethod]
+        public void GetPagingViewModel()
+        {
+            ArticleCRUD articleCRUD = new ArticleCRUD();
+            PagingViewModel pvm = articleCRUD.GetPagingViewModel(0,11);
+            Assert.IsNotNull(pvm);
+        }
+        
+
+        [TestMethod]
         public void GetStarArticles()
         {
             ArticleCRUD articleCRUD = new ArticleCRUD();

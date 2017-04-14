@@ -1,4 +1,4 @@
-﻿@model IEnumerable<yanzhilong.Models.Article>
+﻿@model yanzhilong.Models.ActicleViewModel
 @{
     ViewBag.Title = "文章中心";
     ViewBag.NavActive = 1;//设置导航激活
@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-sm-8">
 
-            @foreach (var item in Model)
+            @foreach (var item in Model.articles)
             {
                 <div class="blog-post">
                     <h2 class="blog-post-title">@Html.DisplayFor(modleItem => item.Title)</h2>
@@ -19,12 +19,10 @@
                     @*<a class="btn btn-lg btn-primary" href="#" role="button">@Html.ActionLink("查看全文", "Details", new { id = item.ArticleID}, new { @class = "btn btn-lg btn-primary", role = "button" }) &raquo;</a>*@
                 </div>
             }
-            <nav>
-                <ul class="pager">
-                    <li><a href="#">上一页</a></li>
-                    <li><a href="#">下一页</a></li>
-                </ul>
-            </nav>
+            <div class="container">
+                <!--  分页视图 -->
+                @Html.Action("Index", "Paging",new {pvm = Model.pvm })
+            </div>
         </div>
         <div class="col-sm-3 col-sm-offset-1">
 

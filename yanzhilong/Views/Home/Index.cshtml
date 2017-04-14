@@ -1,4 +1,4 @@
-﻿@model IEnumerable<yanzhilong.Models.HomeViewModel>
+﻿@model yanzhilong.Models.HomeViewModel
 @{
     ViewBag.Title = "严志龙的网站";
     ViewBag.NavActive = 0;//设置导航激活
@@ -10,52 +10,84 @@
     <!-- Three columns of text below the carousel -->
     <div class="row">
 
-        @*@foreach (var item in Model.articles)
+        @foreach (var item in Model.tutorials)
             {
-            <div class="blog-post">
+            @*<div class="blog-post">
                 <h2 class="blog-post-title">@Html.DisplayFor(modleItem => item.Title)</h2>
                 <p class="blog-post-meta">2017-02-27 17:19 作者:<a href="#">@Html.DisplayFor(modleItem => item.user.DisplayName)</a></p>
 
                 <p>@Html.DisplayFor(modleItem => item.Content)</p>
                 @Html.ActionLink("查看全文", "Details", new { id = item.ArticleID }, new { @class = "btn btn-lg btn-primary", role = "button" })
+            </div>*@
+
+
+            <div class="col-lg-4">
+                <img class="img-circle" src="@(item.ImageUrl)" alt="Generic placeholder image" width="140" height="140">
+                <h2>@item.Title</h2>
+                <p>@item.Disc</p>
+                <p>
+                    @*<a class="btn btn-default" href="#" role="button"> &raquo;</a>*@
+                    @Html.ActionLink("马上学习", "Details","Tutorials", new { id = item.TutorialsID }, new { @class = "btn btn-default", role = "button" })
+                </p>
             </div>
 
-        }*@
+        }
 
-        <div class="col-lg-4">
+        @*<div class="col-lg-4">
             <img class="img-circle" src="http://img04.tooopen.com/images/20130701/tooopen_10055061.jpg" alt="Generic placeholder image" width="140" height="140">
             <h2>Python</h2>
             <p>Python是一门解释型语言,Python是一门解释型语言,Python是一门解释型语言</p>
             <p>
                 <a class="btn btn-default" href="#" role="button">马上学习 &raquo;</a>
             </p>
-        </div>
-        <!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="img-circle" src="http://img04.tooopen.com/images/20130701/tooopen_10055061.jpg" alt="Generic placeholder image" width="140" height="140">
-            <h2>Python</h2>
-            <p>Python是一门解释型语言,Python是一门解释型语言,Python是一门解释型语言</p>
-            <p>
-                <a class="btn btn-default" href="#" role="button">马上学习 &raquo;</a>
-            </p>
-        </div>
-        <!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="img-circle" src="http://img04.tooopen.com/images/20130701/tooopen_10055061.jpg" alt="Generic placeholder image" width="140" height="140">
-            <h2>Python</h2>
-            <p>Python是一门解释型语言,Python是一门解释型语言,Python是一门解释型语言</p>
-            <p>
-                <a class="btn btn-default" href="#" role="button">马上学习 &raquo;</a>
-            </p>
-        </div>
-        <!-- /.col-lg-4 -->
+        </div>*@
+        
     </div>
     <!-- /.row -->
     <!-- START THE FEATURETTES -->
 
-    <hr class="featurette-divider">
+    @*<hr class="featurette-divider">*@
 
-    <div class="row featurette">
+    @{ 
+        int i = 0;
+    }
+    @foreach (var item in Model.products)
+    {
+        <hr class="featurette-divider">
+        if (i % 2 == 0)
+        {
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">@Html.ActionLink(item.Name, "Details","Product", new { id = item.ProductID},null)</h2>                    
+                    <p>@item.Disc</p>
+                </div>
+                <div class="col-md-5">
+
+                    <a class="thumbnail loaded" href="@Url.Action("Details","Product", new { id = item.ProductID })">
+                        <img class="featurette-image img-responsive center-block" src="@(item.ImageUrl)" alt="Generic placeholder image">
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row featurette">
+                <div class="col-md-7 col-md-push-5">
+                    <h2 class="featurette-heading">@Html.ActionLink(item.Name, "Details", "Product", new { id = item.ProductID }, null)</h2>
+                    <p>@item.Disc</p>
+                </div>
+                <div class="col-md-5 col-md-pull-7">
+                    <a class="thumbnail loaded" href="@Url.Action("Details","Product", new { id = item.ProductID })">
+                        <img class="featurette-image img-responsive center-block" src="@(item.ImageUrl)" alt="Generic placeholder image">
+                    </a>
+                </div>
+            </div>
+        }
+        i++;
+    }
+
+
+    @*<div class="row featurette">
         <div class="col-md-7">
             <h2 class="featurette-heading">爱铺网自动抢单系统</h2>
             <p>采用多线程设计，速度更快，可以自定义价格，及麦粒，支持黑名单过滤。</p>
@@ -65,10 +97,10 @@
         </div>
     </div>
 
-    <hr class="featurette-divider">
+    <hr class="featurette-divider">*@
 
     <!-- 热门产品 -->
-    <div class="row featurette">
+    @*<div class="row featurette">
         <div class="col-md-7 col-md-push-5">
             <h2 class="featurette-heading">爱铺网自动抢单系统</h2>
             <p>采用多线程设计，速度更快，可以自定义价格，及麦粒，支持黑名单过滤。</p>
@@ -88,7 +120,7 @@
         <div class="col-md-5">
             <img class="featurette-image img-responsive center-block" src="http://img04.tooopen.com/images/20130701/tooopen_10055061.jpg" alt="Generic placeholder image">
         </div>
-    </div>
+    </div>*@
 
     <!-- /END THE FEATURETTES -->
     <!-- 底部 -->

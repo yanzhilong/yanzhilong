@@ -64,12 +64,49 @@ namespace yanzhilong.Models
             return articles;
         }
 
-        
-
         public IList<Article> GetArticles(int index, int size)
         {
             IList<Article> articleList = sqlMapper.QueryForList<Article>("SelectAllArticle", null, index, size);
             return articleList;
+        }
+
+        public IList<Article> GetArticles(int pageCount,string categoryID)
+        {
+            Page page = PageHelper.makePage(pageCount);
+            IList<Article> articleList = null;
+            if (categoryID != null)
+            {
+                articleList = sqlMapper.QueryForList<Article>("SelectArticlesByCategoryId", categoryID, page.PageSkip, page.PageSize);
+            }
+            else
+            {
+                articleList = sqlMapper.QueryForList<Article>("SelectAllArticle", null, page.PageSkip, page.PageSize);
+            }
+            return articleList;
+        }
+
+        public IList<Article> GetArticles(int pageCount)
+        {
+            Page page = PageHelper.makePage(pageCount);
+            IList<Article> articleList = sqlMapper.QueryForList<Article>("SelectAllArticle", null, page.PageSkip, page.PageSize);
+            return articleList;
+        }
+
+        public PagingViewModel GetPagingViewModel(int currentPage,int pageSize,string categoryID)
+        {
+            PagingViewModel pvm = new PagingViewModel();
+            pvm.CurrentPage = currentPage;
+            int count = 0;
+            if (categoryID == null)
+            {
+                count = sqlMapper.QueryForObject<int>("SelectArticleCount", null);
+            }else
+            {
+                count = sqlMapper.QueryForObject<int>("SelectArticleCountByCategory", categoryID);
+            }
+            int pagecount = count / pageSize;
+            pvm.PageCount = pagecount;
+            return pvm;
         }
 
         public IList<Article> GetStarArticles()

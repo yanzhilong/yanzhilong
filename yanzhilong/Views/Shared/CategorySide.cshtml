@@ -4,6 +4,6 @@
    
     @foreach (var item in Model)
     {
-        <li>@Html.ActionLink(item.category.Name, "Category", "Article", new { id = item.category.CategoryID }, null)<span>(@item.Count)</span></li>
+        <li>@Html.ActionLink(item.category.Name, "Category", "Article",new { CategoryID = item.category.CategoryID },null)<span>(@item.Count)</span></li>
     }
 </ol>

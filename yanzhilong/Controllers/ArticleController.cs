@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using yanzhilong.Helper;
 using yanzhilong.Models;
 
 namespace yanzhilong.Controllers
@@ -11,31 +12,40 @@ namespace yanzhilong.Controllers
     public class ArticleController : Controller
     {
         private ArticleCRUD articleCRUD = new ArticleCRUD();
+        private CategoryCRUD categoryCRUD = new CategoryCRUD();
         // GET: Article
         public ActionResult Index()
         {
-            IList<Article> articles = articleCRUD.GetArticles();
-            return View(articles);
+            return List();
+        }
+
+        [Route("Article/List/{page:int}")]
+        public ActionResult List(int page = 1, string CategoryID = null)
+        {
+            page--;
+            ActicleViewModel avm = new ActicleViewModel();
+            avm.articles = articleCRUD.GetArticles(page, CategoryID != null ? CategoryID : null);
+            avm.pvm = articleCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE, CategoryID);
+            avm.pvm.actionName = "List";
+            avm.pvm.controllerName = "Article";
+            return View("Index", avm);
         }
 
         public ActionResult Details(string id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            
             Article article = articleCRUD.GetArticleById(id);
             return View(article);
         }
 
-        public ActionResult Category(string id)
+        public ActionResult Category(string CategoryID)
         {
-            if (id == null)
+            if (CategoryID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IList<Article> articles = articleCRUD.GetArticlesByCategoryId(id);
-            return View(articles);
+            //return List(page, CategoryID);
+            return null;
         }
     }
 }
