@@ -23,12 +23,59 @@ namespace yanzhilong.Controllers
         public ActionResult List(int page = 1)
         {
             page--;
-            ProductViewModel pvm = new ProductViewModel();
+            ProductsViewModel pvm = new ProductsViewModel();
             pvm.products = productCRUD.GetProducts(page);
             pvm.pvm = productCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
             pvm.pvm.actionName = "List";
             pvm.pvm.controllerName = "Product";
             return View("Index", pvm);
+        }
+
+        // GET: GuestBook/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: GuestBook/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                product.ProductID = Guid.NewGuid().ToString();
+                product.CreateAt = DateTime.Now;
+                User user = new User();
+                productCRUD.Create(product);
+                return RedirectToAction("Index");
+            }
+            //
+            return View(product);
+        }
+
+
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = productCRUD.GetProductById(id);
+            return View(product);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                productCRUD.Update(product);
+                return RedirectToAction("Index");
+            }
+            return View(product);
         }
 
         public ActionResult Details(string id)

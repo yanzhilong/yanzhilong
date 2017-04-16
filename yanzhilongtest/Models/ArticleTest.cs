@@ -83,7 +83,7 @@ namespace yanzhilongtest
         public void GetPagingViewModel()
         {
             ArticleCRUD articleCRUD = new ArticleCRUD();
-            PagingViewModel pvm = articleCRUD.GetPagingViewModel(0,11);
+            PagingViewModel pvm = articleCRUD.GetPagingViewModel(0,11,null);
             Assert.IsNotNull(pvm);
         }
         

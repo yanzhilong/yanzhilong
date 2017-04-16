@@ -6,9 +6,9 @@ using yanzhilong.Models;
 
 namespace yanzhilong.Models
 {
-    public class ActicleViewModel
+    public class ProductsViewModel
     {
-        public IList<Article> articles { get; set; }
+        public IList<Product> products { get; set; }
         public PagingViewModel pvm { get; set; }
     }
 }

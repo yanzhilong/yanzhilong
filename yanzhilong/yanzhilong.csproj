@@ -227,7 +227,7 @@
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManagerController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\TutorialsController.cs" />
@@ -238,9 +238,13 @@
     <Compile Include="Helper\PasswordHelper.cs" />
     <Compile Include="Helper\ResourceType.cs" />
     <Compile Include="Models\ActicleCount.cs" />
+    <Compile Include="Models\ArticleViewModel.cs" />
+    <Compile Include="Models\ManageViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Models\TutorialsViewModel.cs" />
-    <Compile Include="Models\ActicleViewModel.cs" />
+    <Compile Include="Models\TutorialsesViewModel.cs" />
+    <Compile Include="Models\ActiclesViewModel.cs" />
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\PagingViewModel.cs" />
@@ -264,7 +268,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\site.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -324,9 +328,18 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Shared\Paging.cshtml" />
     <Content Include="Views\About\Index.cshtml" />
-    <Content Include="Views\Manager\Index.cshtml" />
-    <Content Include="Views\Manager\Shared\_Layout.cshtml" />
-    <Content Include="Views\Manager\_Layout.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\_ViewStart.cshtml" />
+    <Content Include="Views\Manage\_Layout.cshtml" />
+    <Content Include="Views\Manage\Article.cshtml" />
+    <Content Include="Views\Article\Edit.cshtml" />
+    <Content Include="Views\Article\Create.cshtml" />
+    <Content Include="Views\Manage\Tutorials.cshtml" />
+    <Content Include="Views\Manage\Product.cshtml" />
+    <Content Include="Views\Tutorials\Edit.cshtml" />
+    <Content Include="Views\Tutorials\Create.cshtml" />
+    <Content Include="Views\Product\Edit.cshtml" />
+    <Content Include="Views\Product\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

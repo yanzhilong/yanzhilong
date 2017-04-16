@@ -1,0 +1,83 @@
+﻿@model yanzhilong.Models.TutorialsesViewModel
+@{var headerMetadata = Model.tutorials.FirstOrDefault();}
+
+@{
+    //Layout = null;
+    ViewBag.Title = "教程中心";
+    ViewBag.NavActive = 1;//设置导航激活
+}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">教程管理</h1>
+    @Html.ActionLink("创建新教程", "Create","Tutorials")
+    <div class="table-responsive">
+        <table class="table table-striped table-manage">
+            <thead>
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(model => headerMetadata.Title)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => headerMetadata.Content)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => headerMetadata.ImageUrl)
+                    </th>
+                    
+                    <th>
+                        @Html.DisplayNameFor(model => headerMetadata.Disc)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => headerMetadata.CreateAt)
+                    </th>
+
+                    <th>
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.tutorials)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Content)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ImageUrl)
+                        </td>
+                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Disc)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreateAt)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("编辑", "Edit", "Tutorials", new { id = item.TutorialsID },new { target = "_blank" }) |
+                            @Html.ActionLink("详情", "Details", "Tutorials", new { id = item.TutorialsID }, new { target = "_blank" }) |
+                            @Html.ActionLink("删除", "Delete", "Tutorials", new { id = item.TutorialsID }, null)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <!--  分页视图 -->
+        @Html.Action("Index", "Paging", new { pvm = Model.pvm })
+    </div>
+</div>
