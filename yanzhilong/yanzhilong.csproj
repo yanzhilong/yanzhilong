@@ -238,11 +238,9 @@
     <Compile Include="Helper\PasswordHelper.cs" />
     <Compile Include="Helper\ResourceType.cs" />
     <Compile Include="Models\ActicleCount.cs" />
-    <Compile Include="Models\ArticleViewModel.cs" />
+    <Compile Include="Models\CategorysViewModel.cs" />
     <Compile Include="Models\ManageViewModel.cs" />
-    <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />
-    <Compile Include="Models\TutorialsViewModel.cs" />
     <Compile Include="Models\TutorialsesViewModel.cs" />
     <Compile Include="Models\ActiclesViewModel.cs" />
     <Compile Include="Models\Article.cs" />
@@ -299,6 +297,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\manage.js" />
     <Content Include="Scripts\tutorials_details.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -340,10 +339,12 @@
     <Content Include="Views\Tutorials\Create.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Manage\Category.cshtml" />
+    <Content Include="Views\Category\Create.cshtml" />
+    <Content Include="Views\Category\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Category\" />
     <Folder Include="Views\Paging\" />
   </ItemGroup>
   <ItemGroup>

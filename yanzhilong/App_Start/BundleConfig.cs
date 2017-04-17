@@ -29,6 +29,9 @@ namespace yanzhilong
 
             bundles.Add(new ScriptBundle("~/bundles/tutorials_details").Include(
                       "~/Scripts/tutorials_details.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/manage").Include(
+                      "~/Scripts/manage.js"));
         }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using yanzhilong.Helper;
 using yanzhilong.Models;
 
 namespace yanzhilong.Models
@@ -54,6 +55,27 @@ namespace yanzhilong.Models
         {
             IList<Category> categorys = sqlMapper.QueryForList<Category>("SelectAllCategory", null);
             return categorys;
+        }
+
+        public IList<Category> GetCategorys(int pageCount)
+        {
+            Page page = PageHelper.makePage(pageCount);
+            IList<Category> categorys = sqlMapper.QueryForList<Category>("SelectAllCategory", null, page.PageSkip, page.PageSize);
+            return categorys;
+        }
+
+        public PagingViewModel GetPagingViewModel(int currentPage, int pageSize)
+        {
+            PagingViewModel pvm = new PagingViewModel();
+            pvm.CurrentPage = currentPage;
+            int count = sqlMapper.QueryForObject<int>("SelectCategoryCount", null);
+            int pagecount = count / pageSize;
+            if (count % pageSize == 0 && pagecount > 0)
+            {
+                pagecount--;
+            }
+            pvm.PageCount = pagecount;
+            return pvm;
         }
 
         public IList<ActicleCount> GetArticlesCountGroupByCategory()

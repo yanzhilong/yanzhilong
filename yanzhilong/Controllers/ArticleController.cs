@@ -57,6 +57,7 @@ namespace yanzhilong.Controllers
         // POST: GuestBook/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [ValidateInput(false)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create( Article article)
@@ -86,7 +87,7 @@ namespace yanzhilong.Controllers
             getCateGorys();
             return View(article);
         }
-
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult Edit(Article article)
         {

@@ -6,9 +6,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
+            <ul class="nav nav-sidebar" id="manage-sidebar">
                 <li class="active">
-                    <a href="#">文章管理 </a>
+                    <a href="#">文章管理</a>
                 </li>
                 <li>
                     <a href="#">分类管理</a>
@@ -265,3 +265,7 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/manage")
+}

@@ -45,6 +45,7 @@ namespace yanzhilong.Controllers
         // POST: GuestBook/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [ValidateInput(false)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Tutorials tutorials)
@@ -73,7 +74,7 @@ namespace yanzhilong.Controllers
             Tutorials tutorials = tutorialsCRUD.GetTutorialsById(id);
             return View(tutorials);
         }
-
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult Edit(Tutorials tutorials)
         {

@@ -13,6 +13,7 @@ namespace yanzhilong.Controllers
         private ArticleCRUD articleCRUD = new ArticleCRUD();
         private TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
         private ProductCRUD productCRUD = new ProductCRUD();
+        private CategoryCRUD categoryCRUD = new CategoryCRUD();
         // GET: Manager
         public ActionResult Index()
         {
@@ -29,7 +30,18 @@ namespace yanzhilong.Controllers
             avm.pvm.controllerName = "Manage";
             return View(avm);
         }
-        
+
+        public ActionResult Category(int page = 1)
+        {
+            page--;
+            CategorysViewModel cvm = new CategorysViewModel();
+            cvm.categorys = categoryCRUD.GetCategorys(page);
+            cvm.pvm = categoryCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
+            cvm.pvm.actionName = "Category";
+            cvm.pvm.controllerName = "Manage";
+            return View(cvm);
+        }
+
         public ActionResult Tutorials(int page = 1)
         {
             page--;
