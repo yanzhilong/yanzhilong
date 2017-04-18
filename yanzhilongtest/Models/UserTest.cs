@@ -56,5 +56,16 @@ namespace yanzhilongtest
             IList<User> users = userCRUD.GetUsers();
             Assert.IsNotNull(users);
         }
+
+        [TestMethod]
+        public void CheckUser()
+        {
+            UserCRUD userCRUD = new UserCRUD();
+            User user = new User();
+            user.UserName = "yanzhilong";
+            user.PasswordHash = "92701ED5C0BA89118A6B8FC1B2085E9";
+            User user1 = userCRUD.CheckUser(user);
+            Assert.IsNotNull(user1);
+        }
     }
 }

@@ -83,6 +83,15 @@
           ]]>
     </select>
 
+    <!-- #value# 是点位符会被传入的parameterClass的string类型代替 -->
+    <select id="CheckUser" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllUser">
+      <![CDATA[  
+          where UserName = #UserName# and
+          PasswordHash = #PasswordHash#
+          ]]>
+    </select>
+    
+
   </statements>
 
 </sqlMap>

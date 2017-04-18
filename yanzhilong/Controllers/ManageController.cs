@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using yanzhilong.filter;
 using yanzhilong.Helper;
 using yanzhilong.Models;
 
@@ -15,11 +16,19 @@ namespace yanzhilong.Controllers
         private ProductCRUD productCRUD = new ProductCRUD();
         private CategoryCRUD categoryCRUD = new CategoryCRUD();
         // GET: Manager
+        [Authentication]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authentication]
+        public ActionResult Manage()
+        {
+            return View();
+        }
+
+        [Authentication]
         public ActionResult Article(int page = 1)
         {
             page--;
@@ -31,6 +40,7 @@ namespace yanzhilong.Controllers
             return View(avm);
         }
 
+        [Authentication]
         public ActionResult Category(int page = 1)
         {
             page--;
@@ -42,6 +52,7 @@ namespace yanzhilong.Controllers
             return View(cvm);
         }
 
+        [Authentication]
         public ActionResult Tutorials(int page = 1)
         {
             page--;
@@ -53,6 +64,7 @@ namespace yanzhilong.Controllers
             return View(tvm);
         }
 
+        [Authentication]
         public ActionResult Product(int page = 1)
         {
             page--;

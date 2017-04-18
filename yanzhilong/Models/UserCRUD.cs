@@ -42,6 +42,12 @@ namespace yanzhilong.Models
             return user;
         }
 
+        public User CheckUser(User user)
+        {
+            User user1 = sqlMapper.QueryForObject<User>("CheckUser", user);
+            return user1;
+        }
+
 
         public IList<User> GetUsers()
         {

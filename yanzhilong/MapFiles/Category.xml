@@ -62,8 +62,8 @@
     <select id="SelectCategoryCount" resultClass="int">
       <![CDATA[  
           SELECT  
-          COUNT(TutorialsID)  
-          FROM Tutorials  
+          COUNT(CategoryID)  
+          FROM Category  
           ]]>
     </select>
 

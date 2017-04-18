@@ -7,7 +7,6 @@
     ViewBag.NavActive = 1;//设置导航激活
 }
 
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <h1 class="page-header">教程管理</h1>
     @Html.ActionLink("创建新教程", "Create","Tutorials")
     <div class="table-responsive">
@@ -80,4 +79,3 @@
         <!--  分页视图 -->
         @Html.Action("Index", "Paging", new { pvm = Model.pvm })
     </div>
-</div>

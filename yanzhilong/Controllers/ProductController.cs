@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using yanzhilong.filter;
 using yanzhilong.Helper;
 using yanzhilong.Models;
 
@@ -32,6 +33,7 @@ namespace yanzhilong.Controllers
         }
 
         // GET: GuestBook/Create
+        [Authentication]
         public ActionResult Create()
         {
             return View();
@@ -43,6 +45,7 @@ namespace yanzhilong.Controllers
         [ValidateInput(false)]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authentication]
         public ActionResult Create(Product product)
         {
             if (ModelState.IsValid)
@@ -57,7 +60,7 @@ namespace yanzhilong.Controllers
             return View(product);
         }
 
-
+        [Authentication]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -70,6 +73,7 @@ namespace yanzhilong.Controllers
 
         [ValidateInput(false)]
         [HttpPost]
+        [Authentication]
         public ActionResult Edit(Product product)
         {
             if (ModelState.IsValid)
