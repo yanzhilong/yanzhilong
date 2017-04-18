@@ -15,7 +15,9 @@
             {
                 <div class="course_item">
                     <h2>@Html.DisplayFor(modleItem => item.Title)</h2>
-                    <p>@Html.DisplayFor(modleItem => item.Disc)</p>
+                    <div class="list_content">
+                        @Html.Raw(HttpUtility.HtmlDecode(item.Content))
+                    </div>
                     <p class="pull-right">
                         @*<a class="btn btn-default" href="#" role="button">马上学习 &raquo;</a>*@
                         @Html.ActionLink("马上学习", "Details", new { id = item.TutorialsID }, new { @class = "btn btn-default", role = "button" })
@@ -23,6 +25,7 @@
                 </div>
 
                 <hr class="featurette-divider">
+
             }
             <div class="container">
                 <!--  分页视图 -->

@@ -32,7 +32,7 @@ namespace yanzhilong.Controllers
         public ActionResult Article(int page = 1)
         {
             page--;
-            ActiclesViewModel avm = new ActiclesViewModel();
+            ArticlesViewModel avm = new ArticlesViewModel();
             avm.articles = articleCRUD.GetArticles(page, null);
             avm.pvm = articleCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE,null);
             avm.pvm.actionName = "Article";

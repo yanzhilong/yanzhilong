@@ -1,6 +1,7 @@
-﻿@model yanzhilong.Models.Article
+﻿@model yanzhilong.Models.ArticleViewModel
+@{var article = Model.Current;}
 @{
-    ViewBag.Title = Model.Title;
+    ViewBag.Title = article.Title;
     ViewBag.NavActive = 1;//设置导航激活
 }
 
@@ -8,9 +9,9 @@
     <div class="row">
         <div class="col-sm-8">
             <div class="blog-post">
-                <h2 class="blog-post-title">@Model.Title</h2>
-                <p class="blog-post-meta">2017-02-27 17:19 作者:<a href="#">@Model.user.DisplayName</a></p>
-                <p>@Model.Content</p>
+                <h2 class="blog-post-title">@article.Title</h2>
+                <p classblog-post-meta">2017-02-27 17:19 作者:<a href="#">@article.user.DisplayName</a></p>
+                @Html.Raw(HttpUtility.HtmlDecode(@article.Content))
             </div>
             <hr />
             <!--<nav>
@@ -21,8 +22,19 @@
             </nav>-->
             <div class="acticle_nav">
                 <ul class="list-unstyled">
-                    <li><span>上一篇:</span><a href="#">Python对象的使用</a></li>
-                    <li><span>下一篇:</span><a href="#">Python中字典的使用</a></li>
+                    @if (Model.Pre != null)
+                    {
+                        <li><span>上一篇:</span>@Html.ActionLink(Model.Pre.Title,"Details", new { id = Model.Pre.ArticleID})
+                    @*<a href="#">Python对象的使用</a>*@</li>
+                    }
+                    
+                    @if (Model.Next != null)
+                    {
+                        <li><span>下一篇:</span>@Html.ActionLink(Model.Next.Title, "Details", new { id = Model.Next.ArticleID })
+                    @*<a href="#">Python对象的使用</a>*@</li>
+                    }
+
+                    @*<li><span>下一篇:</span><a href="#">Python中字典的使用</a></li>*@
                 </ul>
             </div>
         </div>

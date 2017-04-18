@@ -51,6 +51,18 @@ namespace yanzhilong.Models
             return article;
         }
 
+        public Article GetPreArticle(Article article)
+        {
+            Article articlePre = sqlMapper.QueryForObject<Article>("SelectArticleByPre", article);
+            return articlePre;
+        }
+
+        public Article GetNextArticle(Article article)
+        {
+            Article articleNext = sqlMapper.QueryForObject<Article>("SelectArticleByNext", article);
+            return articleNext;
+        }
+
 
         public IList<Article> GetArticles()
         {
@@ -76,11 +88,11 @@ namespace yanzhilong.Models
             IList<Article> articleList = null;
             if (categoryID != null)
             {
-                articleList = sqlMapper.QueryForList<Article>("SelectArticlesByCategoryId", categoryID, page.PageSkip, page.PageSize);
+                articleList = sqlMapper.QueryForList<Article>("SelectArticlesContainUserByCategoryId", categoryID, page.PageSkip, page.PageSize);
             }
             else
             {
-                articleList = sqlMapper.QueryForList<Article>("SelectAllArticle", null, page.PageSkip, page.PageSize);
+                articleList = sqlMapper.QueryForList<Article>("SelectAllArticleContainUser", null, page.PageSkip, page.PageSize);
             }
             return articleList;
         }
@@ -88,7 +100,7 @@ namespace yanzhilong.Models
         public IList<Article> GetArticles(int pageCount)
         {
             Page page = PageHelper.makePage(pageCount);
-            IList<Article> articleList = sqlMapper.QueryForList<Article>("SelectAllArticle", null, page.PageSkip, page.PageSize);
+            IList<Article> articleList = sqlMapper.QueryForList<Article>("SelectAllArticleContainUser", null, page.PageSkip, page.PageSize);
             return articleList;
         }
 

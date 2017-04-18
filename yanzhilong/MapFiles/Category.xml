@@ -5,7 +5,7 @@
   <!-- 设置别名，用于底下指定类型的时候不需要全全类名(包括长的空间名 ),最后一个参数是项目的命名空间名 -->
   <alias>
     <typeAlias alias="Category" type="yanzhilong.Models.Category, yanzhilong"/>
-    <typeAlias alias="ArticleCount" type="yanzhilong.Models.ActicleCount, yanzhilong"/>
+    <typeAlias alias="ArticleCount" type="yanzhilong.Models.ArticleCount, yanzhilong"/>
   </alias>
 
   <!-- 数据库到实体类的映射表 -->

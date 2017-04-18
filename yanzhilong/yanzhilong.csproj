@@ -239,12 +239,13 @@
     <Compile Include="Helper\PageHelper.cs" />
     <Compile Include="Helper\PasswordHelper.cs" />
     <Compile Include="Helper\ResourceType.cs" />
-    <Compile Include="Models\ActicleCount.cs" />
+    <Compile Include="Models\ArticleCount.cs" />
+    <Compile Include="Models\ArticleViewModel.cs" />
     <Compile Include="Models\CategorysViewModel.cs" />
     <Compile Include="Models\ManageViewModel.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Models\TutorialsesViewModel.cs" />
-    <Compile Include="Models\ActiclesViewModel.cs" />
+    <Compile Include="Models\ArticlesViewModel.cs" />
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\PagingViewModel.cs" />

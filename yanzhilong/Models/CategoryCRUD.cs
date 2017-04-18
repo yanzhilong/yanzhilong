@@ -78,9 +78,9 @@ namespace yanzhilong.Models
             return pvm;
         }
 
-        public IList<ActicleCount> GetArticlesCountGroupByCategory()
+        public IList<ArticleCount> GetArticlesCountGroupByCategory()
         {
-            IList<ActicleCount> articlecounts = sqlMapper.QueryForList<ActicleCount>("SelectArticlesNumGroupByCategory", null);
+            IList<ArticleCount> articlecounts = sqlMapper.QueryForList<ArticleCount>("SelectArticlesNumGroupByCategory", null);
             return articlecounts;
         }
 

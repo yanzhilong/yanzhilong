@@ -6,7 +6,7 @@ using yanzhilong.Models;
 
 namespace yanzhilong.Models
 {
-    public class ActiclesViewModel
+    public class ArticlesViewModel
     {
         public IList<Article> articles { get; set; }
         public PagingViewModel pvm { get; set; }

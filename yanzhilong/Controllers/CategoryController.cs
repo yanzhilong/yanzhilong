@@ -15,7 +15,7 @@ namespace yanzhilong.Controllers
 
         public ActionResult SideBar()
         {
-            IList<ActicleCount> acticleCounts = categoryCRUD.GetArticlesCountGroupByCategory();
+            IList<ArticleCount> acticleCounts = categoryCRUD.GetArticlesCountGroupByCategory();
             return PartialView("CategorySide", acticleCounts);
         }
 

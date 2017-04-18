@@ -5,7 +5,7 @@ using System.Web;
 
 namespace yanzhilong.Models
 {
-    public class ActicleCount
+    public class ArticleCount
     {
         public Category category { get; set; }
         public int Count { get; set; }

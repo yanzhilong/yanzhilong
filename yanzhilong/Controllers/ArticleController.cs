@@ -14,6 +14,7 @@ namespace yanzhilong.Controllers
     {
         private ArticleCRUD articleCRUD = new ArticleCRUD();
         private CategoryCRUD categoryCRUD = new CategoryCRUD();
+        private UserCRUD userCRUD = new UserCRUD();
         // GET: Article
         public ActionResult Index()
         {
@@ -29,7 +30,7 @@ namespace yanzhilong.Controllers
         public ActionResult Result(string actionName,int page = 1, string CategoryID = null)
         {
             page--;
-            ActiclesViewModel avm = new ActiclesViewModel();
+            ArticlesViewModel avm = new ArticlesViewModel();
             avm.articles = articleCRUD.GetArticles(page, CategoryID != null ? CategoryID : null);
             avm.pvm = articleCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE, CategoryID);
             avm.pvm.actionName = actionName;
@@ -40,7 +41,7 @@ namespace yanzhilong.Controllers
         public ActionResult ViewModelResult(string actionName, int page = 1, string CategoryID = null)
         {
             page--;
-            ActiclesViewModel avm = new ActiclesViewModel();
+            ArticlesViewModel avm = new ArticlesViewModel();
             avm.articles = articleCRUD.GetArticles(page, CategoryID != null ? CategoryID : null);
             avm.pvm = articleCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE, CategoryID);
             avm.pvm.actionName = actionName;
@@ -65,12 +66,13 @@ namespace yanzhilong.Controllers
         [Authentication]
         public ActionResult Create( Article article)
         {
+            removeRequired();
             if (ModelState.IsValid)
             {
                 article.ArticleID = Guid.NewGuid().ToString();
                 article.CreateAt = DateTime.Now;
-                User user = new User();
-                user.UserID = "1f1c4189-3792-4a91-8d08-c0d04e18a0ae";
+                string userID = HttpContext.Session["UserID"] as string;
+                User user = userCRUD.GetUserById(userID);
                 article.user = user;
                 articleCRUD.Create(article);
                 return RedirectToAction("Index");
@@ -95,13 +97,24 @@ namespace yanzhilong.Controllers
         [Authentication]
         public ActionResult Edit(Article article)
         {
+            removeRequired();
             if (ModelState.IsValid)
             {
+                article.UpdateAt = DateTime.Now;
                 articleCRUD.Update(article);
                 return RedirectToAction("Index");
             }
             getCateGorys();
             return View(article);
+        }
+
+        private void removeRequired()
+        {
+            string[] array = new string[] {"user.UserName","user.PasswordHash", "category.Name" };
+            foreach (var key in array)
+            {
+                ModelState.Remove(key);
+            }
         }
 
         private void getCateGorys()
@@ -127,9 +140,18 @@ namespace yanzhilong.Controllers
 
         public ActionResult Details(string id)
         {
-            
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Article article = articleCRUD.GetArticleById(id);
-            return View(article);
+            ArticleViewModel avm = new ArticleViewModel();
+            avm.Current = article;
+            avm.Pre = articleCRUD.GetPreArticle(article);
+            avm.Next = articleCRUD.GetNextArticle(article);
+
+            return View(avm);
         }
 
         [Route("Article/Category/{CategoryID}")]

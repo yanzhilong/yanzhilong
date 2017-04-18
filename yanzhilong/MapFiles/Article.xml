@@ -24,7 +24,22 @@
       <result property="category.CategoryID" column="CategoryId" dbType="char" type="string" />
       <result property="user.UserID" column="UserId" dbType="char" type="string" />
     </resultMap>
-    
+
+
+    <!-- 数据库的全部字段到实体类的映射 -->
+    <resultMap id="SelectAllResultContainUser" class="Article">
+      <result property="ArticleID" column="ArticleID" dbType="char" type="string" />
+      <result property="Title" column="Title" dbType="varchar" type="string" />
+      <result property="Content" column="Content" dbType="text" type="string" />
+      <result property="ImageUrl" column="ImageUrl" dbType="varchar" type="string" />
+      <result property="Disc" column="Disc" dbType="varchar" type="string" />
+      <result property="Notes" column="Notes" dbType="varchar" type="string" />
+      <result property="CreateAt" column="CreateAt" dbType="datetime" type="DateTime" />
+      <result property="UpdateAt" column="UpdateAt" dbType="datetime" type="DateTime" />
+      <result property="category.CategoryID" column="CategoryId" dbType="char" type="string" />
+      <result property="user.UserID" column="UserId" dbType="char" type="string" />
+      <result property="user.DisplayName" column="DisplayName" dbType="char" type="string" />
+    </resultMap>
     
   </resultMaps>
 
@@ -97,6 +112,28 @@
           ,CategoryId
           ,UserId
           FROM Article
+          
+          ]]>
+    </select>
+
+    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
+    <select id="SelectAllArticleContainUser" resultMap="SelectAllResultContainUser">
+      <![CDATA[  
+          
+          SELECT a.ArticleID
+          ,a.Title
+          ,a.Content
+          ,a.ImageUrl
+          ,a.Disc
+          ,a.Notes
+          ,a.CreateAt
+          ,a.UpdateAt
+          ,a.CategoryId
+          ,a.UserId
+          ,u.DisplayName
+          FROM Article a,User u
+          where a.UserId = u.UserID
+          
           ]]>
     </select>
 
@@ -115,9 +152,34 @@
     </select>
 
     <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
+    <select id="SelectArticleByPre" parameterClass="Article" resultMap="SelectAllResult" extends="SelectAllArticle">
+      
+      <![CDATA[  
+          where unix_timestamp(CreateAt) < unix_timestamp(#CreateAt#) 
+             Order By CreateAt desc limit 1
+          ]]>
+    </select>
+
+    <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
+    <select id="SelectArticleByNext" parameterClass="Article" resultMap="SelectAllResult" extends="SelectAllArticle">
+
+      <![CDATA[  
+          where unix_timestamp(CreateAt) > unix_timestamp(#CreateAt#) 
+             Order By CreateAt asc limit 1
+          ]]>
+    </select>
+
+    <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
     <select id="SelectArticlesByCategoryId" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllArticle">
       <![CDATA[  
           where CategoryId = #value#  
+          ]]>
+    </select>
+
+    <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
+    <select id="SelectArticlesContainUserByCategoryId" parameterClass="string" resultMap="SelectAllResultContainUser" extends="SelectAllArticleContainUser">
+      <![CDATA[  
+          and CategoryId = #value#  
           ]]>
     </select>
     

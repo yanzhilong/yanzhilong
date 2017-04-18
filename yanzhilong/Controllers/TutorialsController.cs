@@ -13,6 +13,7 @@ namespace yanzhilong.Controllers
     public class TutorialsController : Controller
     {
         private TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
+        private UserCRUD userCRUD = new UserCRUD();
         // GET: Tutorials
         //public ActionResult Index()
         //{
@@ -53,12 +54,13 @@ namespace yanzhilong.Controllers
         [Authentication]
         public ActionResult Create(Tutorials tutorials)
         {
+            removeRequired();
             if (ModelState.IsValid)
             {
                 tutorials.TutorialsID = Guid.NewGuid().ToString();
                 tutorials.CreateAt = DateTime.Now;
-                User user = new User();
-                user.UserID = "1f1c4189-3792-4a91-8d08-c0d04e18a0ae";
+                string userID = HttpContext.Session["UserID"] as string;
+                User user = userCRUD.GetUserById(userID);
                 tutorials.user = user;
                 tutorialsCRUD.Create(tutorials);
                 return RedirectToAction("Index");
@@ -82,12 +84,23 @@ namespace yanzhilong.Controllers
         [Authentication]
         public ActionResult Edit(Tutorials tutorials)
         {
+            removeRequired();
             if (ModelState.IsValid)
             {
+                tutorials.UpdateAt = DateTime.Now;
                 tutorialsCRUD.Update(tutorials);
                 return RedirectToAction("Index");
             }
             return View(tutorials);
+        }
+
+        private void removeRequired()
+        {
+            string[] array = new string[] { "user.UserName", "user.PasswordHash" };
+            foreach (var key in array)
+            {
+                ModelState.Remove(key);
+            }
         }
 
         public ActionResult Details(string id)
