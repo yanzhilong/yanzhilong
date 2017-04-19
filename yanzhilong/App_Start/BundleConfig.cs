@@ -30,6 +30,12 @@ namespace yanzhilong
             bundles.Add(new ScriptBundle("~/bundles/tutorials_details").Include(
                       "~/Scripts/tutorials_details.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/main").Include(
+                     "~/Scripts/clamp.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/list").Include(
+                     "~/Scripts/list.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/manage").Include(
                       "~/Scripts/manage.js"));
         }

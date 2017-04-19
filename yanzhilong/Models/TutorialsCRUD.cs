@@ -50,14 +50,14 @@ namespace yanzhilong.Models
 
         public IList<Tutorials> GetTutorialses()
         {
-            IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectAllTutorials", null);
+            IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectAllTutorialsContainUser", null);
             return tutorialses;
         }
 
         public IList<Tutorials> GetTutorialses(int pageCount)
         {
             Page page = PageHelper.makePage(pageCount);
-            IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectAllTutorials", null, page.PageSkip, page.PageSize);
+            IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectAllTutorialsContainUser", null, page.PageSkip, page.PageSize);
             return tutorialses;
         }
 

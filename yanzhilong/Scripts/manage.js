@@ -22,7 +22,11 @@ $(document).ready(function () {
         }else if(type == "产品管理"){
             action = "Product";
             //alert("产品管理");
+        } else if (type == "推荐管理") {
+            action = "ResourceStar";
+            //alert("推荐管理");
         }
+
         //$("p").slideToggle();
         getMain("/Manage/" + action);
         select_li(this);

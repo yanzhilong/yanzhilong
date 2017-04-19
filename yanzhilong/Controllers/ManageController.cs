@@ -15,6 +15,7 @@ namespace yanzhilong.Controllers
         private TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
         private ProductCRUD productCRUD = new ProductCRUD();
         private CategoryCRUD categoryCRUD = new CategoryCRUD();
+        private ResourceStarCRUD resourceStarCRUD = new ResourceStarCRUD();
         // GET: Manager
         [Authentication]
         public ActionResult Index()
@@ -75,5 +76,18 @@ namespace yanzhilong.Controllers
             pvm.pvm.controllerName = "Manage";
             return View(pvm);
         }
+
+        [Authentication]
+        public ActionResult ResourceStar(int page = 1)
+        {
+            page--;
+            ResourceStarViewModel rsvm = new ResourceStarViewModel();
+            rsvm.resourceStars = resourceStarCRUD.GetResourceStars(page);
+            rsvm.pvm = resourceStarCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
+            rsvm.pvm.actionName = "ResourceStar";
+            rsvm.pvm.controllerName = "Manage";
+            return View(rsvm);
+        }
+        
     }
 }

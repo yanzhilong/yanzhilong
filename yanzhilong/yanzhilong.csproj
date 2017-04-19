@@ -231,6 +231,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ResourceStarController.cs" />
     <Compile Include="Controllers\TutorialsController.cs" />
     <Compile Include="filter\AuthenticationAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -240,10 +241,12 @@
     <Compile Include="Helper\PasswordHelper.cs" />
     <Compile Include="Helper\ResourceType.cs" />
     <Compile Include="Models\ArticleCount.cs" />
+    <Compile Include="Models\ResourceStarViewModel.cs" />
     <Compile Include="Models\ArticleViewModel.cs" />
     <Compile Include="Models\CategorysViewModel.cs" />
     <Compile Include="Models\ManageViewModel.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />
+    <Compile Include="Models\ResourceType.cs" />
     <Compile Include="Models\TutorialsesViewModel.cs" />
     <Compile Include="Models\ArticlesViewModel.cs" />
     <Compile Include="Models\Article.cs" />
@@ -290,6 +293,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\clamp.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -297,6 +301,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\list.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -349,6 +354,11 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\_Layout.cshtml" />
     <Content Include="Views\Admin\_ViewStart.cshtml" />
+    <Content Include="Views\ResourceStar\Create.cshtml" />
+    <Content Include="Views\ResourceStar\Details.cshtml" />
+    <Content Include="Views\ResourceStar\Edit.cshtml" />
+    <Content Include="Views\ResourceStar\Index.cshtml" />
+    <Content Include="Views\Manage\ResourceStar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

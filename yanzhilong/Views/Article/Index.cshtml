@@ -11,13 +11,14 @@
             @foreach (var item in Model.articles)
             {
                 <div class="blog-post">
-                    <h3 class="blog-post-title">@Html.ActionLink(item.Title, "Details", new { id = item.ArticleID }, new { @class = "", role = "button" })</h3>
-                    <p class="blog-post-meta">2017-02-27 17:19 作者:<a href="#">@Html.DisplayFor(modleItem => item.user.DisplayName)</a></p>
-
-                    <div class="list_content">
-                        @Html.Raw(HttpUtility.HtmlDecode(item.Content))
-                    </div>
-                    @*@Html.ActionLink("查看全文", "Details", new { id = item.ArticleID }, new { @class = "btn btn-lg btn-primary", role = "button" })*@
+                    <h3 class="blog-post-title">@item.Title</h3>
+                    <p class="blog-post-meta">@item.CreateAt 作者:<a href="#">@Html.DisplayFor(modleItem => item.user.DisplayName)</a></p>
+                    
+                    <p class="list_content">@item.Disc</p>
+                    
+                        
+                        @*@Html.Raw(HttpUtility.HtmlDecode(item.Content))*@
+                    @Html.ActionLink("查看全文", "Details", new { id = item.ArticleID }, new { @class = "btn btn-primary", role = "button" })
                     @*<a class="btn btn-lg btn-primary" href="#" role="button">@Html.ActionLink("查看全文", "Details", new { id = item.ArticleID}, new { @class = "btn btn-lg btn-primary", role = "button" }) &raquo;</a>*@
                 </div>
                 <hr class="featurette-divider">
@@ -37,3 +38,11 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/list")
+    <script>
+
+
+    </script>
+}

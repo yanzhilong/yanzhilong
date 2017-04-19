@@ -22,6 +22,21 @@
       <result property="UpdateAt" column="UpdateAt" dbType="datetime" type="DateTime" />
       <result property="user.UserID" column="UserId" dbType="char" type="string" />
     </resultMap>
+
+    <!-- 数据库的全部字段到实体类的映射 -->
+    <resultMap id="SelectAllResultContainUser" class="Tutorials">
+      <result property="TutorialsID" column="TutorialsID" dbType="char" type="string" />
+      <result property="Title" column="Title" dbType="varchar" type="string" />
+      <result property="Content" column="Content" dbType="text" type="string" />
+      <result property="ImageUrl" column="ImageUrl" dbType="varchar" type="string" />
+      <result property="Disc" column="Disc" dbType="varchar" type="string" />
+      <result property="Notes" column="Notes" dbType="varchar" type="string" />
+      <result property="CreateAt" column="CreateAt" dbType="datetime" type="DateTime" />
+      <result property="UpdateAt" column="UpdateAt" dbType="datetime" type="DateTime" />
+      <result property="user.UserID" column="UserId" dbType="char" type="string" />
+      <result property="user.DisplayName" column="DisplayName" dbType="char" type="string" />
+    </resultMap>
+
     
     <!-- 这里可以配置其它只需要指定字段的映射文件(这里是不返回ID) -->
   </resultMaps>
@@ -88,6 +103,24 @@
           ,UpdateAt
           ,UserId
           FROM Tutorials
+          ]]>
+    </select>
+
+    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
+    <select id="SelectAllTutorialsContainUser" resultMap="SelectAllResultContainUser">
+      <![CDATA[  
+          SELECT t.TutorialsID
+          ,t.Title
+          ,t.Content
+          ,t.ImageUrl
+          ,t.Disc
+          ,t.Notes
+          ,t.CreateAt
+          ,t.UpdateAt
+          ,t.UserId
+          ,u.DisplayName
+          FROM Tutorials t,User u
+          where t.UserId = u.UserID
           ]]>
     </select>
 

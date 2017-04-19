@@ -18,6 +18,7 @@ namespace yanzhilong.Models
         [DisplayName("名称")] //显示在Label上的名字
         public string Name { get; set; } //名称
         [Required(ErrorMessage = "请输入正文")] //必填项
+        [DataType(DataType.MultilineText)]
         [DisplayName("产品说明")] //显示在Label上的名字
         public string Content { get; set; } //产品说明
         [Required(ErrorMessage = "请输入版本号")] //必填项
@@ -27,8 +28,10 @@ namespace yanzhilong.Models
         public int Size { get; set; } //大小 
         [DisplayName("图片")] //显示在Label上的名字
         public string ImageUrl { get; set; } //说明图像
+        [DataType(DataType.MultilineText)]
         [DisplayName("摘要")] //显示在Label上的名字
         public string Disc { get; set; } //摘要
+        [DataType(DataType.MultilineText)]
         [DisplayName("备注")] //显示在Label上的名字
         public string Notes { get; set; } //备注
         [DisplayName("发布时间")] //显示在Label上的名字

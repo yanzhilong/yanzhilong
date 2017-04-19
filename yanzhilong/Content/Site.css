@@ -15,26 +15,29 @@ body{
 	/*margin-bottom: 60px;*/
 }
 
+
+
+
+
 /* 文章列表项 */
 
 .blog-post {
-  margin-bottom: 60px;
+  margin-bottom: 10px;
+  margin-top: 20px;
 }
 .blog-post-title {
   margin-bottom: 5px;
 }
 
-
 .list_content{
 
-    height:80px;
-    overflow:hidden;
+    /*overflow:hidden;
     white-space:nowrap;
-    text-overflow:ellipsis;
+    text-overflow:ellipsis;*/
 }
 
 .blog-post-meta {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #999;
 }
 
@@ -74,9 +77,9 @@ body{
 }
 
 /* 教程主页 */
-.course_item{
+/*.course_item{
 	margin-bottom: 80px;
-}
+}*/
 
 
 /* 教程详情 */
@@ -181,9 +184,8 @@ body{
   margin-bottom: 20px;
   text-align: center;
 }
-.marketing h2 {
-  font-weight: normal;
-}
+
+
 .marketing .col-lg-4 p {
   margin-right: 10px;
   margin-left: 10px;

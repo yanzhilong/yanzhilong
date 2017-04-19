@@ -54,7 +54,15 @@
           ResourceStarID=#ResourceStarID#
           ]]>
     </update>
-
+    
+    <select id="SelecResourceStarCount" resultClass="int">
+      <![CDATA[  
+          SELECT  
+          COUNT(ResourceStarID)  
+          FROM ResourceStar  
+          ]]>
+    </select>
+    
     <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
     <select id="SelectAllResourceStar" resultMap="SelectAllResult">
       <![CDATA[  
