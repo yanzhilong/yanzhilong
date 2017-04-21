@@ -15,11 +15,7 @@ body{
 	/*margin-bottom: 60px;*/
 }
 
-
-
-
-
-/* 文章列表项 */
+/* 文章/教程列表项 */
 
 .blog-post {
   margin-bottom: 10px;
@@ -29,30 +25,12 @@ body{
   margin-bottom: 5px;
 }
 
-.list_content{
-
-    /*overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;*/
-}
-
+/*作者信息*/
 .blog-post-meta {
   margin-bottom: 10px;
   color: #999;
 }
 
-/* 文章主页面上一页下一页 */
-.pager {
-  margin-bottom: 60px;
-  text-align: left;
-}
-
-.pager > li > a {
-  width: 140px;
-  padding: 10px 20px;
-  text-align: center;
-  border-radius: 30px;
-}
 
 /* 文章主页右侧分类栏 */
 .sidebar-module {
@@ -75,11 +53,6 @@ body{
 	margin-left: 10px;
 	margin-top: 5px;
 }
-
-/* 教程主页 */
-/*.course_item{
-	margin-bottom: 80px;
-}*/
 
 
 /* 教程详情 */

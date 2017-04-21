@@ -25,17 +25,23 @@ namespace yanzhilong
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
-                      "~/Content/site.css"));
-
+                      "~/Content/site.css",
+                      "~/Content/list.css",
+                      "~/Content/doc.css"));
+            
+            //教程详情,生成侧边栏js
             bundles.Add(new ScriptBundle("~/bundles/tutorials_details").Include(
                       "~/Scripts/tutorials_details.js"));
 
+            //用于限制缩略显示行
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
                      "~/Scripts/clamp.js"));
 
+            //用于限制显示行
             bundles.Add(new ScriptBundle("~/bundles/list").Include(
                      "~/Scripts/list.js"));
 
+            //用于管理端ajax请求管理页面
             bundles.Add(new ScriptBundle("~/bundles/manage").Include(
                       "~/Scripts/manage.js"));
         }
