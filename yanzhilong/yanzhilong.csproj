@@ -227,6 +227,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
@@ -361,6 +362,7 @@
     <Content Include="Views\ResourceStar\Edit.cshtml" />
     <Content Include="Views\ResourceStar\Index.cshtml" />
     <Content Include="Views\Manage\ResourceStar.cshtml" />
+    <Content Include="Views\File\Summernote.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
