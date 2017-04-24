@@ -35,7 +35,8 @@ namespace yanzhilong
 
             //用于限制缩略显示行
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
-                     "~/Scripts/clamp.js"));
+                     "~/Scripts/clamp.js",
+                     "~/Scripts/main.js"));
 
             //用于限制显示行
             bundles.Add(new ScriptBundle("~/bundles/list").Include(

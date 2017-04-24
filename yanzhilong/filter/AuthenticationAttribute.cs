@@ -17,7 +17,7 @@ namespace yanzhilong.filter
             {
                 //跳转到登陆页
                 filterContext.HttpContext.Response.Redirect("/Home/");
-            } 
+            }
         }
     }
 }

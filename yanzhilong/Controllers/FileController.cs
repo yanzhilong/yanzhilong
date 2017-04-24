@@ -45,6 +45,11 @@ namespace yanzhilong.Controllers
             return js;
         }
 
+        public ActionResult Upload()
+        {
+            return View();
+        }
+
         class ResultInfo
         {
             public string result;
