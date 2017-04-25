@@ -68,7 +68,7 @@
                 @Html.ValidationMessageFor(model => categoryMetadata.Name, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -109,16 +109,13 @@
 				                contentType: false,
 				                processData: false,
 				                success: function (response) {
-				                    alert(response.responseText);
 				                    var jsonObj = JSON.parse(response);  // JSON.parse(); 方法
-				                    alert("成功" + jsonObj.result);
 				                    var jsonObj = JSON.parse(response);  // JSON.parse(); 方法
 				                    var imgNode = document.createElement('img');
 				                    imgNode.setAttribute('src', jsonObj.result);
 				                    $("#summernote").summernote('insertNode', imgNode);
 				                },
 				                error: function (response) {
-				                    alert("失败");
 				                }
 				            });
 				        });

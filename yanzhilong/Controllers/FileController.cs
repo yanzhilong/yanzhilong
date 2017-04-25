@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using AutoMapper;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,13 +28,12 @@ namespace yanzhilong.Controllers
             //string path1 = "~/img/" + newname;//保存的路径，注意一定要有load目录，不然会错
             //string filepath1 = System.Web.HttpContext.Current.Server.MapPath(path1);
 
-            string path2 = "../img/" + newname;
+            string path2 = "/img/" + newname;
             var filepath2 = Path.Combine(Request.MapPath("~/img"), newname);
             ResultInfo resultInfo = new ResultInfo();
             try
             {
                 file.SaveAs(filepath2);
-                
             }
             catch (Exception e)
             {

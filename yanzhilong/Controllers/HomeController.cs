@@ -19,7 +19,6 @@ namespace yanzhilong.Controllers
             IList<Tutorials> tutorialses = tutorialsCRUD.GetStarTutorialses();
             IList<Product> products = productCRUD.GetStarProducts();
             IList<Article> articles = articleCRUD.GetStarArticles();
-
             HomeViewModel hv = new HomeViewModel();
             hv.products = products;
             hv.tutorials = tutorialses;

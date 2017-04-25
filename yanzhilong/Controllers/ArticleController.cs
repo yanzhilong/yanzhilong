@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using yanzhilong.filter;
 using yanzhilong.Helper;
+using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Models;
 
 namespace yanzhilong.Controllers
@@ -53,6 +54,15 @@ namespace yanzhilong.Controllers
         [Authentication]
         public ActionResult Create()
         {
+            Article article = new Article();
+            article.ArticleID = "123";
+
+            ArticleModel articlemodel = article.ToModel();
+            articlemodel.Title = "title";
+
+            Article articleNew = articlemodel.ToEntity();
+
+
             getCateGorys();
             return View();
         }
@@ -128,6 +138,9 @@ namespace yanzhilong.Controllers
             {
                 ModelState.Remove(key);
             }
+            //if (ModelState[""].Equals"0"){
+
+            //}
         }
 
         private void getCateGorys()

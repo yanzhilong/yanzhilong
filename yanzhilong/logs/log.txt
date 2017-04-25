@@ -677,3 +677,13 @@ INFO  2017-04-24 18:42:34,606  1544ms HomeController         Index              
 INFO  2017-04-24 18:56:22,840  1541ms HomeController         Index              - index
 INFO  2017-04-24 18:57:01,402  1533ms HomeController         Index              - index
 INFO  2017-04-24 18:58:14,990  1530ms HomeController         Index              - index
+INFO  2017-04-25 12:30:56,146  1859ms HomeController         Index              - index
+INFO  2017-04-25 13:19:31,207 2916920ms HomeController         Index              - index
+ERROR 2017-04-25 13:29:30,743 3516456ms ArticleCRUD            Create             - add Article Fail
+ERROR 2017-04-25 13:34:38,434 3824147ms ArticleCRUD            Create             - add Article Fail
+INFO  2017-04-25 14:09:54,670 5940383ms HomeController         Index              - index
+INFO  2017-04-25 19:02:38,608   684ms HomeController         Index              - index
+INFO  2017-04-25 19:03:45,025   897ms HomeController         Index              - index
+INFO  2017-04-25 20:01:42,179   867ms HomeController         Index              - index
+INFO  2017-04-25 20:05:46,335   838ms HomeController         Index              - index
+INFO  2017-04-25 20:06:54,021   824ms HomeController         Index              - index
