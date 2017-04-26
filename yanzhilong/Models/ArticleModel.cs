@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using yanzhilong.Domain;
 
 namespace yanzhilong.Models
 {
@@ -33,7 +34,7 @@ namespace yanzhilong.Models
         public DateTime UpdateAt { get; set; } //更新时间
         [Required(ErrorMessage = "请选择分类")]
         [DisplayName("分类")] //显示在Label上的名字
-        public Category category { get; set; } //文章分类
-        public User user { get; set; } //创建者
+        public string CategoryID { get; set; }
+        public string UserID { get; set; }
     }
 }

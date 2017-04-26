@@ -5,6 +5,10 @@ body{
 	font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
 }
 
+image{
+    carousel-inner img-responsive img-rounded
+}
+
 /* Set padding to keep content from hitting the edges */
 /*.body-content {
     padding-left: 15px;
@@ -348,9 +352,6 @@ body{
 	text-overflow:ellipsis;
 	vertical-align: middle !important;
 }
-
-
-
 
 /*登陆界面 */
 .form-signin {

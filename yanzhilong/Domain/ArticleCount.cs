@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using yanzhilong.Domain;
 
-namespace yanzhilong.Models
+namespace yanzhilong.Domain
 {
     public class ArticleCount
     {

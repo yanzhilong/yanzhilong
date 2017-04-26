@@ -5,7 +5,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using yanzhilong.filter;
+using yanzhilong.Domain;
 using yanzhilong.Models;
+using yanzhilong.Service;
 
 namespace yanzhilong.Controllers
 {

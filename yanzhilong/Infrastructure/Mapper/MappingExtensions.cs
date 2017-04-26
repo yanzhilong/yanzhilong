@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using yanzhilong.Domain;
 using yanzhilong.Models;
 
 namespace yanzhilong.Infrastructure.Mapper

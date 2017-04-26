@@ -7,15 +7,17 @@ using System.Web.Mvc;
 using yanzhilong.filter;
 using yanzhilong.Helper;
 using yanzhilong.Infrastructure.Mapper;
+using yanzhilong.Domain;
+using yanzhilong.Service;
 using yanzhilong.Models;
 
 namespace yanzhilong.Controllers
 {
     public class ArticleController : Controller
     {
-        private ArticleCRUD articleCRUD = new ArticleCRUD();
-        private CategoryCRUD categoryCRUD = new CategoryCRUD();
-        private UserCRUD userCRUD = new UserCRUD();
+        private ArticleService articleCRUD = new ArticleService();
+        private CategoryService categoryCRUD = new CategoryService();
+        private UserService userCRUD = new UserService();
         // GET: Article
         public ActionResult Index()
         {

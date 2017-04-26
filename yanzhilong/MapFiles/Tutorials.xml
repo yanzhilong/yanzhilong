@@ -4,7 +4,7 @@
   
   <!-- 设置别名，用于底下指定类型的时候不需要全全类名(包括长的空间名 ),最后一个参数是项目的命名空间名 -->
   <alias>
-    <typeAlias alias="Tutorials" type="yanzhilong.Models.Tutorials, yanzhilong"/>
+    <typeAlias alias="Tutorials" type="yanzhilong.Domain.Tutorials, yanzhilong"/>
   </alias>
 
   <!-- 数据库到实体类的映射表 -->

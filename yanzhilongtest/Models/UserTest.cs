@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using yanzhilong.Models;
+using yanzhilong.Domain;
 using System.Collections.Generic;
 using yanzhilong.Helper;
+using yanzhilong.Service;
 
 namespace yanzhilongtest
 {

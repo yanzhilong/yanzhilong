@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using yanzhilong.Helper;
-using yanzhilong.Models;
+using yanzhilong.Domain;
+using yanzhilong.Service;
 
 namespace yanzhilong.Controllers
 {

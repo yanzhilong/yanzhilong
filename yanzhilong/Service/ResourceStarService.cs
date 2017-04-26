@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using yanzhilong.Helper;
+using yanzhilong.Domain;
 using yanzhilong.Models;
 
-namespace yanzhilong.Models
+namespace yanzhilong.Service
 {
     public class ResourceStarCRUD
     {

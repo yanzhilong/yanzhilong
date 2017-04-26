@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace yanzhilong.Models
+namespace yanzhilong.Domain
 {
     /// <summary>
     /// 用户表
