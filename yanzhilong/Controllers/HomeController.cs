@@ -12,9 +12,9 @@ namespace yanzhilong.Controllers
     public class HomeController : Controller
     {
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
-        private ProductCRUD productCRUD = new ProductCRUD();
-        private ArticleCRUD articleCRUD = new ArticleCRUD();
+        private TutorialsService tutorialsCRUD = new TutorialsService();
+        private ProductService productCRUD = new ProductService();
+        private ArticleService articleCRUD = new ArticleService();
 
         public ActionResult Index()
         {

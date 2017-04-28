@@ -13,7 +13,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void UserCreate()
         {
-            UserCRUD userCRUD = new UserCRUD();
+            UserService userCRUD = new UserService();
             User user = new User();
             user.UserID = Guid.NewGuid().ToString();
             user.UserName = "yanzhilong";
@@ -28,14 +28,14 @@ namespace yanzhilongtest
         [TestMethod]
         public void UserDelete()
         {
-            UserCRUD userCRUD = new UserCRUD();
+            UserService userCRUD = new UserService();
             Assert.IsTrue(userCRUD.Delete("a999b733-c127-413d-8c8a-fc3e9dea07e9"));
         }
         
         [TestMethod]
         public void UserUpdate()
         {
-            UserCRUD userCRUD = new UserCRUD();
+            UserService userCRUD = new UserService();
             User user = userCRUD.GetUserById("1f1c4189-3792-4a91-8d08-c0d04e18a0ae");
             user.DisplayName = "严志龙";
             Assert.IsTrue(userCRUD.Update(user));
@@ -44,7 +44,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void GetUserById()
         {
-            UserCRUD userCRUD = new UserCRUD();
+            UserService userCRUD = new UserService();
             User user = userCRUD.GetUserById("f2f52ac5-8a06-4b34-a648-798941244fbb");
             Assert.IsNotNull(user);
             Assert.IsTrue(user.PasswordHash == PasswordHelper.GetMd5HashStr("GFDonx123"));
@@ -53,7 +53,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void GetUsers()
         {
-            UserCRUD userCRUD = new UserCRUD();
+            UserService userCRUD = new UserService();
             IList<User> users = userCRUD.GetUsers();
             Assert.IsNotNull(users);
         }
@@ -61,7 +61,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void CheckUser()
         {
-            UserCRUD userCRUD = new UserCRUD();
+            UserService userCRUD = new UserService();
             User user = new User();
             user.UserName = "yanzhilong";
             user.PasswordHash = "92701ED5C0BA89118A6B8FC1B2085E9";

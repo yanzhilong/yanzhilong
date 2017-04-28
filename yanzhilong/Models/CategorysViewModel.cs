@@ -9,6 +9,6 @@ namespace yanzhilong.Models
     public class CategorysViewModel
     {
         public IList<Category> categorys { get; set; }
-        public PagingViewModel pvm { get; set; }
+        public PageModel pvm { get; set; }
     }
 }

@@ -8,11 +8,11 @@ using yanzhilong.Domain;
 
 namespace yanzhilong.Service
 {
-    public class UserCRUD
+    public class UserService
     {
         private SqlMapper sqlMapper = null;
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public UserCRUD()
+        public UserService()
         {
             ISqlMapper mapper = Mapper.Instance();
             DomSqlMapBuilder builder = new DomSqlMapBuilder();

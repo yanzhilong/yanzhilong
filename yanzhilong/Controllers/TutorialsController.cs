@@ -14,8 +14,8 @@ namespace yanzhilong.Controllers
 {
     public class TutorialsController : Controller
     {
-        private TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
-        private UserCRUD userCRUD = new UserCRUD();
+        private TutorialsService tutorialsCRUD = new TutorialsService();
+        private UserService userCRUD = new UserService();
         // GET: Tutorials
         //public ActionResult Index()
         //{
@@ -38,6 +38,8 @@ namespace yanzhilong.Controllers
             tvm.pvm.actionName = "List";
             tvm.pvm.controllerName = "Tutorials";
             return View("Index", tvm);
+
+            
         }
 
         // GET: GuestBook/Create

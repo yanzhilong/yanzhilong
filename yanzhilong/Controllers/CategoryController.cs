@@ -13,7 +13,7 @@ namespace yanzhilong.Controllers
 {
     public class CategoryController : Controller
     {
-        private CategoryCRUD categoryCRUD = new CategoryCRUD();
+        private CategoryService categoryCRUD = new CategoryService();
 
         public ActionResult SideBar()
         {

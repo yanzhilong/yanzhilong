@@ -13,11 +13,11 @@ namespace yanzhilong.Controllers
 {
     public class ManageController : Controller
     {
-        private ArticleCRUD articleCRUD = new ArticleCRUD();
-        private TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
-        private ProductCRUD productCRUD = new ProductCRUD();
-        private CategoryCRUD categoryCRUD = new CategoryCRUD();
-        private ResourceStarCRUD resourceStarCRUD = new ResourceStarCRUD();
+        private ArticleService articleCRUD = new ArticleService();
+        private TutorialsService tutorialsCRUD = new TutorialsService();
+        private ProductService productCRUD = new ProductService();
+        private CategoryService categoryCRUD = new CategoryService();
+        private ResourceStarService resourceStarCRUD = new ResourceStarService();
         // GET: Manager
         [Authentication]
         public ActionResult Index()
@@ -37,7 +37,8 @@ namespace yanzhilong.Controllers
             page--;
             ArticlesViewModel avm = new ArticlesViewModel();
             avm.articles = articleCRUD.GetArticles(page, null);
-            avm.pvm = articleCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE,null);
+            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, page, articleCRUD.GetCount());
+            avm.pvm = pagemodel;
             avm.pvm.actionName = "Article";
             avm.pvm.controllerName = "Manage";
             return View(avm);

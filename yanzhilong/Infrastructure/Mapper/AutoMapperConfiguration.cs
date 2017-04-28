@@ -19,12 +19,16 @@ namespace yanzhilong.Infrastructure.Mapper
         {
             cfg.CreateMap<Article, ArticleModel>()
             .ForMember(dest => dest.CategoryID, mo => mo.MapFrom(src => src.category.CategoryID))
-            .ForMember(dest => dest.UserID, mo => mo.MapFrom(src => src.user.UserID));
+            .ForMember(dest => dest.CategoryName, mo => mo.MapFrom(src => src.category.Name))
+            .ForMember(dest => dest.UserID, mo => mo.MapFrom(src => src.user.UserID))
+            .ForMember(dest => dest.DisplayName, mo => mo.MapFrom(src => src.user.DisplayName));
+
             cfg.CreateMap<ArticleModel, Article>()
-            //这个
-            .ForMember(dest => dest.UpdateAt, mo => mo.MapFrom(src => src.CategoryID))
-            .ForMember(dest => dest.category.CategoryID, mo => mo.MapFrom(src => src.CategoryID))
-            .ForMember(dest => dest.user.UserID, mo => mo.MapFrom(src => src.UserID));
+            .ForMember(dest => dest.UpdateAt, mo => mo.MapFrom(src => DateTime.Now))
+            .ForMember(dest => dest.category, mo => mo.MapFrom(src => new Category { CategoryID = src.CategoryID }))
+            .ForMember(dest => dest.user, mo => mo.MapFrom(src => new User { UserID = src.UserID }));
+            
+            
         };
 
         public static void Init()

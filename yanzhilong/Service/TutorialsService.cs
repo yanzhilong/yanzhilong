@@ -10,11 +10,11 @@ using yanzhilong.Models;
 
 namespace yanzhilong.Service
 {
-    public class TutorialsCRUD
+    public class TutorialsService
     {
         private SqlMapper sqlMapper = null;
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public TutorialsCRUD()
+        public TutorialsService()
         {
             ISqlMapper mapper = Mapper.Instance();
             DomSqlMapBuilder builder = new DomSqlMapBuilder();
@@ -62,18 +62,17 @@ namespace yanzhilong.Service
             return tutorialses;
         }
 
-        public PagingViewModel GetPagingViewModel(int currentPage, int pageSize)
+        public int GetCount()
         {
-            PagingViewModel pvm = new PagingViewModel();
-            pvm.CurrentPage = currentPage;
+            int count = sqlMapper.QueryForObject<int>("SelectTutorialsCount",null);
+            return count;
+        }
+
+        public PageModel GetPagingViewModel(int currentPage, int pageSize)
+        {
             int count = sqlMapper.QueryForObject<int>("SelectTutorialsCount", null);
-            int pagecount = count / pageSize;
-            if (count % pageSize == 0 && pagecount > 0)
-            {
-                pagecount--;
-            }
-            pvm.PageCount = pagecount;
-            return pvm;
+            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, currentPage, count);
+            return pagemodel;
         }
 
         public IList<Tutorials> GetStarTutorialses()

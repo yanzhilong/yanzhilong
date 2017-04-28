@@ -33,23 +33,15 @@ namespace yanzhilong.Controllers
         public ActionResult Result(string actionName,int page = 1, string CategoryID = null)
         {
             page--;
-            ArticlesViewModel avm = new ArticlesViewModel();
-            avm.articles = articleCRUD.GetArticles(page, CategoryID != null ? CategoryID : null);
-            avm.pvm = articleCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE, CategoryID);
-            avm.pvm.actionName = actionName;
-            avm.pvm.controllerName = "Article";
-            return View("Index", avm);
-        }
+            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, page, articleCRUD.GetCount(CategoryID));
+            pagemodel.actionName = actionName;
+            pagemodel.controllerName = "Article";
+            ViewBag.pagemodel = pagemodel;
 
-        public ActionResult ViewModelResult(string actionName, int page = 1, string CategoryID = null)
-        {
-            page--;
-            ArticlesViewModel avm = new ArticlesViewModel();
-            avm.articles = articleCRUD.GetArticles(page, CategoryID != null ? CategoryID : null);
-            avm.pvm = articleCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE, CategoryID);
-            avm.pvm.actionName = actionName;
-            avm.pvm.controllerName = "Article";
-            return View("Index", avm);
+            var articles = articleCRUD.GetArticles(page, CategoryID);
+            IEnumerable<ArticleModel> articleModels = articles.Select(x => x.ToModel());
+            
+            return View("Index", articleModels);
         }
 
         // GET: GuestBook/Create
@@ -65,6 +57,7 @@ namespace yanzhilong.Controllers
             Article articleNew = articlemodel.ToEntity();
 
 
+
             getCateGorys();
             return View();
         }
@@ -76,11 +69,6 @@ namespace yanzhilong.Controllers
             return View();
         }
 
-        // GET: GuestBook/Create
-        public ActionResult CreateNew1()
-        {
-            return View("Summernote");
-        }
 
         // POST: GuestBook/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -174,12 +162,10 @@ namespace yanzhilong.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Article article = articleCRUD.GetArticleById(id);
-            ArticleViewModel avm = new ArticleViewModel();
-            avm.Current = article;
-            avm.Pre = articleCRUD.GetPreArticle(article);
-            avm.Next = articleCRUD.GetNextArticle(article);
-
-            return View(avm);
+            ArticleModel am = article.ToModel();
+            ViewBag.PreArticle = articleCRUD.GetPreArticle(article).ToModel();
+            ViewBag.NextArticle = articleCRUD.GetNextArticle(article).ToModel();
+            return View(am);
         }
 
         [Route("Article/Category/{CategoryID}")]

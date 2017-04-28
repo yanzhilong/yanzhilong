@@ -9,6 +9,6 @@ namespace yanzhilong.Models
     public class ArticlesViewModel
     {
         public IList<Article> articles { get; set; }
-        public PagingViewModel pvm { get; set; }
+        public PageModel pvm { get; set; }
     }
 }

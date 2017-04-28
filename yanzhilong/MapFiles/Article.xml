@@ -137,6 +137,32 @@
           ]]>
     </select>
 
+    <select id="SelectAllArticles" parameterClass="Article" resultMap="SelectAllResultContainUser">
+      <![CDATA[  
+          SELECT a.ArticleID
+          ,a.Title
+          ,a.Content
+          ,a.ImageUrl
+          ,a.Disc
+          ,a.Notes
+          ,a.CreateAt
+          ,a.UpdateAt
+          ,a.CategoryId
+          ,a.UserId
+          ,u.DisplayName
+          FROM Article a,User u
+          where a.UserId = u.UserID
+          ]]>
+    </select>
+
+    <select id="SelectAllArticleByCategoryId" parameterClass="Article" resultMap="SelectAllResultContainUser" extends="SelectAllArticles">
+      <isNotEmpty prepend=" AND " property="category.CategoryID">
+        <![CDATA[  
+          CategoryId = #category.CategoryID#
+          ]]>
+      </isNotEmpty>
+    </select>
+
     <!-- 获得星推荐的文章，用于首页展示 -->
     <select id="SelectStarArticle" parameterClass="int" resultMap="SelectAllResult"  extends="SelectAllArticle">
       <![CDATA[  
@@ -145,10 +171,15 @@
     </select>
     
      <!--#value# 是点位符会被传入的parameterClass的string类型代替--> 
-    <select id="SelectArticleById" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllArticle">
-      <![CDATA[  
-          where ArticleID = #value#  
+    <select id="SelectArticleById" parameterClass="string" resultMap="SelectAllResultContainUser" extends="SelectAllArticles">
+
+      <isNotEmpty prepend=" AND ">
+        <![CDATA[  
+          ArticleID = #value#
           ]]>
+      </isNotEmpty>
+      
+      
     </select>
 
     <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
@@ -166,13 +197,6 @@
       <![CDATA[  
           where unix_timestamp(CreateAt) > unix_timestamp(#CreateAt#) 
              Order By CreateAt asc limit 1
-          ]]>
-    </select>
-
-    <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
-    <select id="SelectArticlesByCategoryId" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllArticle">
-      <![CDATA[  
-          where CategoryId = #value#  
           ]]>
     </select>
 

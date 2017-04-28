@@ -22,4 +22,5 @@ namespace yanzhilong.Helper
         public int PageSize { get; set; }
         public int PageSkip { get; set; }
     }
+    
 }

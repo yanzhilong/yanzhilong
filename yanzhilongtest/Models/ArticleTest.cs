@@ -13,7 +13,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void ArticleCreate()
         {
-            ArticleCRUD articleCRUD = new ArticleCRUD();
+            ArticleService articleCRUD = new ArticleService();
             Article article = new Article();
             article.ArticleID = Guid.NewGuid().ToString();
             article.Title = ".Net MVC学习";
@@ -33,14 +33,14 @@ namespace yanzhilongtest
         [TestMethod]
         public void ArticleDelete()
         {
-            ArticleCRUD articleCRUD = new ArticleCRUD();
+            ArticleService articleCRUD = new ArticleService();
             Assert.IsTrue(articleCRUD.Delete("8a2c21bf-06f9-4e18-8d7f-15299a28c53c"));
         }
 
         [TestMethod]
         public void ArticleUpdate()
         {
-            ArticleCRUD articleCRUD = new ArticleCRUD();
+            ArticleService articleCRUD = new ArticleService();
             Article article = new Article();
             article.ArticleID = "79a29500-89d5-4bc7-bdfb-6bfbdde32c95";
             article.Title = "爬虫33";
@@ -60,7 +60,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void GetArticleById()
         {
-            ArticleCRUD articleCRUD = new ArticleCRUD();
+            ArticleService articleCRUD = new ArticleService();
             Article article = articleCRUD.GetArticleById("79a29500-89d5-4bc7-bdfb-6bfbdde32c95");
             Assert.IsNotNull(article);
         }
@@ -68,7 +68,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void GetArticles()
         {
-            ArticleCRUD articleCRUD = new ArticleCRUD();
+            ArticleService articleCRUD = new ArticleService();
             IList<Article> articles = articleCRUD.GetArticles();
             Assert.IsNotNull(articles);
         }
@@ -76,7 +76,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void GetArticlesByPage()
         {
-            ArticleCRUD articleCRUD = new ArticleCRUD();
+            ArticleService articleCRUD = new ArticleService();
             IList<Article> articles = articleCRUD.GetArticles(1);
             Assert.IsNotNull(articles);
         }
@@ -84,8 +84,8 @@ namespace yanzhilongtest
         [TestMethod]
         public void GetPagingViewModel()
         {
-            ArticleCRUD articleCRUD = new ArticleCRUD();
-            PagingViewModel pvm = articleCRUD.GetPagingViewModel(0,11,null);
+            ArticleService articleCRUD = new ArticleService();
+            PageModel pvm = articleCRUD.GetPagingViewModel(0,11,null);
             Assert.IsNotNull(pvm);
         }
         
@@ -93,7 +93,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void GetStarArticles()
         {
-            ArticleCRUD articleCRUD = new ArticleCRUD();
+            ArticleService articleCRUD = new ArticleService();
             IList<Article> articles = articleCRUD.GetStarArticles();
             Assert.IsTrue(articles.Count > 0);
         }

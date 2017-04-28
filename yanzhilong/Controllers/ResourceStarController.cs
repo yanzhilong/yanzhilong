@@ -14,11 +14,11 @@ namespace yanzhilong.Controllers
 {
     public class ResourceStarController : Controller
     {
-        private ProductCRUD productCRUD = new ProductCRUD();
-        private ArticleCRUD articleCRUD = new ArticleCRUD();
-        private TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
-        private ResourceStarCRUD resourceStarCRUD = new ResourceStarCRUD();
-        private UserCRUD userCRUD = new UserCRUD();
+        private ProductService productCRUD = new ProductService();
+        private ArticleService articleCRUD = new ArticleService();
+        private TutorialsService tutorialsCRUD = new TutorialsService();
+        private ResourceStarService resourceStarCRUD = new ResourceStarService();
+        private UserService userCRUD = new UserService();
         // GET: Tutorials
         //public ActionResult Index()
         //{

@@ -35,6 +35,8 @@ namespace yanzhilong.Models
         [Required(ErrorMessage = "请选择分类")]
         [DisplayName("分类")] //显示在Label上的名字
         public string CategoryID { get; set; }
+        public string CategoryName { get; set; }
         public string UserID { get; set; }
+        public string DisplayName { get; set; }
     }
 }

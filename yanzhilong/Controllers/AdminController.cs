@@ -11,7 +11,7 @@ namespace yanzhilong.Controllers
 {
     public class AdminController : Controller
     {
-        private UserCRUD userCRUD = new UserCRUD();
+        private UserService userCRUD = new UserService();
         // GET: Admin
         public ActionResult Index()
         {

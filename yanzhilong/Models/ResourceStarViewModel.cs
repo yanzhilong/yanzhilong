@@ -9,6 +9,6 @@ namespace yanzhilong.Models
     public class ResourceStarViewModel
     {
         public IList<ResourceStar> resourceStars { get; set; }
-        public PagingViewModel pvm { get; set; }
+        public PageModel pvm { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace yanzhilong.Controllers
 {
     public class ProductController : Controller
     {
-        private ProductCRUD productCRUD = new ProductCRUD();
+        private ProductService productCRUD = new ProductService();
 
         // GET: Product
         public ActionResult Index()

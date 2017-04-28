@@ -10,11 +10,11 @@ using yanzhilong.Models;
 
 namespace yanzhilong.Service
 {
-    public class CategoryCRUD
+    public class CategoryService
     {
         private SqlMapper sqlMapper = null;
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public CategoryCRUD()
+        public CategoryService()
         {
             ISqlMapper mapper = Mapper.Instance();
             DomSqlMapBuilder builder = new DomSqlMapBuilder();
@@ -65,18 +65,12 @@ namespace yanzhilong.Service
             return categorys;
         }
 
-        public PagingViewModel GetPagingViewModel(int currentPage, int pageSize)
+        public PageModel GetPagingViewModel(int currentPage, int pageSize)
         {
-            PagingViewModel pvm = new PagingViewModel();
-            pvm.CurrentPage = currentPage;
             int count = sqlMapper.QueryForObject<int>("SelectCategoryCount", null);
-            int pagecount = count / pageSize;
-            if (count % pageSize == 0 && pagecount > 0)
-            {
-                pagecount--;
-            }
-            pvm.PageCount = pagecount;
-            return pvm;
+            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, currentPage, count);
+
+            return pagemodel;
         }
 
         public IList<ArticleCount> GetArticlesCountGroupByCategory()

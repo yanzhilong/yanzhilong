@@ -10,7 +10,7 @@ namespace yanzhilong.Controllers
 {
     public class PagingController : Controller
     {
-        public ActionResult Index(PagingViewModel pvm)
+        public ActionResult Index(PageModel pvm)
         {
             return PartialView("Paging", pvm);
         }

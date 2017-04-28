@@ -24,7 +24,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void TutorialsCreate()
         {
-            TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
+            TutorialsService tutorialsCRUD = new TutorialsService();
             Tutorials tutorials = new Tutorials();
             tutorials.TutorialsID = Guid.NewGuid().ToString();
             tutorials.Title = "测试";
@@ -41,14 +41,14 @@ namespace yanzhilongtest
         [TestMethod]
         public void TutorialsDelete()
         {
-            TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
+            TutorialsService tutorialsCRUD = new TutorialsService();
             Assert.IsTrue(tutorialsCRUD.Delete("ad6b3dbb-f9d2-4d38-b601-42cb36a1120a"));
         }
 
         [TestMethod]
         public void TutorialsUpdate()
         {
-            TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
+            TutorialsService tutorialsCRUD = new TutorialsService();
             Tutorials tutorials = new Tutorials();
             tutorials.TutorialsID = "1394f8b1-e734-4231-8c52-d1cba8e2fbf7";
             tutorials.Title = "爬虫33";
@@ -65,7 +65,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void GetTutorialsById()
         {
-            TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
+            TutorialsService tutorialsCRUD = new TutorialsService();
             Tutorials tutorials = tutorialsCRUD.GetTutorialsById("1394f8b1-e734-4231-8c52-d1cba8e2fbf7");
             Assert.IsNotNull(tutorials);
         }
@@ -73,7 +73,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void GetTutorialses()
         {
-            TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
+            TutorialsService tutorialsCRUD = new TutorialsService();
             IList<Tutorials> tutorialses = tutorialsCRUD.GetTutorialses();
             Assert.IsNotNull(tutorialses);
         }
@@ -81,7 +81,7 @@ namespace yanzhilongtest
         [TestMethod]
         public void GetStarTutorialses()
         {
-            TutorialsCRUD tutorialsCRUD = new TutorialsCRUD();
+            TutorialsService tutorialsCRUD = new TutorialsService();
             IList<Tutorials> tutorialses = tutorialsCRUD.GetStarTutorialses();
             Assert.IsNotNull(tutorialses);
         }

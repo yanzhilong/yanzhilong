@@ -35,11 +35,6 @@ namespace yanzhilong.Infrastructure.Mapper
             return model.MapTo<ArticleModel, Article>();
         }
 
-        public static Article ToEntity(this ArticleModel model, Article destination)
-        {
-            return model.MapTo(destination);
-        }
-
         #endregion
     }
 }

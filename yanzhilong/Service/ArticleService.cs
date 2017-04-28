@@ -7,142 +7,102 @@ using System.Web;
 using yanzhilong.Helper;
 using yanzhilong.Domain;
 using yanzhilong.Models;
+using yanzhilong.Repository;
 
 namespace yanzhilong.Service
 {
-    public class ArticleCRUD
+    public class ArticleService
     {
-        private SqlMapper sqlMapper = null;
-        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public ArticleCRUD()
-        {
-            ISqlMapper mapper = Mapper.Instance();
-            DomSqlMapBuilder builder = new DomSqlMapBuilder();
-            sqlMapper = builder.Configure() as SqlMapper;
-        }
+        IRepository<Article> repository = new MbRepository<Article>();
         
-         
-        public bool Create(Article article)
+        public void Create(Article article)
         {
-            string connectionString = sqlMapper.DataSource.ConnectionString;
-            Console.WriteLine(connectionString);
-            try
-            {
-                sqlMapper.Insert("InsertArticle", article);
-                return true;
-            }
-            catch (Exception e) {
-                logger.Error("add Article Fail");
-                Console.WriteLine(  e.Message.ToString());
-            }
-            return false;
+            repository.Insert("InsertArticle", article);
         }
          
         public Article GetArticleById(string articleID)
         {
-            Article article = sqlMapper.QueryForObject<Article>("SelectArticleById", articleID);
-            if(article != null && article.user.UserID != null)
-            {
-                article.user = sqlMapper.QueryForObject<User>("SelectUserById", article.user.UserID);
-            }
-            if (article != null && article.category.CategoryID != null)
-            {
-                article.category = sqlMapper.QueryForObject<Category>("SelectCategoryById", article.category.CategoryID);
-            }
+            Article article = repository.GetByCondition("SelectArticleById", articleID);
             return article;
         }
 
         public Article GetPreArticle(Article article)
         {
-            Article articlePre = sqlMapper.QueryForObject<Article>("SelectArticleByPre", article);
+            Article articlePre = repository.GetByCondition("SelectArticleByPre", article);
             return articlePre;
         }
 
         public Article GetNextArticle(Article article)
         {
-            Article articleNext = sqlMapper.QueryForObject<Article>("SelectArticleByNext", article);
+            Article articleNext = repository.GetByCondition("SelectArticleByNext", article);
             return articleNext;
         }
 
 
         public IList<Article> GetArticles()
         {
-            IList<Article> articles = sqlMapper.QueryForList<Article>("SelectAllArticle", null);
+            IList<Article> articles = repository.GetList("SelectAllArticle", null);
             return articles;
         }
 
         public IList<Article> GetArticlesByCategoryId(string categoryID)
         {
-            IList<Article> articles = sqlMapper.QueryForList<Article>("SelectArticlesByCategoryId", categoryID);
+            IList<Article> articles = repository.GetList("SelectArticlesByCategoryId", categoryID);
             return articles;
-        }
-
-        public IList<Article> GetArticles(int index, int size)
-        {
-            IList<Article> articleList = sqlMapper.QueryForList<Article>("SelectAllArticle", null, index, size);
-            return articleList;
         }
 
         public IList<Article> GetArticles(int pageCount,string categoryID)
         {
-            Page page = PageHelper.makePage(pageCount);
             IList<Article> articleList = null;
             if (categoryID != null)
             {
-                articleList = sqlMapper.QueryForList<Article>("SelectArticlesContainUserByCategoryId", categoryID, page.PageSkip, page.PageSize);
+                articleList = repository.GetList("SelectArticlesContainUserByCategoryId", categoryID,pageCount);
             }
             else
             {
-                articleList = sqlMapper.QueryForList<Article>("SelectAllArticleContainUser", null, page.PageSkip, page.PageSize);
+                articleList = repository.GetList("SelectAllArticleContainUser", null, pageCount);
             }
             return articleList;
         }
 
         public IList<Article> GetArticles(int pageCount)
         {
-            Page page = PageHelper.makePage(pageCount);
-            IList<Article> articleList = sqlMapper.QueryForList<Article>("SelectAllArticleContainUser", null, page.PageSkip, page.PageSize);
+            IList<Article> articleList = repository.GetList("SelectArticlesContainUserByCategoryId",null, pageCount);
             return articleList;
         }
 
-        public PagingViewModel GetPagingViewModel(int currentPage,int pageSize,string categoryID)
+        public int GetCount()
         {
-            PagingViewModel pvm = new PagingViewModel();
-            pvm.CurrentPage = currentPage;
-            int count = 0;
-            if (categoryID == null)
-            {
-                count = sqlMapper.QueryForObject<int>("SelectArticleCount", null);
-            }else
-            {
-                count = sqlMapper.QueryForObject<int>("SelectArticleCountByCategory", categoryID);
-            }
-            int pagecount = count / pageSize;
-            if(count % pageSize == 0 && pagecount > 0)
-            {
-                pagecount--;
-            }
-            pvm.PageCount = pagecount;
-            return pvm;
+            int count = repository.GetObject<int>("SelectArticleCount", null);
+            return count;            
         }
+
+        public int GetCount(string categoryID)
+        {
+            if(categoryID == null)
+            {
+                return GetCount();
+            }
+            int count = repository.GetObject<int>("SelectArticleCount", categoryID);
+            return count;
+        }
+
 
         public IList<Article> GetStarArticles()
         {
-            IList<Article> articles = sqlMapper.QueryForList<Article>("SelectStarArticle", ResourceType.ARTICLE);
+            IList<Article> articles = repository.GetList("SelectStarArticle", ResourceType.ARTICLE);
             return articles;
         }
 
-        public bool Update(Article article)
+        public void Update(Article article)
         {
-            int result = sqlMapper.Update("UpdateArticle", article);
-            return result > 0;
+            repository.Update("UpdateArticle", article);
         }
         
 
-        public bool Delete(string articleID)
+        public void Delete(string articleID)
         {
-            int result = sqlMapper.Delete("DeleteArticle", articleID);
-            return result > 0;
+            repository.Delete("DeleteArticle", articleID);
         }
     }
 }
