@@ -65,8 +65,9 @@ namespace yanzhilong.Controllers
         // GET: GuestBook/Create
         public ActionResult CreateNew()
         {
-            getCateGorys();
-            return View();
+            ArticleModel articleModel = new ArticleModel();
+            articleModel.CategorySelectItems = getCateGorys();
+            return View(articleModel);
         }
 
 
@@ -77,7 +78,7 @@ namespace yanzhilong.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authentication]
-        public ActionResult Create( Article article)
+        public ActionResult Create( ArticleModel article)
         {
             removeRequired();
             if (ModelState.IsValid)
@@ -108,11 +109,16 @@ namespace yanzhilong.Controllers
         [ValidateInput(false)]
         [HttpPost]
         [Authentication]
-        public ActionResult Edit(Article article)
+        public ActionResult Edit(ArticleModel articleModel)
         {
-            removeRequired();
+            if (articleModel.CategoryID == "0")
+            {
+                articleModel.CategoryID = string.Empty;
+            }
+            //ModelState.AddModelError("CategoryID",null);
             if (ModelState.IsValid)
             {
+                Article article = articleModel.ToEntity();
                 article.UpdateAt = DateTime.Now;
                 articleCRUD.Update(article);
                 return RedirectToAction("Index");
@@ -133,7 +139,7 @@ namespace yanzhilong.Controllers
             //}
         }
 
-        private void getCateGorys()
+        private List<SelectListItem> getCateGorys()
         {
             IEnumerable<Category> categorys = categoryCRUD.GetCategorys();
             var selectItemList = new List<SelectListItem>() {
@@ -141,7 +147,7 @@ namespace yanzhilong.Controllers
             };
             var selectList = new SelectList(categorys, "CategoryID", "Name");
             selectItemList.AddRange(selectList);
-            ViewBag.categorys = selectItemList;
+            return selectItemList;
         }
 
         public ActionResult Delete(string id)

@@ -21,8 +21,9 @@ namespace yanzhilong.Infrastructure.Mapper
             .ForMember(dest => dest.CategoryID, mo => mo.MapFrom(src => src.category.CategoryID))
             .ForMember(dest => dest.CategoryName, mo => mo.MapFrom(src => src.category.Name))
             .ForMember(dest => dest.UserID, mo => mo.MapFrom(src => src.user.UserID))
-            .ForMember(dest => dest.DisplayName, mo => mo.MapFrom(src => src.user.DisplayName));
-
+            .ForMember(dest => dest.DisplayName, mo => mo.MapFrom(src => src.user.DisplayName))
+            .ForMember(dest => dest.CategorySelectItems, mo => mo.Ignore());
+            
             cfg.CreateMap<ArticleModel, Article>()
             .ForMember(dest => dest.UpdateAt, mo => mo.MapFrom(src => DateTime.Now))
             .ForMember(dest => dest.category, mo => mo.MapFrom(src => new Category { CategoryID = src.CategoryID }))

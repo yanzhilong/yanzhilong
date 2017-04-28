@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using yanzhilong.Domain;
 
 namespace yanzhilong.Models
@@ -32,8 +33,10 @@ namespace yanzhilong.Models
         [DisplayName("发表时间")] //显示在Label上的名字
         public DateTime CreateAt { get; set; } //发表时间
         public DateTime UpdateAt { get; set; } //更新时间
+        public IList<SelectListItem> CategorySelectItems { get; set; } //分类列表
         [Required(ErrorMessage = "请选择分类")]
         [DisplayName("分类")] //显示在Label上的名字
+        [MinLength(36)]
         public string CategoryID { get; set; }
         public string CategoryName { get; set; }
         public string UserID { get; set; }
