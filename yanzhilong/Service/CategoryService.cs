@@ -7,96 +7,74 @@ using System.Web;
 using yanzhilong.Helper;
 using yanzhilong.Domain;
 using yanzhilong.Models;
+using yanzhilong.Repository;
 
 namespace yanzhilong.Service
 {
     public class CategoryService
     {
-        private SqlMapper sqlMapper = null;
-        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public CategoryService()
-        {
-            ISqlMapper mapper = Mapper.Instance();
-            DomSqlMapBuilder builder = new DomSqlMapBuilder();
-            sqlMapper = builder.Configure() as SqlMapper;
-        }
+        //private SqlMapper sqlMapper = null;
+        //readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //public CategoryService()
+        //{
+        //    ISqlMapper mapper = Mapper.Instance();
+        //    DomSqlMapBuilder builder = new DomSqlMapBuilder();
+        //    sqlMapper = builder.Configure() as SqlMapper;
+        //}
+
+        IRepository<Category> repository = new MbRepository<Category>();
+        IRepository<ArticleCount> repository1 = new MbRepository<ArticleCount>();
+
         
-         
-        public bool Create(Category category)
+        public void Create(Category category)
         {
-            string connectionString = sqlMapper.DataSource.ConnectionString;
-            Console.WriteLine(connectionString);
-            try
-            {
-                sqlMapper.Insert("InsertCategory", category);
-                return true;
-            }
-            catch (Exception e) {
-                logger.Error("add Category Fail");
-                Console.WriteLine(  e.Message.ToString());
-            }
-            return false;
+            repository.Insert("InsertCategory", category);
         }
          
         public Category GetCategoryById(string categoryID)
         {
-            Category category = sqlMapper.QueryForObject<Category>("SelectCategoryById", categoryID);
-            
+            Category category = repository.GetByCondition("SelectCategoryById", categoryID);
             return category;
         }
 
         public Category GetCategoryByName(string Name)
         {
-            Category category = sqlMapper.QueryForObject<Category>("SelectCategoryByName", Name);
-
+            Category category = repository.GetByCondition("SelectCategoryByName", Name);
             return category;
         }
 
         public IList<Category> GetCategorys()
         {
-            IList<Category> categorys = sqlMapper.QueryForList<Category>("SelectAllCategory", null);
+            IList<Category> categorys = repository.GetList("SelectAllCategory", null);
             return categorys;
         }
 
         public IList<Category> GetCategorys(int pageCount)
         {
-            Page page = PageHelper.makePage(pageCount);
-            IList<Category> categorys = sqlMapper.QueryForList<Category>("SelectAllCategory", null, page.PageSkip, page.PageSize);
+            IList<Category> categorys = repository.GetList("SelectAllCategory", null, pageCount);
             return categorys;
-        }
-
-        public PageModel GetPagingViewModel(int currentPage, int pageSize)
-        {
-            int count = sqlMapper.QueryForObject<int>("SelectCategoryCount", null);
-            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, currentPage, count);
-
-            return pagemodel;
         }
 
         public IList<ArticleCount> GetArticlesCountGroupByCategory()
         {
-            IList<ArticleCount> articlecounts = sqlMapper.QueryForList<ArticleCount>("SelectArticlesNumGroupByCategory", null);
+            IList<ArticleCount> articlecounts = repository1.GetList("SelectArticlesNumGroupByCategory", null);
             return articlecounts;
         }
 
-        public IList<Category> GetCategorys(int index, int size)
+        public int GetCount()
         {
-            IList<Category> categoryList = sqlMapper.QueryForList<Category>("SelectAllCategory", null, index, size);
-            return categoryList;
+            int count = repository.GetObject<int>("SelectCategoryCount", null);
+            return count;
         }
 
-        
-        public bool Update(Category category)
+        public void Update(Category category)
         {
-            int result = sqlMapper.Update("UpdateCategory", category);
-            return result > 0;
+            repository.Update("UpdateCategory", category);
         }
-        
 
-        public bool Delete(string categoryID)
+        public void Delete(string categoryID)
         {
-            int result = sqlMapper.Delete("DeleteCategory", categoryID);
-            return result > 0;
+            repository.Delete("DeleteCategory", categoryID);
         }
     }
 }

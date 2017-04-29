@@ -710,3 +710,13 @@ INFO  2017-04-28 14:07:16,669  5252ms HomeController         Index              
 INFO  2017-04-28 14:07:41,577  1000ms HomeController         Index              - index
 INFO  2017-04-28 15:28:35,416  1715ms HomeController         Index              - index
 INFO  2017-04-28 16:51:42,630  1025ms HomeController         Index              - index
+INFO  2017-04-29 09:41:11,666  2486ms HomeController         Index              - index
+INFO  2017-04-29 09:43:03,546  1400ms HomeController         Index              - index
+INFO  2017-04-29 09:48:22,314  2679ms HomeController         Index              - index
+INFO  2017-04-29 09:50:48,286  1448ms HomeController         Index              - index
+INFO  2017-04-29 10:11:47,867  1645ms HomeController         Index              - index
+INFO  2017-04-29 10:15:31,977  2858ms HomeController         Index              - index
+INFO  2017-04-29 10:17:25,076  2884ms HomeController         Index              - index
+INFO  2017-04-29 10:20:18,407  1411ms HomeController         Index              - index
+INFO  2017-04-29 10:24:08,765  4197ms HomeController         Index              - index
+INFO  2017-04-29 10:57:56,651  2419ms HomeController         Index              - index

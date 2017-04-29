@@ -36,5 +36,47 @@ namespace yanzhilong.Infrastructure.Mapper
         }
 
         #endregion
+
+        #region Tutorials
+
+        public static TutorialsModel ToModel(this Tutorials entity)
+        {
+            return entity.MapTo<Tutorials, TutorialsModel>();
+        }
+
+        public static Tutorials ToEntity(this TutorialsModel model)
+        {
+            return model.MapTo<TutorialsModel, Tutorials>();
+        }
+
+        #endregion
+
+        #region Product
+
+        public static ProductModel ToModel(this Product entity)
+        {
+            return entity.MapTo<Product, ProductModel>();
+        }
+
+        public static Product ToEntity(this ProductModel model)
+        {
+            return model.MapTo<ProductModel, Product>();
+        }
+
+        #endregion
+
+        #region Product
+
+        public static CategoryModel ToModel(this Category entity)
+        {
+            return entity.MapTo<Category, CategoryModel>();
+        }
+
+        public static Category ToEntity(this CategoryModel model)
+        {
+            return model.MapTo<CategoryModel, Category>();
+        }
+
+        #endregion
     }
 }

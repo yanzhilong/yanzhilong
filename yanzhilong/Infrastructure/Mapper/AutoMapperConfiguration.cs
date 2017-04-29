@@ -28,8 +28,20 @@ namespace yanzhilong.Infrastructure.Mapper
             .ForMember(dest => dest.UpdateAt, mo => mo.MapFrom(src => DateTime.Now))
             .ForMember(dest => dest.category, mo => mo.MapFrom(src => new Category { CategoryID = src.CategoryID }))
             .ForMember(dest => dest.user, mo => mo.MapFrom(src => new User { UserID = src.UserID }));
-            
-            
+
+            cfg.CreateMap<Tutorials, TutorialsModel>()
+           .ForMember(dest => dest.UserID, mo => mo.MapFrom(src => src.user.UserID))
+           .ForMember(dest => dest.DisplayName, mo => mo.MapFrom(src => src.user.DisplayName));
+
+            cfg.CreateMap<TutorialsModel, Tutorials>()
+            .ForMember(dest => dest.UpdateAt, mo => mo.MapFrom(src => DateTime.Now))
+            .ForMember(dest => dest.user, mo => mo.MapFrom(src => new User { UserID = src.UserID }));
+
+            cfg.CreateMap<Product, ProductModel>();
+            cfg.CreateMap<ProductModel, Product>();
+
+            cfg.CreateMap<Category, CategoryModel>();
+            cfg.CreateMap<CategoryModel, Category>();
         };
 
         public static void Init()

@@ -7,98 +7,61 @@ using System.Web;
 using yanzhilong.Helper;
 using yanzhilong.Domain;
 using yanzhilong.Models;
+using yanzhilong.Repository;
 
 namespace yanzhilong.Service
 {
     public class TutorialsService
     {
-        private SqlMapper sqlMapper = null;
-        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public TutorialsService()
+        IRepository<Tutorials> repository = new MbRepository<Tutorials>();
+           
+        public void Create(Tutorials tutorials)
         {
-            ISqlMapper mapper = Mapper.Instance();
-            DomSqlMapBuilder builder = new DomSqlMapBuilder();
-            sqlMapper = builder.Configure() as SqlMapper;
-        }
-        
-         
-        public bool Create(Tutorials tutorials)
-        {
-            string connectionString = sqlMapper.DataSource.ConnectionString;
-            Console.WriteLine(connectionString);
-            try
-            {
-                sqlMapper.Insert("InsertTutorials", tutorials);
-                return true;
-            }
-            catch (Exception e) {
-                logger.Error("add Tutorials Fail");
-                Console.WriteLine(  e.Message.ToString());
-            }
-            return false;
+            repository.Insert("InsertTutorials", tutorials);
         }
          
         public Tutorials GetTutorialsById(string tutorialsID)
         {
-            Tutorials tutorials = sqlMapper.QueryForObject<Tutorials>("SelectTutorialsById", tutorialsID);
-            if(tutorials != null && tutorials.user.UserID != null)
+            Tutorials tutorials = repository.GetByCondition("SelectTutorialsById", tutorialsID);
+            if (tutorials != null && tutorials.user.UserID != null)
             {
-                tutorials.user = sqlMapper.QueryForObject<User>("SelectUserById", tutorials.user.UserID);
+                tutorials.user = repository.GetObject<User>("SelectUserById", tutorials.user.UserID);
             }
             return tutorials;
         }
 
-
         public IList<Tutorials> GetTutorialses()
         {
-            IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectAllTutorialsContainUser", null);
+            IList<Tutorials> tutorialses = repository.GetList("SelectAllTutorialsContainUser", null);
             return tutorialses;
         }
 
         public IList<Tutorials> GetTutorialses(int pageCount)
         {
-            Page page = PageHelper.makePage(pageCount);
-            IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectAllTutorialsContainUser", null, page.PageSkip, page.PageSize);
+            IList<Tutorials> tutorialses = repository.GetList("SelectAllTutorialsContainUser", null, pageCount);
             return tutorialses;
         }
 
         public int GetCount()
         {
-            int count = sqlMapper.QueryForObject<int>("SelectTutorialsCount",null);
+            int count = repository.GetObject<int>("SelectTutorialsCount", null);
             return count;
-        }
-
-        public PageModel GetPagingViewModel(int currentPage, int pageSize)
-        {
-            int count = sqlMapper.QueryForObject<int>("SelectTutorialsCount", null);
-            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, currentPage, count);
-            return pagemodel;
         }
 
         public IList<Tutorials> GetStarTutorialses()
         {
-            IList<Tutorials> tutorialses = sqlMapper.QueryForList<Tutorials>("SelectStarTutorials", ResourceType.TUTORIALS);
+            IList<Tutorials> tutorialses = repository.GetList("SelectStarTutorials", ResourceType.TUTORIALS);
             return tutorialses;
         }
-
-        public IList<Tutorials> GetTutorialses(int index, int size)
-        {
-            IList<Tutorials> tutorialsList = sqlMapper.QueryForList<Tutorials>("SelectAllTutorials", null, index, size);
-            return tutorialsList;
-        }
-
         
-        public bool Update(Tutorials tutorials)
+        public void Update(Tutorials tutorials)
         {
-            int result = sqlMapper.Update("UpdateTutorials", tutorials);
-            return result > 0;
+            repository.Update("UpdateTutorials", tutorials);
         }
         
-
-        public bool Delete(string tutorialsID)
+        public void Delete(string tutorialsID)
         {
-            int result = sqlMapper.Delete("DeleteTutorials", tutorialsID);
-            return result > 0;
+            repository.Delete("DeleteTutorials", tutorialsID);
         }
     }
 }

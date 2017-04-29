@@ -32,7 +32,6 @@ namespace yanzhilong.Controllers
 
         public ActionResult Result(string actionName,int page = 1, string CategoryID = null)
         {
-            page--;
             PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, page, articleCRUD.GetCount(CategoryID));
             pagemodel.actionName = actionName;
             pagemodel.controllerName = "Article";
@@ -48,18 +47,9 @@ namespace yanzhilong.Controllers
         [Authentication]
         public ActionResult Create()
         {
-            Article article = new Article();
-            article.ArticleID = "123";
-
-            ArticleModel articlemodel = article.ToModel();
-            articlemodel.Title = "title";
-
-            Article articleNew = articlemodel.ToEntity();
-
-
-
-            getCateGorys();
-            return View();
+            ArticleModel articleModel = new ArticleModel();
+            articleModel.CategorySelectItems = getCateGorys();
+            return View(articleModel);
         }
 
         // GET: GuestBook/Create
@@ -78,21 +68,19 @@ namespace yanzhilong.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authentication]
-        public ActionResult Create( ArticleModel article)
+        public ActionResult Create( ArticleModel articleModel)
         {
-            removeRequired();
             if (ModelState.IsValid)
             {
-                article.ArticleID = Guid.NewGuid().ToString();
-                article.CreateAt = DateTime.Now;
+                articleModel.ArticleID = Guid.NewGuid().ToString();
+                articleModel.CreateAt = DateTime.Now;
                 string userID = HttpContext.Session["UserID"] as string;
-                User user = userCRUD.GetUserById(userID);
-                article.user = user;
+                articleModel.UserID = userID;
+                Article article = articleModel.ToEntity();
                 articleCRUD.Create(article);
                 return RedirectToAction("Index");
             }
-            getCateGorys();
-            return View(article);
+            return View(articleModel);
         }
 
         [Authentication]
@@ -103,19 +91,15 @@ namespace yanzhilong.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Article article = articleCRUD.GetArticleById(id);
-            getCateGorys();
-            return View(article);
+            ArticleModel articleModel = article.ToModel();
+            articleModel.CategorySelectItems = getCateGorys();
+            return View(articleModel);
         }
         [ValidateInput(false)]
         [HttpPost]
         [Authentication]
         public ActionResult Edit(ArticleModel articleModel)
         {
-            if (articleModel.CategoryID == "0")
-            {
-                articleModel.CategoryID = string.Empty;
-            }
-            //ModelState.AddModelError("CategoryID",null);
             if (ModelState.IsValid)
             {
                 Article article = articleModel.ToEntity();
@@ -123,27 +107,15 @@ namespace yanzhilong.Controllers
                 articleCRUD.Update(article);
                 return RedirectToAction("Index");
             }
-            getCateGorys();
-            return View(article);
-        }
-
-        private void removeRequired()
-        {
-            string[] array = new string[] {"user.UserName","user.PasswordHash", "category.Name" };
-            foreach (var key in array)
-            {
-                ModelState.Remove(key);
-            }
-            //if (ModelState[""].Equals"0"){
-
-            //}
+            articleModel.CategorySelectItems = getCateGorys();
+            return View(articleModel);
         }
 
         private List<SelectListItem> getCateGorys()
         {
             IEnumerable<Category> categorys = categoryCRUD.GetCategorys();
             var selectItemList = new List<SelectListItem>() {
-                new SelectListItem(){Value="0",Text="请选择",Selected=true}
+                new SelectListItem(){Value="",Text="请选择",Selected=true}
             };
             var selectList = new SelectList(categorys, "CategoryID", "Name");
             selectItemList.AddRange(selectList);

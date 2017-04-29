@@ -8,6 +8,7 @@ using yanzhilong.filter;
 using yanzhilong.Domain;
 using yanzhilong.Models;
 using yanzhilong.Service;
+using yanzhilong.Infrastructure.Mapper;
 
 namespace yanzhilong.Controllers
 {
@@ -24,8 +25,9 @@ namespace yanzhilong.Controllers
         // GET: GuestBook/Create
         [Authentication]
         public ActionResult Create()
-        {
-            return View();
+        { 
+            CategoryModel dategoryModel = new CategoryModel();
+            return View(dategoryModel);
         }
 
         // POST: GuestBook/Create
@@ -35,16 +37,18 @@ namespace yanzhilong.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authentication]
-        public ActionResult Create(Category category)
+        public ActionResult Create(CategoryModel categoryModel)
         {
             if (ModelState.IsValid)
             {
-                category.CategoryID = Guid.NewGuid().ToString();
+                categoryModel.CategoryID = Guid.NewGuid().ToString();
+                Category category = categoryModel.ToEntry();
                 categoryCRUD.Create(category);
                 return RedirectToAction("Index");
+
             }
             //
-            return View(category);
+            return View(categoryModel);
         }
 
         [Authentication]
@@ -55,19 +59,23 @@ namespace yanzhilong.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Category category = categoryCRUD.GetCategoryById(id);
-            return View(category);
+            CategoryModel categoryModel = category.ToModel();
+
+            return View(categoryModel);
+            
         }
         [ValidateInput(false)]
         [HttpPost]
         [Authentication]
-        public ActionResult Edit(Category category)
+        public ActionResult Edit(CategoryModel categoryModel)
         {
             if (ModelState.IsValid)
             {
+                Category category = categoryModel.ToEntity();
                 categoryCRUD.Update(category);
-                return RedirectToAction("SideBar");
+                return RedirectToAction("Index");
             }
-            return View(category);
+            return View(categoryModel);
         }
     }
 }

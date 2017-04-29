@@ -1,5 +1,4 @@
-﻿@model yanzhilong.Domain.Article
-@{var categoryMetadata = new yanzhilong.Domain.Category();}
+﻿@model yanzhilong.Models.ArticleModel
 @{
     ViewBag.Title = "创建新文章";
 }
@@ -62,10 +61,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => categoryMetadata.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("category.CategoryID", ViewBag.categorys as IEnumerable<SelectListItem>)
-                @Html.ValidationMessageFor(model => categoryMetadata.Name, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.CategoryID, Model.CategorySelectItems)
+                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
             </div>
         </div>
         
@@ -126,7 +125,7 @@
 	        //初始化summernote的值
 		    var encodevalue = $("#Content").val();
 	        //var decodevalue = htmlDecode(encodevalue);
-		    $('#summernote').summernote('code', "sadfasdfsadf");
+		    $('#summernote').summernote('code', encodevalue);
 
 	    });
         

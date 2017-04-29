@@ -20,11 +20,6 @@ namespace yanzhilong.Controllers
         private ResourceStarService resourceStarCRUD = new ResourceStarService();
         private UserService userCRUD = new UserService();
         // GET: Tutorials
-        //public ActionResult Index()
-        //{
-        //    IList<Tutorials> tutorialses = tutorialsCRUD.GetTutorialses();
-        //    return View(tutorialses);
-        //}
 
         public ActionResult Index()
         {

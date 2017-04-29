@@ -9,6 +9,7 @@ using yanzhilong.Helper;
 using yanzhilong.Domain;
 using yanzhilong.Service;
 using yanzhilong.Models;
+using yanzhilong.Infrastructure.Mapper;
 
 namespace yanzhilong.Controllers
 {
@@ -25,20 +26,23 @@ namespace yanzhilong.Controllers
         [Route("Product/List/{page:int}")]
         public ActionResult List(int page = 1)
         {
-            page--;
-            ProductsViewModel pvm = new ProductsViewModel();
-            pvm.products = productCRUD.GetProducts(page);
-            pvm.pvm = productCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
-            pvm.pvm.actionName = "List";
-            pvm.pvm.controllerName = "Product";
-            return View("Index", pvm);
+            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, page, productCRUD.GetCount());
+            pagemodel.actionName = "List";
+            pagemodel.controllerName = "Product";
+            ViewBag.pagemodel = pagemodel;
+
+            var products = productCRUD.GetProducts(page);
+            IEnumerable<ProductModel> productModels = products.Select(x => x.ToModel());
+
+            return View("Index", productModels);
         }
 
         // GET: GuestBook/Create
         [Authentication]
         public ActionResult Create()
         {
-            return View();
+            ProductModel productModel = new ProductModel();
+            return View(productModel);
         }
 
         // POST: GuestBook/Create
@@ -48,18 +52,19 @@ namespace yanzhilong.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authentication]
-        public ActionResult Create(Product product)
+        public ActionResult Create(ProductModel productModel)
         {
             if (ModelState.IsValid)
             {
-                product.ProductID = Guid.NewGuid().ToString();
-                product.CreateAt = DateTime.Now;
-                User user = new User();
+                productModel.ProductID = Guid.NewGuid().ToString();
+                productModel.CreateAt = DateTime.Now;
+                Product product = productModel.ToEntity();
                 productCRUD.Create(product);
                 return RedirectToAction("Index");
+
             }
             //
-            return View(product);
+            return View(productModel);
         }
 
         [Authentication]
@@ -70,20 +75,23 @@ namespace yanzhilong.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = productCRUD.GetProductById(id);
-            return View(product);
+            ProductModel productModel = product.ToModel();
+
+            return View(productModel);
         }
 
         [ValidateInput(false)]
         [HttpPost]
         [Authentication]
-        public ActionResult Edit(Product product)
+        public ActionResult Edit(ProductModel productModel)
         {
             if (ModelState.IsValid)
             {
+                Product product = productModel.ToEntity();
                 productCRUD.Update(product);
                 return RedirectToAction("Index");
             }
-            return View(product);
+            return View(productModel);
         }
 
         public ActionResult Details(string id)

@@ -9,6 +9,7 @@ using yanzhilong.Helper;
 using yanzhilong.Domain;
 using yanzhilong.Service;
 using yanzhilong.Models;
+using yanzhilong.Infrastructure.Mapper;
 
 namespace yanzhilong.Controllers
 {
@@ -16,12 +17,6 @@ namespace yanzhilong.Controllers
     {
         private TutorialsService tutorialsCRUD = new TutorialsService();
         private UserService userCRUD = new UserService();
-        // GET: Tutorials
-        //public ActionResult Index()
-        //{
-        //    IList<Tutorials> tutorialses = tutorialsCRUD.GetTutorialses();
-        //    return View(tutorialses);
-        //}
 
         public ActionResult Index()
         {
@@ -31,22 +26,23 @@ namespace yanzhilong.Controllers
         [Route("Tutorials/List/{page:int}")]
         public ActionResult List(int page = 1)
         {
-            page--;
-            TutorialsesViewModel tvm = new TutorialsesViewModel();
-            tvm.tutorials = tutorialsCRUD.GetTutorialses(page);
-            tvm.pvm = tutorialsCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
-            tvm.pvm.actionName = "List";
-            tvm.pvm.controllerName = "Tutorials";
-            return View("Index", tvm);
+            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, page, tutorialsCRUD.GetCount());
+            pagemodel.actionName = "List";
+            pagemodel.controllerName = "Tutorials";
+            ViewBag.pagemodel = pagemodel;
 
-            
+            var tutorials = tutorialsCRUD.GetTutorialses(page);
+            IEnumerable<TutorialsModel> tutorialsModels = tutorials.Select(x => x.ToModel());
+
+            return View("Index", tutorialsModels);
         }
 
         // GET: GuestBook/Create
         [Authentication]
         public ActionResult Create()
         {
-            return View();
+            TutorialsModel tutorialsModel = new TutorialsModel();
+            return View(tutorialsModel);
         }
 
         // POST: GuestBook/Create
@@ -56,21 +52,19 @@ namespace yanzhilong.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authentication]
-        public ActionResult Create(Tutorials tutorials)
+        public ActionResult Create(TutorialsModel tutorialsModel)
         {
-            removeRequired();
             if (ModelState.IsValid)
             {
-                tutorials.TutorialsID = Guid.NewGuid().ToString();
-                tutorials.CreateAt = DateTime.Now;
+                tutorialsModel.TutorialsID = Guid.NewGuid().ToString();
+                tutorialsModel.CreateAt = DateTime.Now;
                 string userID = HttpContext.Session["UserID"] as string;
-                User user = userCRUD.GetUserById(userID);
-                tutorials.user = user;
+                tutorialsModel.UserID = userID;
+                Tutorials tutorials = tutorialsModel.ToEntity();
                 tutorialsCRUD.Create(tutorials);
                 return RedirectToAction("Index");
             }
-            //
-            return View(tutorials);
+            return View(tutorialsModel);
         }
 
         [Authentication]
@@ -81,30 +75,23 @@ namespace yanzhilong.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Tutorials tutorials = tutorialsCRUD.GetTutorialsById(id);
-            return View(tutorials);
+            TutorialsModel tutorialsModel = tutorials.ToModel();
+            
+            return View(tutorialsModel);
         }
+
         [ValidateInput(false)]
         [HttpPost]
         [Authentication]
-        public ActionResult Edit(Tutorials tutorials)
+        public ActionResult Edit(TutorialsModel tutorialsModel)
         {
-            removeRequired();
             if (ModelState.IsValid)
             {
-                tutorials.UpdateAt = DateTime.Now;
+                Tutorials tutorials = tutorialsModel.ToEntity();
                 tutorialsCRUD.Update(tutorials);
                 return RedirectToAction("Index");
             }
-            return View(tutorials);
-        }
-
-        private void removeRequired()
-        {
-            string[] array = new string[] { "user.UserName", "user.PasswordHash" };
-            foreach (var key in array)
-            {
-                ModelState.Remove(key);
-            }
+            return View(tutorialsModel);
         }
 
         public ActionResult Details(string id)
