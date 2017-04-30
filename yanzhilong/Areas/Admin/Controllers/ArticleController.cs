@@ -10,9 +10,8 @@ using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Domain;
 using yanzhilong.Service;
 using yanzhilong.Models;
-using yanzhilong.Repository;
 
-namespace yanzhilong.Controllers
+namespace yanzhilong.Areas.Admin.Controllers
 {
     public class ArticleController : Controller
     {
@@ -25,7 +24,7 @@ namespace yanzhilong.Controllers
             return List();
         }
 
-        //[Route("Article/List/{page:int}")]
+        [Route("Article/List/{page:int}")]
         public ActionResult List(int page = 1, string CategoryID = null)
         {
             return Result("List", page, CategoryID);

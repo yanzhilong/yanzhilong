@@ -228,6 +228,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ArticleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PagingController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ResourceStarController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TutorialsController.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
@@ -243,7 +250,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helper\PageHelper.cs" />
+    <Compile Include="Helper\Constant.cs" />
     <Compile Include="Helper\PasswordHelper.cs" />
     <Compile Include="Helper\ResourceType.cs" />
     <Compile Include="Infrastructure\Mapper\AutoMapperConfiguration.cs" />
@@ -310,6 +317,30 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\clamp.js" />
     <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Tutorials\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Tutorials\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Tutorials\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Tutorials\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ResourceStar\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ResourceStar\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\ResourceStar\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ResourceStar\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Article\Category.cshtml" />
+    <Content Include="Areas\Admin\Views\Article\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Article\CreateNew.cshtml" />
+    <Content Include="Areas\Admin\Views\Article\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Article\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Article\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Article\Summernote.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -382,9 +413,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Views\Paging\" />
   </ItemGroup>
   <ItemGroup>

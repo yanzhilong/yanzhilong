@@ -17,13 +17,13 @@
         @{ 
 
             <!-- 如果只有一页，则不显示 -->
-            if(Model.PageCount == 0)
+            if(Model.PageCount == 1)
             {
                 return;
             }
 
             <!-- 生成上一页按钮 -->
-            if (Model.CurrentPage == 0)
+            if (Model.CurrentPage == 1)
             {
                 <!-- 上一页不可点,用span代替 -->
                 <li class="disabled">
@@ -44,21 +44,21 @@
 
             <!-- 生成页码 -->
 
-            int startIndex = 0;
+            int startIndex = 1;
             int endIndex = Model.PageCount;
             /*
             分页逻辑伪代码
             if (最后页下标 < 最大页数){
-                起始页 = 0;
-                终止页 = 最后页下标;
+                起始页 = 1;
+                终止页 = 总页数;
             }else{
                 起始页 = 当前页 - (最大显示页数 / 2);
-                if (起始页 < 0){
-                    起始页 = 0;
+                if (起始页 < 1){
+                    起始页 = 1;
                 }
                 终止页 = 起始页 + 最大显示页数 - 1;
-                if (终止页 > 最后页下标){
-                    终止页 = 最后页下标;
+                if (终止页 > 总页数){
+                    终止页 = 总页数;
                 }
             }
             */
@@ -66,9 +66,9 @@
             if (endIndex >= MAXSHOWPAGE)
             {
                 startIndex = Model.CurrentPage - (endIndex / 2);
-                if (startIndex < 0)
+                if (startIndex < 1)
                 {
-                    startIndex = 0;
+                    startIndex = 1;
                 }
                 endIndex = startIndex + MAXSHOWPAGE - 1;
                 if (endIndex > Model.PageCount)
@@ -80,7 +80,7 @@
 
             for (int i = startIndex; i <= endIndex; i++)
             {
-                <li class="@(i == Model.CurrentPage ? "active" : "")"><a href="@Url.Action(Model.actionName,Model.controllerName, new { page = i + 1 })">@(i + 1)</a></li>
+                <li class="@(i == Model.CurrentPage ? "active" : "")"><a href="@Url.Action(Model.actionName,Model.controllerName, new { page = i})">@(i)</a></li>
             }
 
              <!-- 生成下一页按钮 -->

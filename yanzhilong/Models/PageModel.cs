@@ -13,9 +13,9 @@ namespace yanzhilong.Models
             this.CurrentPage = CurrentPage;
             
             int PageCount = Count / PageSize;
-            if (Count % PageSize == 0 && PageCount > 0)
+            if (Count % PageSize != 0)
             {
-                PageCount--;
+                PageCount++;
             }
             this.PageCount = PageCount;
         }

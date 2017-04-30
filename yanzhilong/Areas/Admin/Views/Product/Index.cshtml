@@ -1,8 +1,7 @@
-﻿@model IEnumerable<yanzhilong.Models.ProductModel>
+﻿@model yanzhilong.Models.ProductsViewModel
 @{
     ViewBag.Title = "产品中心";
     ViewBag.NavActive = 3;//设置导航激活
-    PageModel pagemode = ViewBag.pagemodel as PageModel;
 }
 
 <!-- 教程详情 -->
@@ -11,7 +10,7 @@
 <div class="container product-main">
     <div class="row">
         <div class="col-xs-12">
-            @foreach (var item in Model)
+            @foreach (var item in Model.products)
             {
                 <div class="col-xs-12 col-md-6">
                     <article class="post tag-ad">
@@ -30,7 +29,7 @@
         </div>
         <div class="container">
             <!--  分页视图 -->
-            @Html.Partial("Paging", pagemode)
+            @Html.Action("Index", "Paging", new { pvm = Model.pvm })
         </div>
     </div>
 </div>

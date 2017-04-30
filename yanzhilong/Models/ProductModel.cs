@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace yanzhilong.Domain
+namespace yanzhilong.Models
 {
     /// <summary>
     /// 软件产品实体

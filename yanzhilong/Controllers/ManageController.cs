@@ -37,7 +37,7 @@ namespace yanzhilong.Controllers
             page--;
             ArticlesViewModel avm = new ArticlesViewModel();
             avm.articles = articleCRUD.GetArticles(page, null);
-            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, page, articleCRUD.GetCount());
+            PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, articleCRUD.GetCount());
             avm.pvm = pagemodel;
             avm.pvm.actionName = "Article";
             avm.pvm.controllerName = "Manage";
@@ -47,49 +47,49 @@ namespace yanzhilong.Controllers
         [Authentication]
         public ActionResult Category(int page = 1)
         {
-            page--;
-            CategorysViewModel cvm = new CategorysViewModel();
-            cvm.categorys = categoryCRUD.GetCategorys(page);
-            cvm.pvm = categoryCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
-            cvm.pvm.actionName = "Category";
-            cvm.pvm.controllerName = "Manage";
-            return View(cvm);
+            //page--;
+            //CategorysViewModel cvm = new CategorysViewModel();
+            //cvm.categorys = categoryCRUD.GetCategorys(page);
+            //cvm.pvm = categoryCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
+            //cvm.pvm.actionName = "Category";
+            //cvm.pvm.controllerName = "Manage";
+            return View();
         }
 
         [Authentication]
         public ActionResult Tutorials(int page = 1)
         {
-            page--;
-            TutorialsesViewModel tvm = new TutorialsesViewModel();
-            tvm.tutorials = tutorialsCRUD.GetTutorialses(page);
-            tvm.pvm = tutorialsCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
-            tvm.pvm.actionName = "Tutorials";
-            tvm.pvm.controllerName = "Manage";
-            return View(tvm);
+            //page--;
+            //TutorialsesViewModel tvm = new TutorialsesViewModel();
+            //tvm.tutorials = tutorialsCRUD.GetTutorialses(page);
+            //tvm.pvm = tutorialsCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
+            //tvm.pvm.actionName = "Tutorials";
+            //tvm.pvm.controllerName = "Manage";
+            return View();
         }
 
         [Authentication]
         public ActionResult Product(int page = 1)
         {
-            page--;
-            ProductsViewModel pvm = new ProductsViewModel();
-            pvm.products = productCRUD.GetProducts(page);
-            pvm.pvm = productCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
-            pvm.pvm.actionName = "Product";
-            pvm.pvm.controllerName = "Manage";
-            return View(pvm);
+            //page--;
+            //ProductsViewModel pvm = new ProductsViewModel();
+            //pvm.products = productCRUD.GetProducts(page);
+            //pvm.pvm = productCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
+            //pvm.pvm.actionName = "Product";
+            //pvm.pvm.controllerName = "Manage";
+            return View();
         }
 
         [Authentication]
         public ActionResult ResourceStar(int page = 1)
         {
-            page--;
-            ResourceStarViewModel rsvm = new ResourceStarViewModel();
-            rsvm.resourceStars = resourceStarCRUD.GetResourceStars(page);
-            rsvm.pvm = resourceStarCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
-            rsvm.pvm.actionName = "ResourceStar";
-            rsvm.pvm.controllerName = "Manage";
-            return View(rsvm);
+            //page--;
+            //ResourceStarViewModel rsvm = new ResourceStarViewModel();
+            //rsvm.resourceStars = resourceStarCRUD.GetResourceStars(page);
+            //rsvm.pvm = resourceStarCRUD.GetPagingViewModel(page, PageHelper.PAGESIZE);
+            //rsvm.pvm.actionName = "ResourceStar";
+            //rsvm.pvm.controllerName = "Manage";
+            return View();
         }
         
     }

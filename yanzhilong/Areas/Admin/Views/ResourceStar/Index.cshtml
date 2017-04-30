@@ -1,0 +1,91 @@
+﻿@model yanzhilong.Models.ResourceStarViewModel
+@{var headerMetadata = Model.resourceStars.FirstOrDefault();}
+@using yanzhilong.Helper
+@{
+            ViewBag.Title = "资源推荐中心";
+            ViewBag.NavActive = 2;//设置导航激活
+        }
+
+<!-- 热门的文章 -->
+<div class="container marketing">
+
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+        <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-manage">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => headerMetadata.ResourceStarID)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => headerMetadata.ResourceID)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => headerMetadata.ResourceType)
+                                </th>
+
+                            </tr>
+                     </thead>
+
+                    <tbody>
+
+                    @foreach (var item in Model.resourceStars)
+                    {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ResourceStarID)
+                                </td>
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ResourceID)
+                                </td>
+
+                                <td>
+                                    @{
+                                        switch (item.ResourceType)
+                                        {
+                                            case ResourceType.ARTICLE:
+                                                @:文章
+                                                break;
+                                            case ResourceType.PRODUCT:
+                                                @:产品
+                                                break;
+                                            case ResourceType.TUTORIALS:
+                                                @:教程
+                                                break;
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                      }
+                        </tbody>
+                    </table>
+                </div>
+
+
+            <div class="container">
+                <!--  分页视图 -->
+                @Html.Action("Index", "Paging", new { pvm = Model.pvm })
+            </div>
+            @*<nav>
+                <ul class="pager">
+                    <li><a href="#">上一页</a></li>
+                    <li><a href="#">下一页</a></li>
+                </ul>
+            </nav>*@
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/list")
+    <script>
+
+
+    </script>
+}

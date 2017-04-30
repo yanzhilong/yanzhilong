@@ -6,12 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using yanzhilong.Helper;
 
 namespace yanzhilong.Repository
 {
     public class MbRepository<T> : IRepository<T>
     {
-        public const int PAGESIZE = 10;//默认分页大小
+        public int PAGESIZE = Constant.PAGESIZE;
         public static ISqlMapper sqlMapper = null;
         readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 

@@ -1,0 +1,77 @@
+﻿@model yanzhilong.Models.ResourceStar
+@{
+    ViewBag.Title = "推荐资源详情";
+    ViewBag.NavActive = 2;//设置导航激活
+}
+
+<!-- 教程详情 -->
+<div class="container">
+    <!-- 路径导航 -->
+
+    <!-- 底部布局 -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-manage">
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => Model.ResourceStarID)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => Model.ResourceID)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => Model.ResourceType)
+                                </th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.ResourceStarID)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.ResourceID)
+                                </td>
+
+                                <td>
+                                    @{
+                                        switch (Model.ResourceType)
+                                        {
+                                            case ResourceType.ARTICLE:
+                                                @:文章
+                                                break;
+                                            case ResourceType.PRODUCT:
+                                                @:产品
+                                                break;
+                                            case ResourceType.TUTORIALS:
+                                                @:教程
+                                                break;
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+@Scripts.Render("~/bundles/tutorials_details")
+<script>
+
+	
+</script>
+}

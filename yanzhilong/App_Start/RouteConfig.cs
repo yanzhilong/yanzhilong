@@ -17,10 +17,21 @@ namespace yanzhilong
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] {"yanzhilong.Controllers"}
             );
 
-           
+            routes.MapRoute(
+                 name: "Article_Category",
+                 url: "{controller}/{action}/{CategoryID}",
+                 namespaces: new[] { "yanzhilong.Controllers" }
+             );
+
+            routes.MapRoute(
+                 name: "Article_Category_page",
+                 url: "{controller}/{action}/{CategoryID}/{page}",
+                 namespaces: new[] { "yanzhilong.Controllers" }
+             );
 
         }
     }

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<yanzhilong.Models.ArticleModel>
+@{
+    ViewBag.Title = "文章中心";
+    ViewBag.NavActive = 1;//设置导航激活
+    PageModel pagemode = ViewBag.pagemodel as PageModel;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+
+            @foreach (var item in Model)
+            {
+                <div class="blog-post">
+                    <h3 class="blog-post-title">@item.Title</h3>
+                    <p class="blog-post-meta">@item.CreateAt 作者:<a href="#">@Html.DisplayFor(modleItem => item.DisplayName)</a></p>
+                    
+                    <p class="list_content">@item.Disc</p>
+                    
+                        
+                        @*@Html.Raw(HttpUtility.HtmlDecode(item.Content))*@
+                    @Html.ActionLink("查看全文", "Details", new { id = item.ArticleID }, new { @class = "btn btn-primary", role = "button" })
+                    @*<a class="btn btn-lg btn-primary" href="#" role="button">@Html.ActionLink("查看全文", "Details", new { id = item.ArticleID}, new { @class = "btn btn-lg btn-primary", role = "button" }) &raquo;</a>*@
+                </div>
+                <hr class="featurette-divider">
+            }
+            <div class="container">
+                @Html.Partial("Paging", pagemode)
+                <!--  分页视图 -->
+                @*@Html.Action("Index", "Paging",new {pvm = Model.pvm })*@
+            </div>
+        </div>
+        <div class="col-sm-3 col-sm-offset-1">
+
+            <div class="sidebar-module">
+                <h4>分类</h4>
+                <!--  分类视图 -->
+                @Html.Action("SideBar", "Category")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/list")
+    <script>
+
+
+    </script>
+}

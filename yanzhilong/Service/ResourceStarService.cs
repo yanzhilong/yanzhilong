@@ -66,15 +66,16 @@ namespace yanzhilong.Service
 
         public IList<ResourceStar> GetResourceStars(int pageCount)
         {
-            Page page = PageHelper.makePage(pageCount);
-            IList<ResourceStar> resourceStarList = sqlMapper.QueryForList<ResourceStar>("SelectAllResourceStar", null, page.PageSkip, page.PageSize);
+            //Page page = PageHelper.makePage(pageCount);
+            //PageModel pagemodel = new PageModel(Constant.PAGESIZE, pageCount, productCRUD.GetCount());
+            IList<ResourceStar> resourceStarList = sqlMapper.QueryForList<ResourceStar>("SelectAllResourceStar", null, 0, 10);
             return resourceStarList;
         }
 
         public PageModel GetPagingViewModel(int currentPage, int pageSize)
         {
             int count = sqlMapper.QueryForObject<int>("SelecResourceStarCount", null);
-            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, currentPage, count);
+            PageModel pagemodel = new PageModel(Constant.PAGESIZE, currentPage, count);
             return pagemodel;
         }
 

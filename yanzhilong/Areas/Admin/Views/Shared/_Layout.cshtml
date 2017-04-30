@@ -1,0 +1,89 @@
+﻿p<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- 引用 移动设备优先设置项-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>@ViewBag.Title</title>
+
+        <!-- 加载压缩过的css和css5支持验证的js -->
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+
+    </head>
+    <body>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar" id="manage-sidebar">
+                       
+                        <li 
+                            @if (ViewBag.sidebar == "管理中心")
+                       {
+                        @:class= "active"
+                       }else
+                       {
+                           @:
+                       }
+                            >
+                            @Html.ActionLink("管理中心","Index","Home")
+                        </li>
+                        <li  @if (ViewBag.sidebar == "分类管理")
+                       {
+                        @:class= "active"
+                       }else
+                       {
+                           @:
+                       }>
+                            @Html.ActionLink("分类管理", "Index", "Category")
+                        </li>
+                        <li @(ViewBag.sidebar == "教程管理" ? "class=\"active\"" : "")>
+                            @Html.ActionLink("教程管理", "Index", "Tutorials")
+                        </li>
+                        <li @(ViewBag.sidebar == "产品管理" ? "class=\"active\"" : "")>
+                            @Html.ActionLink("产品管理", "Index", "Product")
+                        </li>
+                        <li @(ViewBag.sidebar == "推荐管理" ? "class=\"active\"" : "")>
+                            @Html.ActionLink("推荐管理", "Index", "ResourceStar")
+                        </li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li>
+                            <a href=""></a>
+                        </li>
+                        <li>
+                            <a href=""></a>
+                        </li>
+                        <li>
+                            <a href=""></a>
+                        </li>
+                        <li>
+                            <a href=""></a>
+                        </li>
+                        <li>
+                            <a href=""></a>
+                        </li>
+                    </ul>
+                </div> 
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+
+        <!-- 这里是一个占位符，用于加载子页面的需要加载的东西, required表示这个占位在子页面是否是必须指定的 -->
+        <!-- 子页面中指定的方式就是@section scripts{//这里面可以引用当前子页面需要的css及js等} //子页面的scripts名字的要模版页的名字一样 -->
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
+
+
+@{
+    ViewBag.Title = "管理页面";
+    ViewBag.NavActive = 0;//设置导航激活
+}

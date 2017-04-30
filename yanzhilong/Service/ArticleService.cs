@@ -83,7 +83,7 @@ namespace yanzhilong.Service
             {
                 return GetCount();
             }
-            int count = repository.GetObject<int>("SelectArticleCount", categoryID);
+            int count = repository.GetObject<int>("SelectArticleCountByCategory", categoryID);
             return count;
         }
 

@@ -10,7 +10,7 @@ using yanzhilong.Domain;
 using yanzhilong.Models;
 using yanzhilong.Service;
 
-namespace yanzhilong.Controllers
+namespace yanzhilong.Areas.Admin.Controllers
 {
     public class ResourceStarController : Controller
     {
@@ -31,7 +31,7 @@ namespace yanzhilong.Controllers
         {
             page--;
             ResourceStarViewModel rsvm = new ResourceStarViewModel();
-            rsvm.resourceStars = resourceStarCRUD.GetResourceStars(page);
+            //rsvm.resourceStars = resourceStarCRUD.GetResourceStars(page);
             rsvm.pvm = resourceStarCRUD.GetPagingViewModel(page, Constant.PAGESIZE);
             rsvm.pvm.actionName = "List";
             rsvm.pvm.controllerName = "ResourceStar";

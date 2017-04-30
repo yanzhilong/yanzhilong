@@ -23,10 +23,10 @@ namespace yanzhilong.Controllers
             return List();
         }
 
-        [Route("Tutorials/List/{page:int}")]
+        //[Route("Tutorials/List/{page:int}")]
         public ActionResult List(int page = 1)
         {
-            PageModel pagemodel = new PageModel(PageHelper.PAGESIZE, page, tutorialsCRUD.GetCount());
+            PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, tutorialsCRUD.GetCount());
             pagemodel.actionName = "List";
             pagemodel.controllerName = "Tutorials";
             ViewBag.pagemodel = pagemodel;
@@ -101,7 +101,7 @@ namespace yanzhilong.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Tutorials tutorials = tutorialsCRUD.GetTutorialsById(id);
-            return View(tutorials);
+            return View(tutorials.ToModel());
         }
     }
 }

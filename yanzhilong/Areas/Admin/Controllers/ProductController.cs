@@ -11,7 +11,7 @@ using yanzhilong.Service;
 using yanzhilong.Models;
 using yanzhilong.Infrastructure.Mapper;
 
-namespace yanzhilong.Controllers
+namespace yanzhilong.Areas.Admin.Controllers
 {
     public class ProductController : Controller
     {
@@ -23,7 +23,7 @@ namespace yanzhilong.Controllers
             return List();
         }
 
-        //[Route("Product/List/{page:int}")]
+        [Route("Product/List/{page:int}")]
         public ActionResult List(int page = 1)
         {
             PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, productCRUD.GetCount());
@@ -101,7 +101,7 @@ namespace yanzhilong.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = productCRUD.GetProductById(id);
-            return View(product.ToModel());
+            return View(product);
         }
     }
 }
