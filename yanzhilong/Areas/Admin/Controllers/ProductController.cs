@@ -18,12 +18,14 @@ namespace yanzhilong.Areas.Admin.Controllers
         private ProductService productCRUD = new ProductService();
 
         // GET: Product
+        [Authentication]
         public ActionResult Index()
         {
             return List();
         }
 
         [Route("Product/List/{page:int}")]
+        [Authentication]
         public ActionResult List(int page = 1)
         {
             PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, productCRUD.GetCount());
@@ -93,15 +95,15 @@ namespace yanzhilong.Areas.Admin.Controllers
             }
             return View(productModel);
         }
-
-        public ActionResult Details(string id)
+        [Authentication]
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = productCRUD.GetProductById(id);
-            return View(product);
+            productCRUD.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }

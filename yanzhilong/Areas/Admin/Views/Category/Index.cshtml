@@ -1,0 +1,51 @@
+﻿@model IEnumerable<yanzhilong.Models.CategoryModel>
+
+@{
+    ViewBag.sidebar = "分类管理";
+    ViewBag.Title = "文章分类";
+    PageModel pagemode = ViewBag.pagemodel as PageModel;
+}
+
+
+<h1 class="page-header">文章分类管理</h1>
+@Html.ActionLink("创建新分类", "Create", "Category")
+<div class="table-responsive">
+    <table class="table table-striped table-manage">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+
+                <th>
+                    操作
+                </th>
+            </tr>
+
+            
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("编辑", "Edit", "Category", new { id = item.CategoryID }, new { target = "_blank" }) |
+                        @Html.ActionLink("详情", "Details", "Category", new { id = item.CategoryID, area = "" }, new { target = "_blank" }) |
+                        @Html.ActionLink("删除", "Delete", "Category", new { id = item.CategoryID }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <!--  分页视图 -->
+    @Html.Partial("Paging", pagemode)
+</div>

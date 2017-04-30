@@ -19,17 +19,18 @@ namespace yanzhilong.Areas.Admin.Controllers
         private CategoryService categoryCRUD = new CategoryService();
         private UserService userCRUD = new UserService();
         // GET: Article
+        [Authentication]
         public ActionResult Index()
         {
             return List();
         }
 
-        [Route("Article/List/{page:int}")]
+        [Authentication]
         public ActionResult List(int page = 1, string CategoryID = null)
         {
             return Result("List", page, CategoryID);
         }
-
+        [Authentication]
         public ActionResult Result(string actionName,int page = 1, string CategoryID = null)
         {
             PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, articleCRUD.GetCount(CategoryID));
@@ -39,6 +40,7 @@ namespace yanzhilong.Areas.Admin.Controllers
 
             var articles = articleCRUD.GetArticles(page, CategoryID);
             IEnumerable<ArticleModel> articleModels = articles.Select(x => x.ToModel());
+
             
             return View("Index", articleModels);
         }
@@ -46,14 +48,6 @@ namespace yanzhilong.Areas.Admin.Controllers
         // GET: GuestBook/Create
         [Authentication]
         public ActionResult Create()
-        {
-            ArticleModel articleModel = new ArticleModel();
-            articleModel.CategorySelectItems = getCateGorys();
-            return View(articleModel);
-        }
-
-        // GET: GuestBook/Create
-        public ActionResult CreateNew()
         {
             ArticleModel articleModel = new ArticleModel();
             articleModel.CategorySelectItems = getCateGorys();
@@ -80,6 +74,7 @@ namespace yanzhilong.Areas.Admin.Controllers
                 articleCRUD.Create(article);
                 return RedirectToAction("Index");
             }
+            articleModel.CategorySelectItems = getCateGorys();
             return View(articleModel);
         }
 
@@ -121,7 +116,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             selectItemList.AddRange(selectList);
             return selectItemList;
         }
-
+        [Authentication]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -131,32 +126,5 @@ namespace yanzhilong.Areas.Admin.Controllers
             articleCRUD.Delete(id);
             return RedirectToAction("Index");
         }
-
-        public ActionResult Details(string id)
-        {
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Article article = articleCRUD.GetArticleById(id);
-            ArticleModel am = article.ToModel();
-            ViewBag.PreArticle = articleCRUD.GetPreArticle(article).ToModel();
-            ViewBag.NextArticle = articleCRUD.GetNextArticle(article).ToModel();
-            return View(am);
-        }
-
-        //[Route("Article/Category/{CategoryID}")]
-        //[Route("Article/Category/{CategoryID}/{page}")]
-        public ActionResult Category(int page = 1, string CategoryID = null)
-        {
-            if (CategoryID == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            return Result("Category", page, CategoryID);
-        }
-
-        
     }
 }

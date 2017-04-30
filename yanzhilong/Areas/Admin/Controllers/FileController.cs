@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using yanzhilong.filter;
 
-namespace yanzhilong.Controllers
+namespace yanzhilong.Areas.Admin.Controllers
 {
     public class FileController : Controller
     {

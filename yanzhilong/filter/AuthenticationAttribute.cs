@@ -12,12 +12,12 @@ namespace yanzhilong.filter
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            base.OnActionExecuting(filterContext);
             if (filterContext.HttpContext.Session["UserID"] == null)
             {
                 //跳转到登陆页
-                filterContext.HttpContext.Response.Redirect("/Home/");
+                filterContext.HttpContext.Response.Redirect("/Admin/Home/Login");
             }
+            base.OnActionExecuting(filterContext);
         }
     }
 }

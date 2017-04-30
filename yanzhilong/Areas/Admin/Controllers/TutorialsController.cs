@@ -17,13 +17,14 @@ namespace yanzhilong.Areas.Admin.Controllers
     {
         private TutorialsService tutorialsCRUD = new TutorialsService();
         private UserService userCRUD = new UserService();
-
+        [Authentication]
         public ActionResult Index()
         {
             return List();
         }
 
         [Route("Tutorials/List/{page:int}")]
+        [Authentication]
         public ActionResult List(int page = 1)
         {
             PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, tutorialsCRUD.GetCount());
@@ -93,15 +94,15 @@ namespace yanzhilong.Areas.Admin.Controllers
             }
             return View(tutorialsModel);
         }
-
-        public ActionResult Details(string id)
+        [Authentication]
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tutorials tutorials = tutorialsCRUD.GetTutorialsById(id);
-            return View(tutorials);
+            tutorialsCRUD.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }

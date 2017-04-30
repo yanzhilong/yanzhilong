@@ -42,6 +42,11 @@ namespace yanzhilong.Infrastructure.Mapper
 
             cfg.CreateMap<Category, CategoryModel>();
             cfg.CreateMap<CategoryModel, Category>();
+
+            cfg.CreateMap<ResourceStar, ResourceStarModel>()
+            .ForMember(dest => dest.ResourceTypeSelectItems, mo => mo.Ignore());
+
+            cfg.CreateMap<ResourceStarModel, ResourceStar>();
         };
 
         public static void Init()

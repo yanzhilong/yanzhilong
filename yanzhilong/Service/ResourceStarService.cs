@@ -7,89 +7,57 @@ using System.Web;
 using yanzhilong.Helper;
 using yanzhilong.Domain;
 using yanzhilong.Models;
+using yanzhilong.Repository;
 
 namespace yanzhilong.Service
 {
     public class ResourceStarService
     {
-        private SqlMapper sqlMapper = null;
-        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public ResourceStarService()
+        IRepository<ResourceStar> repository = new MbRepository<ResourceStar>();
+        public void Create(ResourceStar resourceStar)
         {
-            ISqlMapper mapper = Mapper.Instance();
-            DomSqlMapBuilder builder = new DomSqlMapBuilder();
-            sqlMapper = builder.Configure() as SqlMapper;
-        }
-        
-         
-        public bool Create(ResourceStar resourceStar)
-        {
-            string connectionString = sqlMapper.DataSource.ConnectionString;
-            Console.WriteLine(connectionString);
-            try
-            {
-                sqlMapper.Insert("InsertResourceStar", resourceStar);
-                return true;
-            }
-            catch (Exception e) {
-                logger.Error("add ResourceStar Fail");
-                Console.WriteLine(  e.Message.ToString());
-            }
-            return false;
+            repository.Insert("InsertResourceStar", resourceStar);
         }
          
         public ResourceStar GetResourceStarById(string resourceStarID)
         {
-            ResourceStar resourceStar = sqlMapper.QueryForObject<ResourceStar>("SelectResourceStarById", resourceStarID);
-            
+            ResourceStar resourceStar = repository.GetByCondition("SelectResourceStarById", resourceStarID);
             return resourceStar;
         }
 
-
         public IList<ResourceStar> GetResourceStars()
         {
-            IList<ResourceStar> resourceStars = sqlMapper.QueryForList<ResourceStar>("SelectAllResourceStar", null);
+            IList<ResourceStar> resourceStars = repository.GetList("SelectAllResourceStar", null); 
             return resourceStars;
         }
 
         public IList<ResourceStar> GeResourceStarByType(int resourceTypeID)
         {
-            IList<ResourceStar> resourceStars = sqlMapper.QueryForList<ResourceStar>("SelectAllResourceStarByType", resourceTypeID);
+            IList<ResourceStar> resourceStars = repository.GetList("SelectAllResourceStarByType", resourceTypeID); 
             return resourceStars;
-        }
-
-        public IList<ResourceStar> GeResourceStars(int index, int size)
-        {
-            IList<ResourceStar> resourceStarList = sqlMapper.QueryForList<ResourceStar>("SelectAllResourceStar", null, index, size);
-            return resourceStarList;
         }
 
         public IList<ResourceStar> GetResourceStars(int pageCount)
         {
-            //Page page = PageHelper.makePage(pageCount);
-            //PageModel pagemodel = new PageModel(Constant.PAGESIZE, pageCount, productCRUD.GetCount());
-            IList<ResourceStar> resourceStarList = sqlMapper.QueryForList<ResourceStar>("SelectAllResourceStar", null, 0, 10);
+            IList<ResourceStar> resourceStarList = repository.GetList("SelectAllResourceStar", null, pageCount); 
             return resourceStarList;
         }
 
-        public PageModel GetPagingViewModel(int currentPage, int pageSize)
+        public int GetCount()
         {
-            int count = sqlMapper.QueryForObject<int>("SelecResourceStarCount", null);
-            PageModel pagemodel = new PageModel(Constant.PAGESIZE, currentPage, count);
-            return pagemodel;
+            int count = repository.GetObject<int>("SelecResourceStarCount", null);
+            return count;
         }
 
-        public bool Update(ResourceStar resourceStar)
+        public void Update(ResourceStar resourceStar)
         {
-            int result = sqlMapper.Update("UpdateResourceStar", resourceStar);
-            return result > 0;
+            repository.Update("UpdateResourceStar", resourceStar);
         }
         
 
-        public bool Delete(string resourceStarID)
+        public void Delete(string resourceStarID)
         {
-            int result = sqlMapper.Delete("DeleteResourceStar", resourceStarID);
-            return result > 0;
+            repository.Delete("DeleteResourceStar", resourceStarID);
         }
 
         public IList<ResourceStarType> getResourceStarTypes()

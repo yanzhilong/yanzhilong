@@ -22,60 +22,16 @@ namespace yanzhilong.Controllers
             return PartialView("CategorySide", acticleCounts);
         }
 
-        // GET: GuestBook/Create
-        [Authentication]
-        public ActionResult Create()
-        { 
-            CategoryModel dategoryModel = new CategoryModel();
-            return View(dategoryModel);
-        }
-
-        // POST: GuestBook/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [ValidateInput(false)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authentication]
-        public ActionResult Create(CategoryModel categoryModel)
-        {
-            if (ModelState.IsValid)
-            {
-                categoryModel.CategoryID = Guid.NewGuid().ToString();
-                Category category = categoryModel.ToEntry();
-                categoryCRUD.Create(category);
-                return RedirectToAction("Index");
-
-            }
-            //
-            return View(categoryModel);
-        }
-
-        [Authentication]
-        public ActionResult Edit(string id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Category category = categoryCRUD.GetCategoryById(id);
-            CategoryModel categoryModel = category.ToModel();
+            CategoryModel cm = category.ToModel();
+            return View(cm);
+        }
 
-            return View(categoryModel);
-            
-        }
-        [ValidateInput(false)]
-        [HttpPost]
-        [Authentication]
-        public ActionResult Edit(CategoryModel categoryModel)
-        {
-            if (ModelState.IsValid)
-            {
-                Category category = categoryModel.ToEntity();
-                categoryCRUD.Update(category);
-                return RedirectToAction("Index");
-            }
-            return View(categoryModel);
-        }
     }
 }

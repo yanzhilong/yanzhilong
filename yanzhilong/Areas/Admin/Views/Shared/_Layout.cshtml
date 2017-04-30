@@ -1,4 +1,4 @@
-﻿p<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -11,6 +11,7 @@
         <!-- 加载压缩过的css和css5支持验证的js -->
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
+        @RenderSection("head", required: false)
 
     </head>
     <body>
@@ -31,6 +32,17 @@
                             >
                             @Html.ActionLink("管理中心","Index","Home")
                         </li>
+                        
+                        <li 
+                            @if (ViewBag.sidebar == "文章管理")
+                        { @: class="active"
+
+                        } else { @:
+
+                        }>
+                            @Html.ActionLink("文章管理", "Index", "Article")
+                        </li>
+
                         <li  @if (ViewBag.sidebar == "分类管理")
                        {
                         @:class= "active"
@@ -40,15 +52,35 @@
                        }>
                             @Html.ActionLink("分类管理", "Index", "Category")
                         </li>
-                        <li @(ViewBag.sidebar == "教程管理" ? "class=\"active\"" : "")>
+                        <li 
+                            @if (ViewBag.sidebar == "教程管理")
+                        { @: class="active"
+
+                        } else { @:
+
+                        }>
                             @Html.ActionLink("教程管理", "Index", "Tutorials")
                         </li>
-                        <li @(ViewBag.sidebar == "产品管理" ? "class=\"active\"" : "")>
+                        <li @if (ViewBag.sidebar == "产品管理")
+                        { @: class="active"
+
+                        } else
+                        { @:
+
+                        }>
                             @Html.ActionLink("产品管理", "Index", "Product")
                         </li>
-                        <li @(ViewBag.sidebar == "推荐管理" ? "class=\"active\"" : "")>
+
+                        <li @if (ViewBag.sidebar == "推荐管理")
+                        { @: class="active"
+
+                        } else
+                        { @:
+
+                        }>
                             @Html.ActionLink("推荐管理", "Index", "ResourceStar")
                         </li>
+
                     </ul>
                     <ul class="nav nav-sidebar">
                         <li>

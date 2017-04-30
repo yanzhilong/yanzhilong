@@ -38,6 +38,7 @@ namespace yanzhilong.Models
         [DisplayName("分类")] //显示在Label上的名字
         [MinLength(36)]
         public string CategoryID { get; set; }
+        [DisplayName("分类名称")] //显示在Label上的名字
         public string CategoryName { get; set; }
         public string UserID { get; set; }
         public string DisplayName { get; set; }

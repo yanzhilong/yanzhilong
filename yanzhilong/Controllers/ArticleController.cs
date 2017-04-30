@@ -44,98 +44,8 @@ namespace yanzhilong.Controllers
             return View("Index", articleModels);
         }
 
-        // GET: GuestBook/Create
-        [Authentication]
-        public ActionResult Create()
-        {
-            ArticleModel articleModel = new ArticleModel();
-            articleModel.CategorySelectItems = getCateGorys();
-            return View(articleModel);
-        }
-
-        // GET: GuestBook/Create
-        public ActionResult CreateNew()
-        {
-            ArticleModel articleModel = new ArticleModel();
-            articleModel.CategorySelectItems = getCateGorys();
-            return View(articleModel);
-        }
-
-
-        // POST: GuestBook/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [ValidateInput(false)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authentication]
-        public ActionResult Create( ArticleModel articleModel)
-        {
-            if (ModelState.IsValid)
-            {
-                articleModel.ArticleID = Guid.NewGuid().ToString();
-                articleModel.CreateAt = DateTime.Now;
-                string userID = HttpContext.Session["UserID"] as string;
-                articleModel.UserID = userID;
-                Article article = articleModel.ToEntity();
-                articleCRUD.Create(article);
-                return RedirectToAction("Index");
-            }
-            return View(articleModel);
-        }
-
-        [Authentication]
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Article article = articleCRUD.GetArticleById(id);
-            ArticleModel articleModel = article.ToModel();
-            articleModel.CategorySelectItems = getCateGorys();
-            return View(articleModel);
-        }
-        [ValidateInput(false)]
-        [HttpPost]
-        [Authentication]
-        public ActionResult Edit(ArticleModel articleModel)
-        {
-            if (ModelState.IsValid)
-            {
-                Article article = articleModel.ToEntity();
-                article.UpdateAt = DateTime.Now;
-                articleCRUD.Update(article);
-                return RedirectToAction("Index");
-            }
-            articleModel.CategorySelectItems = getCateGorys();
-            return View(articleModel);
-        }
-
-        private List<SelectListItem> getCateGorys()
-        {
-            IEnumerable<Category> categorys = categoryCRUD.GetCategorys();
-            var selectItemList = new List<SelectListItem>() {
-                new SelectListItem(){Value="",Text="请选择",Selected=true}
-            };
-            var selectList = new SelectList(categorys, "CategoryID", "Name");
-            selectItemList.AddRange(selectList);
-            return selectItemList;
-        }
-
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            articleCRUD.Delete(id);
-            return RedirectToAction("Index");
-        }
-
         public ActionResult Details(string id)
         {
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -147,7 +57,7 @@ namespace yanzhilong.Controllers
             return View(am);
         }
 
-        //[Route("Article/Category/{CategoryID}")]
+        [Route("Article/Category/{CategoryID}")]
         //[Route("Article/Category/{CategoryID}/{page}")]
         public ActionResult Category(int page = 1, string CategoryID = null)
         {

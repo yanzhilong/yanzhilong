@@ -1,45 +1,78 @@
-﻿@model yanzhilong.Models.TutorialsesViewModel
+﻿@model IEnumerable<yanzhilong.Models.TutorialsModel>
 @{
-    ViewBag.Title = "教程中心";
-    ViewBag.NavActive = 2;//设置导航激活
+    ViewBag.sidebar = "教程管理";
+    ViewBag.Title = "教程管理";
+    PageModel pagemode = ViewBag.pagemodel as PageModel;
 }
+<h1 class="page-header">教程管理</h1>
+@Html.ActionLink("创建新教程", "Create", "Tutorials")
+<div class="table-responsive">
+    <table class="table table-striped table-manage">
+        <thead>
+            <tr>
 
-<!-- 热门的文章 -->
-<div class="container marketing">
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
 
-    <!-- Three columns of text below the carousel -->
-    <div class="row">
-        <div class="col-sm-12">
-            
-            @foreach (var item in Model.tutorials)
+                <th>
+                    @Html.DisplayNameFor(model => model.Content)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.ImageUrl)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Disc)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.CreateAt)
+                </th>
+
+                <th>
+                    操作
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
             {
-                <div class="blog-post">
-                    <h3 class="blog-post-title">@item.Title</h3>
-                    <p class="blog-post-meta">@item.CreateAt 作者:<a href="#">@Html.DisplayFor(modleItem => item.user.DisplayName)</a></p>
-                    <p class="list_content">@item.Disc</p>
-                    @Html.ActionLink("马上学习", "Details", new { id = item.TutorialsID }, new { @class = "btn btn-primary", role = "button" })
-                </div>
-                <hr class="featurette-divider">
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ImageUrl)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Disc)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateAt)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("编辑", "Edit", "Tutorials", new { id = item.TutorialsID }, new { target = "_blank" }) |
+                        @Html.ActionLink("详情", "Details", "Tutorials", new { id = item.TutorialsID, area = "" }, new { target = "_blank" }) |
+                        @Html.ActionLink("删除", "Delete", "Tutorials", new { id = item.TutorialsID }, null)
+                    </td>
+                </tr>
             }
-            <div class="container">
-                <!--  分页视图 -->
-                @Html.Action("Index", "Paging", new { pvm = Model.pvm })
-            </div>
-            @*<nav>
-                <ul class="pager">
-                    <li><a href="#">上一页</a></li>
-                    <li><a href="#">下一页</a></li>
-                </ul>
-            </nav>*@
-        </div>
-    </div>
+        </tbody>
+    </table>
 </div>
 
-@section scripts{
-    @Scripts.Render("~/bundles/list")
-    <script>
-
-
-    </script>
-}
+<div class="container">
+    <!--  分页视图 -->
+    @Html.Partial("Paging", pagemode)
+</div>

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace yanzhilong.Domain
+namespace yanzhilong.Models
 {
     /// <summary>
     /// 文章分类表
@@ -17,9 +17,5 @@ namespace yanzhilong.Domain
         [DisplayName("分类名称")] //显示在Label上的名字
         public string Name { get; set; }
 
-        internal Category ToEntry()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

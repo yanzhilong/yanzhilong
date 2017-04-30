@@ -37,63 +37,6 @@ namespace yanzhilong.Controllers
             return View("Index", productModels);
         }
 
-        // GET: GuestBook/Create
-        [Authentication]
-        public ActionResult Create()
-        {
-            ProductModel productModel = new ProductModel();
-            return View(productModel);
-        }
-
-        // POST: GuestBook/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [ValidateInput(false)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authentication]
-        public ActionResult Create(ProductModel productModel)
-        {
-            if (ModelState.IsValid)
-            {
-                productModel.ProductID = Guid.NewGuid().ToString();
-                productModel.CreateAt = DateTime.Now;
-                Product product = productModel.ToEntity();
-                productCRUD.Create(product);
-                return RedirectToAction("Index");
-
-            }
-            //
-            return View(productModel);
-        }
-
-        [Authentication]
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Product product = productCRUD.GetProductById(id);
-            ProductModel productModel = product.ToModel();
-
-            return View(productModel);
-        }
-
-        [ValidateInput(false)]
-        [HttpPost]
-        [Authentication]
-        public ActionResult Edit(ProductModel productModel)
-        {
-            if (ModelState.IsValid)
-            {
-                Product product = productModel.ToEntity();
-                productCRUD.Update(product);
-                return RedirectToAction("Index");
-            }
-            return View(productModel);
-        }
-
         public ActionResult Details(string id)
         {
             if (id == null)

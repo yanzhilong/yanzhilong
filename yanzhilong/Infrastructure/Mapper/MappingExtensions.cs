@@ -37,6 +37,20 @@ namespace yanzhilong.Infrastructure.Mapper
 
         #endregion
 
+        #region Category
+
+        public static CategoryModel ToModel(this Category entity)
+        {
+            return entity.MapTo<Category, CategoryModel>();
+        }
+
+        public static Category ToEntity(this CategoryModel model)
+        {
+            return model.MapTo<CategoryModel, Category>();
+        }
+
+        #endregion
+
         #region Tutorials
 
         public static TutorialsModel ToModel(this Tutorials entity)
@@ -65,18 +79,20 @@ namespace yanzhilong.Infrastructure.Mapper
 
         #endregion
 
-        #region Product
+        #region ResourceStar
 
-        public static CategoryModel ToModel(this Category entity)
+        public static ResourceStarModel ToModel(this ResourceStar entity)
         {
-            return entity.MapTo<Category, CategoryModel>();
+            return entity.MapTo<ResourceStar, ResourceStarModel>();
         }
 
-        public static Category ToEntity(this CategoryModel model)
+        public static ResourceStar ToEntity(this ResourceStarModel model)
         {
-            return model.MapTo<CategoryModel, Category>();
+            return model.MapTo<ResourceStarModel, ResourceStar>();
         }
 
         #endregion
+
+
     }
 }

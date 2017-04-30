@@ -1,6 +1,6 @@
-﻿@model yanzhilong.Models.ResourceStar
-@{var resourceStarType = new yanzhilong.Models.ResourceStarType();}
+﻿@model yanzhilong.Models.ResourceStarModel
 @{
+    Layout = "../Shared/_Layout_Empty.cshtml";
     ViewBag.Title = "推荐新资源";
 }
 
@@ -25,8 +25,8 @@
         <div class="form-group">
             @Html.LabelFor(model => Model.ResourceType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ResourceType", ViewBag.resourceStarTypes as IEnumerable<SelectListItem>)
-                @Html.ValidationMessageFor(model => resourceStarType.Name, "", new { @class = "text-danger" })
+                @Html.DropDownList("ResourceType", Model.ResourceTypeSelectItems)
+                @Html.ValidationMessageFor(model => model.ResourceType, "", new { @class = "text-danger" })
             </div>
         </div>
 

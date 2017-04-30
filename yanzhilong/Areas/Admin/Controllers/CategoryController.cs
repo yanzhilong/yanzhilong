@@ -9,18 +9,27 @@ using yanzhilong.Domain;
 using yanzhilong.Models;
 using yanzhilong.Service;
 using yanzhilong.Infrastructure.Mapper;
+using yanzhilong.Helper;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
     public class CategoryController : Controller
     {
         private CategoryService categoryCRUD = new CategoryService();
-
-        public ActionResult SideBar()
+        [Authentication]
+        public ActionResult Index(int page = 1)
         {
-            IList<ArticleCount> acticleCounts = categoryCRUD.GetArticlesCountGroupByCategory();
-            return PartialView("CategorySide", acticleCounts);
+            PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, categoryCRUD.GetCount());
+            pagemodel.actionName = "Index";
+            pagemodel.controllerName = "Category";
+            ViewBag.pagemodel = pagemodel;
+
+            var categorys = categoryCRUD.GetCategorys(page);
+            IEnumerable<CategoryModel> categoryModels = categorys.Select(x => x.ToModel());
+            return View(categoryModels);
         }
+
+       
 
         // GET: GuestBook/Create
         [Authentication]
@@ -42,10 +51,9 @@ namespace yanzhilong.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 categoryModel.CategoryID = Guid.NewGuid().ToString();
-                Category category = categoryModel.ToEntry();
+                Category category = categoryModel.ToEntity();
                 categoryCRUD.Create(category);
                 return RedirectToAction("Index");
-
             }
             //
             return View(categoryModel);
@@ -76,6 +84,16 @@ namespace yanzhilong.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(categoryModel);
+        }
+        [Authentication]
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            categoryCRUD.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }

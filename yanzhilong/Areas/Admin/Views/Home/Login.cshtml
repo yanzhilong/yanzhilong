@@ -1,9 +1,10 @@
 ﻿@model yanzhilong.Domain.User
 @{
+    Layout = "_Layout.cshtml";
     ViewBag.Title = "登陆";
 }
 
-@using (Html.BeginForm("Login","Admin", FormMethod.Post, new { @class = "form-signin" }))
+@using (Html.BeginForm("Login","Home", FormMethod.Post, new { @class = "form-signin" }))
 {
     @Html.AntiForgeryToken()
 

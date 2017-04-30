@@ -31,7 +31,7 @@ namespace yanzhilong
             
             //教程详情,生成侧边栏js
             bundles.Add(new ScriptBundle("~/bundles/tutorials_details").Include(
-                      "~/Scripts/tutorials_details.js"));
+                      "~/Scripts/tutorials_details_new.js"));
 
             //用于限制缩略显示行
             bundles.Add(new ScriptBundle("~/bundles/main").Include(

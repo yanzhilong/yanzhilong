@@ -230,21 +230,17 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FileController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\PagingController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\ResourceStarController.cs" />
     <Compile Include="Areas\Admin\Controllers\TutorialsController.cs" />
     <Compile Include="Controllers\AboutController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
-    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Controllers\ResourceStarController.cs" />
     <Compile Include="Controllers\TutorialsController.cs" />
     <Compile Include="filter\AuthenticationAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -259,6 +255,7 @@
     <Compile Include="Domain\ArticleCount.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\ResourceStarModel.cs" />
     <Compile Include="Models\ResourceStarViewModel.cs" />
     <Compile Include="Models\ArticleViewModel.cs" />
     <Compile Include="Models\CategorysViewModel.cs" />
@@ -319,28 +316,26 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Tutorials\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Tutorials\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Tutorials\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Tutorials\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ResourceStar\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\ResourceStar\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\ResourceStar\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ResourceStar\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Article\Category.cshtml" />
     <Content Include="Areas\Admin\Views\Article\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Article\CreateNew.cshtml" />
-    <Content Include="Areas\Admin\Views\Article\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Article\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Article\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Article\Summernote.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout_Empty.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\File\Summernote.cshtml" />
+    <Content Include="Areas\Admin\Views\File\Upload.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -353,6 +348,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\manage.js" />
+    <Content Include="Scripts\tutorials_details_new.js" />
     <Content Include="Scripts\tutorials_details.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -362,7 +358,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -374,7 +372,6 @@
     </Content>
     <Content Include="Views\Article\Index.cshtml" />
     <Content Include="Views\Article\Details.cshtml" />
-    <Content Include="Views\Article\Category.cshtml" />
     <Content Include="Views\Shared\CategorySide.cshtml" />
     <Content Include="Views\Tutorials\Index.cshtml" />
     <Content Include="Views\Tutorials\Details.cshtml" />
@@ -382,34 +379,13 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Shared\Paging.cshtml" />
     <Content Include="Views\About\Index.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\_ViewStart.cshtml" />
-    <Content Include="Views\Manage\_Layout.cshtml" />
-    <Content Include="Views\Manage\Article.cshtml" />
-    <Content Include="Views\Article\Edit.cshtml" />
-    <Content Include="Views\Article\Create.cshtml" />
-    <Content Include="Views\Manage\Tutorials.cshtml" />
-    <Content Include="Views\Manage\Product.cshtml" />
-    <Content Include="Views\Tutorials\Edit.cshtml" />
-    <Content Include="Views\Tutorials\Create.cshtml" />
-    <Content Include="Views\Product\Edit.cshtml" />
-    <Content Include="Views\Product\Create.cshtml" />
-    <Content Include="Views\Manage\Category.cshtml" />
     <Content Include="Views\Category\Create.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
-    <Content Include="Views\Manage\Manage.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\_Layout.cshtml" />
-    <Content Include="Views\Admin\_ViewStart.cshtml" />
     <Content Include="Views\ResourceStar\Create.cshtml" />
     <Content Include="Views\ResourceStar\Details.cshtml" />
     <Content Include="Views\ResourceStar\Edit.cshtml" />
     <Content Include="Views\ResourceStar\Index.cshtml" />
-    <Content Include="Views\Manage\ResourceStar.cshtml" />
-    <Content Include="Views\File\Summernote.cshtml" />
-    <Content Include="Views\Article\CreateNew.cshtml" />
-    <Content Include="Views\File\Upload.cshtml" />
-    <Content Include="Views\Article\Summernote.cshtml" />
+    <Content Include="Views\Category\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,5 +1,6 @@
 ﻿@model yanzhilong.Models.ArticleModel
 @{
+    Layout = "../Shared/_Layout_Empty.cshtml";
     ViewBag.Title = "文章编辑";
 }
 
@@ -36,6 +37,7 @@
             @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div id="summernote" placeholder="请输入" action="@Url.Action("Upload", "File")"></div>
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
             </div>
         </div>
 

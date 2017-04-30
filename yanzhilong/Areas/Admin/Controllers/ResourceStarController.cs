@@ -9,6 +9,7 @@ using yanzhilong.Helper;
 using yanzhilong.Domain;
 using yanzhilong.Models;
 using yanzhilong.Service;
+using yanzhilong.Infrastructure.Mapper;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
@@ -29,21 +30,24 @@ namespace yanzhilong.Areas.Admin.Controllers
         [Route("ResourceStar/List/{page:int}")]
         public ActionResult List(int page = 1)
         {
-            page--;
-            ResourceStarViewModel rsvm = new ResourceStarViewModel();
-            //rsvm.resourceStars = resourceStarCRUD.GetResourceStars(page);
-            rsvm.pvm = resourceStarCRUD.GetPagingViewModel(page, Constant.PAGESIZE);
-            rsvm.pvm.actionName = "List";
-            rsvm.pvm.controllerName = "ResourceStar";
-            return View("Index", rsvm);
+            PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, resourceStarCRUD.GetCount());
+            pagemodel.actionName = "List";
+            pagemodel.controllerName = "ResourceStar";
+            ViewBag.pagemodel = pagemodel;
+
+            var resourceStars = resourceStarCRUD.GetResourceStars(page);
+            IEnumerable<ResourceStarModel> resourceStarModels = resourceStars.Select(x => x.ToModel());
+
+            return View("Index", resourceStarModels);
         }
 
         // GET: GuestBook/Create
         [Authentication]
         public ActionResult Create()
         {
-            getResourceTypes();
-            return View();
+            ResourceStarModel resourceStarModel = new ResourceStarModel();
+            resourceStarModel.ResourceTypeSelectItems = getResourceTypes();
+            return View(resourceStarModel);
         }
 
         // POST: GuestBook/Create
@@ -53,18 +57,18 @@ namespace yanzhilong.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authentication]
-        public ActionResult Create(ResourceStar resourceStar)
+        public ActionResult Create(ResourceStarModel resourceStarModel)
         {
             
             if (ModelState.IsValid)
             {
-                resourceStar.ResourceID = Guid.NewGuid().ToString();
-                //判断各个id是否存在
-                //略
+                resourceStarModel.ResourceID = Guid.NewGuid().ToString();
+                ResourceStar resourceStar = resourceStarModel.ToEntity();
                 resourceStarCRUD.Create(resourceStar);
                 return RedirectToAction("Index");
             }
-            return View(resourceStar);
+            resourceStarModel.ResourceTypeSelectItems = getResourceTypes();
+            return View(resourceStarModel);
         }
 
         [Authentication]
@@ -75,24 +79,25 @@ namespace yanzhilong.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ResourceStar resourceStar = resourceStarCRUD.GetResourceStarById(id);
-            getResourceTypes();
-            return View(resourceStar);
+            ResourceStarModel resourceStarModel = resourceStar.ToModel();
+            resourceStarModel.ResourceTypeSelectItems = getResourceTypes();
+            return View(resourceStarModel);
         }
         [ValidateInput(false)]
         [HttpPost]
         [Authentication]
-        public ActionResult Edit(ResourceStar resourceStar)
+        public ActionResult Edit(ResourceStarModel resourceStarModel)
         {
             if (ModelState.IsValid)
             {
-                //判断各个id是否存在
-                //略
+                ResourceStar resourceStar = resourceStarModel.ToEntity();
                 resourceStarCRUD.Update(resourceStar);
                 return RedirectToAction("Index");
             }
-            return View(resourceStar);
+            resourceStarModel.ResourceTypeSelectItems = getResourceTypes();
+            return View(resourceStarModel);
         }
-
+        [Authentication]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -103,25 +108,16 @@ namespace yanzhilong.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ResourceStar resourceStar = resourceStarCRUD.GetResourceStarById(id);
-            return View(resourceStar);
-        }
-
-        private void getResourceTypes()
+        private List<SelectListItem> getResourceTypes()
         {
             IEnumerable<ResourceStarType> rsts = resourceStarCRUD.getResourceStarTypes();
             var selectItemList = new List<SelectListItem>() {
-                new SelectListItem(){Value="0",Text="请选择",Selected=true}
+                new SelectListItem(){Value="",Text="请选择",Selected=true}
             };
             var selectList = new SelectList(rsts, "ID", "Name");
             selectItemList.AddRange(selectList);
-            ViewBag.resourceStarTypes = selectItemList;
+            return selectItemList;
         }
+
     }
 }

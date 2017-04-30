@@ -1,0 +1,14 @@
+﻿@model yanzhilong.Models.CategoryModel
+@{
+    ArticleModel PreArticle = ViewBag.PreArticle;
+    ArticleModel NextArticle = ViewBag.NextArticle;
+
+    ViewBag.Title = "分类详情";
+    ViewBag.NavActive = 1;//设置导航激活
+}
+
+<div class="container">
+    <div class="row">
+        <p>@Model.Name</p>
+    </div>
+</div>
