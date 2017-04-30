@@ -43,11 +43,16 @@
         }
     });
     var allh = new Array();
+    
     jQuery(function () {
 
         function makeSildebar(h, hcurrent,prent) {
             
-            var h_one = [h];
+            var lis = "";
+            var h_one = [];
+            if (h.length > 0) {
+                h_one.push(h);
+            }
             var h_other = null;
             h_other = h.nextUntil(prent,hcurrent);//查看后面所有同极标题
             var h_array = h_one;//存放当前所有的同极标题
@@ -57,12 +62,45 @@
             //遍历度查找所有的子级元素
             var hnext = getchild(hcurrent);
             $.each(h_array, function (index, domEle) {
+
+                var parli = "";
+                parli = "<li>";
+
+                //				alert(index)
+                var idvalue = h_array[index].attr("id")
+                //				alert(idvalue)
+                //				var title = $(this).children("h2").length
+                var title = h_array[index].text();
+                //				alert(title)
+                parli += "<a href=\"#" + idvalue + "\">" + title + "</a>"
+
+                var ul = "";
+
                 allh.push(h_array[index].text());
-                if(hnext != null){
-                    makeSildebar(h_array[index].nextUntil(hcurrent, hnext + ":first"), hnext, hcurrent);
+                if (hnext != null) {
+
+                    var first = h_array[index].nextUntil(hcurrent, hnext + ":first");
+                    if (first.length > 0) {
+
+                        ul = "<ul class=\"nav\">";
+
+                        var childlis = makeSildebar(first, hnext, hcurrent);
+
+                        ul += childlis;
+
+                        ul += "</ul>"
+                    }
+                   
                 }
+
+                parli += ul;
+                parli += "</li>"
+                lis += parli;
             });
             
+            if (1 > 0) {
+                return lis;
+            }
 
             var h_array = h_one.concat(h.siblings(hcurrent));
             var hhh1 = h.siblings();//查看所有同极元素
@@ -103,6 +141,28 @@
            // return lis;
         }
 
+        function makeSildebar_ok(h, hcurrent, prent) {
+
+            var h_one = [];
+            if (h.length > 0) {
+                h_one.push(h);
+            }
+            var h_other = null;
+            h_other = h.nextUntil(prent, hcurrent);//查看后面所有同极标题
+            var h_array = h_one;//存放当前所有的同极标题
+            if (h_other.length > 0) {
+                h_array = h_one.concat(h_other);
+            }
+            //遍历度查找所有的子级元素
+            var hnext = getchild(hcurrent);
+            $.each(h_array, function (index, domEle) {
+                allh.push(h_array[index].text());
+                if (hnext != null) {
+                    makeSildebar(h_array[index].nextUntil(hcurrent, hnext + ":first"), hnext, hcurrent);
+                }
+            });
+        }
+
         function getchild(h) {
             if (h == "h1") {
                 return "h2";
@@ -118,7 +178,7 @@
                 return null;
             }
         }
-
+        //makeSildebar_ok($("div.col-md-9:first h1:first"), "h1", "");
         $("ul.sidebar-ul").append(makeSildebar($("div.col-md-9:first h1:first"), "h1",""));
 
         //$("div.col-md-9:first").children("h1,h2,h3,h4,h5,h6").each(function (index) {
