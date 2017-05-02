@@ -138,20 +138,31 @@ body{
 }
 
 /* 子a标签活动样式 */
-.sidebar-nav .nav .nav>.active:focus>a, .sidebar-nav .nav .nav>.active:hover>a, .sidebar-nav .nav .nav>.active>a {
+/*.sidebar-nav .nav .nav>.active:focus>a, .sidebar-nav .nav .nav>.active:hover>a, .sidebar-nav .nav .nav>.active>a {
     padding-left: 28px;
     font-weight: 500;
-}
+}*/
 
-/* 子a标签默认样式 */
-.sidebar-nav .nav .nav>li>a {
+/* 一级,二级....子a标签默认样式 */
+.sidebar-nav .nav .nav>li>a,.sidebar-nav .nav .nav .nav>li>a,.sidebar-nav .nav .nav .nav .nav>li>a , .sidebar-nav .nav .nav .nav .nav .nav>li>a ,.sidebar-nav .nav .nav .nav .nav .nav .nav>li>a ,.sidebar-nav .nav .nav .nav .nav .nav .nav .nav>li>a{
+
+    /*padding-bottom: 1px;
+    padding-left: 30px;
+    font-size: 12px;
+    font-weight: 400;*/
+
+    margin-top: 1px;
+    margin-left: 2px;
     padding-top: 1px;
     padding-bottom: 1px;
-    padding-left: 30px;
+    padding-left: 15px;
     font-size: 12px;
     font-weight: 400;
 }
 
+.sidebar-nav .nav .nav{
+    margin-left: 15px;
+}
 
 
 

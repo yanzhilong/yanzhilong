@@ -27,7 +27,9 @@
 </div>
 
 @section scripts{
+
 @*@Scripts.Render("~/bundles/tutorials_details")*@
+
 <script>
 
     /* 设置上下的位移 */
@@ -42,6 +44,16 @@
                 $('.application').outerHeight(true)) + 40
         }
     });
+
+    //将所有的标题的id设置成标题内容
+    $(":header").each(function () {
+        $(this).attr("id", $(this).text());
+    });
+
+
+
+
+    //存放所有的标题，测试的时候用
     var allh = new Array();
     
     jQuery(function () {
@@ -98,47 +110,7 @@
                 lis += parli;
             });
             
-            if (1 > 0) {
-                return lis;
-            }
-
-            var h_array = h_one.concat(h.siblings(hcurrent));
-            var hhh1 = h.siblings();//查看所有同极元素
-            
-            h.children("h1,h2,h3,h4,h5,h6").each(function (index) {
-
-                var parli = "";
-                parli = "<li>";
-
-                //				alert(index)
-                var idvalue = $(this).attr("id")
-                //				alert(idvalue)
-                //				var title = $(this).children("h2").length
-                var title = $(this).text()
-                //				alert(title)
-                parli += "<a href=\"#" + idvalue + "\">" + title + "</a>"
-
-                //				alert(idvalue)
-                //判断是否还有子元素
-                var childrens = $(this).children("h1,h2,h3,h4,h5,h6");
-                var chilcount = childrens.length;
-                //				alert(chilcount)
-                // 有子元素，添加下级ul
-                var ul = "";
-                if (chilcount > 0) {
-
-                    ul = "<ul class=\"nav\">"
-
-                    var childlis = makeSildebar($(this));
-                    ul += childlis;
-
-                    ul += "</ul>"
-                }
-                parli += ul;
-                parli += "</li>"
-                lis += parli;
-            });
-           // return lis;
+            return lis;
         }
 
         function makeSildebar_ok(h, hcurrent, prent) {
@@ -178,49 +150,32 @@
                 return null;
             }
         }
-        //makeSildebar_ok($("div.col-md-9:first h1:first"), "h1", "");
-        $("ul.sidebar-ul").append(makeSildebar($("div.col-md-9:first h1:first"), "h1",""));
 
-        //$("div.col-md-9:first").children("h1,h2,h3,h4,h5,h6").each(function (index) {
+        var firstTitleTag = null;
+        var firstTag = null;
+        if ($("div.col-md-9:first h1:first").length > 0) {
+            firstTitleTag = $("div.col-md-9:first h1:first");
+            firstTag = "h1";
+        } else if ($("div.col-md-9:first h2:first")) {
+            firstTitleTag = $("div.col-md-9:first h2:first");
+            firstTag = "h2";
+        } else if ($("div.col-md-9:first h3:first")) {
+            firstTitleTag = $("div.col-md-9:first h3:first");
+            firstTag = "h3";
+        } else if ($("div.col-md-9:first h42:first")) {
+            firstTitleTag = $("div.col-md-9:first h4:first");
+            firstTag = "h4";
+        } else if ($("div.col-md-9:first h5:first")) {
+            firstTitleTag = $("div.col-md-9:first h5:first");
+            firstTag = "h5";
+        } else if ($("div.col-md-9:first h6:first")) {
+            firstTitleTag = $("div.col-md-9:first h6:first");
+            firstTag = "h6";
+        }
 
-        //    var parli = "";
-        //    parli = "<li>";
-        //    var idvalue = $(this).attr("id")
-        //    var title = $(this).find("h2:first").text()
-        //    parli += "<a href=\"#" + idvalue + "\">" + title + "</a>"
-
-        //    //				alert(idvalue)
-        //    //判断是否还有子元素
-        //    var childrens = $(this).children("section")
-        //    var chilcount = childrens.length
-        //    // 有子元素，添加下级ul
-        //    var ul = "";
-        //    if (chilcount > 0) {
-
-        //        ul = "<ul class=\"nav\">"
-
-        //        var childsection = $(this).children("section");
-        //        var li = "";
-        //        childsection.each(function (dex) {
-
-        //            li = "<li>";
-
-        //            var idvalue = $(this).attr("id")
-        //            var title = $(this).children("h2").length
-        //            var title = $(this).find("h3:first").text()
-        //            li += "<a href=\"#" + idvalue + "\">" + title + "</a>"
-
-        //            li += "</li>"
-        //            ul += li
-
-        //        })
-        //        ul += "</ul>"
-        //    }
-        //    parli += ul;
-        //    parli += "</li>"
-        //    $("ul.sidebar-ul").append(parli);
-
-        //})
+        if (firstTitleTag != null) {
+            $("ul.sidebar-ul").append(makeSildebar(firstTitleTag, firstTag, ""));
+        }
     })
 
     ! function (a) {
