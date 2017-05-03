@@ -77,6 +77,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Models\PageViewCountTest.cs" />
     <Compile Include="Models\ResourceStarTest.cs" />
     <Compile Include="Models\FileTest.cs" />
     <Compile Include="Models\TutorialsTest.cs" />

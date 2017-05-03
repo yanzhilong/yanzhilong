@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="PageViewCount" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+  <!-- 设置别名，用于底下指定类型的时候不需要全全类名(包括长的空间名 ),最后一个参数是项目的命名空间名 -->
+  <alias>
+    <typeAlias alias="PageViewCount" type="yanzhilong.Domain.PageViewCount, yanzhilong"/>
+  </alias>
+
+  <!-- 数据库到实体类的映射表 -->
+  <resultMaps>
+    
+    <!-- 数据库的全部字段到实体类的映射 -->
+    <resultMap id="SelectAllResult" class="PageViewCount">
+      <result property="PageViewCountID" column="PageViewCountID" dbType="char" type="string" />
+      <result property="ResourceID" column="ResourceID" dbType="char" type="string" />
+      <result property="Count" column="Count" dbType="int" type="int" />
+    </resultMap>
+    
+    <!-- 这里可以配置其它只需要指定字段的映射文件(这里是不返回ID) -->
+  </resultMaps>
+
+  <!-- 声明执行语句列表，可以包含多个<select>、<insert>、<update>、<delete>节点 -->
+  <!-- 为了避免SQL语句出现的'<'和'>'会和配置文件的<>冲突，所以SQL语句都写在<![CDATA[  与  ]]>之间 -->
+  <statements>
+
+    <!-- 添加句子SQL语句 -->
+    <insert id="InsertPageViewCount" parameterClass="PageViewCount" >
+      <![CDATA[  
+      insert into PageViewCount  
+      (PageViewCountID,ResourceID,Count)  
+      values  
+      (#PageViewCountID#,#ResourceID#,#Count#)  
+      ]]>
+    </insert>
+
+    <!-- parameterClass表示传入的参数为int -->
+    <delete id="DeletePageViewCountByResourceID" parameterClass="string">
+      <![CDATA[
+          delete from PageViewCount  
+          where  
+          ResourceID = #value#  
+          ]]>
+    </delete>
+    
+    <!-- #UserName# 表示传入实体类参数的属性，表示实体的的属性 -->
+    <update id="UpdatePageViewCount" parameterClass="PageViewCount">
+      <![CDATA[  
+          UPDATE PageViewCount SET  
+          ResourceID=#ResourceID#,
+          Count=#Count#
+          WHERE  
+          PageViewCountID=#PageViewCountID#
+          ]]>
+    </update>
+
+    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
+    <select id="SelectAllPageViewCount" resultMap="SelectAllResult">
+      <![CDATA[  
+          SELECT PageViewCountID
+          ,ResourceID
+          ,Count
+          FROM PageViewCount
+          ]]>
+    </select>
+
+    <!--#value# 是点位符会被传入的parameterClass的string类型代替--> 
+    <select id="SelectPageViewCountByResoutceID" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllPageViewCount">
+      <![CDATA[  
+          where ResourceID = #value#  
+          ]]>
+    </select>
+
+  </statements>
+
+</sqlMap>

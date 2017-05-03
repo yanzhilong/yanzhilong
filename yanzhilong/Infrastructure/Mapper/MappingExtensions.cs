@@ -94,5 +94,20 @@ namespace yanzhilong.Infrastructure.Mapper
         #endregion
 
 
+        #region PageViewCount
+
+        public static PageViewCountModel ToModel(this PageViewCount entity)
+        {
+            return entity.MapTo<PageViewCount, PageViewCountModel>();
+        }
+
+        public static PageViewCount ToEntity(this PageViewCountModel model)
+        {
+            return model.MapTo<PageViewCountModel, PageViewCount>();
+        }
+
+        #endregion
+
+
     }
 }

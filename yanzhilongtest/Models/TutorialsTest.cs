@@ -35,14 +35,16 @@ namespace yanzhilongtest
             User user = new User();
             user.UserID = "1f1c4189-3792-4a91-8d08-c0d04e18a0ae";
             tutorials.user = user;
-            Assert.IsTrue(tutorialsCRUD.Create(tutorials));
+            tutorialsCRUD.Create(tutorials);
+            Assert.IsNotNull(tutorialsCRUD.GetTutorialsById(tutorials.TutorialsID));
     }
 
         [TestMethod]
         public void TutorialsDelete()
         {
             TutorialsService tutorialsCRUD = new TutorialsService();
-            Assert.IsTrue(tutorialsCRUD.Delete("ad6b3dbb-f9d2-4d38-b601-42cb36a1120a"));
+            tutorialsCRUD.Delete("ad6b3dbb-f9d2-4d38-b601-42cb36a1120a");
+            Assert.IsNull(tutorialsCRUD.GetTutorialsById("ad6b3dbb-f9d2-4d38-b601-42cb36a1120a"));
         }
 
         [TestMethod]
@@ -59,7 +61,7 @@ namespace yanzhilongtest
             User user = new User();
             user.UserID = "1f1c4189-3792-4a91-8d08-c0d04e18a0ae";
             tutorials.user = user;
-            Assert.IsTrue(tutorialsCRUD.Update(tutorials));
+            tutorialsCRUD.Update(tutorials);
         }
 
         [TestMethod]

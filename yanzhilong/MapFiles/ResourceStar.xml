@@ -47,7 +47,6 @@
     <update id="UpdateResourceStar" parameterClass="ResourceStar">
       <![CDATA[  
           UPDATE ResourceStar SET  
-          ResourceStarID=#ResourceStarID#,
           ResourceID=#ResourceID#,
           ResourceType=#ResourceType#
           WHERE  

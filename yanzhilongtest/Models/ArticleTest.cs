@@ -27,14 +27,14 @@ namespace yanzhilongtest
             Category category = new Category();
             category.CategoryID = "46ed952b-ec26-4bb9-a544-13a8d78dabf3";
             article.category = category;
-            Assert.IsTrue(articleCRUD.Create(article));
+            articleCRUD.Create(article);
     }
 
         [TestMethod]
         public void ArticleDelete()
         {
             ArticleService articleCRUD = new ArticleService();
-            Assert.IsTrue(articleCRUD.Delete("8a2c21bf-06f9-4e18-8d7f-15299a28c53c"));
+            articleCRUD.Delete("8a2c21bf-06f9-4e18-8d7f-15299a28c53c");
         }
 
         [TestMethod]
@@ -54,7 +54,7 @@ namespace yanzhilongtest
             category.CategoryID = "1f1c4189-3792-4a91-8d08-c0d04e18a0a3";
             article.user = user;
             article.category = category;
-            Assert.IsTrue(articleCRUD.Update(article));
+            articleCRUD.Update(article);
         }
 
         [TestMethod]
@@ -80,15 +80,6 @@ namespace yanzhilongtest
             IList<Article> articles = articleCRUD.GetArticles(1);
             Assert.IsNotNull(articles);
         }
-
-        [TestMethod]
-        public void GetPagingViewModel()
-        {
-            ArticleService articleCRUD = new ArticleService();
-            PageModel pvm = articleCRUD.GetPagingViewModel(0,11,null);
-            Assert.IsNotNull(pvm);
-        }
-        
 
         [TestMethod]
         public void GetStarArticles()

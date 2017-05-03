@@ -242,6 +242,7 @@
     <Compile Include="Controllers\PagingController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\TutorialsController.cs" />
+    <Compile Include="Domain\PageViewCount.cs" />
     <Compile Include="filter\AuthenticationAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -254,6 +255,7 @@
     <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Domain\ArticleCount.cs" />
     <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\PageViewCountModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\ResourceStarModel.cs" />
     <Compile Include="Models\ResourceStarViewModel.cs" />
@@ -270,8 +272,10 @@
     <Compile Include="Models\PageModel.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MbRepository.cs" />
+    <Compile Include="Service\PageViewCountService.cs" />
     <Compile Include="Service\ResourceStarService.cs" />
     <Compile Include="Domain\ResourceStar.cs" />
+    <Compile Include="Service\SessionService.cs" />
     <Compile Include="Service\TutorialsService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Domain\Category.cs" />
@@ -306,6 +310,7 @@
     <EmbeddedResource Include="MapFiles\Category.xml" />
     <EmbeddedResource Include="MapFiles\Tutorials.xml" />
     <EmbeddedResource Include="MapFiles\ResourceStar.xml" />
+    <EmbeddedResource Include="MapFiles\PageViewCount.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

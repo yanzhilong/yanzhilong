@@ -47,6 +47,12 @@ namespace yanzhilong.Infrastructure.Mapper
             .ForMember(dest => dest.ResourceTypeSelectItems, mo => mo.Ignore());
 
             cfg.CreateMap<ResourceStarModel, ResourceStar>();
+
+            cfg.CreateMap<PageViewCount, PageViewCountModel>();
+
+            cfg.CreateMap<PageViewCountModel, PageViewCount>()
+            .ForMember(dest => dest.PageViewCountID, mo => mo.Ignore())
+            .ForMember(dest => dest.ResourceID, mo => mo.Ignore());
         };
 
         public static void Init()

@@ -15,6 +15,7 @@ namespace yanzhilong.Controllers
 {
     public class TutorialsController : Controller
     {
+        private PageViewCountService pcs = new PageViewCountService();
         private TutorialsService tutorialsCRUD = new TutorialsService();
         private UserService userCRUD = new UserService();
 
@@ -43,6 +44,12 @@ namespace yanzhilong.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            if (Session[id] == null)
+            {
+                HttpContext.Session.Add(id, id);
+                pcs.PageViewDetails(id);
+            }
+            ViewBag.PageViewCount = pcs.GetPageViewCountByResourceID(id);
             Tutorials tutorials = tutorialsCRUD.GetTutorialsById(id);
             return View(tutorials.ToModel());
         }

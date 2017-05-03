@@ -16,6 +16,7 @@ namespace yanzhilong.Controllers
 {
     public class ArticleController : Controller
     {
+        private PageViewCountService pcs = new PageViewCountService();
         private ArticleService articleCRUD = new ArticleService();
         private CategoryService categoryCRUD = new CategoryService();
         private UserService userCRUD = new UserService();
@@ -50,6 +51,13 @@ namespace yanzhilong.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            if(Session[id] == null)
+            {
+                HttpContext.Session.Add(id, id);
+                pcs.PageViewDetails(id);
+            }
+            ViewBag.PageViewCount = pcs.GetPageViewCountByResourceID(id);
+
             Article article = articleCRUD.GetArticleById(id);
             ArticleModel am = article.ToModel();
             ViewBag.PreArticle = articleCRUD.GetPreArticle(article).ToModel();
