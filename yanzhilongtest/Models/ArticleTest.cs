@@ -10,6 +10,8 @@ namespace yanzhilongtest
     [TestClass]
     public class ArticleTest
     {
+        
+
         [TestMethod]
         public void ArticleCreate()
         {

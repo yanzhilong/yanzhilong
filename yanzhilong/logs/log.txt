@@ -829,3 +829,8 @@ INFO  2017-05-03 10:40:20,155   904ms HomeController         Index              
 INFO  2017-05-03 10:48:47,550   859ms HomeController         Index              - index
 INFO  2017-05-03 10:54:26,857 340166ms HomeController         Index              - index
 INFO  2017-05-03 10:54:42,075 355384ms HomeController         Index              - index
+INFO  2017-05-03 13:08:27,299  1709ms HomeController         Index              - index
+INFO  2017-05-03 17:21:14,431   959ms HomeController         Index              - index
+INFO  2017-05-03 17:30:06,232  9038ms HomeController         Index              - index
+INFO  2017-05-03 18:13:36,649   901ms HomeController         Index              - index
+INFO  2017-05-03 18:15:54,417   849ms HomeController         Index              - index

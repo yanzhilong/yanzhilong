@@ -22,7 +22,7 @@ namespace yanzhilong.Repository
         void Insert(string statementName, IEnumerable<T> entities);
 
         /// <summary>
-        /// 根据实体的指定条件获得实体
+        /// 根据指定条件获得实体
         /// </summary>
         /// <param name="statementName"></param>
         /// <param name="obj"></param>
