@@ -243,7 +243,6 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\TutorialsController.cs" />
     <Compile Include="Domain\PageViewCount.cs" />
-    <Compile Include="filter\AdministratorAttribute.cs" />
     <Compile Include="filter\AuthenticationAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
