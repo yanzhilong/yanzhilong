@@ -23,7 +23,6 @@ namespace yanzhilong.Controllers
             return List();
         }
 
-        //[Route("Tutorials/List/{page:int}")]
         [Authentication]
         public ActionResult List(int page = 1)
         {

@@ -24,7 +24,6 @@ namespace yanzhilong.Controllers
             return List();
         }
 
-        //[Route("Tutorials/List/{page:int}")]
         public ActionResult List(int page = 1)
         {
             PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, tutorialsCRUD.GetCount());

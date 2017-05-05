@@ -11,7 +11,7 @@
   <resultMaps>
     
     <!-- 数据库的全部字段到实体类的映射 -->
-    <resultMap id="SelectAllResult" class="Tutorials">
+    <resultMap id="TutorialsResult" class="Tutorials">
       <result property="TutorialsID" column="TutorialsID" dbType="char" type="string" />
       <result property="Title" column="Title" dbType="varchar" type="string" />
       <result property="Content" column="Content" dbType="text" type="string" />
@@ -20,25 +20,11 @@
       <result property="Notes" column="Notes" dbType="varchar" type="string" />
       <result property="CreateAt" column="CreateAt" dbType="datetime" type="DateTime" />
       <result property="UpdateAt" column="UpdateAt" dbType="datetime" type="DateTime" />
-      <result property="user.UserID" column="UserId" dbType="char" type="string" />
-    </resultMap>
-
-    <!-- 数据库的全部字段到实体类的映射 -->
-    <resultMap id="SelectAllResultContainUser" class="Tutorials">
-      <result property="TutorialsID" column="TutorialsID" dbType="char" type="string" />
-      <result property="Title" column="Title" dbType="varchar" type="string" />
-      <result property="Content" column="Content" dbType="text" type="string" />
-      <result property="ImageUrl" column="ImageUrl" dbType="varchar" type="string" />
-      <result property="Disc" column="Disc" dbType="varchar" type="string" />
-      <result property="Notes" column="Notes" dbType="varchar" type="string" />
-      <result property="CreateAt" column="CreateAt" dbType="datetime" type="DateTime" />
-      <result property="UpdateAt" column="UpdateAt" dbType="datetime" type="DateTime" />
+      <result property="PV" column="PV" dbType="int" type="int" />
       <result property="user.UserID" column="UserId" dbType="char" type="string" />
       <result property="user.DisplayName" column="DisplayName" dbType="char" type="string" />
     </resultMap>
 
-    
-    <!-- 这里可以配置其它只需要指定字段的映射文件(这里是不返回ID) -->
   </resultMaps>
 
   <!-- 声明执行语句列表，可以包含多个<select>、<insert>、<update>、<delete>节点 -->
@@ -56,11 +42,11 @@
     </insert>
 
     <!-- parameterClass表示传入的参数为int -->
-    <delete id="DeleteTutorials" parameterClass="string">
+    <delete id="DeleteTutorials" parameterClass="Tutorials">
       <![CDATA[
           delete from Tutorials  
           where  
-          TutorialsID = #value#  
+          TutorialsID = #TutorialsID#  
           ]]>
     </delete>
     
@@ -82,7 +68,7 @@
     </update>
 
 
-    <select id="SelectTutorialsCount" resultClass="int">
+    <select id="SelectTutorialsCount" parameterClass="Tutorials" resultClass="int">
       <![CDATA[  
           SELECT  
           COUNT(TutorialsID)  
@@ -90,24 +76,8 @@
           ]]>
     </select>
 
-    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
-    <select id="SelectAllTutorials" resultMap="SelectAllResult">
-      <![CDATA[  
-          SELECT TutorialsID
-          ,Title
-          ,Content
-          ,ImageUrl
-          ,Disc
-          ,Notes
-          ,CreateAt
-          ,UpdateAt
-          ,UserId
-          FROM Tutorials
-          ]]>
-    </select>
-
     <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
-    <select id="SelectAllTutorialsContainUser" resultMap="SelectAllResultContainUser">
+    <select id="SelectTutorialsByCondition" parameterClass="Tutorials" resultMap="TutorialsResult">
       <![CDATA[  
           SELECT t.TutorialsID
           ,t.Title
@@ -118,24 +88,69 @@
           ,t.CreateAt
           ,t.UpdateAt
           ,t.UserId
+          ,p.Count as PV
           ,u.DisplayName
-          FROM Tutorials t,User u
-          where t.UserId = u.UserID
+          FROM Tutorials t left join User u on t.UserId = u.UserID left join PageViewCount p
+           on t.TutorialsID = p.ResourceID
           ]]>
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="TutorialsID">
+          <![CDATA[  
+            t.TutorialsID = #TutorialsID#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Title">
+          <![CDATA[  
+            t.Title = #Title#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Content">
+          <![CDATA[  
+            t.Content = #Content#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ImageUrl">
+          <![CDATA[  
+            t.ImageUrl = #ImageUrl#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Disc">
+          <![CDATA[  
+            t.Disc = #Disc#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Notes">
+          <![CDATA[  
+            t.Notes = #Notes#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="user.UserID">
+          <![CDATA[  
+            t.UserId = #user.UserID#
+            ]]>
+        </isNotEmpty>
+      </dynamic>
     </select>
 
-    <!-- 获得星推荐的教程，用于首页展示 -->
-    <select id="SelectStarTutorials" parameterClass="int" resultMap="SelectAllResult"  extends="SelectAllTutorials">
+    <!-- 获得星推荐的文章，用于首页展示 -->
+    <select id="SelectTutorialsByStar" parameterClass="int" resultMap="TutorialsResult">
       <![CDATA[  
+           SELECT t.TutorialsID
+          ,t.Title
+          ,t.Content
+          ,t.ImageUrl
+          ,t.Disc
+          ,t.Notes
+          ,t.CreateAt
+          ,t.UpdateAt
+          ,t.UserId
+          ,p.Count as PV
+          ,u.DisplayName
+          FROM Tutorials t left join User u on t.UserId = u.UserID left join PageViewCount p
+           on t.TutorialsID = p.ResourceID
           where TutorialsID in (SELECT ResourceID FROM ResourceStar Where ResourceType = #value#)
           ]]>
-    </select>
-    
-     <!--#value# 是点位符会被传入的parameterClass的string类型代替--> 
-    <select id="SelectTutorialsById" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllTutorials">
-      <![CDATA[  
-          where TutorialsID = #value#  
-          ]]>
+
     </select>
 
   </statements>

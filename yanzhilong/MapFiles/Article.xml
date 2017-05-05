@@ -122,7 +122,7 @@
         </isNotEmpty>
         <isNotEmpty prepend="AND" property="ImageUrl">
           <![CDATA[  
-           s.ImageUrl = #ImageUrl#
+           a.ImageUrl = #ImageUrl#
             ]]>
         </isNotEmpty>
         <isNotEmpty prepend="AND" property="Disc">

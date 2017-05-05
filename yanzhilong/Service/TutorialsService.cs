@@ -22,23 +22,19 @@ namespace yanzhilong.Service
          
         public Tutorials GetTutorialsById(string tutorialsID)
         {
-            Tutorials tutorials = repository.GetByCondition("SelectTutorialsById", tutorialsID);
-            if (tutorials != null && tutorials.user.UserID != null)
-            {
-                tutorials.user = repository.GetObject<User>("SelectUserById", tutorials.user.UserID);
-            }
+            Tutorials tutorials = repository.GetByCondition("SelectTutorialsByCondition", new Tutorials { TutorialsID = tutorialsID});
             return tutorials;
         }
 
         public IList<Tutorials> GetTutorialses()
         {
-            IList<Tutorials> tutorialses = repository.GetList("SelectAllTutorialsContainUser", null);
+            IList<Tutorials> tutorialses = repository.GetList("SelectTutorialsByCondition", null);
             return tutorialses;
         }
 
         public IList<Tutorials> GetTutorialses(int pageCount)
         {
-            IList<Tutorials> tutorialses = repository.GetList("SelectAllTutorialsContainUser", null, pageCount);
+            IList<Tutorials> tutorialses = repository.GetList("SelectTutorialsByCondition", null, pageCount);
             return tutorialses;
         }
 
@@ -50,7 +46,7 @@ namespace yanzhilong.Service
 
         public IList<Tutorials> GetStarTutorialses()
         {
-            IList<Tutorials> tutorialses = repository.GetList("SelectStarTutorials", ResourceType.TUTORIALS);
+            IList<Tutorials> tutorialses = repository.GetList("SelectTutorialsByStar", ResourceType.TUTORIALS);
             return tutorialses;
         }
         
