@@ -11,7 +11,7 @@
   <resultMaps>
     
     <!-- 数据库的全部字段到实体类的映射 -->
-    <resultMap id="SelectAllResult" class="ResourceStar">
+    <resultMap id="ResourceStarResult" class="ResourceStar">
       <result property="ResourceStarID" column="ResourceStarID" dbType="char" type="string" />
       <result property="ResourceID" column="ResourceID" dbType="char" type="string" />
       <result property="ResourceType" column="ResourceType" dbType="int" type="int" />
@@ -63,28 +63,32 @@
     </select>
     
     <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
-    <select id="SelectAllResourceStar" resultMap="SelectAllResult">
+    <select id="SelectResourceStarByCondition" resultMap="ResourceStarResult">
       <![CDATA[  
           SELECT ResourceStarID
           ,ResourceID
           ,ResourceType
           FROM ResourceStar
           ]]>
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="ResourceStarID">
+          <![CDATA[  
+             ResourceStarID = #ResourceStarID#
+              ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ResourceID">
+          <![CDATA[  
+             ResourceID = #ResourceID#
+              ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ResourceType">
+          <![CDATA[  
+             ResourceType = #ResourceType#
+              ]]>
+        </isNotEmpty>
+      </dynamic>
     </select>
-
-    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
-    <select id="SelectAllResourceStarByType" parameterClass="int" resultMap="SelectAllResult" extends="SelectAllResourceStar">
-      <![CDATA[  
-          where ResourceType = #value#
-          ]]>
-    </select>
-    
-    <!--#value# 是点位符会被传入的parameterClass的string类型代替--> 
-    <select id="SelectResourceStarById" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllResourceStar">
-      <![CDATA[  
-          where ResourceStarID = #value#  
-          ]]>
-    </select>
+   
 
   </statements>
 

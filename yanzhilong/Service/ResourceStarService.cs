@@ -21,25 +21,25 @@ namespace yanzhilong.Service
          
         public ResourceStar GetResourceStarById(string resourceStarID)
         {
-            ResourceStar resourceStar = repository.GetByCondition("SelectResourceStarById", resourceStarID);
+            ResourceStar resourceStar = repository.GetByCondition("SelectResourceStarByCondition", new ResourceStar { ResourceStarID = resourceStarID});
             return resourceStar;
         }
 
         public IList<ResourceStar> GetResourceStars()
         {
-            IList<ResourceStar> resourceStars = repository.GetList("SelectAllResourceStar", null); 
+            IList<ResourceStar> resourceStars = repository.GetList("SelectResourceStarByCondition", new ResourceStar { }); 
             return resourceStars;
         }
 
-        public IList<ResourceStar> GeResourceStarByType(int resourceTypeID)
+        public IList<ResourceStar> GeResourceStarByType(int resourceType)
         {
-            IList<ResourceStar> resourceStars = repository.GetList("SelectAllResourceStarByType", resourceTypeID); 
+            IList<ResourceStar> resourceStars = repository.GetList("SelectResourceStarByCondition", new ResourceStar { ResourceType = resourceType }); 
             return resourceStars;
         }
 
         public IList<ResourceStar> GetResourceStars(int pageCount)
         {
-            IList<ResourceStar> resourceStarList = repository.GetList("SelectAllResourceStar", null, pageCount); 
+            IList<ResourceStar> resourceStarList = repository.GetList("SelectResourceStarByCondition", new ResourceStar { }, pageCount); 
             return resourceStarList;
         }
 

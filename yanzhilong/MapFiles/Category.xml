@@ -12,13 +12,13 @@
   <resultMaps>
     
     <!-- 数据库的全部字段到实体类的映射 -->
-    <resultMap id="SelectAllResult" class="Category">
+    <resultMap id="CategoryResult" class="Category">
       <result property="CategoryID" column="CategoryID" dbType="char" type="string" />
       <result property="Name" column="Name" dbType="varchar" type="string" />
     </resultMap>
 
     <!-- 返回ActicleCount用于生成侧边列表 -->
-    <resultMap id="SelectActicleCountResult" class="ArticleCount">
+    <resultMap id="ActicleCountResult" class="ArticleCount">
       <result property="category.CategoryID" column="CategoryID" dbType="char" type="string"/>
       <result property="category.Name" column="Name" dbType="varchar" type="string"/>
       <result property="Count" column="Count" dbType="int" type="int"/>
@@ -68,31 +68,28 @@
     </select>
 
      <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
-    <select id="SelectAllCategory" resultMap="SelectAllResult">
+    <select id="SelectCategoryByCondition" parameterClass="Category" resultMap="CategoryResult">
       <![CDATA[  
           SELECT CategoryID
           ,Name
           FROM Category
           ]]>
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="CategoryID">
+          <![CDATA[  
+           CategoryID = #CategoryID#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Name">
+          <![CDATA[  
+           Name = #Name#
+            ]]>
+        </isNotEmpty>
+      </dynamic>
     </select>
-    
-     <!--#value# 是点位符会被传入的parameterClass的string类型代替--> 
-    <select id="SelectCategoryById" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllCategory">
-      <![CDATA[  
-          where CategoryID = #value#  
-          ]]>
-    </select>
-
-    <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
-    <select id="SelectCategoryByName" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllCategory">
-      <![CDATA[  
-          where Name = #value#  
-          ]]>
-    </select>
-    
 
     <!-- 获得每个分类下面的文章数 -->
-    <select id="SelectArticlesNumGroupByCategory" resultMap="SelectActicleCountResult">
+    <select id="SelectArticlesNumGroupByCategory" resultMap="ActicleCountResult">
       <![CDATA[  
           SELECT a.CategoryID
           ,a.Name

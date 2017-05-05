@@ -62,7 +62,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             
             if (ModelState.IsValid)
             {
-                resourceStarModel.ResourceID = Guid.NewGuid().ToString();
+                resourceStarModel.ResourceStarID = Guid.NewGuid().ToString();
                 ResourceStar resourceStar = resourceStarModel.ToEntity();
                 resourceStarCRUD.Create(resourceStar);
                 return RedirectToAction("Index");

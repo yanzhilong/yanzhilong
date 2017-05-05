@@ -39,19 +39,19 @@ namespace yanzhilong.Service
 
         public Category GetCategoryByName(string Name)
         {
-            Category category = repository.GetByCondition("SelectCategoryByName", Name);
+            Category category = repository.GetByCondition("SelectCategoryByCondition", new Category { Name = Name});
             return category;
         }
 
         public IList<Category> GetCategorys()
         {
-            IList<Category> categorys = repository.GetList("SelectAllCategory", null);
+            IList<Category> categorys = repository.GetList("SelectCategoryByCondition", new Category { });
             return categorys;
         }
 
         public IList<Category> GetCategorys(int pageCount)
         {
-            IList<Category> categorys = repository.GetList("SelectAllCategory", null, pageCount);
+            IList<Category> categorys = repository.GetList("SelectCategoryByCondition", new Category { }, pageCount);
             return categorys;
         }
 
