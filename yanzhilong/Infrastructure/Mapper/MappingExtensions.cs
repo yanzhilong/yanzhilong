@@ -108,6 +108,19 @@ namespace yanzhilong.Infrastructure.Mapper
 
         #endregion
 
+        #region Note
+
+        public static NoteModel ToModel(this Note entity)
+        {
+            return entity.MapTo<Note, NoteModel>();
+        }
+
+        public static Note ToEntity(this NoteModel model)
+        {
+            return model.MapTo<NoteModel, Note>();
+        }
+
+        #endregion
 
     }
 }

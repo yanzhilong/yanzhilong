@@ -74,7 +74,6 @@ namespace yanzhilong.Repository
         public T GetByCondition(string statementName, object parameterObjec)
         {
             ISqlMapper sqlMap = GetLocalSqlMap();
-
             try
             {
                 return sqlMap.QueryForObject<T>(statementName, parameterObjec);
@@ -88,6 +87,7 @@ namespace yanzhilong.Repository
         public IList<T> GetList(string statementName, object parameterObjec)
         {
             ISqlMapper sqlMap = GetLocalSqlMap();
+
             try
             {
                 return sqlMap.QueryForList<T>(statementName, parameterObjec);
@@ -201,6 +201,19 @@ namespace yanzhilong.Repository
             catch (Exception e)
             {
                 throw new IBatisNetException("Error executing query '" + statementName + "' for query.  Cause: " + e.Message, e);
+            }
+        }
+
+        public T GetByCondition(string statementName, T parameter)
+        {
+            ISqlMapper sqlMap = GetLocalSqlMap();
+            try
+            {
+                return sqlMap.QueryForObject<T>(statementName, parameter);
+            }
+            catch (Exception e)
+            {
+                throw new IBatisNetException("Error executing query '" + statementName + "' for object.  Cause: " + e.Message, e);
             }
         }
     }

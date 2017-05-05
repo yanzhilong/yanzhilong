@@ -73,9 +73,24 @@
                             >
                             @Html.ActionLink("产品中心", "Index", "Product")
                         </li>
+
+                        @{
+                            if(Session["UserID"] != null)
+                            {
+                                <li
+                                    @if (ViewBag.NavActive == 4)
+                                {
+                                    @:class="active"
+                                }
+                                    >
+                                    @Html.ActionLink("笔记", "Index", "Note")
+                                </li>
+                            }
+                        }
+
                         <li
                             @{ 
-                                if (ViewBag.NavActive == 4)
+                                if (ViewBag.NavActive == 5)
                                 {
                                     @:class="active"
                                 }

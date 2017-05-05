@@ -53,6 +53,10 @@ namespace yanzhilong.Infrastructure.Mapper
             cfg.CreateMap<PageViewCountModel, PageViewCount>()
             .ForMember(dest => dest.PageViewCountID, mo => mo.Ignore())
             .ForMember(dest => dest.ResourceID, mo => mo.Ignore());
+
+            cfg.CreateMap<NoteModel, Note>();
+            cfg.CreateMap<Note, NoteModel>();
+
         };
 
         public static void Init()

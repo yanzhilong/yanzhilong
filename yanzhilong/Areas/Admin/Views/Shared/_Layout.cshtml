@@ -78,8 +78,16 @@
                         { @:
 
                         }>
-                            @Html.ActionLink("推荐管理", "Index", "ResourceStar")
+                            @Html.ActionLink("笔记管理", "Index", "Note")
                         </li>
+
+                        <li @if (ViewBag.sidebar == "笔记管理") { @: class="active"
+                             } else { @:
+                             }>
+                            @Html.ActionLink("笔记管理", "Index", "Note")
+                        </li>
+
+
 
                     </ul>
                     <ul class="nav nav-sidebar">

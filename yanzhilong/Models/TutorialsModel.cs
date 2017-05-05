@@ -31,6 +31,7 @@ namespace yanzhilong.Models
         [DisplayName("发表时间")] //显示在Label上的名字
         public DateTime CreateAt { get; set; } //发表时间
         public DateTime UpdateAt { get; set; } //更新时间
+        public int PV { get; set; }//浏览量
         public string UserID { get; set; }
         public string DisplayName { get; set; }
     }

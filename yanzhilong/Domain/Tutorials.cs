@@ -21,5 +21,6 @@ namespace yanzhilong.Domain
         public DateTime CreateAt { get; set; } //发表时间
         public DateTime UpdateAt { get; set; } //更新时间
         public User user { get; set; } //创建者
+        public int PV { get; set; }//浏览量
     }
 }

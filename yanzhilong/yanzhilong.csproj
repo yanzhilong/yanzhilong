@@ -232,6 +232,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NoteController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\ResourceStarController.cs" />
     <Compile Include="Areas\Admin\Controllers\TutorialsController.cs" />
@@ -239,9 +240,11 @@
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NoteController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\TutorialsController.cs" />
+    <Compile Include="Domain\Note.cs" />
     <Compile Include="Domain\PageViewCount.cs" />
     <Compile Include="filter\AuthenticationAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -255,6 +258,7 @@
     <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Domain\ArticleCount.cs" />
     <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\NoteModel.cs" />
     <Compile Include="Models\PageViewCountModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\ResourceStarModel.cs" />
@@ -276,6 +280,7 @@
     <Compile Include="Service\ResourceStarService.cs" />
     <Compile Include="Domain\ResourceStar.cs" />
     <Compile Include="Service\SessionService.cs" />
+    <Compile Include="Service\NoteService.cs" />
     <Compile Include="Service\TutorialsService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Domain\Category.cs" />
@@ -311,6 +316,7 @@
     <EmbeddedResource Include="MapFiles\Tutorials.xml" />
     <EmbeddedResource Include="MapFiles\ResourceStar.xml" />
     <EmbeddedResource Include="MapFiles\PageViewCount.xml" />
+    <EmbeddedResource Include="MapFiles\Note.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -341,6 +347,9 @@
     <Content Include="Areas\Admin\Views\File\Summernote.cshtml" />
     <Content Include="Areas\Admin\Views\File\Upload.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Note\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Note\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Note\Index.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -391,6 +400,8 @@
     <Content Include="Views\ResourceStar\Edit.cshtml" />
     <Content Include="Views\ResourceStar\Index.cshtml" />
     <Content Include="Views\Category\Details.cshtml" />
+    <Content Include="Views\Note\Details.cshtml" />
+    <Content Include="Views\Note\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

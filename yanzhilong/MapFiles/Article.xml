@@ -36,6 +36,7 @@
       <result property="Notes" column="Notes" dbType="varchar" type="string" />
       <result property="CreateAt" column="CreateAt" dbType="datetime" type="DateTime" />
       <result property="UpdateAt" column="UpdateAt" dbType="datetime" type="DateTime" />
+      <result property="PV" column="PV" dbType="int" type="int" />
       <result property="category.CategoryID" column="CategoryId" dbType="char" type="string" />
       <result property="user.UserID" column="UserId" dbType="char" type="string" />
       <result property="user.DisplayName" column="DisplayName" dbType="char" type="string" />
@@ -112,7 +113,6 @@
           ,CategoryId
           ,UserId
           FROM Article
-          
           ]]>
     </select>
 
@@ -130,10 +130,10 @@
           ,a.UpdateAt
           ,a.CategoryId
           ,a.UserId
+          ,p.Count as PV
           ,u.DisplayName
-          FROM Article a,User u
-          where a.UserId = u.UserID
-          
+          FROM Article a,User u,PageViewCount p
+          where a.UserId = u.UserID And a.ArticleID = p.ResourceID
           ]]>
     </select>
 

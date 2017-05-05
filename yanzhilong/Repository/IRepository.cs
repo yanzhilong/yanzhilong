@@ -30,6 +30,14 @@ namespace yanzhilong.Repository
         T GetByCondition(string statementName, object parameterObject);
 
         /// <summary>
+        /// 根据指定条件获得实体
+        /// </summary>
+        /// <param name="statementName"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        T GetByCondition(string statementName, T parameter);
+
+        /// <summary>
         /// Update entity
         /// </summary>
         /// <param name="entity">Entity</param>
