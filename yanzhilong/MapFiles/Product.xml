@@ -11,7 +11,7 @@
   <resultMaps>
 
     <!-- 数据库的全部字段到实体类的映射 -->
-    <resultMap id="SelectAllResult" class="Product">
+    <resultMap id="ProductResult" class="Product">
       <result property="ProductID" column="ProductID" dbType="char" type="string" />
       <result property="Name" column="Name" dbType="varchar" type="string" />
       <result property="Content" column="Content" dbType="varchar" type="string" />
@@ -41,11 +41,11 @@
     </insert>
 
     <!-- parameterClass表示传入的参数为int -->
-    <delete id="DeleteProduct" parameterClass="string">
+    <delete id="DeleteProduct" parameterClass="Product">
       <![CDATA[
           delete from Product  
           where  
-          ProductID = #value#  
+          ProductID = #ProductID#  
           ]]>
     </delete>
     
@@ -75,7 +75,7 @@
     </select>
 
     <!-- resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样 -->
-    <select id="SelectAllProduct" resultMap="SelectAllResult">
+    <select id="SelectProductByCondition" parameterClass="Product" resultMap="ProductResult">
       <![CDATA[  
           SELECT ProductID
           ,Name
@@ -88,22 +88,66 @@
           ,CreateAt
           FROM Product
           ]]>
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="ProductID">
+          <![CDATA[  
+           ProductID = #ProductID#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Name">
+          <![CDATA[  
+           Name = #Name#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Content">
+          <![CDATA[  
+           Content = #Content#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Version">
+          <![CDATA[  
+           Version = #Version#
+            ]]>
+        </isNotEmpty>
+        <isGreaterThan prepend="AND" compareValue ="0"  property="Size">
+          <![CDATA[  
+           Size = #Size#
+            ]]>
+        </isGreaterThan>
+        <isNotEmpty prepend="AND" property="ImageUrl">
+          <![CDATA[  
+           ImageUrl = #ImageUrl#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Disc">
+          <![CDATA[  
+           Disc = #Disc#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Notes">
+          <![CDATA[  
+           Notes = #Notes#
+            ]]>
+        </isNotEmpty>
+      </dynamic>
     </select>
 
     <!-- 获得星推荐的产品，用于首页展示 -->
-    <select id="SelectStarProduct" parameterClass="int" resultMap="SelectAllResult"  extends="SelectAllProduct">
+    <select id="SelectProductByStar" parameterClass="int" resultMap="ProductResult">
       <![CDATA[  
+      SELECT ProductID
+          ,Name
+          ,Content
+          ,Version
+          ,Size
+          ,ImageUrl
+          ,Disc
+          ,Notes
+          ,CreateAt
+          FROM Product 
           where ProductID in (SELECT ResourceID FROM ResourceStar Where ResourceType = #value#)
           ]]>
     </select>
-
-    <!-- #value# 是点位符会被传入的parameterClass的string类型代替 -->
-    <select id="SelectProductById" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllProduct">
-      <![CDATA[  
-          where ProductID = #value#  
-          ]]>
-    </select>
-
   </statements>
 
 </sqlMap>

@@ -21,25 +21,25 @@ namespace yanzhilong.Service
          
         public Product GetProductById(string productID)
         {
-            Product product = repository.GetByCondition("SelectProductById", productID);
+            Product product = repository.GetByCondition("SelectProductByCondition", new Product { ProductID = productID});
             return product;
         }
 
         public IList<Product> GetProducts()
         {
-            IList<Product> products = repository.GetList("SelectAllProduct", null);
+            IList<Product> products = repository.GetList("SelectProductByCondition", null);
             return products;
         }
 
         public IList<Product> GetStarProducts()
         {
-            IList<Product> products = repository.GetList("SelectStarProduct", ResourceType.PRODUCT);
+            IList<Product> products = repository.GetList("SelectProductByStar", ResourceType.PRODUCT);
             return products;
         }
 
         public IList<Product> GetProducts(int pageCount)
         {
-            IList<Product> productList = repository.GetList("SelectAllProduct", null, pageCount);
+            IList<Product> productList = repository.GetList("SelectProductByCondition", new Product { }, pageCount);
             return productList;
         }
 

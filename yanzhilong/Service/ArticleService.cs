@@ -58,7 +58,7 @@ namespace yanzhilong.Service
 
         public IList<Article> GetArticles(int pageCount)
         {
-            IList<Article> articleList = repository.GetList("SelectArticleByCondition", null, pageCount);
+            IList<Article> articleList = repository.GetList("SelectArticleByCondition", new Article { }, pageCount);
             return articleList;
         }
 
