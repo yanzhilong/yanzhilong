@@ -118,7 +118,7 @@ namespace yanzhilong.Repository
             ISqlMapper sqlMap = GetLocalSqlMap();
             try
             {
-                return sqlMap.QueryForList<T>(statementName, parameterObjec, page * pageSize, PAGESIZE);
+                return sqlMap.QueryForList<T>(statementName, parameterObjec, page * pageSize, pageSize);
             }
             catch (Exception e)
             {
@@ -204,16 +204,57 @@ namespace yanzhilong.Repository
             }
         }
 
-        public T GetByCondition(string statementName, T parameter)
+        public T GetByCondition(string statementName, T entity)
         {
             ISqlMapper sqlMap = GetLocalSqlMap();
             try
             {
-                return sqlMap.QueryForObject<T>(statementName, parameter);
+                return sqlMap.QueryForObject<T>(statementName, entity);
             }
             catch (Exception e)
             {
                 throw new IBatisNetException("Error executing query '" + statementName + "' for object.  Cause: " + e.Message, e);
+            }
+        }
+
+        public IList<T> GetList(string statementName, T entity)
+        {
+            ISqlMapper sqlMap = GetLocalSqlMap();
+            try
+            {
+                return sqlMap.QueryForList<T>(statementName, entity);
+            }
+            catch (Exception e)
+            {
+                throw new IBatisNetException("Error executing query '" + statementName + "' for list.  Cause: " + e.Message, e);
+            }
+        }
+
+        public IList<T> GetList(string statementName, T entity, int page)
+        {
+            page--;
+            ISqlMapper sqlMap = GetLocalSqlMap();
+            try
+            {
+                return sqlMap.QueryForList<T>(statementName, entity, page * PAGESIZE, PAGESIZE);
+            }
+            catch (Exception e)
+            {
+                throw new IBatisNetException("Error executing query '" + statementName + "' for list.  Cause: " + e.Message, e);
+            }
+        }
+
+        public IList<T> GetList(string statementName, T entity, int page, int pageSize)
+        {
+            page--;
+            ISqlMapper sqlMap = GetLocalSqlMap();
+            try
+            {
+                return sqlMap.QueryForList<T>(statementName, entity, page * pageSize, pageSize);
+            }
+            catch (Exception e)
+            {
+                throw new IBatisNetException("Error executing query '" + statementName + "' for list.  Cause: " + e.Message, e);
             }
         }
     }

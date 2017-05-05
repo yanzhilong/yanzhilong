@@ -22,52 +22,43 @@ namespace yanzhilong.Service
          
         public Article GetArticleById(string articleID)
         {
-            Article article = repository.GetByCondition("SelectArticleById", articleID);
+            Article article = repository.GetByCondition("SelectArticleByCondition", new Article { ArticleID = articleID});
             return article;
         }
 
         public Article GetPreArticle(Article article)
         {
-            Article articlePre = repository.GetByCondition("SelectArticleByPre", article);
+            Article articlePre = repository.GetByCondition("SelectArticleByPre", new Article { CreateAt = article.CreateAt});
             return articlePre;
         }
 
         public Article GetNextArticle(Article article)
         {
-            Article articleNext = repository.GetByCondition("SelectArticleByNext", article);
+            Article articleNext = repository.GetByCondition("SelectArticleByNext", new Article { CreateAt = article.CreateAt });
             return articleNext;
         }
 
-
         public IList<Article> GetArticles()
         {
-            IList<Article> articles = repository.GetList("SelectAllArticle", null);
+            IList<Article> articles = repository.GetList("SelectArticleByCondition", null);
             return articles;
         }
 
         public IList<Article> GetArticlesByCategoryId(string categoryID)
         {
-            IList<Article> articles = repository.GetList("SelectArticlesByCategoryId", categoryID);
+            IList<Article> articles = repository.GetList("SelectArticleByCondition", new Article { category = new Category { CategoryID = categoryID } });
             return articles;
         }
 
         public IList<Article> GetArticles(int pageCount,string categoryID)
         {
-            IList<Article> articleList = null;
-            if (categoryID != null)
-            {
-                articleList = repository.GetList("SelectArticlesContainUserByCategoryId", categoryID,pageCount);
-            }
-            else
-            {
-                articleList = repository.GetList("SelectAllArticleContainUser", null, pageCount);
-            }
-            return articleList;
+            IList<Article> articles = repository.GetList("SelectArticleByCondition", new Article { category = new Category { CategoryID = categoryID } },pageCount);
+            return articles;
         }
 
         public IList<Article> GetArticles(int pageCount)
         {
-            IList<Article> articleList = repository.GetList("SelectArticlesContainUserByCategoryId",null, pageCount);
+            IList<Article> articleList = repository.GetList("SelectArticleByCondition", null, pageCount);
             return articleList;
         }
 
@@ -79,18 +70,14 @@ namespace yanzhilong.Service
 
         public int GetCount(string categoryID)
         {
-            if(categoryID == null)
-            {
-                return GetCount();
-            }
-            int count = repository.GetObject<int>("SelectArticleCountByCategory", categoryID);
+            int count = repository.GetObject<int>("SelectArticleCount", new Article { category = new Category { CategoryID = categoryID } });
             return count;
         }
 
 
         public IList<Article> GetStarArticles()
         {
-            IList<Article> articles = repository.GetList("SelectStarArticle", ResourceType.ARTICLE);
+            IList<Article> articles = repository.GetList("SelectArticleByStar", ResourceType.ARTICLE);
             return articles;
         }
 
@@ -98,11 +85,10 @@ namespace yanzhilong.Service
         {
             repository.Update("UpdateArticle", article);
         }
-        
 
         public void Delete(string articleID)
         {
-            repository.Delete("DeleteArticle", articleID);
+            repository.Delete("DeleteArticle", new Article { ArticleID = articleID});
         }
     }
 }

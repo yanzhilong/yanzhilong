@@ -12,22 +12,7 @@
   <resultMaps>
     
     <!-- 数据库的全部字段到实体类的映射 -->
-    <resultMap id="SelectAllResult" class="Article">
-      <result property="ArticleID" column="ArticleID" dbType="char" type="string" />
-      <result property="Title" column="Title" dbType="varchar" type="string" />
-      <result property="Content" column="Content" dbType="text" type="string" />
-      <result property="ImageUrl" column="ImageUrl" dbType="varchar" type="string" />
-      <result property="Disc" column="Disc" dbType="varchar" type="string" />
-      <result property="Notes" column="Notes" dbType="varchar" type="string" />
-      <result property="CreateAt" column="CreateAt" dbType="datetime" type="DateTime" />
-      <result property="UpdateAt" column="UpdateAt" dbType="datetime" type="DateTime" />
-      <result property="category.CategoryID" column="CategoryId" dbType="char" type="string" />
-      <result property="user.UserID" column="UserId" dbType="char" type="string" />
-    </resultMap>
-
-
-    <!-- 数据库的全部字段到实体类的映射 -->
-    <resultMap id="SelectAllResultContainUser" class="Article">
+    <resultMap id="ArticleResult" class="Article">
       <result property="ArticleID" column="ArticleID" dbType="char" type="string" />
       <result property="Title" column="Title" dbType="varchar" type="string" />
       <result property="Content" column="Content" dbType="text" type="string" />
@@ -59,11 +44,11 @@
     </insert>
 
     <!-- parameterClass表示传入的参数为int -->
-    <delete id="DeleteArticle" parameterClass="string">
+    <delete id="DeleteArticle" parameterClass="Article">
       <![CDATA[
           delete from Article  
-          where  
-          ArticleID = #value#  
+          where
+          ArticleID = #ArticleID#  
           ]]>
     </delete>
     
@@ -85,41 +70,25 @@
           ]]>
     </update>
 
-    <select id="SelectArticleCount" resultClass="int">
+    <select id="SelectArticleCount" parameterClass="Article" resultClass="int">
       <![CDATA[  
           SELECT  
           COUNT(ArticleID)  
           FROM Article  
           ]]>
-    </select>
-    
-    <select id="SelectArticleCountByCategory" parameterClass="string" resultClass="int" extends="SelectArticleCount">
-      <![CDATA[  
-          where CategoryId = #value#
-          ]]>
+          <dynamic prepend="WHERE">
+            <isNotEmpty prepend="AND" property="category.CategoryID">
+              <![CDATA[  
+               CategoryId = #category.CategoryID#
+                ]]>
+            </isNotEmpty>
+      </dynamic>
     </select>
 
-     <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
-    <select id="SelectAllArticle" resultMap="SelectAllResult">
-      <![CDATA[  
-          SELECT ArticleID
-          ,Title
-          ,Content
-          ,ImageUrl
-          ,Disc
-          ,Notes
-          ,CreateAt
-          ,UpdateAt
-          ,CategoryId
-          ,UserId
-          FROM Article
-          ]]>
-    </select>
 
     <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
-    <select id="SelectAllArticleContainUser" resultMap="SelectAllResultContainUser">
+    <select id="SelectArticleByCondition" parameterClass="Article" resultMap="ArticleResult">
       <![CDATA[  
-          
           SELECT a.ArticleID
           ,a.Title
           ,a.Content
@@ -132,12 +101,55 @@
           ,a.UserId
           ,p.Count as PV
           ,u.DisplayName
-          FROM Article a,User u,PageViewCount p
-          where a.UserId = u.UserID And a.ArticleID = p.ResourceID
+          FROM Article a left join User u on a.UserId = u.UserID left join PageViewCount p
+          on a.ArticleID = p.ResourceID
           ]]>
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="ArticleID">
+          <![CDATA[  
+           a.ArticleID = #ArticleID#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Title">
+          <![CDATA[  
+           a.Title = #Title#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Content">
+          <![CDATA[  
+           a.Content = #Content#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="ImageUrl">
+          <![CDATA[  
+           s.ImageUrl = #ImageUrl#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Disc">
+          <![CDATA[  
+           a.Disc = #Disc#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Notes">
+          <![CDATA[  
+           a.Notes = #Notes#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="category.CategoryID">
+          <![CDATA[  
+           a.CategoryId = #category.CategoryID#
+            ]]>
+        </isNotEmpty>
+       <isNotEmpty prepend="AND" property="user.UserID">
+          <![CDATA[  
+           a.UserId = #user.UserID#
+            ]]>
+        </isNotEmpty>
+      </dynamic>
     </select>
 
-    <select id="SelectAllArticles" parameterClass="Article" resultMap="SelectAllResultContainUser">
+    <!-- 获得星推荐的文章，用于首页展示 -->
+    <select id="SelectArticleByStar" parameterClass="int" resultMap="ArticleResult">
       <![CDATA[  
           SELECT a.ArticleID
           ,a.Title
@@ -149,65 +161,35 @@
           ,a.UpdateAt
           ,a.CategoryId
           ,a.UserId
+          ,p.Count as PV
           ,u.DisplayName
-          FROM Article a,User u
-          where a.UserId = u.UserID
+          FROM Article a left join User u on a.UserId = u.UserID left join PageViewCount p
+          on a.ArticleID = p.ResourceID
+          where ArticleID in (SELECT ResourceID FROM ResourceStar Where ResourceType = #value#)   
           ]]>
-    </select>
-
-    <select id="SelectAllArticleByCategoryId" parameterClass="Article" resultMap="SelectAllResultContainUser" extends="SelectAllArticles">
-      <isNotEmpty prepend=" AND " property="category.CategoryID">
-        <![CDATA[  
-          CategoryId = #category.CategoryID#
-          ]]>
-      </isNotEmpty>
-    </select>
-
-    <!-- 获得星推荐的文章，用于首页展示 -->
-    <select id="SelectStarArticle" parameterClass="int" resultMap="SelectAllResult"  extends="SelectAllArticle">
-      <![CDATA[  
-          where ArticleID in (SELECT ResourceID FROM ResourceStar Where ResourceType = #value#)
-          ]]>
-    </select>
-    
-     <!--#value# 是点位符会被传入的parameterClass的string类型代替--> 
-    <select id="SelectArticleById" parameterClass="string" resultMap="SelectAllResultContainUser" extends="SelectAllArticles">
-
-      <isNotEmpty prepend=" AND ">
-        <![CDATA[  
-          ArticleID = #value#
-          ]]>
-      </isNotEmpty>
-      
       
     </select>
 
     <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
-    <select id="SelectArticleByPre" parameterClass="Article" resultMap="SelectAllResult" extends="SelectAllArticle">
+    <select id="SelectArticleByPre" parameterClass="Article" resultMap="ArticleResult" extends="SelectArticleByCondition">
       
-      <![CDATA[  
-          where unix_timestamp(CreateAt) < unix_timestamp(#CreateAt#) 
+       <isNotEmpty prepend="AND" property="CreateAt">
+          <![CDATA[  
+            unix_timestamp(a.CreateAt) < unix_timestamp(#CreateAt#) 
              Order By CreateAt desc limit 1
-          ]]>
+            ]]>
+        </isNotEmpty>
     </select>
 
     <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
-    <select id="SelectArticleByNext" parameterClass="Article" resultMap="SelectAllResult" extends="SelectAllArticle">
-
-      <![CDATA[  
-          where unix_timestamp(CreateAt) > unix_timestamp(#CreateAt#) 
+    <select id="SelectArticleByNext" parameterClass="Article" resultMap="ArticleResult" extends="SelectArticleByCondition">
+     <isNotEmpty prepend="AND" property="CreateAt">
+          <![CDATA[  
+            unix_timestamp(a.CreateAt) > unix_timestamp(#CreateAt#) 
              Order By CreateAt asc limit 1
-          ]]>
+            ]]>
+        </isNotEmpty>
     </select>
-
-    <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
-    <select id="SelectArticlesContainUserByCategoryId" parameterClass="string" resultMap="SelectAllResultContainUser" extends="SelectAllArticleContainUser">
-      <![CDATA[  
-          and CategoryId = #value#  
-          ]]>
-    </select>
-    
-    
 
   </statements>
 

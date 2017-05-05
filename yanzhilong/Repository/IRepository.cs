@@ -35,7 +35,7 @@ namespace yanzhilong.Repository
         /// <param name="statementName"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        T GetByCondition(string statementName, T parameter);
+        T GetByCondition(string statementName, T entity);
 
         /// <summary>
         /// Update entity
@@ -70,6 +70,14 @@ namespace yanzhilong.Repository
         IList<T> GetList(string statementName, object parameterObject);
 
         /// <summary>
+        /// 获得实体列表
+        /// </summary>
+        /// <param name="statementName"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        IList<T> GetList(string statementName, T entity);
+
+        /// <summary>
         /// 获得实体列表分页
         /// </summary>
         /// <param name="statementName"></param>
@@ -82,11 +90,30 @@ namespace yanzhilong.Repository
         /// 获得实体列表分页
         /// </summary>
         /// <param name="statementName"></param>
+        /// <param name="entity"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        IList<T> GetList(string statementName, T entity, int page);
+
+        /// <summary>
+        /// 获得实体列表分页
+        /// </summary>
+        /// <param name="statementName"></param>
         /// <param name="obj"></param>
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
         IList<T> GetList(string statementName, object parameterObject, int page, int pageSize);
+
+        /// <summary>
+        /// 获得实体列表分页
+        /// </summary>
+        /// <param name="statementName"></param>
+        /// <param name="entity"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        IList<T> GetList(string statementName, T entity, int page, int pageSize);
 
         /// <summary>
         /// 获得指定的对象
