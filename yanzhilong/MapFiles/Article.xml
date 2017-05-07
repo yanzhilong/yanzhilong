@@ -172,23 +172,27 @@
 
     <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
     <select id="SelectArticleByPre" parameterClass="Article" resultMap="ArticleResult" extends="SelectArticleByCondition">
-      
-       <isNotEmpty prepend="AND" property="CreateAt">
+
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="CreateAt">
           <![CDATA[  
             unix_timestamp(a.CreateAt) < unix_timestamp(#CreateAt#) 
-             Order By CreateAt desc limit 1
+             Order By a.CreateAt desc limit 1
             ]]>
         </isNotEmpty>
+      </dynamic>
     </select>
 
     <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
     <select id="SelectArticleByNext" parameterClass="Article" resultMap="ArticleResult" extends="SelectArticleByCondition">
-     <isNotEmpty prepend="AND" property="CreateAt">
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="CreateAt">
           <![CDATA[  
             unix_timestamp(a.CreateAt) > unix_timestamp(#CreateAt#) 
-             Order By CreateAt asc limit 1
+             Order By a.CreateAt asc limit 1
             ]]>
         </isNotEmpty>
+      </dynamic>
     </select>
 
   </statements>

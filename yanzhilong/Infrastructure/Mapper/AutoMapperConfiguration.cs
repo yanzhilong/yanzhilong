@@ -25,7 +25,6 @@ namespace yanzhilong.Infrastructure.Mapper
             .ForMember(dest => dest.CategorySelectItems, mo => mo.Ignore());
             
             cfg.CreateMap<ArticleModel, Article>()
-            .ForMember(dest => dest.UpdateAt, mo => mo.MapFrom(src => DateTime.Now))
             .ForMember(dest => dest.category, mo => mo.MapFrom(src => new Category { CategoryID = src.CategoryID }))
             .ForMember(dest => dest.user, mo => mo.MapFrom(src => new User { UserID = src.UserID }));
 
@@ -34,7 +33,6 @@ namespace yanzhilong.Infrastructure.Mapper
            .ForMember(dest => dest.DisplayName, mo => mo.MapFrom(src => src.user.DisplayName));
 
             cfg.CreateMap<TutorialsModel, Tutorials>()
-            .ForMember(dest => dest.UpdateAt, mo => mo.MapFrom(src => DateTime.Now))
             .ForMember(dest => dest.user, mo => mo.MapFrom(src => new User { UserID = src.UserID }));
 
             cfg.CreateMap<Product, ProductModel>();

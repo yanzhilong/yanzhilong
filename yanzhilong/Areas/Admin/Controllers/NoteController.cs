@@ -85,6 +85,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                noteModel.UpdateAt = DateTime.Now;
                 Note note = noteModel.ToEntity();
                 noteService.Update(note);
                 return RedirectToAction("Index");

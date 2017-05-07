@@ -21,6 +21,7 @@
         @Html.ValidationSummary(true, "请求参数不正确", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.TutorialsID)
         @Html.HiddenFor(model => model.UserID)
+        @Html.HiddenFor(model => model.CreateAt)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })

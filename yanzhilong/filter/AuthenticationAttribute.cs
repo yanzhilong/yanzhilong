@@ -14,10 +14,10 @@ namespace yanzhilong.filter
         {
             if (filterContext.HttpContext.Session["UserID"] == null)
             {
+                filterContext.Result = new EmptyResult();
                 //跳转到登陆页
                 filterContext.HttpContext.Response.Redirect("/Admin/Home/Login");
             }
-            base.OnActionExecuting(filterContext);
         }
     }
 }

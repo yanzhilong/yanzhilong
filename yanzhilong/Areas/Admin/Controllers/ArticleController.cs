@@ -68,6 +68,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             {
                 articleModel.ArticleID = Guid.NewGuid().ToString();
                 articleModel.CreateAt = DateTime.Now;
+                articleModel.UpdateAt = DateTime.Now;
                 string userID = HttpContext.Session["UserID"] as string;
                 articleModel.UserID = userID;
                 Article article = articleModel.ToEntity();
@@ -97,8 +98,8 @@ namespace yanzhilong.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                articleModel.UpdateAt = DateTime.Now;
                 Article article = articleModel.ToEntity();
-                article.UpdateAt = DateTime.Now;
                 articleCRUD.Update(article);
                 return RedirectToAction("Index");
             }

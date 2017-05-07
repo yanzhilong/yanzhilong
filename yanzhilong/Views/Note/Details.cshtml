@@ -20,7 +20,9 @@
             <div class="col-md-9">
                 <h2 class="blog-post-title">@Model.Title</h2>
                 <p classblog-post-meta">@Model.CreateAt </p>
-                @Html.Raw(HttpUtility.HtmlDecode(@Model.Content))
+                <div id="content_body">
+                    @Html.Raw(HttpUtility.HtmlDecode(@Model.Content))
+                </div>
             </div>
         </div>
     </div>
@@ -29,7 +31,7 @@
 @section scripts{
 
     <script>
-
+        var random = [];
     /* 设置上下的位移 */
     $('.sidebar-nav').affix({
         offset: {
@@ -45,9 +47,18 @@
 
     //将所有的标题的id设置成标题内容
     $(":header").each(function () {
-        $(this).attr("id", $(this).text());
+        $(this).attr("id", $(this).text() + getRandom());
     });
 
+    function getRandom() {
+        var max = 10000
+        var randomNum = Math.floor(Math.random() * max + 1)
+        if (random.indexOf(randomNum) == -1) {
+            random.push(randomNum);
+            return randomNum
+        }
+        return getRandom();
+    }
 
     //存放所有的标题，测试的时候用
     var allh = new Array();
@@ -149,23 +160,23 @@
 
         var firstTitleTag = null;
         var firstTag = null;
-        if ($("div.col-md-9:first h1:first").length > 0) {
-            firstTitleTag = $("div.col-md-9:first h1:first");
+        if ($("#content_body").find("h1").length > 0) {
+            firstTitleTag = $("#content_body h1:first");
             firstTag = "h1";
-        } else if ($("div.col-md-9:first h2:first")) {
-            firstTitleTag = $("div.col-md-9:first h2:first");
+        } else if ($("#content_body h2").length > 0) {
+            firstTitleTag = $("#content_body h2:first");
             firstTag = "h2";
-        } else if ($("div.col-md-9:first h3:first")) {
-            firstTitleTag = $("div.col-md-9:first h3:first");
+        } else if ($("#content_body h3").length > 0) {
+            firstTitleTag = $("#content_body h3:first");
             firstTag = "h3";
-        } else if ($("div.col-md-9:first h42:first")) {
-            firstTitleTag = $("div.col-md-9:first h4:first");
+        } else if ($("#content_body h4").length > 0) {
+            firstTitleTag = $("#content_body h4:first");
             firstTag = "h4";
-        } else if ($("div.col-md-9:first h5:first")) {
-            firstTitleTag = $("div.col-md-9:first h5:first");
+        } else if ($("#content_body h5").length > 0) {
+            firstTitleTag = $("#content_body h5:first");
             firstTag = "h5";
-        } else if ($("div.col-md-9:first h6:first")) {
-            firstTitleTag = $("div.col-md-9:first h6:first");
+        } else if ($("#content_body h6").length > 0) {
+            firstTitleTag = $("#content_body h6:first");
             firstTag = "h6";
         }
 

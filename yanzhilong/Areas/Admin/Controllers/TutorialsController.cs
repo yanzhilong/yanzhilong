@@ -58,6 +58,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             {
                 tutorialsModel.TutorialsID = Guid.NewGuid().ToString();
                 tutorialsModel.CreateAt = DateTime.Now;
+                tutorialsModel.UpdateAt = DateTime.Now;
                 string userID = HttpContext.Session["UserID"] as string;
                 tutorialsModel.UserID = userID;
                 Tutorials tutorials = tutorialsModel.ToEntity();
@@ -87,6 +88,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                tutorialsModel.UpdateAt = DateTime.Now;
                 Tutorials tutorials = tutorialsModel.ToEntity();
                 tutorialsCRUD.Update(tutorials);
                 return RedirectToAction("Index");
