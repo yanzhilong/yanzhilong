@@ -48,8 +48,10 @@
     });
 
     //将所有的标题的id设置成标题内容
+    var num = 0;
     $(":header").each(function () {
-        $(this).attr("id", $(this).text() + getRandom());
+        num++;
+        $(this).attr("id", "title" + getRandom() + num);
     });
     
 
@@ -83,7 +85,10 @@
             h_other = h.nextUntil(prent,hcurrent);//查看后面所有同极标题
             var h_array = h_one;//存放当前所有的同极标题
             if (h_other.length > 0) {
-                h_array = h_one.concat(h_other);
+                $.each(h_other, function (index, domEle) {
+                    h_array.push($(h_other[index]));
+                });
+                //h_array = h_one.concat(h_other);
             }
             //遍历度查找所有的子级元素
             var hnext = getchild(hcurrent);

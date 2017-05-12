@@ -81,11 +81,11 @@
              ResourceID = #ResourceID#
               ]]>
         </isNotEmpty>
-        <isNotEmpty prepend="AND" property="ResourceType">
+        <isGreaterThan prepend="AND" compareValue ="-1" property="ResourceType">
           <![CDATA[  
              ResourceType = #ResourceType#
               ]]>
-        </isNotEmpty>
+        </isGreaterThan>
       </dynamic>
     </select>
    

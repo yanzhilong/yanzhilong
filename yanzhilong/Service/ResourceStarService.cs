@@ -39,7 +39,7 @@ namespace yanzhilong.Service
 
         public IList<ResourceStar> GetResourceStars(int pageCount)
         {
-            IList<ResourceStar> resourceStarList = repository.GetList("SelectResourceStarByCondition", new ResourceStar { }, pageCount); 
+            IList<ResourceStar> resourceStarList = repository.GetList("SelectResourceStarByCondition", new ResourceStar { ResourceType = -1 }, pageCount); 
             return resourceStarList;
         }
 
