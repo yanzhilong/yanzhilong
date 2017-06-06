@@ -908,3 +908,4 @@ INFO  2017-05-12 11:35:44,289 54617ms HomeController         Index              
 INFO  2017-05-12 11:38:57,586 247914ms HomeController         Index              - index
 INFO  2017-05-12 11:40:12,656 322983ms HomeController         Index              - index
 INFO  2017-05-12 14:50:11,601  1841ms HomeController         Index              - index
+INFO  2017-06-06 12:42:41,129   935ms HomeController         Index              - index

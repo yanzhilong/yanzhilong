@@ -13,15 +13,7 @@ namespace yanzhilong.Service
 {
     public class CategoryService
     {
-        //private SqlMapper sqlMapper = null;
-        //readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        //public CategoryService()
-        //{
-        //    ISqlMapper mapper = Mapper.Instance();
-        //    DomSqlMapBuilder builder = new DomSqlMapBuilder();
-        //    sqlMapper = builder.Configure() as SqlMapper;
-        //}
-
+        
         IRepository<Category> repository = new MbRepository<Category>();
         IRepository<ArticleCount> repository1 = new MbRepository<ArticleCount>();
 
@@ -33,7 +25,7 @@ namespace yanzhilong.Service
          
         public Category GetCategoryById(string categoryID)
         {
-            Category category = repository.GetByCondition("SelectCategoryById", categoryID);
+            Category category = repository.GetByCondition("SelectCategoryByCondition", new Category { CategoryID = categoryID});
             return category;
         }
 
