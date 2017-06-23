@@ -1,0 +1,20 @@
+﻿@Styles.Render("~/bundles/editor/css")
+
+<div id="EditorMd">
+    <textarea style="display:none;" name="@ViewData["Name"]">sadkjfoiwjeofiwef</textarea>
+</div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/editor/js")
+<script type="text/javascript">
+    var EditorMd;
+    //var path = "@Server.MapPath("~/Content/editor.md-master/lib/")";
+    $(function() {
+        EditorMd = editormd("EditorMd", {
+            width   : "90%",
+            height  : 640,
+            syncScrolling : "single",
+            path    : "/Content/editor.md-master/lib/",
+        });
+    });
+</script>
+

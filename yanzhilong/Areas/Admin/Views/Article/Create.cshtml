@@ -28,37 +28,30 @@
             </div>
         </div>
 
-        @Html.HiddenFor(model => model.Content)
+        @*@Html.HiddenFor(model => model.Content)*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div id="summernote" placeholder="请输入" action="@Url.Action("Upload", "File")"></div>
+                @*<div id="summernote" placeholder="请输入" action="@Url.Action("Upload", "File")"></div>*@
+                @{ 
+                    var data = new ViewDataDictionary();
+                    data.Add("Name", "Content");
+                }
+                @Html.Partial("Editor")
+
                 @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Disc, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Disc, new { htmlAttributes = new { @class = "form-control", rows = 8 } })
-                @Html.ValidationMessageFor(model => model.Disc, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control", rows = 5 } })
-                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", rows = 8 } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -84,60 +77,84 @@
 
 	    $(document).ready(function() {
 
-		    var placeholder = $("#summernote").attr("placeholder") || '';//设置输入提示
-		    var url = $("#summernote").attr("action") || '';//设置上传图片的url
-		    $("#summernote").summernote({
-			    lang: 'zh-CN',
-			    placeholder: placeholder,
-			    minHeight: 300,
-                maxHeight: 800,
-			    dialogsFade: true,// 设置滑动效果Add fade effect on dialogs
-			    dialogsInBody: true,// 设置窗口显示位置Dialogs can be placed in body, not in
-			    disableDragAndDrop: false,//设置拖拽
-			    callbacks: {
-				    onImageUpload: function (files) {
-				        $(files).each(function () {
-				            var file = this;
-				            var data = new FormData();
-				            data.append("file", file);
-				            //ajax上传图片
-				            $.ajax({
-				                url: url,
-				                type: "post",
-				                data: data,
-				                dataType: "json",
-				                cache: false,
-				                contentType: false,
-				                processData: false,
-				                success: function (response) {
-				                    var jsonObj = JSON.parse(response);  // JSON.parse(); 方法
-				                    var jsonObj = JSON.parse(response);  // JSON.parse(); 方法
-				                    var imgNode = document.createElement('img');
-				                    imgNode.setAttribute('src', jsonObj.result);
-				                    $("#summernote").summernote('insertNode', imgNode);
-				                },
-				                error: function (response) {
-				                }
-				            });
-				        });
-				    }
-			    }
-		    });
+		    //var placeholder = $("#summernote").attr("placeholder") || '';//设置输入提示
+		    //var url = $("#summernote").attr("action") || '';//设置上传图片的url
+		    //$("#summernote").summernote({
+			//    lang: 'zh-CN',
+			//    placeholder: placeholder,
+			//    minHeight: 300,
+            //    maxHeight: 800,
+			//    dialogsFade: true,// 设置滑动效果Add fade effect on dialogs
+			//    dialogsInBody: true,// 设置窗口显示位置Dialogs can be placed in body, not in
+			//    disableDragAndDrop: false,//设置拖拽
+			//    callbacks: {
+			//	    onImageUpload: function (files) {
+			//	        $(files).each(function () {
+			//	            var file = this;
+			//	            var data = new FormData();
+			//	            data.append("file", file);
+			//	            //ajax上传图片
+			//	            $.ajax({
+			//	                url: url,
+			//	                type: "post",
+			//	                data: data,
+			//	                dataType: "json",
+			//	                cache: false,
+			//	                contentType: false,
+			//	                processData: false,
+			//	                success: function (response) {
+			//	                    var jsonObj = JSON.parse(response);  // JSON.parse(); 方法
+			//	                    var jsonObj = JSON.parse(response);  // JSON.parse(); 方法
+			//	                    var imgNode = document.createElement('img');
+			//	                    imgNode.setAttribute('src', jsonObj.result);
+			//	                    $("#summernote").summernote('insertNode', imgNode);
+			//	                },
+			//	                error: function (response) {
+			//	                }
+			//	            });
+			//	        });
+			//	    }
+			//    }
+		    //});
 
 	        //初始化summernote的值
-		    var encodevalue = $("#Content").val();
+		    //var encodevalue = $("#Content").val();
 	        //var decodevalue = htmlDecode(encodevalue);
-		    $('#summernote').summernote('code', encodevalue);
+		    //$('#summernote').summernote('code', encodevalue);
 
+
+	        ////初始化MarkDown
+		    //var indexMarkdownEditor;
+		    //$(function () {
+		    //    indexMarkdownEditor = editormd("index-editormd", {
+		    //        width: "90%",
+		    //        height: 400,
+		    //        syncScrolling: "single",
+		    //        saveHTMLToTextarea: true, //设置可保存为html 获取的时候testEditor.getHtml();就可以了
+		    //        /*theme : "dark",*/  //设置主题，有默认
+		    //        /*previewTheme : "dark",*/
+		    //        /*editorTheme : "pastel-on-dark",*/
+		    //        searchReplace: true,
+		    //        emoji: true,
+		    //        taskList: true,
+		    //        tocm: true,         // Using [TOCM]
+		    //        tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+		    //        flowChart: true,             // 开启流程图支持，默认关闭
+		    //        sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+		    //        dialogLockScreen: false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+		    //        imageUpload: true,
+		    //        imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"]
+		    //    });
+		    //});
 	    });
         
         //设置表单数值
-	    $("form").submit(function (e) {
-	        var makrup = $("#summernote").summernote('code');
+	    //$("form").submit(function (e) {
+	    //    var makrup = $("#summernote").summernote('code');
 
-		    //var encodevalue = htmlEncode(makrup);
-		    $("#Content").val(makrup);
-	    });
+		//    //var encodevalue = htmlEncode(makrup);
+		//    //$("#Content").val(makrup);
+	    //});
 
     </script>
 }

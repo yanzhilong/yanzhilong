@@ -12,7 +12,7 @@
 
     <!-- 数据库的全部字段到实体类的映射 -->
     <resultMap id="SelectAllResult" class="User">
-      <result property="UserID" column="UserID" dbType="char" type="string" />
+      <result property="Id" column="Id" dbType="char" type="string" />
       <result property="UserName" column="UserName" dbType="varchar" type="string" />
       <result property="DisplayName" column="DisplayName" dbType="varchar" type="string" />
       <result property="PasswordHash" column="PasswordHash" dbType="varchar" type="string" />
@@ -32,9 +32,9 @@
     <insert id="InsertUser" parameterClass="User" >
       <![CDATA[  
       insert into User  
-      (UserID,UserName,DisplayName,PasswordHash,Email,MobilePhone,CreateAt)  
+      (Id,UserName,DisplayName,PasswordHash,Email,MobilePhone,CreateAt)  
       values  
-      (#UserID#,#UserName#,#DisplayName#,#PasswordHash#,#Email#,#MobilePhone#,#CreateAt#)  
+      (#Id#,#UserName#,#DisplayName#,#PasswordHash#,#Email#,#MobilePhone#,#CreateAt#)  
       ]]>
     </insert>
 
@@ -43,7 +43,7 @@
       <![CDATA[
           delete from User  
           where  
-          UserID = #value#  
+          Id = #value#  
           ]]>
     </delete>
     
@@ -58,14 +58,14 @@
           MobilePhone=#MobilePhone#,
           CreateAt=#CreateAt#
           WHERE  
-          UserID=#UserID#  
+          Id=#Id#  
           ]]>
     </update>
 
     <!-- resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样 -->
     <select id="SelectAllUser" resultMap="SelectAllResult">
       <![CDATA[  
-          SELECT UserID
+          SELECT Id
           ,UserName
           ,DisplayName
           ,PasswordHash
@@ -79,7 +79,7 @@
     <!-- #value# 是点位符会被传入的parameterClass的string类型代替 -->
     <select id="SelectUserById" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllUser">
       <![CDATA[  
-          where UserID = #value#  
+          where Id = #value#  
           ]]>
     </select>
 

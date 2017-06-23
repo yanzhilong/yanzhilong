@@ -50,7 +50,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                categoryModel.CategoryID = Guid.NewGuid().ToString();
+                categoryModel.Id = Guid.NewGuid().ToString();
                 Category category = categoryModel.ToEntity();
                 categoryCRUD.Create(category);
                 return RedirectToAction("Index");

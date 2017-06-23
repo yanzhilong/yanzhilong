@@ -39,7 +39,7 @@ namespace yanzhilong.Areas.Admin.Controllers
                 if (user1 != null)
                 {
                     //保存session
-                    HttpContext.Session["UserID"] = user1.UserID;
+                    HttpContext.Session["UserID"] = user1.Id;
                     //string userID = HttpContext.Session["UserID"] as string;
                     return RedirectToAction("Index");
                 }

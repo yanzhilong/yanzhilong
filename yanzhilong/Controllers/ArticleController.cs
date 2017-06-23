@@ -16,7 +16,7 @@ namespace yanzhilong.Controllers
 {
     public class ArticleController : Controller
     {
-        private PageViewCountService pcs = new PageViewCountService();
+        private ViewTotalService pcs = new ViewTotalService();
         private ArticleService articleCRUD = new ArticleService();
         private CategoryService categoryCRUD = new CategoryService();
         private UserService userCRUD = new UserService();
@@ -56,7 +56,7 @@ namespace yanzhilong.Controllers
                 HttpContext.Session.Add(id, id);
                 pcs.PageViewDetails(id);
             }
-            ViewBag.PageViewCount = pcs.GetPageViewCountByResourceID(id);
+            ViewBag.PageViewCount = pcs.GetViewTotalByResourceID(id);
 
             Article article = articleCRUD.GetArticleById(id);
             ArticleModel am = article.ToModel();

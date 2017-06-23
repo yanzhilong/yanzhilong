@@ -13,7 +13,7 @@
         <h4>Edit</h4>
         <hr />
         @Html.ValidationSummary(true, "请求参数不正确", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.CategoryID)
+        @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })

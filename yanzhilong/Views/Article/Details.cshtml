@@ -12,7 +12,7 @@
         <div class="col-sm-8">
             <div class="blog-post">
                 <h2 class="blog-post-title">@Model.Title</h2>
-                <p classblog-post-meta">@Model.CreateAt &nbsp&nbsp by:<a href="#">@Model.DisplayName</a>&nbsp&nbsp浏览:@ViewBag.PageViewCount.Count</p>
+                <p classblog-post-meta">@Model.CreateAt &nbsp&nbsp by:<a href="#">@Model.DisplayName</a>&nbsp&nbsp浏览:@ViewBag.PageViewCount.Total</p>
                 @Html.Raw(HttpUtility.HtmlDecode(@Model.Content))
             </div>
             <hr />
@@ -21,13 +21,13 @@
                 <ul class="list-unstyled">
                     @if (PreArticle != null)
                     {
-                        <li><span>上一篇:</span>@Html.ActionLink(PreArticle.Title,"Details", new { id = PreArticle.ArticleID})
+                        <li><span>上一篇:</span>@Html.ActionLink(PreArticle.Title,"Details", new { id = PreArticle.Id})
                     @*<a href="#">Python对象的使用</a>*@</li>
                     }
                     
                     @if (NextArticle != null)
                     {
-                        <li><span>下一篇:</span>@Html.ActionLink(NextArticle.Title, "Details", new { id = NextArticle.ArticleID })
+                        <li><span>下一篇:</span>@Html.ActionLink(NextArticle.Title, "Details", new { id = NextArticle.Id })
                     @*<a href="#">Python对象的使用</a>*@</li>
                     }
 

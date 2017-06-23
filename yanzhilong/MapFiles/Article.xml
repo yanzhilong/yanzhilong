@@ -13,17 +13,14 @@
     
     <!-- 数据库的全部字段到实体类的映射 -->
     <resultMap id="ArticleResult" class="Article">
-      <result property="ArticleID" column="ArticleID" dbType="char" type="string" />
+      <result property="Id" column="Id" dbType="char" type="string" />
       <result property="Title" column="Title" dbType="varchar" type="string" />
       <result property="Content" column="Content" dbType="text" type="string" />
-      <result property="ImageUrl" column="ImageUrl" dbType="varchar" type="string" />
-      <result property="Disc" column="Disc" dbType="varchar" type="string" />
-      <result property="Notes" column="Notes" dbType="varchar" type="string" />
+      <result property="Description" column="Description" dbType="varchar" type="string" />
       <result property="CreateAt" column="CreateAt" dbType="datetime" type="DateTime" />
-      <result property="UpdateAt" column="UpdateAt" dbType="datetime" type="DateTime" />
       <result property="PV" column="PV" dbType="int" type="int" />
-      <result property="category.CategoryID" column="CategoryId" dbType="char" type="string" />
-      <result property="user.UserID" column="UserId" dbType="char" type="string" />
+      <result property="category.Id" column="CategoryId" dbType="char" type="string" />
+      <result property="user.Id" column="UserId" dbType="char" type="string" />
       <result property="user.DisplayName" column="DisplayName" dbType="char" type="string" />
     </resultMap>
     
@@ -37,9 +34,9 @@
     <insert id="InsertArticle" parameterClass="Article" >
       <![CDATA[  
       insert into Article  
-      (ArticleID,Title,Content,ImageUrl,Disc,Notes,CreateAt,UpdateAt,CategoryId,UserId)  
+      (Id,Title,Content,Description,CreateAt,CategoryId,UserId)  
       values  
-      (#ArticleID#,#Title#,#Content#,#ImageUrl#,#Disc#,#Notes#,#CreateAt#,#UpdateAt#,#category.CategoryID#,#user.UserID#)  
+      (#Id#,#Title#,#Content#,#Description#,#CreateAt#,#category.Id#,#user.Id#)  
       ]]>
     </insert>
 
@@ -48,7 +45,7 @@
       <![CDATA[
           delete from Article  
           where
-          ArticleID = #ArticleID#  
+          Id = #Id#  
           ]]>
     </delete>
     
@@ -58,28 +55,25 @@
           UPDATE Article SET  
           Title=#Title#,
           Content=#Content#,
-          ImageUrl=#ImageUrl#,
-          Disc=#Disc#,
-          Notes=#Notes#,
+          Description=#Description#,
           CreateAt=#CreateAt#,
-          UpdateAt=#UpdateAt#,
-          CategoryId=#category.CategoryID#,
-          UserId=#user.UserID#
+          CategoryId=#category.Id#,
+          UserId=#user.Id#
           WHERE  
-          ArticleID=#ArticleID#
+          Id=#Id#
           ]]>
     </update>
 
     <select id="SelectArticleCount" parameterClass="Article" resultClass="int">
       <![CDATA[  
           SELECT  
-          COUNT(ArticleID)  
+          COUNT(Id)  
           FROM Article  
           ]]>
           <dynamic prepend="WHERE">
-            <isNotEmpty prepend="AND" property="category.CategoryID">
+            <isNotEmpty prepend="AND" property="category.Id">
               <![CDATA[  
-               CategoryId = #category.CategoryID#
+               Id = #category.Id#
                 ]]>
             </isNotEmpty>
       </dynamic>
@@ -89,25 +83,22 @@
     <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
     <select id="SelectArticleByCondition" parameterClass="Article" resultMap="ArticleResult">
       <![CDATA[  
-          SELECT a.ArticleID
+          SELECT a.Id
           ,a.Title
           ,a.Content
-          ,a.ImageUrl
-          ,a.Disc
-          ,a.Notes
+          ,a.Description
           ,a.CreateAt
-          ,a.UpdateAt
           ,a.CategoryId
           ,a.UserId
-          ,p.Count as PV
+          ,p.Total as PV
           ,u.DisplayName
-          FROM Article a left join User u on a.UserId = u.UserID left join PageViewCount p
-          on a.ArticleID = p.ResourceID
+          FROM Article a left join User u on a.UserId = u.Id left join ViewTotal p
+          on a.Id = p.ResourceID
           ]]>
       <dynamic prepend="WHERE">
-        <isNotEmpty prepend="AND" property="ArticleID">
+        <isNotEmpty prepend="AND" property="Id">
           <![CDATA[  
-           a.ArticleID = #ArticleID#
+           a.Id = #Id#
             ]]>
         </isNotEmpty>
         <isNotEmpty prepend="AND" property="Title">
@@ -120,55 +111,19 @@
            a.Content = #Content#
             ]]>
         </isNotEmpty>
-        <isNotEmpty prepend="AND" property="ImageUrl">
+        <isNotEmpty prepend="AND" property="category.Id">
           <![CDATA[  
-           a.ImageUrl = #ImageUrl#
+           a.CategoryId = #category.Id#
             ]]>
         </isNotEmpty>
-        <isNotEmpty prepend="AND" property="Disc">
+       <isNotEmpty prepend="AND" property="user.Id">
           <![CDATA[  
-           a.Disc = #Disc#
-            ]]>
-        </isNotEmpty>
-        <isNotEmpty prepend="AND" property="Notes">
-          <![CDATA[  
-           a.Notes = #Notes#
-            ]]>
-        </isNotEmpty>
-        <isNotEmpty prepend="AND" property="category.CategoryID">
-          <![CDATA[  
-           a.CategoryId = #category.CategoryID#
-            ]]>
-        </isNotEmpty>
-       <isNotEmpty prepend="AND" property="user.UserID">
-          <![CDATA[  
-           a.UserId = #user.UserID#
+           a.UserId = #user.Id#
             ]]>
         </isNotEmpty>
       </dynamic>
     </select>
 
-    <!-- 获得星推荐的文章，用于首页展示 -->
-    <select id="SelectArticleByStar" parameterClass="int" resultMap="ArticleResult">
-      <![CDATA[  
-          SELECT a.ArticleID
-          ,a.Title
-          ,a.Content
-          ,a.ImageUrl
-          ,a.Disc
-          ,a.Notes
-          ,a.CreateAt
-          ,a.UpdateAt
-          ,a.CategoryId
-          ,a.UserId
-          ,p.Count as PV
-          ,u.DisplayName
-          FROM Article a left join User u on a.UserId = u.UserID left join PageViewCount p
-          on a.ArticleID = p.ResourceID
-          where ArticleID in (SELECT ResourceID FROM ResourceStar Where ResourceType = #value#)   
-          ]]>
-      
-    </select>
 
     <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
     <select id="SelectArticleByPre" parameterClass="Article" resultMap="ArticleResult" extends="SelectArticleByCondition">

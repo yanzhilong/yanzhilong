@@ -23,7 +23,7 @@
                 </th>
 
                 <th>
-                    @Html.DisplayNameFor(model => model.Disc)
+                    @Html.DisplayNameFor(model => model.Description)
                 </th>
 
                 <th>
@@ -53,7 +53,7 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.Disc)
+                        @Html.DisplayFor(modelItem => item.Description)
                     </td>
 
                     <td>
@@ -65,9 +65,9 @@
                     </td>
 
                     <td>
-                        @Html.ActionLink("编辑", "Edit", "Article", new { id = item.ArticleID }, new { target = "_blank" }) |
-                        @Html.ActionLink("详情", "Details", "Article", new { id = item.ArticleID, area = "" }, new { target = "_blank" }) |
-                        @Html.ActionLink("删除", "Delete", "Article", new { id = item.ArticleID }, null)
+                        @Html.ActionLink("编辑", "Edit", "Article", new { id = item.Id }, new { target = "_blank" }) |
+                        @Html.ActionLink("详情", "Details", "Article", new { id = item.Id, area = "" }, new { target = "_blank" }) |
+                        @Html.ActionLink("删除", "Delete", "Article", new { id = item.Id }, null)
                     </td>
                 </tr>
             }

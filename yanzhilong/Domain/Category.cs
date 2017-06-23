@@ -12,7 +12,7 @@ namespace yanzhilong.Domain
     /// </summary>
     public class Category
     {
-        public string CategoryID { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
     }
 }

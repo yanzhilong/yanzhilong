@@ -53,42 +53,6 @@
                             @Html.ActionLink("文章", "Index", "Article")
                         </li>
                         <li
-                             @{ 
-                                if (ViewBag.NavActive == 2)
-                                {
-                                    @:class="active"
-                                }
-                            }
-                            >
-                            
-                            @Html.ActionLink("教程", "Index", "Tutorials")
-                        </li>
-                        <li
-                            @{ 
-                                if (ViewBag.NavActive == 3)
-                                {
-                                    @:class="active"
-                                }
-                            }
-                            >
-                            @Html.ActionLink("产品中心", "Index", "Product")
-                        </li>
-
-                        @{
-                            if(Session["UserID"] != null)
-                            {
-                                <li
-                                    @if (ViewBag.NavActive == 4)
-                                {
-                                    @:class="active"
-                                }
-                                    >
-                                    @Html.ActionLink("笔记", "Index", "Note")
-                                </li>
-                            }
-                        }
-
-                        <li
                             @{ 
                                 if (ViewBag.NavActive == 5)
                                 {

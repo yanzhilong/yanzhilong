@@ -13,57 +13,86 @@ $('.sidebar-nav').affix({
 
 jQuery(function () {
 
-    $("div.col-md-9:first").children("section").each(function (index) {
+    function makeSildebar(para) {
+        var lis = "";
+        para.children("h1,h2,h3,h4,h5,h6").each(function (index) {
 
-        var parli = "";
-        parli = "<li>";
+            var parli = "";
+            parli = "<li>";
 
-        //				alert(index)
-        var idvalue = $(this).attr("id")
-        //				alert(idvalue)
-        //				var title = $(this).children("h2").length
-        var title = $(this).find("h2:first").text()
-        //				alert(title)
-        parli += "<a href=\"#" + idvalue + "\">" + title + "</a>"
+            //				alert(index)
+            var idvalue = $(this).attr("id")
+            //				alert(idvalue)
+            //				var title = $(this).children("h2").length
+            var title = $(this).text()
+            //				alert(title)
+            parli += "<a href=\"#" + idvalue + "\">" + title + "</a>"
 
-        //				alert(idvalue)
-        //判断是否还有子元素
-        var childrens = $(this).children("section")
-        var chilcount = childrens.length
-        //				alert(chilcount)
-        // 有子元素，添加下级ul
-        var ul = "";
-        if (chilcount > 0) {
+            //				alert(idvalue)
+            //判断是否还有子元素
+            var childrens = $(this).children("h1,h2,h3,h4,h5,h6");
+            var chilcount = childrens.length;
+            //				alert(chilcount)
+            // 有子元素，添加下级ul
+            var ul = "";
+            if (chilcount > 0) {
 
-            ul = "<ul class=\"nav\">"
+                ul = "<ul class=\"nav\">"
 
-            var childsection = $(this).children("section");
-            //					alert(childsection)
-            //			
-            //					alert(childsection.length)
-            var li = "";
-            childsection.each(function (dex) {
+                var childlis = makeSildebar($(this));
+                ul += childlis;
 
-                li = "<li>";
+                ul += "</ul>"
+            }
+            parli += ul;
+            parli += "</li>"
+            lis += parli;
+        });
+        return lis;
+    }
 
-                var idvalue = $(this).attr("id")
-                //						alert(idvalue)
-                var title = $(this).children("h2").length
-                var title = $(this).find("h3:first").text()
-                //						alert(title)
-                li += "<a href=\"#" + idvalue + "\">" + title + "</a>"
+    $("ul.sidebar-ul").append(makeSildebar($("div.col-md-9:first")));
 
-                li += "</li>"
-                ul += li
+    //$("div.col-md-9:first").children("h1,h2,h3,h4,h5,h6").each(function (index) {
 
-            })
-            ul += "</ul>"
-        }
-        parli += ul;
-        parli += "</li>"
-        $("ul.sidebar-ul").append(parli);
+    //    var parli = "";
+    //    parli = "<li>";
+    //    var idvalue = $(this).attr("id")
+    //    var title = $(this).find("h2:first").text()
+    //    parli += "<a href=\"#" + idvalue + "\">" + title + "</a>"
 
-    })
+    //    //				alert(idvalue)
+    //    //判断是否还有子元素
+    //    var childrens = $(this).children("section")
+    //    var chilcount = childrens.length
+    //    // 有子元素，添加下级ul
+    //    var ul = "";
+    //    if (chilcount > 0) {
+
+    //        ul = "<ul class=\"nav\">"
+
+    //        var childsection = $(this).children("section");
+    //        var li = "";
+    //        childsection.each(function (dex) {
+
+    //            li = "<li>";
+
+    //            var idvalue = $(this).attr("id")
+    //            var title = $(this).children("h2").length
+    //            var title = $(this).find("h3:first").text()
+    //            li += "<a href=\"#" + idvalue + "\">" + title + "</a>"
+
+    //            li += "</li>"
+    //            ul += li
+
+    //        })
+    //        ul += "</ul>"
+    //    }
+    //    parli += ul;
+    //    parli += "</li>"
+    //    $("ul.sidebar-ul").append(parli);
+
+    //})
 })
 
 ! function (a) {

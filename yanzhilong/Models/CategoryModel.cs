@@ -12,7 +12,7 @@ namespace yanzhilong.Models
     /// </summary>
     public class CategoryModel
     {
-        public string CategoryID { get; set; }
+        public string Id { get; set; }
         [Required(ErrorMessage = "请输入名称")] //必填项
         [DisplayName("分类名称")] //显示在Label上的名字
         public string Name { get; set; }

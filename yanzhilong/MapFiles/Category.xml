@@ -13,13 +13,13 @@
     
     <!-- 数据库的全部字段到实体类的映射 -->
     <resultMap id="CategoryResult" class="Category">
-      <result property="CategoryID" column="CategoryID" dbType="char" type="string" />
+      <result property="Id" column="Id" dbType="char" type="string" />
       <result property="Name" column="Name" dbType="varchar" type="string" />
     </resultMap>
 
     <!-- 返回ActicleCount用于生成侧边列表 -->
     <resultMap id="ActicleCountResult" class="ArticleCount">
-      <result property="category.CategoryID" column="CategoryID" dbType="char" type="string"/>
+      <result property="category.Id" column="Id" dbType="char" type="string"/>
       <result property="category.Name" column="Name" dbType="varchar" type="string"/>
       <result property="Count" column="Count" dbType="int" type="int"/>
     </resultMap>
@@ -34,9 +34,9 @@
     <insert id="InsertCategory" parameterClass="Category" >
       <![CDATA[  
       insert into Category  
-      (CategoryID,Name)  
+      (Id,Name)  
       values  
-      (#CategoryID#,#Name#)  
+      (#Id#,#Name#)  
       ]]>
     </insert>
 
@@ -45,7 +45,7 @@
       <![CDATA[
           delete from Category  
           where  
-          CategoryID = #value#  
+          Id = #value#  
           ]]>
     </delete>
     
@@ -55,14 +55,14 @@
           UPDATE Category SET  
           Name=#Name#
           WHERE  
-          CategoryID=#CategoryID#
+          Id=#Id#
           ]]>
     </update>
 
     <select id="SelectCategoryCount" resultClass="int">
       <![CDATA[  
           SELECT  
-          COUNT(CategoryID)  
+          COUNT(Id)  
           FROM Category  
           ]]>
     </select>
@@ -70,14 +70,14 @@
      <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
     <select id="SelectCategoryByCondition" parameterClass="Category" resultMap="CategoryResult">
       <![CDATA[  
-          SELECT CategoryID
+          SELECT Id
           ,Name
           FROM Category
           ]]>
       <dynamic prepend="WHERE">
-        <isNotEmpty prepend="AND" property="CategoryID">
+        <isNotEmpty prepend="AND" property="Id">
           <![CDATA[  
-           CategoryID = #CategoryID#
+           Id = #Id#
             ]]>
         </isNotEmpty>
         <isNotEmpty prepend="AND" property="Name">
@@ -91,11 +91,11 @@
     <!-- 获得每个分类下面的文章数 -->
     <select id="SelectArticlesNumGroupByCategory" resultMap="ActicleCountResult">
       <![CDATA[  
-          SELECT a.CategoryID
+          SELECT a.Id
           ,a.Name
           ,b.Count
           FROM category a left join
-          (select CategoryID,Count from(select CategoryID,count(*) as Count from article group by CategoryID)tmp) b on a.CategoryID=b.CategoryId
+          (select CategoryID,Count from(select CategoryID,count(*) as Count from article group by CategoryID)tmp) b on a.Id=b.CategoryId
           ]]>
       <!--select a.CategoryID,a.Name,b.Count from category a left join (select CategoryID,Count from(select CategoryID,count(*) as Count from article group by CategoryID)tmp) b on a.CategoryID=b.CategoryId-->  
     </select>

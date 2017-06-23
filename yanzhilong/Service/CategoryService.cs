@@ -25,7 +25,7 @@ namespace yanzhilong.Service
          
         public Category GetCategoryById(string categoryID)
         {
-            Category category = repository.GetByCondition("SelectCategoryByCondition", new Category { CategoryID = categoryID});
+            Category category = repository.GetByCondition("SelectCategoryByCondition", new Category { Id = categoryID});
             return category;
         }
 

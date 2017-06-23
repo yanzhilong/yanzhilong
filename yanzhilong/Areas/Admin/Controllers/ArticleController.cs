@@ -54,6 +54,10 @@ namespace yanzhilong.Areas.Admin.Controllers
             return View(articleModel);
         }
 
+        public ActionResult Test()
+        {
+            return View();
+        }
 
         // POST: GuestBook/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -66,9 +70,8 @@ namespace yanzhilong.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                articleModel.ArticleID = Guid.NewGuid().ToString();
+                articleModel.Id = Guid.NewGuid().ToString();
                 articleModel.CreateAt = DateTime.Now;
-                articleModel.UpdateAt = DateTime.Now;
                 string userID = HttpContext.Session["UserID"] as string;
                 articleModel.UserID = userID;
                 Article article = articleModel.ToEntity();
@@ -98,7 +101,6 @@ namespace yanzhilong.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                articleModel.UpdateAt = DateTime.Now;
                 Article article = articleModel.ToEntity();
                 articleCRUD.Update(article);
                 return RedirectToAction("Index");
@@ -113,7 +115,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             var selectItemList = new List<SelectListItem>() {
                 new SelectListItem(){Value="",Text="请选择",Selected=true}
             };
-            var selectList = new SelectList(categorys, "CategoryID", "Name");
+            var selectList = new SelectList(categorys, "Id", "Name");
             selectItemList.AddRange(selectList);
             return selectItemList;
         }

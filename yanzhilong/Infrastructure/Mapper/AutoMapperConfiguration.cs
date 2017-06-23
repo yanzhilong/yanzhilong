@@ -18,42 +18,18 @@ namespace yanzhilong.Infrastructure.Mapper
         static Action<IMapperConfigurationExpression> action = cfg =>
         {
             cfg.CreateMap<Article, ArticleModel>()
-            .ForMember(dest => dest.CategoryID, mo => mo.MapFrom(src => src.category.CategoryID))
+            .ForMember(dest => dest.CategoryID, mo => mo.MapFrom(src => src.category.Id))
             .ForMember(dest => dest.CategoryName, mo => mo.MapFrom(src => src.category.Name))
-            .ForMember(dest => dest.UserID, mo => mo.MapFrom(src => src.user.UserID))
+            .ForMember(dest => dest.UserID, mo => mo.MapFrom(src => src.user.Id))
             .ForMember(dest => dest.DisplayName, mo => mo.MapFrom(src => src.user.DisplayName))
             .ForMember(dest => dest.CategorySelectItems, mo => mo.Ignore());
             
             cfg.CreateMap<ArticleModel, Article>()
-            .ForMember(dest => dest.category, mo => mo.MapFrom(src => new Category { CategoryID = src.CategoryID }))
-            .ForMember(dest => dest.user, mo => mo.MapFrom(src => new User { UserID = src.UserID }));
-
-            cfg.CreateMap<Tutorials, TutorialsModel>()
-           .ForMember(dest => dest.UserID, mo => mo.MapFrom(src => src.user.UserID))
-           .ForMember(dest => dest.DisplayName, mo => mo.MapFrom(src => src.user.DisplayName));
-
-            cfg.CreateMap<TutorialsModel, Tutorials>()
-            .ForMember(dest => dest.user, mo => mo.MapFrom(src => new User { UserID = src.UserID }));
-
-            cfg.CreateMap<Product, ProductModel>();
-            cfg.CreateMap<ProductModel, Product>();
+            .ForMember(dest => dest.category, mo => mo.MapFrom(src => new Category { Id = src.CategoryID }))
+            .ForMember(dest => dest.user, mo => mo.MapFrom(src => new User { Id = src.UserID }));
 
             cfg.CreateMap<Category, CategoryModel>();
             cfg.CreateMap<CategoryModel, Category>();
-
-            cfg.CreateMap<ResourceStar, ResourceStarModel>()
-            .ForMember(dest => dest.ResourceTypeSelectItems, mo => mo.Ignore());
-
-            cfg.CreateMap<ResourceStarModel, ResourceStar>();
-
-            cfg.CreateMap<PageViewCount, PageViewCountModel>();
-
-            cfg.CreateMap<PageViewCountModel, PageViewCount>()
-            .ForMember(dest => dest.PageViewCountID, mo => mo.Ignore())
-            .ForMember(dest => dest.ResourceID, mo => mo.Ignore());
-
-            cfg.CreateMap<NoteModel, Note>();
-            cfg.CreateMap<Note, NoteModel>();
 
         };
 

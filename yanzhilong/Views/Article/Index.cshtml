@@ -15,11 +15,11 @@
                     <h3 class="blog-post-title">@item.Title</h3>
                     <p class="blog-post-meta">@item.CreateAt by:<a href="#">@Html.DisplayFor(modleItem => item.DisplayName)</a></p>
                     
-                    <p class="list_content">@item.Disc</p>
+                    <p class="list_content">@item.Description</p>
                     
                         
                         @*@Html.Raw(HttpUtility.HtmlDecode(item.Content))*@
-                    @Html.ActionLink("查看全文", "Details", new { id = item.ArticleID }, new { @class = "btn btn-primary", role = "button" })
+                    @Html.ActionLink("查看全文", "Details", new { id = item.Id }, new { @class = "btn btn-primary", role = "button" })
                     @*<a class="btn btn-lg btn-primary" href="#" role="button">@Html.ActionLink("查看全文", "Details", new { id = item.ArticleID}, new { @class = "btn btn-lg btn-primary", role = "button" }) &raquo;</a>*@
                 </div>
                 <hr class="featurette-divider">

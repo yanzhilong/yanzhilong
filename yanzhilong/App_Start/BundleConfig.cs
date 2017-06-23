@@ -8,16 +8,12 @@ namespace yanzhilong
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            //bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+            //    "~/Content/editor.md-master/examples/js/jquery.min.js",
+            //            "~/Scripts/jquery-{version}.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
-
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+               "~/Scripts/jquery.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
@@ -31,7 +27,7 @@ namespace yanzhilong
             
             //教程详情,生成侧边栏js
             bundles.Add(new ScriptBundle("~/bundles/tutorials_details").Include(
-                      "~/Scripts/tutorials_details_new.js"));
+                      "~/Scripts/tutorials_details.js"));
 
             //用于限制缩略显示行
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
@@ -45,6 +41,14 @@ namespace yanzhilong
             //用于管理端ajax请求管理页面
             bundles.Add(new ScriptBundle("~/bundles/manage").Include(
                       "~/Scripts/manage.js"));
+
+            //editor.md css
+            bundles.Add(new StyleBundle("~/bundles/editor/css").Include(
+                    "~/Content/editor.md-master/css/editormd.css"));
+
+            //editor.md js
+            bundles.Add(new ScriptBundle("~/bundles/editor/js").Include(
+            "~/Content/editor.md-master/editormd.min.js"));
         }
     }
 }

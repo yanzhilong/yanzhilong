@@ -19,7 +19,7 @@
         <h4>Edit</h4>
         <hr />
         @Html.ValidationSummary(true, "请求参数不正确", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ArticleID)
+        @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.UserID)
         @Html.HiddenFor(model => model.CreateAt)
 
@@ -41,29 +41,15 @@
             </div>
         </div>
 
+
         <div class="form-group">
-            @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", rows = 8 } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Disc, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Disc, new { htmlAttributes = new { @class = "form-control", rows = 8 } })
-                @Html.ValidationMessageFor(model => model.Disc, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control", rows = 5 } })
-                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -71,9 +57,6 @@
                 @Html.DropDownListFor(model => model.CategoryID, Model.CategorySelectItems)
                 @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
             </div>
-
-            
-
         </div>
 
         <div class="form-group">

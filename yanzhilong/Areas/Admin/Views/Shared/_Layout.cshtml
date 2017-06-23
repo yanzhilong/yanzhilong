@@ -10,7 +10,6 @@
 
         <!-- 加载压缩过的css和css5支持验证的js -->
         @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
         @RenderSection("head", required: false)
 
     </head>
@@ -52,43 +51,6 @@
                        }>
                             @Html.ActionLink("分类管理", "Index", "Category")
                         </li>
-                        <li 
-                            @if (ViewBag.sidebar == "教程管理")
-                        { @: class="active"
-
-                        } else { @:
-
-                        }>
-                            @Html.ActionLink("教程管理", "Index", "Tutorials")
-                        </li>
-                        <li @if (ViewBag.sidebar == "产品管理")
-                        { @: class="active"
-
-                        } else
-                        { @:
-
-                        }>
-                            @Html.ActionLink("产品管理", "Index", "Product")
-                        </li>
-
-                        <li @if (ViewBag.sidebar == "推荐管理")
-                        { @: class="active"
-
-                        } else
-                        { @:
-
-                        }>
-                            @Html.ActionLink("推荐管理", "Index", "ResourceStar")
-                        </li>
-
-                        <li @if (ViewBag.sidebar == "笔记管理") { @: class="active"
-                             } else { @:
-                             }>
-                            @Html.ActionLink("笔记管理", "Index", "Note")
-                        </li>
-
-
-
                     </ul>
                     <ul class="nav nav-sidebar">
                         <li>
@@ -115,7 +77,7 @@
         </div>
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
-
+        
         <!-- 这里是一个占位符，用于加载子页面的需要加载的东西, required表示这个占位在子页面是否是必须指定的 -->
         <!-- 子页面中指定的方式就是@section scripts{//这里面可以引用当前子页面需要的css及js等} //子页面的scripts名字的要模版页的名字一样 -->
         @RenderSection("scripts", required: false)

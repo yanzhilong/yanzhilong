@@ -1,0 +1,15 @@
+﻿@model yanzhilong.Models.ArticleModel
+@{
+    Layout = "../Shared/_Layout_Empty.cshtml";
+    //Layout = "../Shared/_Layout_Test.cshtml";
+    ViewBag.Title = "创建新文章";
+}
+
+@section head{
+
+    <!-- include summernote css/js-->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.js"></script>
+
+}
+@Html.Partial("EditorMd")

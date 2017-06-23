@@ -13,35 +13,35 @@ namespace yanzhilongtest
         [TestMethod]
         public void ResourceStarCreate()
         {
-            PageViewCountService pageviewCountService = new PageViewCountService();
-            PageViewCount pageViewCount = new PageViewCount();
-            pageViewCount.PageViewCountID = Guid.NewGuid().ToString();
-            pageViewCount.ResourceID = "f3557d62-c521-48d4-9aea-5b23095b5005";
-            pageViewCount.Count = 10;
-            pageviewCountService.Create(pageViewCount);
+            ViewTotalService pageviewCountService = new ViewTotalService();
+            ViewTotal viewTotal = new ViewTotal();
+            viewTotal.Id = Guid.NewGuid().ToString();
+            viewTotal.ResourceID = "f3557d62-c521-48d4-9aea-5b23095b5005";
+            viewTotal.Total = 10;
+            pageviewCountService.Create(viewTotal);
     }
 
         [TestMethod]
         public void PageViewCountDelete()
         {
-            PageViewCountService pageviewCountService = new PageViewCountService();
+            ViewTotalService pageviewCountService = new ViewTotalService();
             pageviewCountService.DeleteByResourceID("f3557d62-c521-48d4-9aea-5b23095b5005");
         }
 
         [TestMethod]
         public void PageViewCountUpdate()
         {
-            PageViewCountService pageviewCountService = new PageViewCountService();
-            PageViewCount pageViewCount = pageviewCountService.GetPageViewCountByResourceID("f3557d62-c521-48d4-9aea-5b23095b5005");
-            pageViewCount.Count++;
+            ViewTotalService pageviewCountService = new ViewTotalService();
+            ViewTotal pageViewCount = pageviewCountService.GetViewTotalByResourceID("f3557d62-c521-48d4-9aea-5b23095b5005");
+            pageViewCount.Total++;
             pageviewCountService.Update(pageViewCount);
         }
 
         [TestMethod]
         public void GetResourceStarByResourceID()
         {
-            PageViewCountService pageviewCountService = new PageViewCountService();
-            PageViewCount pageViewCount = pageviewCountService.GetPageViewCountByResourceID("f3557d62-c521-48d4-9aea-5b23095b5005"); ;
+            ViewTotalService pageviewCountService = new ViewTotalService();
+            ViewTotal pageViewCount = pageviewCountService.GetViewTotalByResourceID("f3557d62-c521-48d4-9aea-5b23095b5005"); ;
             Assert.IsNotNull(pageViewCount);
         }
 

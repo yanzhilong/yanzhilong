@@ -12,7 +12,7 @@ namespace yanzhilong.Domain
     /// </summary>
     public class User
     {
-        public string UserID { get; set; }
+        public string Id { get; set; }
         [Required] //必填项
         [DisplayName("用户名")] //显示在Label上的名字
         public string UserName { get; set; }

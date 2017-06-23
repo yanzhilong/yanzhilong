@@ -35,9 +35,9 @@
                     </td>
 
                     <td>
-                        @Html.ActionLink("编辑", "Edit", "Category", new { id = item.CategoryID }, new { target = "_blank" }) |
-                        @Html.ActionLink("详情", "Details", "Category", new { id = item.CategoryID, area = "" }, new { target = "_blank" }) |
-                        @Html.ActionLink("删除", "Delete", "Category", new { id = item.CategoryID }, null)
+                        @Html.ActionLink("编辑", "Edit", "Category", new { id = item.Id }, new { target = "_blank" }) |
+                        @Html.ActionLink("详情", "Details", "Category", new { id = item.Id, area = "" }, new { target = "_blank" }) |
+                        @Html.ActionLink("删除", "Delete", "Category", new { id = item.Id }, null)
                     </td>
                 </tr>
             }

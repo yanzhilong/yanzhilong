@@ -22,7 +22,7 @@ namespace yanzhilong.Service
          
         public Article GetArticleById(string articleID)
         {
-            Article article = repository.GetByCondition("SelectArticleByCondition", new Article { ArticleID = articleID});
+            Article article = repository.GetByCondition("SelectArticleByCondition", new Article { Id = articleID});
             return article;
         }
 
@@ -46,13 +46,13 @@ namespace yanzhilong.Service
 
         public IList<Article> GetArticlesByCategoryId(string categoryID)
         {
-            IList<Article> articles = repository.GetList("SelectArticleByCondition", new Article { category = new Category { CategoryID = categoryID } });
+            IList<Article> articles = repository.GetList("SelectArticleByCondition", new Article { category = new Category { Id = categoryID } });
             return articles;
         }
 
         public IList<Article> GetArticles(int pageCount,string categoryID)
         {
-            IList<Article> articles = repository.GetList("SelectArticleByCondition", new Article { category = new Category { CategoryID = categoryID } },pageCount);
+            IList<Article> articles = repository.GetList("SelectArticleByCondition", new Article { category = new Category { Id = categoryID } },pageCount);
             return articles;
         }
 
@@ -70,7 +70,7 @@ namespace yanzhilong.Service
 
         public int GetCount(string categoryID)
         {
-            int count = repository.GetObject<int>("SelectArticleCount", new Article { category = new Category { CategoryID = categoryID } });
+            int count = repository.GetObject<int>("SelectArticleCount", new Article { category = new Category { Id = categoryID } });
             return count;
         }
 
@@ -88,7 +88,7 @@ namespace yanzhilong.Service
 
         public void Delete(string articleID)
         {
-            repository.Delete("DeleteArticle", new Article { ArticleID = articleID});
+            repository.Delete("DeleteArticle", new Article { Id = articleID});
         }
     }
 }
