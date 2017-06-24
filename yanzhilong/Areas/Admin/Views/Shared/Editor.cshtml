@@ -1,20 +1,90 @@
-﻿@Styles.Render("~/bundles/editor/css")
+﻿@model EditorModel
 
-<div id="EditorMd">
-    <textarea style="display:none;" name="@ViewData["Name"]">sadkjfoiwjeofiwef</textarea>
+@Styles.Render("~/Content/css")
+@Styles.Render("~/bundles/editor/css")
+
+<div style="width:90%;padding: 15px 0;margin: 0 auto;">
+    <button class="btn" id="save" style="margin-top:10px;">保存</button>
+    <div id="result" style="display:none;">
+        <span>保存成功</span>
+    </div>
+
+    <div id="error" style="display:none;">
+        <span>保存失败</span>
+    </div>
+
 </div>
+
+
+<div id="EditorMd" style="clear:both">
+    <textarea style="display:none;" name="test_editormd_markdown_doc">###Hello world!</textarea>
+</div>
+
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/editor/js")
 <script type="text/javascript">
-    var EditorMd;
-    //var path = "@Server.MapPath("~/Content/editor.md-master/lib/")";
-    $(function() {
-        EditorMd = editormd("EditorMd", {
-            width   : "90%",
-            height  : 640,
-            syncScrolling : "single",
-            path    : "/Content/editor.md-master/lib/",
+    var Parameter = {Id:"@Model.ParameterId"}
+    var EditorMd = null;
+    $(function () {
+        $.get("@Model.Get", Parameter, function (markdown) {
+                EditorMd = editormd("EditorMd", {
+                width: "90%",
+                height: 720,
+                markdown: markdown,
+                tex: true,
+                tocm: true,
+                emoji: true,
+                taskList: true,
+                codeFold: true,
+                searchReplace: true,
+                path: "/Content/editor.md-master/lib/",
+                onload: function () {
+                    var keyMap = {
+                        "Ctrl-S": function (cm) {
+                            AutoPost();
+                        }
+                    };
+                    this.addKeyMap(keyMap);
+                }
+            });
+        });
+
+        //var t2 = window.setInterval("AutoPost()", 30000);
+
+        $("#save").click(function () {
+            AutoPost();
+            //alert("保存");
         });
     });
+
+    //自动保存
+    function AutoPost() {
+        Parameter.MarkDown = EditorMd.getMarkdown();
+        $.ajax({
+            cache: false,
+            type: 'POST',
+            url: "@Model.Post",
+            data: Parameter,
+            dataType: 'json',
+            success: function (data) {
+                if (data != null && data.success) {
+                    complatePost();
+                } else {
+                    //alert(data.responseText);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $("#error").fadeIn();
+                $("#error").fadeOut("slow");
+            }
+        });
+    }
+
+    //保存数据结束
+    function complatePost() {
+        $("#result").fadeIn();
+        $("#result").fadeOut("slow");
+    }
+
 </script>
 

@@ -1,0 +1,31 @@
+﻿@model EditorModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- 引用 移动设备优先设置项-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <style>
+    #layout > header, .btns {
+        padding: 15px 0;
+        width: 90%;
+        margin: 0 auto;
+    }
+    </style>
+
+
+    <title>文章编辑</title>
+
+</head>
+<body>
+    <div id="layout">
+        @Html.Partial("Editor", @Model)
+    </div>
+</body>
+</html>

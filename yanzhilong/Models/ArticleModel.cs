@@ -18,7 +18,6 @@ namespace yanzhilong.Models
         [Required(ErrorMessage = "请输入标题")] //必填项
         [DisplayName("标题")] //显示在Label上的名字
         public string Title { get; set; } //标题
-        [Required(ErrorMessage = "请输入正文")] //必填项
         [DataType(DataType.MultilineText)]
         [DisplayName("文章内容")] //显示在Label上的名字
         public string Content { get; set; } //内容
@@ -37,5 +36,7 @@ namespace yanzhilong.Models
         public string CategoryName { get; set; }
         public string UserID { get; set; }
         public string DisplayName { get; set; }
+
+        public EditorModel EditorModel { get; set; }
     }
 }

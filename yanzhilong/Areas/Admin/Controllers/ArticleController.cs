@@ -10,6 +10,7 @@ using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Domain;
 using yanzhilong.Service;
 using yanzhilong.Models;
+using System.Web.Script.Serialization;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
@@ -68,6 +69,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         [Authentication]
         public ActionResult Create( ArticleModel articleModel)
         {
+            JavaScriptSerializer jss;
             if (ModelState.IsValid)
             {
                 articleModel.Id = Guid.NewGuid().ToString();
@@ -83,6 +85,24 @@ namespace yanzhilong.Areas.Admin.Controllers
         }
 
         [Authentication]
+        public string ContentGet(string Id)
+        {
+            Article article = articleCRUD.GetArticleById(Id);
+            return article.Content;
+        }
+
+        [ValidateInput(false)]
+        [HttpPost]
+        [Authentication]
+        public JsonResult ContentUpdate(string Id,string MarkDown)
+        {
+            Article article = articleCRUD.GetArticleById(Id);
+            article.Content = MarkDown;
+            articleCRUD.Update(article);
+            return Json(new { success = true, responseText = "保存成功" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authentication]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -94,6 +114,14 @@ namespace yanzhilong.Areas.Admin.Controllers
             articleModel.CategorySelectItems = getCateGorys();
             return View(articleModel);
         }
+
+        [Authentication]
+        public ActionResult Content(string Id)
+        {
+            EditorModel editorModel = new EditorModel { Get = Url.Action("ContentGet", "Article"), Post = Url.Action("ContentUpdate", "Article"), ParameterId = Id };
+            return View(editorModel);
+        }
+
         [ValidateInput(false)]
         [HttpPost]
         [Authentication]

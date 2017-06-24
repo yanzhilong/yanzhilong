@@ -1,4 +1,5 @@
 ﻿@model yanzhilong.Models.ArticleModel
+@using System.Web.Script.Serialization;
 @{
     Layout = "../Shared/_Layout_Empty.cshtml";
     ViewBag.Title = "文章编辑";
@@ -31,13 +32,14 @@
             </div>
         </div>
 
-        @Html.HiddenFor(model => model.Content)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div id="summernote" placeholder="请输入" action="@Url.Action("Upload", "File")"></div>
-                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                @{ 
+                    var jsonstring = new JavaScriptSerializer().Serialize(new { Id = Model.Id });
+                }
+                @Html.ActionLink("编辑", "Content", "Article", new { Id = Model.Id},new { @class = "btn btn-primary" })
             </div>
         </div>
 
@@ -53,8 +55,8 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.CategoryID, Model.CategorySelectItems)
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.CategoryID, Model.CategorySelectItems,new {@class= "form-control" })
                 @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
             </div>
         </div>

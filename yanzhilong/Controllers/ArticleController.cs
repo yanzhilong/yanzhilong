@@ -45,6 +45,12 @@ namespace yanzhilong.Controllers
             return View("Index", articleModels);
         }
 
+        public string ContentGet(string Id)
+        {
+            Article article = articleCRUD.GetArticleById(Id);
+            return article.Content;
+        }
+
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -62,6 +68,8 @@ namespace yanzhilong.Controllers
             ArticleModel am = article.ToModel();
             ViewBag.PreArticle = articleCRUD.GetPreArticle(article).ToModel();
             ViewBag.NextArticle = articleCRUD.GetNextArticle(article).ToModel();
+
+            am.EditorModel = new EditorModel { Get = Url.Action("ContentGet", "Article"), ParameterId = id };
             return View(am);
         }
 

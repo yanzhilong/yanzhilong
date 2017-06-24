@@ -2,18 +2,24 @@
 @{
     ArticleModel PreArticle = ViewBag.PreArticle;
     ArticleModel NextArticle = ViewBag.NextArticle;
-
+    @*@Layout = null;*@
     ViewBag.Title = Model.Title;
     ViewBag.NavActive = 1;//设置导航激活
 }
 
+@section head{
+
+    @Styles.Render("~/bundles/editor/previewcss")
+}
+
 <div class="container">
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-12">
             <div class="blog-post">
                 <h2 class="blog-post-title">@Model.Title</h2>
                 <p classblog-post-meta">@Model.CreateAt &nbsp&nbsp by:<a href="#">@Model.DisplayName</a>&nbsp&nbsp浏览:@ViewBag.PageViewCount.Total</p>
-                @Html.Raw(HttpUtility.HtmlDecode(@Model.Content))
+                @*@Html.Raw(HttpUtility.HtmlDecode(@Model.Content))*@
+                @Html.Partial("EditorHtml", Model.EditorModel)
             </div>
             <hr />
 
@@ -33,14 +39,6 @@
 
                     @*<li><span>下一篇:</span><a href="#">Python中字典的使用</a></li>*@
                 </ul>
-            </div>
-        </div>
-        <div class="col-sm-3 col-sm-offset-1">
-
-            <div class="sidebar-module">
-                <h4>分类</h4>
-                <!--  分部视图 -->
-                @Html.Action("SideBar", "Category")
             </div>
         </div>
     </div>

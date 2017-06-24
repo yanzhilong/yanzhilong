@@ -46,9 +46,27 @@ namespace yanzhilong
             bundles.Add(new StyleBundle("~/bundles/editor/css").Include(
                     "~/Content/editor.md-master/css/editormd.css"));
 
+            //editor.md css
+            bundles.Add(new StyleBundle("~/bundles/editor/previewcss").Include(
+                    "~/Content/editor.md-master/css/editormd.preview.css"));
+
             //editor.md js
             bundles.Add(new ScriptBundle("~/bundles/editor/js").Include(
             "~/Content/editor.md-master/editormd.min.js"));
+
+            //editor.md js
+            bundles.Add(new ScriptBundle("~/bundles/editor/previewjs").Include(
+            "~/Content/editor.md-master/lib/marked.min.js",
+            "~/Content/editor.md-master/lib/prettify.min.js",
+            "~/Content/editor.md-master/lib/raphael.min.js",
+            "~/Content/editor.md-master/lib/underscore.min.js",
+            "~/Content/editor.md-master/lib/sequence-diagram.min.js",
+            "~/Content/editor.md-master/lib/flowchart.min.js",
+            "~/Content/editor.md-master/lib/jquery.flowchart.min.js",
+            "~/Content/editor.md-master/editormd.js"));
+            
+             
+
         }
     }
 }
