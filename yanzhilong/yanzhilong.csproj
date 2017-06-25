@@ -238,6 +238,8 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
+    <Compile Include="Domain\UploadFile.cs" />
+    <Compile Include="Domain\FileEnum.cs" />
     <Compile Include="Domain\ViewTotal.cs" />
     <Compile Include="filter\AuthenticationAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -258,6 +260,7 @@
     <Compile Include="Models\PageModel.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MbRepository.cs" />
+    <Compile Include="Service\FileService.cs" />
     <Compile Include="Service\ViewTotalService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Domain\Category.cs" />
@@ -626,6 +629,7 @@
     <EmbeddedResource Include="MapFiles\User.xml" />
     <EmbeddedResource Include="MapFiles\Category.xml" />
     <EmbeddedResource Include="MapFiles\ViewTotal.xml" />
+    <EmbeddedResource Include="MapFiles\UploadFile.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

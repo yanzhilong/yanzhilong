@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="UploadFile" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+  <!-- 设置别名，用于底下指定类型的时候不需要全全类名(包括长的空间名 ),最后一个参数是项目的命名空间名 -->
+  <alias>
+    <typeAlias alias="UploadFile" type="yanzhilong.Domain.UploadFile, yanzhilong"/>
+    
+  </alias>
+
+  <!-- 数据库到实体类的映射表 -->
+  <resultMaps>
+    
+    <!-- 数据库的全部字段到实体类的映射 -->
+    <resultMap id="UploadFileResult" class="UploadFile">
+      <result property="Id" column="Id" dbType="char" type="string" />
+      <result property="SaveName" column="SaveName" dbType="varchar" type="string" />
+      <result property="UploadName" column="UploadName" dbType="text" type="string" />
+      <result property="Url" column="DescUrlription" dbType="varchar" type="string" />
+      <result property="Type" column="Type" dbType="int" type="int" />
+    </resultMap>
+    
+  </resultMaps>
+
+  <!-- 声明执行语句列表，可以包含多个<select>、<insert>、<update>、<delete>节点 -->
+  <!-- 为了避免SQL语句出现的'<'和'>'会和配置文件的<>冲突，所以SQL语句都写在<![CDATA[  与  ]]>之间 -->
+  <statements>
+
+    <!-- 添加句子SQL语句 -->
+    <insert id="InsertUploadFile" parameterClass="UploadFile" >
+      <![CDATA[  
+      insert into UploadFile  
+      (Id,SaveName,UploadName,Url,Type)  
+      values  
+      (#Id#,#SaveName#,#UploadName#,#Url#,#Type#)
+      ]]>
+    </insert>
+
+    <!-- parameterClass表示传入的参数为int -->
+    <delete id="DeleteUploadFile" parameterClass="UploadFile">
+      <![CDATA[
+          delete from UploadFile  
+          where
+          Id = #Id#  
+          ]]>
+    </delete>
+    
+    <!-- #UserName# 表示传入实体类参数的属性，表示实体的的属性 -->
+    <update id="UpdateUploadFile" parameterClass="UploadFile">
+      <![CDATA[  
+          UPDATE UploadFile SET  
+          SaveName=#SaveName#,
+          UploadName=#UploadName#,
+          Url=#Url#,
+          Type=#Type#
+          WHERE  
+          Id=#Id#
+          ]]>
+    </update>
+
+    <select id="SelectUploadFileCount" parameterClass="UploadFile" resultClass="int">
+      <![CDATA[  
+          SELECT  
+          COUNT(Id)  
+          FROM UploadFile  
+          ]]>
+    </select>
+
+
+    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
+    <select id="SelectUploadFileByCondition" parameterClass="UploadFile" resultMap="UploadFileResult">
+      <![CDATA[  
+          SELECT Id
+          ,SaveName
+          ,UploadName
+          ,Url
+          ,Type
+          FROM UploadFile
+          ]]>
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="SaveName">
+          <![CDATA[  
+           SaveName = #SaveName#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="UploadName">
+          <![CDATA[  
+           UploadName = #UploadName#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Url">
+          <![CDATA[  
+           Url = #Url#
+            ]]>
+        </isNotEmpty>
+        <isGreaterThan  prepend ="AND"  property ="Type"  compareValue ="-1" >
+          <![CDATA[  
+          Type = #Type#
+          ]]>
+        </isGreaterThan >
+      </dynamic>
+    </select>
+
+  </statements>
+
+</sqlMap>
