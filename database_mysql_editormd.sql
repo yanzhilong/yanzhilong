@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 120.27.244.57    Database: yanzhilong
+-- Host: localhost    Database: yanzhilong
 -- ------------------------------------------------------
--- Server version	5.5.47
+-- Server version	5.7.17
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,21 +23,18 @@ DROP TABLE IF EXISTS `article`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `article` (
-  `ArticleID` char(36) NOT NULL,
+  `Id` char(36) NOT NULL,
   `Title` varchar(45) NOT NULL,
   `Content` mediumtext,
-  `ImageUrl` varchar(255) DEFAULT NULL,
-  `Disc` varchar(255) DEFAULT NULL,
-  `Notes` varchar(255) DEFAULT NULL,
+  `Description` varchar(255) DEFAULT NULL,
   `CreateAt` datetime NOT NULL,
-  `UpdateAt` datetime DEFAULT NULL,
   `CategoryId` char(36) NOT NULL,
   `UserId` char(36) NOT NULL,
-  PRIMARY KEY (`ArticleID`),
+  PRIMARY KEY (`Id`),
   KEY `User_ID_idx` (`UserId`),
   KEY `FK_ARTICLE_Category_ID_idx` (`CategoryId`),
-  CONSTRAINT `FK_ARTICLE_Category_ID` FOREIGN KEY (`CategoryId`) REFERENCES `category` (`CategoryID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_ARTICLE_User_ID` FOREIGN KEY (`UserId`) REFERENCES `user` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_ARTICLE_Category_ID` FOREIGN KEY (`CategoryId`) REFERENCES `category` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ARTICLE_User_ID` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -49,102 +46,27 @@ DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `category` (
-  `CategoryID` char(36) NOT NULL,
+  `Id` char(36) NOT NULL,
   `Name` varchar(45) NOT NULL,
-  PRIMARY KEY (`CategoryID`)
+  PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `note`
+-- Table structure for table `uploadfile`
 --
 
-DROP TABLE IF EXISTS `note`;
+DROP TABLE IF EXISTS `uploadfile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `note` (
-  `NoteID` char(36) NOT NULL,
-  `Title` varchar(45) DEFAULT NULL,
-  `Content` mediumtext,
-  `CreateAt` datetime DEFAULT NULL,
-  `UpdateAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`NoteID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `pageviewcount`
---
-
-DROP TABLE IF EXISTS `pageviewcount`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pageviewcount` (
-  `PageViewCountID` char(36) NOT NULL,
-  `ResourceID` char(36) DEFAULT NULL,
-  `Count` int(11) DEFAULT NULL,
-  PRIMARY KEY (`PageViewCountID`),
-  UNIQUE KEY `ResourceID_UNIQUE` (`ResourceID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `product`
---
-
-DROP TABLE IF EXISTS `product`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product` (
-  `ProductID` char(36) NOT NULL,
-  `Name` varchar(45) NOT NULL,
-  `Content` mediumtext,
-  `Version` varchar(10) DEFAULT NULL,
-  `Size` int(11) DEFAULT NULL,
-  `ImageUrl` varchar(255) DEFAULT NULL,
-  `Disc` varchar(255) DEFAULT NULL,
-  `Notes` varchar(255) DEFAULT NULL,
-  `CreateAt` datetime NOT NULL,
-  PRIMARY KEY (`ProductID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `resourcestar`
---
-
-DROP TABLE IF EXISTS `resourcestar`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `resourcestar` (
-  `ResourceStarID` char(36) NOT NULL,
-  `ResourceID` char(36) NOT NULL,
-  `ResourceType` int(11) NOT NULL,
-  PRIMARY KEY (`ResourceStarID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='存储需要在首页推荐的文章，教程，产品';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tutorials`
---
-
-DROP TABLE IF EXISTS `tutorials`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tutorials` (
-  `TutorialsID` char(36) NOT NULL,
-  `Title` varchar(45) NOT NULL,
-  `Content` mediumtext,
-  `ImageUrl` varchar(255) DEFAULT NULL,
-  `Disc` varchar(255) DEFAULT NULL,
-  `Notes` varchar(255) DEFAULT NULL,
-  `CreateAt` datetime NOT NULL,
-  `UpdateAt` datetime DEFAULT NULL,
-  `UserId` char(36) NOT NULL,
-  PRIMARY KEY (`TutorialsID`),
-  KEY `FK_TUTORIALS_User_ID_idx` (`UserId`),
-  CONSTRAINT `FK_TUTORIALS_User_ID` FOREIGN KEY (`UserId`) REFERENCES `user` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `uploadfile` (
+  `Id` char(36) NOT NULL,
+  `SaveName` varchar(45) DEFAULT NULL,
+  `UploadName` varchar(45) DEFAULT NULL,
+  `Url` varchar(255) DEFAULT NULL,
+  `Type` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文件管理表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,14 +77,30 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `UserID` char(36) NOT NULL,
+  `Id` char(36) NOT NULL,
   `UserName` varchar(45) DEFAULT NULL,
   `DisplayName` varchar(45) DEFAULT NULL,
   `PasswordHash` varchar(45) DEFAULT NULL,
   `Email` varchar(45) DEFAULT NULL,
   `MobilePhone` varchar(45) DEFAULT NULL,
   `CreateAt` datetime NOT NULL,
-  PRIMARY KEY (`UserID`)
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `viewtotal`
+--
+
+DROP TABLE IF EXISTS `viewtotal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `viewtotal` (
+  `Id` char(36) NOT NULL,
+  `ResourceId` char(36) DEFAULT NULL,
+  `Total` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `ResourceID_UNIQUE` (`ResourceId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -175,4 +113,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-23 18:52:58
+-- Dump completed on 2017-06-26 18:23:41
