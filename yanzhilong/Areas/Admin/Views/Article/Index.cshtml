@@ -19,18 +19,14 @@
                 </th>
 
                 <th>
-                    @Html.DisplayNameFor(model => model.Content)
-                </th>
-
-                <th>
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
 
-                <th>
+                <th style="width:150px">
                     @Html.DisplayNameFor(model => model.CategoryName)
                 </th>
 
-                <th>
+                <th style="width:200px">
                     @Html.DisplayNameFor(model => model.CreateAt)
                 </th>
 
@@ -46,10 +42,6 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-
-                    <td>
-                        @Html.Raw(HttpUtility.HtmlDecode(item.Content)).ToHtmlString()
                     </td>
 
                     <td>

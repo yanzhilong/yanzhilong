@@ -15,7 +15,7 @@
     <resultMap id="UploadFileResult" class="UploadFile">
       <result property="Id" column="Id" dbType="char" type="string" />
       <result property="SaveName" column="SaveName" dbType="varchar" type="string" />
-      <result property="UploadName" column="UploadName" dbType="text" type="string" />
+      <result property="UploadName" column="UploadName" dbType="varchar" type="string" />
       <result property="Url" column="DescUrlription" dbType="varchar" type="string" />
       <result property="Type" column="Type" dbType="int" type="int" />
     </resultMap>

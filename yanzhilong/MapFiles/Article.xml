@@ -20,8 +20,10 @@
       <result property="CreateAt" column="CreateAt" dbType="datetime" type="DateTime" />
       <result property="PV" column="PV" dbType="int" type="int" />
       <result property="category.Id" column="CategoryId" dbType="char" type="string" />
+      <result property="category.Name" column="CategoryName" dbType="char" type="string" />
       <result property="user.Id" column="UserId" dbType="char" type="string" />
       <result property="user.DisplayName" column="DisplayName" dbType="char" type="string" />
+      
     </resultMap>
     
   </resultMaps>
@@ -79,9 +81,7 @@
       </dynamic>
     </select>
 
-
-    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
-    <select id="SelectArticleByCondition" parameterClass="Article" resultMap="ArticleResult">
+    <select id="SelectArticle" parameterClass="Article" resultMap="ArticleResult">
       <![CDATA[  
           SELECT a.Id
           ,a.Title
@@ -89,12 +89,17 @@
           ,a.Description
           ,a.CreateAt
           ,a.CategoryId
+          ,c.Name CategoryName
           ,a.UserId
           ,p.Total as PV
           ,u.DisplayName
           FROM Article a left join User u on a.UserId = u.Id left join ViewTotal p
-          on a.Id = p.ResourceID
+          on a.Id = p.ResourceID inner join category c on a.CategoryId = c.Id  
           ]]>
+    </select>
+
+    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
+    <select id="SelectArticleByCondition" parameterClass="Article" resultMap="ArticleResult" extends="SelectArticle">
       <dynamic prepend="WHERE">
         <isNotEmpty prepend="AND" property="Id">
           <![CDATA[  
@@ -122,11 +127,14 @@
             ]]>
         </isNotEmpty>
       </dynamic>
+        <![CDATA[  
+            order by a.CreateAt desc
+        ]]>
     </select>
 
 
     <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
-    <select id="SelectArticleByPre" parameterClass="Article" resultMap="ArticleResult" extends="SelectArticleByCondition">
+    <select id="SelectArticleByPre" parameterClass="Article" resultMap="ArticleResult" extends="SelectArticle">
 
       <dynamic prepend="WHERE">
         <isNotEmpty prepend="AND" property="CreateAt">
@@ -139,7 +147,7 @@
     </select>
 
     <!--#value# 是点位符会被传入的parameterClass的string类型代替-->
-    <select id="SelectArticleByNext" parameterClass="Article" resultMap="ArticleResult" extends="SelectArticleByCondition">
+    <select id="SelectArticleByNext" parameterClass="Article" resultMap="ArticleResult" extends="SelectArticle">
       <dynamic prepend="WHERE">
         <isNotEmpty prepend="AND" property="CreateAt">
           <![CDATA[  
