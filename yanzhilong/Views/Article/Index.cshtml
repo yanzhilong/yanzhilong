@@ -19,7 +19,7 @@
                     
                         
                         @*@Html.Raw(HttpUtility.HtmlDecode(item.Content))*@
-                    @Html.ActionLink("查看全文", "Details", new { id = item.Id }, new { @class = "btn btn-primary", role = "button" })
+                    @Html.ActionLink("查看全文", "Details", new { id = item.Id }, new { @class = "btn btn-primary", role = "button", target = "_blank" })
                     @*<a class="btn btn-lg btn-primary" href="#" role="button">@Html.ActionLink("查看全文", "Details", new { id = item.ArticleID}, new { @class = "btn btn-lg btn-primary", role = "button" }) &raquo;</a>*@
                 </div>
                 <hr class="featurette-divider">
