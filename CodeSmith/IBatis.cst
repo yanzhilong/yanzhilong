@@ -1,0 +1,256 @@
+﻿<%-- 
+Name: MvcByIbatis
+Author: yanzhilong
+Description: 通过数据库表创建IBatis的Map文件，及生成Service层代码
+--%>
+<%@ CodeTemplate Language="C#" TargetLanguage="C#" Description="生成Service及MapFile文件" Debug="true" %>
+<%--Type数据类型为SchemaExplorer.Databasechema，表明参数SourceDatabase是一个数据库对象。--%>
+
+<%@ Property Name="DomainName" Type="System.String" Default="Domain" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="DomainNamespace" Type="System.String" Default="Crs.Core.Domain.Domains" Category="Object" Description="The class namespace that the mapping file should use" %>
+<%@ Property Name="DomainAttribute" Type="System.String" Default="编号:string:Id" Category="Object" Description="实体类属性(,号隔开多个属性,:隔开注释类型和名称)" %>
+
+<%@ Property Name="ModelName" Type="System.String" Default="Model" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="ModelNamespace" Type="System.String" Default="Crs.Core.Model.Models" Category="Object" Description="The class namespace that the mapping file should use" %>
+<%@ Property Name="ModelAttribute" Type="System.String" Default="编号:string:Id" Category="Object" Description="实体类属性(,号隔开多个属性,:隔开注释类型和名称)" %>
+
+<%@ Property Name="ResultMapAttribute" Type="System.String" Default="user.Id:Id:string" Category="Object" Description="Map要返回的属性(,号隔开多个属性,:隔开赋值名称字段名称和类型)" %>
+<%@ Property Name="InsertMapAttribute" Type="System.String" Default="user.Id:Id" Category="Object" Description="Map要插入和修改的属性(,号隔开多个属性,:隔开赋值名称字段名称)" %>
+<%@ Property Name="BaseNamespace" Type="System.String" Default="yanzhilong" Category="Object" Description="The class namespace that the mapping file should use" %>
+
+<%@ Property Name="ServiceNamespace" Type="System.String" Default="Crs.Services.Services" Category="Object" Description="The class namespace that the mapping file should use" %>
+
+<%@ Property Name="TableName" Type="System.String" Default="TableName" Category="Object" Description="Table that the mapping file is based on" %>
+
+<%@ Assembly Name="System.Design" %>
+<%@ Assembly Name="SchemaExplorer" %>
+
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.IO" %>
+<%@ Import Namespace="System.Xml" %>
+<%@ Import Namespace="System.Text" %>
+<%@ Import Namespace="System.Windows.Forms.Design" %>
+<%@ Import Namespace="System.Text.RegularExpressions" %>
+<script runat="template">
+
+    //模版
+    private CodeTemplate _domainTemplate;
+	private CodeTemplate _modelTemplate;
+	private CodeTemplate _mapTemplate;
+	private CodeTemplate _iserviceTemplate;
+	private CodeTemplate _servicembTemplate;
+	private CodeTemplate _servicetestTemplate;
+	private CodeTemplate _otherTemplate;
+
+
+    //数据库
+    private DatabaseSchema _sourceDatabase;
+    [Category("Database")]
+    [Description("Database that the mapping file should be based on.")]
+    public DatabaseSchema SourceDatabase {
+        get { return _sourceDatabase; }
+        set { _sourceDatabase = value; }
+    }
+    
+    //输出目录
+    private string _outputDirectory;
+    [Editor(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+	[Category("Class")]
+    [Description("The folder to save the generated class files.")]
+	public string OutputDirectory
+	{
+		get {return _outputDirectory;}
+		set {_outputDirectory= value;}
+	}
+    
+    //实体类生成
+    [Browsable(false)]
+	public CodeTemplate DomainTemplate
+	{
+		get
+		{
+			if (_domainTemplate == null)
+				_domainTemplate = CompileTemplate(CodeTemplateInfo.DirectoryName + "Domain.class.cst");
+
+			return _domainTemplate;
+		}
+	}
+    
+    //Model实现文件生成
+	[Browsable(false)]
+	public CodeTemplate ModelTemplate
+	{
+		get
+		{
+			if (_modelTemplate == null)
+				_modelTemplate = CompileTemplate(CodeTemplateInfo.DirectoryName + "Model.class.cst");
+
+			return _modelTemplate;
+		}
+	}
+    
+    //IBatis的MapFile文件生成
+	[Browsable(false)]
+	public CodeTemplate MapTemplate
+	{
+		get
+		{
+			if (_mapTemplate == null)
+				_mapTemplate = CompileTemplate(CodeTemplateInfo.DirectoryName + "IBatis.Map.cst");
+
+			return _mapTemplate;
+		}
+	}
+
+    //IService接口文件生成
+	[Browsable(false)]
+	public CodeTemplate IServiceTemplate
+	{
+		get
+		{
+			if (_iserviceTemplate == null)
+				_iserviceTemplate = CompileTemplate(CodeTemplateInfo.DirectoryName + "IService.cst");
+
+			return _iserviceTemplate;
+		}
+	}
+    
+    //IService实现文件生成
+	[Browsable(false)]
+	public CodeTemplate IServiceMBTemplate
+	{
+		get
+		{
+			if (_servicembTemplate == null)
+				_servicembTemplate = CompileTemplate(CodeTemplateInfo.DirectoryName + "ServiceMB.class.cst");
+
+			return _servicembTemplate;
+		}
+	}
+    
+    //Service测试类文件生成
+	[Browsable(false)]
+	public CodeTemplate IServiceTestTemplate
+	{
+		get
+		{
+			if (_servicetestTemplate == null)
+				_servicetestTemplate = CompileTemplate(CodeTemplateInfo.DirectoryName + "ServiceTest.class.cst");
+
+			return _servicetestTemplate;
+		}
+	}
+    
+    //Service测试类文件生成
+	[Browsable(false)]
+	public CodeTemplate OtherTemplate
+	{
+		get
+		{
+			if (_otherTemplate == null)
+				_otherTemplate = CompileTemplate(CodeTemplateInfo.DirectoryName + "Other.class.cst");
+
+			return _otherTemplate;
+		}
+	}
+    
+    //生成模版的统一方法
+	public CodeTemplate CompileTemplate(string templateName)
+	{
+		CodeTemplateCompiler compiler = new CodeTemplateCompiler(templateName);
+		compiler.Compile();
+
+		if (compiler.Errors.Count == 0)
+		{
+			return compiler.CreateInstance();
+		}
+		else
+		{
+			for (int i = 0; i < compiler.Errors.Count; i++)
+			{
+				Response.WriteLine(compiler.Errors[i].ToString());
+			}
+			return null;
+		}
+
+	}
+    
+    public void Generate()
+	{
+      
+		string domainFileName = DomainName;
+		domainFileName += ".cs";
+		domainFileName = Path.Combine(OutputDirectory, domainFileName);
+
+		string modelFileName = ModelName + ".cs";
+		modelFileName = Path.Combine(OutputDirectory, modelFileName);
+        
+        string mapFileName = DomainName + ".xml";
+		mapFileName = Path.Combine(OutputDirectory, mapFileName);
+        
+        string iserviceFileName = "I" + DomainName+ "Service" + ".cs";
+		iserviceFileName = Path.Combine(OutputDirectory, iserviceFileName);
+        
+        string servicembFileName = DomainName+ "ServiceMB" + ".cs";
+		servicembFileName = Path.Combine(OutputDirectory, servicembFileName);
+
+        string servicetestFileName = DomainName+ "ServiceTest" + ".cs";
+		servicetestFileName = Path.Combine(OutputDirectory, servicetestFileName);
+        
+        string otherFileName = DomainName+ "Other" + ".cs";
+		otherFileName = Path.Combine(OutputDirectory, otherFileName);
+
+        //实体类生成
+		this.DomainTemplate.SetProperty("DomainName", DomainName);
+		this.DomainTemplate.SetProperty("DomainNamespace", DomainNamespace);
+		this.DomainTemplate.SetProperty("DomainAttribute", DomainAttribute);
+		
+		this.DomainTemplate.RenderToFile(domainFileName, true);
+        
+        //Model类生成
+		this.ModelTemplate.SetProperty("ModelName", ModelName);
+		this.ModelTemplate.SetProperty("ModelNamespace", ModelNamespace);
+		this.ModelTemplate.SetProperty("ModelAttribute", ModelAttribute);
+		
+		this.ModelTemplate.RenderToFile(modelFileName, true);
+        
+        //IBatis的Map文件生成
+		this.MapTemplate.SetProperty("DomainName", DomainName);
+		this.MapTemplate.SetProperty("DomainNamespace", DomainNamespace);
+		this.MapTemplate.SetProperty("ResultMapAttribute", ResultMapAttribute);
+		this.MapTemplate.SetProperty("InsertMapAttribute", InsertMapAttribute);
+		this.MapTemplate.SetProperty("BaseNamespace", BaseNamespace);
+		this.MapTemplate.SetProperty("TableName", TableName);
+		
+		this.MapTemplate.RenderToFile(mapFileName, true);
+        
+        //Service接口的生成
+		this.IServiceTemplate.SetProperty("DomainName", DomainName);
+		this.IServiceTemplate.SetProperty("DomainNamespace", DomainNamespace);
+		this.IServiceTemplate.SetProperty("ServiceNamespace", ServiceNamespace);
+		
+		this.IServiceTemplate.RenderToFile(iserviceFileName, true);
+        
+        //ServiceMB类的生成
+		this.IServiceMBTemplate.SetProperty("DomainName", DomainName);
+		this.IServiceMBTemplate.SetProperty("DomainNamespace", DomainNamespace);
+        this.IServiceMBTemplate.SetProperty("ServiceNamespace", ServiceNamespace);
+		
+		this.IServiceMBTemplate.RenderToFile(servicembFileName, true);
+        
+        //Service测试类的生成
+		this.IServiceTestTemplate.SetProperty("DomainName", DomainName);
+		this.IServiceTestTemplate.SetProperty("DomainNamespace", DomainNamespace);
+        this.IServiceTestTemplate.SetProperty("DomainAttribute", DomainAttribute);
+        this.IServiceTestTemplate.SetProperty("ServiceNamespace", ServiceNamespace);
+		
+		this.IServiceTestTemplate.RenderToFile(servicetestFileName, true);
+        
+        //Service其它的生成
+		this.OtherTemplate.SetProperty("DomainName", DomainName);
+		this.OtherTemplate.SetProperty("ModelName", ModelName);
+		
+		this.OtherTemplate.RenderToFile(otherFileName, true);
+	}
+</script>
+<% this.Generate();  %>

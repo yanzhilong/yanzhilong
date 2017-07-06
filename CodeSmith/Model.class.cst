@@ -1,0 +1,35 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" Description="Generates a C# class for use with NHibnate" %>
+<%@ Property Name="ModelName" Type="System.String" Default="Model" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="ModelNamespace" Type="System.String" Default="Crs.Core.Model.Models" Category="Object" Description="The class namespace that the mapping file should use" %>
+<%@ Property Name="ModelAttribute" Type="System.String" Default="编号:string:Id" Category="Object" Description="实体类属性(,号隔开多个属性,:隔开注释类型和名称)" %>
+<%@ Import Namespace="System.Collections.Generic" %>
+<%
+    List<string[]>attributes = new List<string[]>();
+    foreach(string str in ModelAttribute.Split(',')){
+        string[] aa = str.Split(':');
+        attributes.Add(aa);
+    }
+%>
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace <%= ModelNamespace %>
+{
+    public class <%= ModelName %>
+    {
+        
+       <% foreach (string[] strs in attributes) { %>
+       /// <summary>
+       /// <%= strs[0]%>
+       /// </summary>
+       [DisplayName("<%= strs[0]%>")]
+       public <%= strs[1]%> <%= strs[2]%> { get; set; }
+       
+    <% }%>
+
+    }
+}

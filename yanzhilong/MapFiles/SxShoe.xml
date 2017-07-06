@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SxShoe" xmlns="http://ibatis.apache.org/mapping"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+  <alias>
+    <typeAlias alias="SxShoe" type="yanzhilong.Domain.SxShoe,yanzhilong" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SelectAllResult" class="SxShoe">
+      <result property="Id" column="Id" dbType="VARCHAR" type="string" />
+      <result property="Title" column="Title" dbType="VARCHAR" type="string" />
+      <result property="Url" column="Url" dbType="VARCHAR" type="string" />
+      <result property="Number" column="Number" dbType="VARCHAR" type="string" />
+      <result property="Price" column="Price" dbType="FLOAT" type="float" />
+      <result property="Popularity" column="Popularity" dbType="INT" type="int" />
+      <result property="UpdateStr" column="UpdateStr" dbType="VARCHAR" type="string" />
+      <result property="Market" column="Market" dbType="VARCHAR" type="string" />
+      <result property="Sort" column="Sort" dbType="INT" type="int" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="SelectAllSxShoes" resultMap="SelectAllResult">
+      <![CDATA[  
+      SELECT 
+      Id,
+      Title,
+      Url,
+      Number,
+      Price,
+      Popularity,
+      UpdateStr,
+      Market,
+      Sort
+      FROM sx_shoe
+      ]]>
+    </select>
+
+    <select id="SelectSxShoeByCondition" parameterClass="SxShoe" resultMap="SelectAllResult" extends="SelectAllSxShoes">
+      <dynamic prepend="WHERE">
+
+        <isNotEmpty prepend="AND" property="Id">
+          <![CDATA[  
+           Id = #Id#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Title">
+          <![CDATA[  
+           Title = #Title#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Url">
+          <![CDATA[  
+           Url = #Url#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Number">
+          <![CDATA[  
+           Number = #Number#
+            ]]>
+        </isNotEmpty>
+
+        <isGreaterThan prepend="AND" compareValue="-1" property="Price">
+          <![CDATA[  
+           Price = #Price#
+            ]]>
+        </isGreaterThan>
+
+        <isGreaterThan prepend="AND" compareValue="-1" property="Popularity">
+          <![CDATA[  
+           Popularity = #Popularity#
+            ]]>
+        </isGreaterThan>
+
+        <isNotEmpty prepend="AND" property="UpdateStr">
+          <![CDATA[  
+           UpdateStr = #UpdateStr#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Market">
+          <![CDATA[  
+           Market = #Market#
+            ]]>
+        </isNotEmpty>
+
+        <isGreaterThan prepend="AND" compareValue="-1" property="Sort">
+          <![CDATA[  
+           Sort = #Sort#
+            ]]>
+        </isGreaterThan>
+
+      </dynamic>
+    </select>
+
+    <insert id="InsertSxShoe" parameterClass="SxShoe">
+      <![CDATA[ 
+      INSERT INTO sx_shoe
+      (
+      Id,
+      Title,
+      Url,
+      Number,
+      Price,
+      Popularity,
+      UpdateStr,
+      Market,
+      Sort
+      )
+      VALUES
+      (
+      #Id#,
+      #Title#,
+      #Url#,
+      #Number#,
+      #Price#,
+      #Popularity#,
+      #UpdateStr#,
+      #Market#,
+      #Sort#
+      )
+      ]]>
+    </insert>
+
+    <update id="UpdateSxShoe" parameterClass="SxShoe">
+      <![CDATA[           
+      UPDATE sx_shoe SET   
+      Id=#Id#,
+      Title=#Title#,
+      Url=#Url#,
+      Number=#Number#,
+      Price=#Price#,
+      Popularity=#Popularity#,
+      UpdateStr=#UpdateStr#,
+      Market=#Market#,
+      Sort=#Sort#
+      WHERE Id = #Id#
+      ]]>
+    </update>
+
+    <delete id="DeleteSxShoe" parameterClass="SxShoe">
+      <![CDATA[
+      Delete From sx_shoe Where Id = #Id#
+      ]]>
+    </delete>
+
+  </statements>
+</sqlMap>

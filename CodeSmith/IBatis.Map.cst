@@ -1,0 +1,152 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" Description="Generates a C# class for use with NHibnate" %>
+<%@ Property Name="TableName" Type="System.String" Default="TableName" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="DomainName" Type="System.String" Default="Model" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="DomainNamespace" Type="System.String" Default="yanzhilong" Category="Object" Description="The class namespace that the mapping file should use" %>
+<%@ Property Name="ResultMapAttribute" Type="System.String" Default="user.Id:Id:string" Category="Object" Description="Map要返回的属性(,号隔开多个属性,:隔开赋值名称字段名称和类型)" %>
+<%@ Property Name="InsertMapAttribute" Type="System.String" Default="user.Id:Id" Category="Object" Description="Map要插入和修改的属性(,号隔开多个属性,:隔开赋值名称字段名称)" %>
+<%@ Property Name="BaseNamespace" Type="System.String" Default="yanzhilong" Category="Object" Description="The class namespace that the mapping file should use" %>
+<%@ Import Namespace="System.Collections.Generic" %>
+<%
+    List<string[]> resultattributes = new List<string[]>();
+    foreach(string str in ResultMapAttribute.Split(',')){
+        string[] aa = str.Split(':');
+        resultattributes.Add(aa);
+    }
+    
+    List<string[]> insertattributes = new List<string[]>();
+    foreach(string str in InsertMapAttribute.Split(',')){
+        string[] aa = str.Split(':');
+        insertattributes.Add(aa);
+    }
+%>
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="<%=DomainName%>" xmlns="http://ibatis.apache.org/mapping"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+<%string domainnamespance = DomainNamespace + "." +  DomainName;%>
+  <alias>
+    <typeAlias alias="<%=DomainName%>" type="<%=domainnamespance%>,<%=BaseNamespace%>" />   
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SelectAllResult" class="<%=DomainName%>">
+       <% foreach (string[] strs in resultattributes) { %>
+       <%
+        string ti = "";
+        if(strs[2].Equals("string")){
+            ti = "VARCHAR";
+        }else if(strs[2].Equals("float")){
+            ti = "FLOAT";
+        }else if(strs[2].Equals("int")){
+            ti = "INT";
+        }else if(strs[2].Equals("bool")){
+            ti = "TINYINT";
+        }else{
+            ti = strs[2];
+        }
+       %>
+       <result property="<%= strs[0]%>" column="<%= strs[1]%>" dbType="<%= ti%>" type="<%= strs[2]%>" />
+       <% }%>
+    </resultMap>     
+  </resultMaps>
+
+  <statements>
+    <select id="SelectAll<%=DomainName%>s" resultMap="SelectAllResult">
+      <![CDATA[  
+      SELECT 
+     <% for(int i = 0; i < resultattributes.Count; i++)%>
+      <%{%>
+            <%
+            string[] inse = resultattributes[i];
+            %>
+                <%if(i < resultattributes.Count - 1){%>
+      <%=inse[1]%>,
+                <%}else{%>
+      <%=inse[1]%>
+                <%}%>
+      <%}%>
+      FROM <%=TableName%>
+      ]]>
+    </select>
+
+    <select id="Select<%=DomainName%>ByCondition" parameterClass="<%=DomainName%>" resultMap="SelectAllResult" extends="SelectAll<%=DomainName%>s">
+      <dynamic prepend="WHERE">
+      
+      <% foreach (string[] strs in resultattributes) { %>
+       <%if(strs[2].Equals("string")){%>
+       <isNotEmpty prepend="AND" property="<%= strs[0]%>">
+          <![CDATA[  
+           <%= strs[1]%> = #<%= strs[0]%>#
+            ]]>
+        </isNotEmpty>
+       <%}else{%>
+       <isGreaterThan prepend="AND" compareValue="-1" property="<%= strs[0]%>">
+          <![CDATA[  
+           <%= strs[1]%> = #<%= strs[0]%>#
+            ]]>
+        </isGreaterThan>
+       <%}%>
+        
+      <% } %>
+      </dynamic>
+    </select>
+    
+    <insert id="Insert<%=DomainName%>" parameterClass="<%=DomainName%>">
+      <![CDATA[ 
+      INSERT INTO <%=TableName%>
+      (
+      <% for(int i = 0; i < insertattributes.Count; i++)%>
+      <%{%>
+            <%
+            string[] inse = insertattributes[i];
+            %>
+                <%if(i < insertattributes.Count - 1){%>
+      <%=inse[1]%>,
+                <%}else{%>
+      <%=inse[1]%>
+                <%}%>
+      <%}%>
+      )
+      VALUES
+      (
+      <% for(int i = 0; i < insertattributes.Count; i++)%>
+            <%{%>
+            <%
+            string[] inse = insertattributes[i];
+            %>
+                <%if(i < insertattributes.Count - 1){%>
+      #<%=inse[0]%>#,
+                <%}else{%>
+      #<%=inse[0]%>#
+                <%}%>
+            <%}%>
+      )
+      ]]>
+    </insert>
+    
+    <update id="Update<%=DomainName%>" parameterClass="<%=DomainName%>">
+      <![CDATA[           
+      UPDATE <%=TableName%> SET   
+      <% for(int i = 0; i < resultattributes.Count; i++)%>
+      <%{%>
+            <%
+            string[] inse = resultattributes[i];
+            %>
+                <%if(i < resultattributes.Count - 1){%>
+      <%=inse[1]%>=#<%=inse[0]%>#,
+                <%}else{%>
+      <%=inse[1]%>=#<%=inse[0]%>#
+                <%}%>
+      <%}%>
+      WHERE Id = #Id#
+      ]]>
+    </update>
+   
+    <delete id="Delete<%=DomainName%>" parameterClass="<%=DomainName%>">
+      <![CDATA[
+      Delete From <%=TableName%> Where Id = #Id#
+      ]]>
+    </delete>
+
+  </statements>
+</sqlMap>

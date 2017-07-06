@@ -60,6 +60,17 @@
                        }>
                             @Html.ActionLink("分类管理", "Index", "Category")
                         </li>
+
+                        <li  @if (ViewBag.sidebar == "鞋子管理")
+                       {
+                        @:class= "active"
+                       }else
+                       {
+                           @:
+                       }>
+                            @Html.ActionLink("鞋子管理", "Index", "Shoe")
+                        </li>
+
                     </ul>
                     <ul class="nav nav-sidebar">
                         <li>

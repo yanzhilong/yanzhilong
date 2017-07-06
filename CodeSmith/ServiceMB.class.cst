@@ -1,0 +1,103 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" Description="Generates a C# class for use with NHibnate" %>
+<%@ Property Name="DomainName" Type="System.String" Default="Domain" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="DomainNamespace" Type="System.String" Default="Crs.Core.Domain.Domains" Category="Object" Description="The class namespace that the mapping file should use" %>
+<%@ Property Name="ServiceNamespace" Type="System.String" Default="Crs.Services.Services" Category="Object" Description="The class namespace that the mapping file should use" %>
+<%@ Import Namespace="System.Collections.Generic" %>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using yanzhilong.Repository;
+using <%=DomainNamespace%>;
+
+namespace <%=ServiceNamespace%>
+{
+    public class <%=DomainName%>Service : IBaseService< <%=DomainName%> >
+    {
+        #region Fields
+
+        IRepository< <%=DomainName%>> _Repository = new MbRepository< <%=DomainName%>>();
+
+        #endregion
+
+        public void AddEntry(<%=DomainName%> entry)
+        {
+            _Repository.Insert("Insert<%=DomainName%>", entry);
+        }
+
+        public void AddEntrys(IList< <%=DomainName%>> entrys)
+        {
+            _Repository.Insert("Insert<%=DomainName%>", entrys);
+        }
+
+        public void DeleteEntry(<%=DomainName%> entry)
+        {
+            _Repository.Delete("Delete<%=DomainName%>", entry);
+        }
+
+        public void DeleteEntrys(IList< <%=DomainName%>> entrys)
+        {
+            _Repository.Delete("Delete<%=DomainName%>", entrys);
+        }
+
+        public int GetCount(object parameterObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCount(<%=DomainName%> entry)
+        {
+            throw new NotImplementedException();
+        }
+
+        public <%=DomainName%> GetEntry(object parameterObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public <%=DomainName%> GetEntry(<%=DomainName%> entry)
+        {
+            <%=DomainName%> resultentry = _Repository.GetByCondition("Select<%=DomainName%>ByCondition", entry);
+            return resultentry;
+        }
+
+        public IEnumerable< <%=DomainName%>> GetEntrys(<%=DomainName%> entry)
+        {
+            IList< <%=DomainName%>> resultentrys = _Repository.GetList("Select<%=DomainName%>ByCondition", entry);
+            return resultentrys;
+        }
+
+        public IEnumerable< <%=DomainName%>> GetEntrys(object parameterObject, int page, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable< <%=DomainName%>> GetEntrys(int skip, int take, object parameterObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable< <%=DomainName%>> GetEntrys(int skip, int take, <%=DomainName%> entry)
+        {
+            IList< <%=DomainName%>> entrys = _Repository.GetList("Select<%=DomainName%>ByCondition", entry, skip, take);
+            return entrys;
+        }
+
+        public IEnumerable< <%=DomainName%>> GetEntrys(<%=DomainName%> entry, int page, int pageSize)
+        {
+            IList< <%=DomainName%>> entrys = _Repository.GetList("Select<%=DomainName%>ByCondition", entry, page * pageSize, pageSize);
+            return entrys;
+        }
+
+        public void UpdateEntry(<%=DomainName%> entry)
+        {
+            _Repository.Update("Update<%=DomainName%>", entry);
+        }
+
+        public void UpdateEntrys(IList< <%=DomainName%>> entrys)
+        {
+            _Repository.Update("Update<%=DomainName%>", entrys);
+        }
+    }
+}

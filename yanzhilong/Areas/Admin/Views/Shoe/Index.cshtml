@@ -1,9 +1,6 @@
-﻿@model IEnumerable<yanzhilong.Models.CategoryModel>
-
-@{
-    ViewBag.sidebar = "分类管理";
-    ViewBag.Title = "文章分类";
-    PageModel pagemode = ViewBag.pagemodel as PageModel;
+﻿@{
+    ViewBag.sidebar = "鞋子管理";
+    ViewBag.Title = "鞋子管理/导出";
 }
 
 <div class="content-header clearfix">
@@ -19,10 +16,10 @@
                 <script>
 
                     $(document).ready(function () {
-                        var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "Category"))";
-                        var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "Category"))";
-                        var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "Category"))";
-                        var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "Category"))",
+                        var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "Shoe"))";
+                        var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "Shoe"))";
+                        var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "Shoe"))";
+                        var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "Shoe"))",
 
                         dataSource = new kendo.data.DataSource({
                             transport: {
@@ -59,7 +56,12 @@
                                     id: "Id",
                                     fields: {
                                         Id: { editable: false, nullable: true },
-                                        Name: { validation: { required: true } }
+                                        Title: { validation: { required: true } },
+                                        Url: { validation: { required: true }}, 
+                                        Price: { validation: { required: true }}, 
+                                        Popularity: { validation: { required: true }}, 
+                                        UpdateStr: { validation: { required: true }},
+                                        Sort: { validation: { required: true }}
                                     }
                                 }
                             }
@@ -79,11 +81,14 @@
                                 pageSizes: true,
                                 buttonCount: 5
                             },
-                            toolbar: ["create"],
                             columns: [
-                                { field:"Name", title: "分类名称" },
-                                { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
-                            editable: "popup"
+                                { field: "Title", title: "标题", width: "350px"},
+                                { field: "Url", title: "网址" },
+                                { field: "Price", title: "价格", width: "80px"},
+                                { field: "Popularity", title: "人气", width: "80px"},
+                                { field: "UpdateStr", title: "更新", width: "180px" },
+                                { field: "Sort", title: "更新排序", width: "80px"},
+                                { command: ["destroy"], title: "&nbsp;", width: "200px" }]
                         });
                     });
 

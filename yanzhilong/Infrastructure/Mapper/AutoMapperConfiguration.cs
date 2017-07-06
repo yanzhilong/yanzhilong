@@ -31,6 +31,35 @@ namespace yanzhilong.Infrastructure.Mapper
             cfg.CreateMap<Category, CategoryModel>();
             cfg.CreateMap<CategoryModel, Category>();
 
+            //SxSsize
+            cfg.CreateMap<SxSsize, SxSsizeModel>();
+
+            cfg.CreateMap<SxSsizeModel, SxSsize>();
+
+            //SxShoe
+            cfg.CreateMap<SxShoe, SxShoeModel>();
+
+            cfg.CreateMap<SxShoeModel, SxShoe>();
+
+            //SxProperty
+            cfg.CreateMap<SxProperty, SxPropertyModel>();
+
+            cfg.CreateMap<SxPropertyModel, SxProperty>();
+
+            //SxMainImage
+            cfg.CreateMap<SxMainImage, SxMainImageModel>();
+
+            cfg.CreateMap<SxMainImageModel, SxMainImage>();
+
+            //SxImage
+            cfg.CreateMap<SxImage, SxImageModel>();
+
+            cfg.CreateMap<SxImageModel, SxImage>();
+
+            //SxColor
+            cfg.CreateMap<SxColor, SxColorModel>();
+
+            cfg.CreateMap<SxColorModel, SxColor>();
         };
 
         public static void Init()

@@ -235,9 +235,16 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ShoeController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
+    <Compile Include="Domain\SxColor.cs" />
+    <Compile Include="Domain\SxImage.cs" />
+    <Compile Include="Domain\SxMainImage.cs" />
+    <Compile Include="Domain\SxProperty.cs" />
+    <Compile Include="Domain\SxShoe.cs" />
+    <Compile Include="Domain\SxSsize.cs" />
     <Compile Include="Domain\UploadFile.cs" />
     <Compile Include="Domain\FileEnum.cs" />
     <Compile Include="Domain\ViewTotal.cs" />
@@ -259,9 +266,22 @@
     <Compile Include="Domain\Article.cs" />
     <Compile Include="Models\EditorModel.cs" />
     <Compile Include="Models\PageModel.cs" />
+    <Compile Include="Models\SxColorModel.cs" />
+    <Compile Include="Models\SxImageModel.cs" />
+    <Compile Include="Models\SxMainImageModel.cs" />
+    <Compile Include="Models\SxPropertyModel.cs" />
+    <Compile Include="Models\SxShoeModel.cs" />
+    <Compile Include="Models\SxSsizeModel.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MbRepository.cs" />
     <Compile Include="Service\FileService.cs" />
+    <Compile Include="Service\IBaseService.cs" />
+    <Compile Include="Service\SxColorServiceMB.cs" />
+    <Compile Include="Service\SxImageServiceMB.cs" />
+    <Compile Include="Service\SxMainImageServiceMB.cs" />
+    <Compile Include="Service\SxPropertyServiceMB.cs" />
+    <Compile Include="Service\SxShoeServiceMB.cs" />
+    <Compile Include="Service\SxSsizeServiceMB.cs" />
     <Compile Include="Service\ViewTotalService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Domain\Category.cs" />
@@ -1222,6 +1242,12 @@
     <EmbeddedResource Include="MapFiles\Category.xml" />
     <EmbeddedResource Include="MapFiles\ViewTotal.xml" />
     <EmbeddedResource Include="MapFiles\UploadFile.xml" />
+    <EmbeddedResource Include="MapFiles\SxColor.xml" />
+    <EmbeddedResource Include="MapFiles\SxImage.xml" />
+    <EmbeddedResource Include="MapFiles\SxMainImage.xml" />
+    <EmbeddedResource Include="MapFiles\SxProperty.xml" />
+    <EmbeddedResource Include="MapFiles\SxShoe.xml" />
+    <EmbeddedResource Include="MapFiles\SxSsize.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -1371,6 +1397,7 @@
     <Content Include="Content\kendo\2014.1.318\kendo.view.min.js.map" />
     <Content Include="Content\kendo\2014.1.318\kendo.web.min.js.map" />
     <Content Include="Content\kendo\2014.1.318\kendo.window.min.js.map" />
+    <Content Include="Areas\Admin\Views\Shoe\Index.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>

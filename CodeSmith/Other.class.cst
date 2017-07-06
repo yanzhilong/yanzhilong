@@ -1,0 +1,31 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" Description="Generates a C# class for use with NHibnate" %>
+<%@ Property Name="DomainName" Type="System.String" Default="Domain" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="ModelName" Type="System.String" Default="Model" Category="Object" Description="Table that the mapping file is based on" %>
+
+//Map文件
+<sqlMap embedded="MapFiles.<%=DomainName%>.xml, yanzhilong" />
+
+//Domain To Model
+//<%=DomainName%>
+cfg.CreateMap< <%=DomainName%>, <%=ModelName%>>();
+
+cfg.CreateMap< <%=ModelName%>, <%=DomainName%>>();
+
+//Domain To Model 扩展类
+#region <%=DomainName%>
+
+public static <%=ModelName%> ToModel(this <%=DomainName%> entity)
+{
+    return entity.MapTo< <%=DomainName%>, <%=ModelName%>>();
+}
+
+public static <%=DomainName%> ToEntity(this <%=ModelName%> model)
+{
+    return model.MapTo< <%=ModelName%>, <%=DomainName%>>();
+}
+
+public static <%=DomainName%> ToEntity(this <%=ModelName%> model, <%=DomainName%> destination)
+{
+    return model.MapTo(destination);
+}
+#endregion
