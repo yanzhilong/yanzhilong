@@ -22,7 +22,12 @@ namespace yanzhilong.Service
         {
             repository.Insert("InsertCategory", category);
         }
-         
+
+        public void Create(IList<Category> categorys)
+        {
+            repository.Insert("InsertCategory", categorys);
+        }
+
         public Category GetCategoryById(string categoryID)
         {
             Category category = repository.GetByCondition("SelectCategoryByCondition", new Category { Id = categoryID});
@@ -64,9 +69,19 @@ namespace yanzhilong.Service
             repository.Update("UpdateCategory", category);
         }
 
+        public void Update(IList<Category> categorys)
+        {
+            repository.Update("UpdateCategory", categorys);
+        }
+
         public void Delete(string categoryID)
         {
             repository.Delete("DeleteCategory", categoryID);
+        }
+
+        public void Delete(IList<Category> categorys)
+        {
+            repository.Delete("DeleteCategory", categorys);
         }
     }
 }

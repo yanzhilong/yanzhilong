@@ -41,11 +41,11 @@
     </insert>
 
     <!-- parameterClass表示传入的参数为int -->
-    <delete id="DeleteCategory" parameterClass="string">
+    <delete id="DeleteCategory" parameterClass="Category">
       <![CDATA[
           delete from Category  
           where  
-          Id = #value#  
+          Id = #Id#  
           ]]>
     </delete>
     

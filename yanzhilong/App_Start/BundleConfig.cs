@@ -64,9 +64,22 @@ namespace yanzhilong
             "~/Content/editor.md-master/lib/flowchart.min.js",
             "~/Content/editor.md-master/lib/jquery.flowchart.min.js",
             "~/Content/editor.md-master/editormd.js"));
-            
-             
 
+            //kendo css
+            bundles.Add(new StyleBundle("~/bundles/kendo/css").Include(
+            "~/Content/kendo/2014.1.318/kendo.common.min.css",
+            "~/Content/kendo/2014.1.318/kendo.default.min.css",
+            "~/Content/kendo/2014.1.318/kendo.rtl.min.css",
+            "~/Content/kendo/kendo_styles.css"
+
+           ));
+
+            //kendo js
+            bundles.Add(new ScriptBundle("~/bundles/kendo/js").Include(
+            "~/Content/kendo/2014.1.318/kendo.web_cn.min.js",
+            "~/Content/kendo/2014.1.318/kendo.messages.zh-CN.min.js"
+
+           ));
         }
     }
 }

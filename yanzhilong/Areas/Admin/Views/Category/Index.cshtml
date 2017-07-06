@@ -6,46 +6,91 @@
     PageModel pagemode = ViewBag.pagemodel as PageModel;
 }
 
-
-<h1 class="page-header">文章分类管理</h1>
-@Html.ActionLink("创建新分类", "Create", "Category")
-<div class="table-responsive">
-    <table class="table table-striped table-manage">
-        <thead>
-            <tr>
-
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-
-                <th>
-                    操作
-                </th>
-            </tr>
-
-            
-        </thead>
-        <tbody>
-
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-
-                    <td>
-                        @Html.ActionLink("编辑", "Edit", "Category", new { id = item.Id }, new { target = "_blank" }) |
-                        @Html.ActionLink("详情", "Details", "Category", new { id = item.Id, area = "" }, new { target = "_blank" }) |
-                        @Html.ActionLink("删除", "Delete", "Category", new { id = item.Id }, null)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="content-header clearfix">
+    <h1 class="page-header">文章分类管理</h1>
 </div>
 
-<div class="container">
-    <!--  分页视图 -->
-    @Html.Partial("Paging", pagemode)
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="grid"></div>
+                    <script>
+
+                        $(document).ready(function () {
+                            var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "Category"))";
+                            var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "Category"))";
+                            var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "Category"))";
+                            var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "Category"))",
+
+                            dataSource = new kendo.data.DataSource({
+                                transport: {
+                                    read:  {
+                                        url: ReadUrl,
+                                        dataType: "jsonp"
+                                    },
+                                    update: {
+                                        url: UpdateUrl,
+
+                                        dataType: "jsonp"
+                                    },
+                                    destroy: {
+                                        url: DestroyUrl,
+                                        type: "post",
+                                        dataType: "jsonp"
+                                    },
+                                    create: {
+                                        url: CreateUrl,
+                                        type: "post",
+                                        dataType: "jsonp"
+                                    },
+                                    parameterMap: function (options, operation) {
+
+                                        if (operation !== "read" && options.models) {
+                                            return {models: kendo.stringify(options.models)};
+                                        }
+                                    }
+                                },
+                                batch: true,
+                                pageSize: 20,
+                                schema: {
+                                    model: {
+                                        id: "Id",
+                                        fields: {
+                                            Id: { editable: false, nullable: true },
+                                            Name: { validation: { required: true } }
+                                        }
+                                    }
+                                }
+                            });
+                            dataSource.bind("error", dataSource_error);
+
+                            function dataSource_error(e) {
+                                var responsejson = e.xhr.responseText;
+                                alert(e.status);
+                            }
+
+                            $("#grid").kendoGrid({
+                                dataSource: dataSource,
+                                sortable: true,
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: true,
+                                    buttonCount: 5
+                                },
+                                toolbar: ["create"],
+                                columns: [
+                                    { field:"Name", title: "分类名称" },
+                                    { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
+                                editable: "popup"
+                            });
+                        });
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

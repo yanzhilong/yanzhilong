@@ -10,6 +10,7 @@ using yanzhilong.Models;
 using yanzhilong.Service;
 using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Helper;
+using Newtonsoft.Json;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
@@ -29,71 +30,57 @@ namespace yanzhilong.Areas.Admin.Controllers
             return View(categoryModels);
         }
 
-       
 
-        // GET: GuestBook/Create
-        [Authentication]
+        [JsonCallback]
+        public ActionResult List()
+        {
+            var categorys = categoryCRUD.GetCategorys();
+            IEnumerable<CategoryModel> categoryModels = categorys.Select(x => x.ToModel());
+
+            return Json(categoryModels);
+        }
+
+        [JsonCallback]
+        public ActionResult Update()
+        {
+            var models = JsonConvert.DeserializeObject<IEnumerable<CategoryModel>>(Request.Params["models"]);
+            if (models != null)
+            {
+                IEnumerable<Category> categorys = models.Select(e => e.ToEntity());
+                categoryCRUD.Update(categorys.ToList<Category>());
+            }
+            return Json(models);
+        }
+
+        [JsonCallback]
         public ActionResult Create()
-        { 
-            CategoryModel dategoryModel = new CategoryModel();
-            return View(dategoryModel);
+        {
+            var models = JsonConvert.DeserializeObject<IEnumerable<CategoryModel>>(Request.Params["models"]);
+
+            if (models != null)
+            {
+                foreach (CategoryModel category in models)
+                {
+                    category.Id = Guid.NewGuid().ToString();
+                }
+                IEnumerable<Category> categorys = models.Select(e => e.ToEntity());
+                categoryCRUD.Create(categorys.ToList<Category>());
+            }
+            return Json(models);
         }
 
-        // POST: GuestBook/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [ValidateInput(false)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authentication]
-        public ActionResult Create(CategoryModel categoryModel)
+        [JsonCallback]
+        public ActionResult Delete()
         {
-            if (ModelState.IsValid)
+            var callback = Request.Params["callback"];
+            var models = JsonConvert.DeserializeObject<IEnumerable<CategoryModel>>(Request.Params["models"]);
+            if (models != null)
             {
-                categoryModel.Id = Guid.NewGuid().ToString();
-                Category category = categoryModel.ToEntity();
-                categoryCRUD.Create(category);
-                return RedirectToAction("Index");
+                IEnumerable<Category> categorys = models.Select(e => e.ToEntity());
+                categoryCRUD.Delete(categorys.ToList<Category>());
             }
-            //
-            return View(categoryModel);
-        }
-
-        [Authentication]
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Category category = categoryCRUD.GetCategoryById(id);
-            CategoryModel categoryModel = category.ToModel();
-
-            return View(categoryModel);
-            
-        }
-        [ValidateInput(false)]
-        [HttpPost]
-        [Authentication]
-        public ActionResult Edit(CategoryModel categoryModel)
-        {
-            if (ModelState.IsValid)
-            {
-                Category category = categoryModel.ToEntity();
-                categoryCRUD.Update(category);
-                return RedirectToAction("Index");
-            }
-            return View(categoryModel);
-        }
-        [Authentication]
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            categoryCRUD.Delete(id);
-            return RedirectToAction("Index");
+            return Json(models);
+            //return new JsonpResult<object>(models, callback);
         }
     }
 }

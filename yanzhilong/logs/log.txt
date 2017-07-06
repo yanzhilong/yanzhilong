@@ -928,3 +928,4 @@ INFO  2017-06-23 12:52:37,845  7515ms HomeController         Index              
 INFO  2017-06-23 12:52:38,992  8662ms HomeController         Index              - index
 INFO  2017-06-23 12:52:41,031 10700ms HomeController         Index              - index
 INFO  2017-06-23 12:52:42,753 12422ms HomeController         Index              - index
+ERROR 2017-07-06 18:50:02,476 65142ms MbRepository`1         Delete             - delete entities Fail
