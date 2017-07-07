@@ -10,7 +10,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
     <resultMap id="SelectAllResult" class="TbPropertyCategory">
        <result property="Id" column="Id" dbType="VARCHAR" type="string" />
        <result property="Name" column="Name" dbType="VARCHAR" type="string" />
-       <result property="Value" column="Value" dbType="VARCHAR" type="string" />
+       <result property="ValueKey" column="ValueKey" dbType="VARCHAR" type="string" />
     </resultMap>     
   </resultMaps>
 
@@ -20,7 +20,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       SELECT 
       Id,
       Name,
-      Value
+      ValueKey
       FROM tb_propertycategory
       ]]>
     </select>
@@ -40,9 +40,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
             ]]>
         </isNotEmpty>
         
-       <isNotEmpty prepend="AND" property="Value">
+       <isNotEmpty prepend="AND" property="ValueKey">
           <![CDATA[  
-           Value = #Value#
+           ValueKey = #ValueKey#
             ]]>
         </isNotEmpty>
         
@@ -55,13 +55,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       (
       Id,
       Name,
-      Value
+      ValueKey
       )
       VALUES
       (
       #Id#,
       #Name#,
-      #Value#
+      #ValueKey#
       )
       ]]>
     </insert>
@@ -71,7 +71,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       UPDATE tb_propertycategory SET   
       Id=#Id#,
       Name=#Name#,
-      Value=#Value#
+      ValueKey=#ValueKey#
       WHERE Id = #Id#
       ]]>
     </update>

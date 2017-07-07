@@ -233,6 +233,9 @@
     <Compile Include="Areas\Admin\Controllers\EditorMdController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TbItemController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TbPropertyCategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TbPropertyController.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Areas\Admin\Controllers\ShoeController.cs" />
@@ -1410,6 +1413,10 @@
     <Content Include="Content\kendo\2014.1.318\kendo.web.min.js.map" />
     <Content Include="Content\kendo\2014.1.318\kendo.window.min.js.map" />
     <Content Include="Areas\Admin\Views\Shoe\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TbProperty\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TbPropertyCategory\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TbItem\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TbPropertyCategory\TbPropertyCategoryItems.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>

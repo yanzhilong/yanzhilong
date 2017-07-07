@@ -22,7 +22,7 @@ namespace yanzhilong.Domain
        /// <summary>
        /// 值
        /// </summary>
-       public string Value { get; set; }
+       public string ValueKey { get; set; }
        
 
     }

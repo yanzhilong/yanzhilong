@@ -1,0 +1,103 @@
+﻿@model TbPropertyModel
+@{
+    ViewBag.sidebar = "淘宝属性";
+    ViewBag.Title = "淘宝属性";
+}
+
+<div class="content-header clearfix">
+    <h1 class="page-header">淘宝属性管理</h1>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+
+            <div class="panel panel-default">
+                @Html.Action("TbPropertyCategoryItems", "TbPropertyCategory")
+            </div>
+
+            <div class="panel panel-default">
+                <div id="grid"></div>
+                <script>
+
+                    function onTbPropertyCategorySelect(TbPropertyCategoryId) {
+                        alert(TbPropertyCategoryId);
+                    }
+
+                    $(document).ready(function () {
+                        var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "TbProperty"))" + "?TbPropertyCategoryId=" + "@Model.TbPropertyCategoryId";
+                        var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "TbProperty"))";
+                        var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "TbProperty"))";
+                        var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "TbProperty"))",
+
+                        dataSource = new kendo.data.DataSource({
+                            transport: {
+                                read: {
+                                    url: ReadUrl,
+                                    dataType: "jsonp"
+                                },
+                                update: {
+                                    url: UpdateUrl,
+
+                                    dataType: "jsonp"
+                                },
+                                destroy: {
+                                    url: DestroyUrl,
+                                    type: "post",
+                                    dataType: "jsonp"
+                                },
+                                create: {
+                                    url: CreateUrl,
+                                    type: "post",
+                                    dataType: "jsonp"
+                                },
+                                parameterMap: function (options, operation) {
+
+                                    if (operation !== "read" && options.models) {
+                                        return { models: kendo.stringify(options.models) };
+                                    }
+                                }
+                            },
+                            batch: true,
+                            pageSize: 20,
+                            schema: {
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        Id: { editable: false, nullable: true },
+                                        Name: { validation: { required: true } },
+                                        ValueKey: { validation: { required: true } },
+                                        TbPropertyCategoryId: { validation: { required: true } }
+                                    }
+                                }
+                            }
+                        });
+                        dataSource.bind("error", dataSource_error);
+
+                        function dataSource_error(e) {
+                            var responsejson = e.xhr.responseText;
+                            alert(e.status);
+                        }
+
+                        $("#grid").kendoGrid({
+                            dataSource: dataSource,
+                            sortable: true,
+                            pageable: {
+                                refresh: true,
+                                pageSizes: true,
+                                buttonCount: 5
+                            },
+                            toolbar: ["create"],
+                            columns: [
+                                { field: "Name", title: "属性名称" },
+                                { field: "ValueKey", title: "属性值" },
+                                { command: ["edit", "destroy"], title: "&nbsp;", width: "200px" }],
+                            editable: "popup"
+                        });
+                    });
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

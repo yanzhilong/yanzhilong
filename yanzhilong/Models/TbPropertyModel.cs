@@ -26,7 +26,7 @@ namespace yanzhilong.Models
        /// 值
        /// </summary>
        [DisplayName("值")]
-       public string Value { get; set; }
+       public string ValueKey { get; set; }
        
        /// <summary>
        /// 属性分类

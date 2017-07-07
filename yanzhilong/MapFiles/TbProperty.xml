@@ -10,8 +10,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
     <resultMap id="SelectAllResult" class="TbProperty">
        <result property="Id" column="Id" dbType="VARCHAR" type="string" />
        <result property="Name" column="Name" dbType="VARCHAR" type="string" />
-       <result property="Value" column="Value" dbType="VARCHAR" type="string" />
-       <result property="propertyCategory.Id" column="TbPropertyCategoryId" dbType="VARCHAR" type="string" />
+       <result property="ValueKey" column="ValueKey" dbType="VARCHAR" type="string" />
+       <result property="tbPropertyCategory.Id" column="TbPropertyCategoryId" dbType="VARCHAR" type="string" />
     </resultMap>     
   </resultMaps>
 
@@ -21,7 +21,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       SELECT 
       Id,
       Name,
-      Value,
+      ValueKey,
       TbPropertyCategoryId
       FROM tb_property
       ]]>
@@ -42,15 +42,15 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
             ]]>
         </isNotEmpty>
         
-       <isNotEmpty prepend="AND" property="Value">
+       <isNotEmpty prepend="AND" property="ValueKey">
           <![CDATA[  
-           Value = #Value#
+           Value = #ValueKey#
             ]]>
         </isNotEmpty>
         
-       <isNotEmpty prepend="AND" property="propertyCategory.Id">
+       <isNotEmpty prepend="AND" property="tbPropertyCategory.Id">
           <![CDATA[  
-           TbPropertyCategoryId = #propertyCategory.Id#
+           TbPropertyCategoryId = #tbPropertyCategory.Id#
             ]]>
         </isNotEmpty>
         
@@ -63,14 +63,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       (
       Id,
       Name,
-      Value,
+      ValueKey,
       TbPropertyCategoryId
       )
       VALUES
       (
       #Id#,
       #Name#,
-      #Value#,
+      #ValueKey#,
       #tbPropertyCategory.Id#
       )
       ]]>
@@ -81,8 +81,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       UPDATE tb_property SET   
       Id=#Id#,
       Name=#Name#,
-      Value=#Value#,
-      TbPropertyCategoryId=#propertyCategory.Id#
+      ValueKey=#ValueKey#,
+      TbPropertyCategoryId=#tbPropertyCategory.Id#
       WHERE Id = #Id#
       ]]>
     </update>

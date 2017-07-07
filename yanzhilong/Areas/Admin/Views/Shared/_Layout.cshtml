@@ -53,6 +53,24 @@
                         @Html.ActionLink("鞋子管理", "Index", "Shoe")
                     </li>
 
+                    <li @if (ViewBag.sidebar == "淘宝属性") { @: class="active"
+                                                                       } else { @:
+                                                                       }>
+                        @Html.ActionLink("淘宝属性", "Index", "TbProperty")
+                    </li>
+
+                    <li @if (ViewBag.sidebar == "淘宝属性分类") { @: class="active"
+                                                                                               } else { @:
+                                                                                               }>
+                        @Html.ActionLink("淘宝属性分类", "Index", "TbPropertyCategory")
+                    </li>
+
+                    <li @if (ViewBag.sidebar == "淘宝宝贝") { @: class="active"
+                                                                                                                       } else { @:
+                                                                                                                       }>
+                        @Html.ActionLink("淘宝宝贝", "Index", "TbItem")
+                    </li>
+
                 </ul>
                 <ul class="nav nav-sidebar">
                     <li>
