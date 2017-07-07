@@ -60,6 +60,21 @@ namespace yanzhilong.Infrastructure.Mapper
             cfg.CreateMap<SxColor, SxColorModel>();
 
             cfg.CreateMap<SxColorModel, SxColor>();
+
+            //TbItem
+            cfg.CreateMap<TbItem, TbItemModel>();
+
+            cfg.CreateMap<TbItemModel, TbItem>();
+
+            //TbProperty
+            cfg.CreateMap<TbProperty, TbPropertyModel>();
+
+            cfg.CreateMap<TbPropertyModel, TbProperty>();
+
+            //TbPropertyCategory
+            cfg.CreateMap<TbPropertyCategory, TbPropertyCategoryModel>();
+
+            cfg.CreateMap<TbPropertyCategoryModel, TbPropertyCategory>();
         };
 
         public static void Init()

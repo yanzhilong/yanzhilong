@@ -101,19 +101,6 @@ Description: 通过数据库表创建IBatis的Map文件，及生成Service层代
 			return _mapTemplate;
 		}
 	}
-
-    //IService接口文件生成
-	[Browsable(false)]
-	public CodeTemplate IServiceTemplate
-	{
-		get
-		{
-			if (_iserviceTemplate == null)
-				_iserviceTemplate = CompileTemplate(CodeTemplateInfo.DirectoryName + "IService.cst");
-
-			return _iserviceTemplate;
-		}
-	}
     
     //IService实现文件生成
 	[Browsable(false)]
@@ -191,7 +178,7 @@ Description: 通过数据库表创建IBatis的Map文件，及生成Service层代
         string iserviceFileName = "I" + DomainName+ "Service" + ".cs";
 		iserviceFileName = Path.Combine(OutputDirectory, iserviceFileName);
         
-        string servicembFileName = DomainName+ "ServiceMB" + ".cs";
+        string servicembFileName = DomainName+ "Service" + ".cs";
 		servicembFileName = Path.Combine(OutputDirectory, servicembFileName);
 
         string servicetestFileName = DomainName+ "ServiceTest" + ".cs";
@@ -223,13 +210,6 @@ Description: 通过数据库表创建IBatis的Map文件，及生成Service层代
 		this.MapTemplate.SetProperty("TableName", TableName);
 		
 		this.MapTemplate.RenderToFile(mapFileName, true);
-        
-        //Service接口的生成
-		this.IServiceTemplate.SetProperty("DomainName", DomainName);
-		this.IServiceTemplate.SetProperty("DomainNamespace", DomainNamespace);
-		this.IServiceTemplate.SetProperty("ServiceNamespace", ServiceNamespace);
-		
-		this.IServiceTemplate.RenderToFile(iserviceFileName, true);
         
         //ServiceMB类的生成
 		this.IServiceMBTemplate.SetProperty("DomainName", DomainName);

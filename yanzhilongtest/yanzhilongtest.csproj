@@ -80,6 +80,9 @@
     <Compile Include="Models\PageViewCountTest.cs" />
     <Compile Include="Models\ResourceStarTest.cs" />
     <Compile Include="Models\FileTest.cs" />
+    <Compile Include="Models\TbItemServiceTest.cs" />
+    <Compile Include="Models\TbPropertyCategoryServiceTest.cs" />
+    <Compile Include="Models\TbPropertyServiceTest.cs" />
     <Compile Include="Models\TutorialsTest.cs" />
     <Compile Include="Models\CategoryTest.cs" />
     <Compile Include="Models\UserTest.cs" />

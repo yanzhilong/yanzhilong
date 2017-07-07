@@ -42,6 +42,60 @@ namespace yanzhilong.Infrastructure.Mapper
         }
         #endregion
 
+        #region TbProperty
+
+        public static TbPropertyModel ToModel(this TbProperty entity)
+        {
+            return entity.MapTo<TbProperty, TbPropertyModel>();
+        }
+
+        public static TbProperty ToEntity(this TbPropertyModel model)
+        {
+            return model.MapTo<TbPropertyModel, TbProperty>();
+        }
+
+        public static TbProperty ToEntity(this TbPropertyModel model, TbProperty destination)
+        {
+            return model.MapTo(destination);
+        }
+        #endregion
+
+        #region TbPropertyCategory
+
+        public static TbPropertyCategoryModel ToModel(this TbPropertyCategory entity)
+        {
+            return entity.MapTo<TbPropertyCategory, TbPropertyCategoryModel>();
+        }
+
+        public static TbPropertyCategory ToEntity(this TbPropertyCategoryModel model)
+        {
+            return model.MapTo<TbPropertyCategoryModel, TbPropertyCategory>();
+        }
+
+        public static TbPropertyCategory ToEntity(this TbPropertyCategoryModel model, TbPropertyCategory destination)
+        {
+            return model.MapTo(destination);
+        }
+        #endregion
+
+        #region TbItem
+
+        public static TbItemModel ToModel(this TbItem entity)
+        {
+            return entity.MapTo<TbItem, TbItemModel>();
+        }
+
+        public static TbItem ToEntity(this TbItemModel model)
+        {
+            return model.MapTo<TbItemModel, TbItem>();
+        }
+
+        public static TbItem ToEntity(this TbItemModel model, TbItem destination)
+        {
+            return model.MapTo(destination);
+        }
+        #endregion
+
         #region SxImage
 
         public static SxImageModel ToModel(this SxImage entity)

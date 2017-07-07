@@ -245,6 +245,9 @@
     <Compile Include="Domain\SxProperty.cs" />
     <Compile Include="Domain\SxShoe.cs" />
     <Compile Include="Domain\SxSsize.cs" />
+    <Compile Include="Domain\TbItem.cs" />
+    <Compile Include="Domain\TbProperty.cs" />
+    <Compile Include="Domain\TbPropertyCategory.cs" />
     <Compile Include="Domain\UploadFile.cs" />
     <Compile Include="Domain\FileEnum.cs" />
     <Compile Include="Domain\ViewTotal.cs" />
@@ -272,6 +275,9 @@
     <Compile Include="Models\SxPropertyModel.cs" />
     <Compile Include="Models\SxShoeModel.cs" />
     <Compile Include="Models\SxSsizeModel.cs" />
+    <Compile Include="Models\TbItemModel.cs" />
+    <Compile Include="Models\TbPropertyCategoryModel.cs" />
+    <Compile Include="Models\TbPropertyModel.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MbRepository.cs" />
     <Compile Include="Service\FileService.cs" />
@@ -282,6 +288,9 @@
     <Compile Include="Service\SxPropertyServiceMB.cs" />
     <Compile Include="Service\SxShoeServiceMB.cs" />
     <Compile Include="Service\SxSsizeServiceMB.cs" />
+    <Compile Include="Service\TbItemService.cs" />
+    <Compile Include="Service\TbPropertyCategoryService.cs" />
+    <Compile Include="Service\TbPropertyService.cs" />
     <Compile Include="Service\ViewTotalService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Domain\Category.cs" />
@@ -1248,6 +1257,9 @@
     <EmbeddedResource Include="MapFiles\SxProperty.xml" />
     <EmbeddedResource Include="MapFiles\SxShoe.xml" />
     <EmbeddedResource Include="MapFiles\SxSsize.xml" />
+    <EmbeddedResource Include="MapFiles\TbItem.xml" />
+    <EmbeddedResource Include="MapFiles\TbProperty.xml" />
+    <EmbeddedResource Include="MapFiles\TbPropertyCategory.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
