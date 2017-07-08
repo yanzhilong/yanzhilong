@@ -284,6 +284,7 @@
     <Compile Include="Models\TbPropertyModel.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MbRepository.cs" />
+    <Compile Include="Service\FilePersistenceService.cs" />
     <Compile Include="Service\FileService.cs" />
     <Compile Include="Service\IBaseService.cs" />
     <Compile Include="Service\SxColorServiceMB.cs" />

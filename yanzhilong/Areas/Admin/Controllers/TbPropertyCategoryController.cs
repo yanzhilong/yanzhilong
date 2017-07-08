@@ -17,6 +17,8 @@ namespace yanzhilong.Areas.Admin.Controllers
     public class TbPropertyCategoryController : Controller
     {
         private TbPropertyCategoryService tbPropertyCategoryService = new TbPropertyCategoryService();
+        private TbPropertyService tbPropertyService = new TbPropertyService();
+
 
         [Authentication]
         public ActionResult Index()
@@ -75,6 +77,13 @@ namespace yanzhilong.Areas.Admin.Controllers
             if (models != null)
             {
                 IEnumerable<TbPropertyCategory> entrys = models.Select(e => e.ToEntity());
+                //先删当前分类下了属性
+                foreach(TbPropertyCategory tbPropertyCategory in entrys)
+                {
+                    IList<TbProperty> tbPropertys = tbPropertyService.GetEntrys(new TbProperty { tbPropertyCategory = tbPropertyCategory }).ToList<TbProperty>();
+                    tbPropertyService.DeleteEntrys(tbPropertys);
+                }
+                //删除分类
                 tbPropertyCategoryService.DeleteEntrys(entrys.ToList<TbPropertyCategory>());
             }
             return Json(models);

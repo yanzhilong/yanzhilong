@@ -2,10 +2,16 @@
 @{
     ViewBag.sidebar = "淘宝属性";
     ViewBag.Title = "淘宝属性";
+
+    TbPropertyCategoryModel tbPropertyCategory = null;
+    if(ViewBag.TbPropertyCategory != null)
+    {
+        tbPropertyCategory = ViewBag.TbPropertyCategory as TbPropertyCategoryModel;
+    }
 }
 
 <div class="content-header clearfix">
-    <h1 class="page-header">淘宝属性管理</h1>
+    <h1 class="page-header">淘宝属性管理 @if (tbPropertyCategory != null) { <span> - </span> @tbPropertyCategory.Name }</h1>
 </div>
 
 <div class="content">

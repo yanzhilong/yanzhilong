@@ -8,5 +8,6 @@ namespace yanzhilong.Domain
     public enum FileEnum
     {
         IMG = 1, //图片
+        TEMP = 2, //临时文件
     }
 }

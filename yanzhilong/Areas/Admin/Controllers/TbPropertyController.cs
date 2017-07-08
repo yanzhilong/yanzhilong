@@ -17,11 +17,18 @@ namespace yanzhilong.Areas.Admin.Controllers
     public class TbPropertyController : Controller
     {
         private TbPropertyService tbPropertyService = new TbPropertyService();
+        private TbPropertyCategoryService tbPropertyCategoryService = new TbPropertyCategoryService();
 
         [Authentication]
         public ActionResult Index(string TbPropertyCategoryId)
         {
             TbProperty entry = new TbProperty() { tbPropertyCategory = new TbPropertyCategory { Id = TbPropertyCategoryId } };
+            if(TbPropertyCategoryId != null)
+            {
+                TbPropertyCategory entrycategory = tbPropertyCategoryService.GetEntry(new TbPropertyCategory { Id = TbPropertyCategoryId });
+                ViewBag.TbPropertyCategory = entrycategory.ToModel();
+            }
+
             return View(entry.ToModel());
         }
 
