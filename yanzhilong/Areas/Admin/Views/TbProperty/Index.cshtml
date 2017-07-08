@@ -13,16 +13,8 @@
         <div class="panel-group">
 
             <div class="panel panel-default">
-                @Html.Action("TbPropertyCategoryItems", "TbPropertyCategory")
-            </div>
-
-            <div class="panel panel-default">
                 <div id="grid"></div>
                 <script>
-
-                    function onTbPropertyCategorySelect(TbPropertyCategoryId) {
-                        alert(TbPropertyCategoryId);
-                    }
 
                     $(document).ready(function () {
                         var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "TbProperty"))" + "?TbPropertyCategoryId=" + "@Model.TbPropertyCategoryId";
@@ -52,6 +44,12 @@
                                     dataType: "jsonp"
                                 },
                                 parameterMap: function (options, operation) {
+                                    if (operation == "create" && options.models) {
+                                        var modelsTmp = options.models;
+                                        //存入指定属性的值，通过工具栏的新增按钮，都是创建一个，所以取下标为0的就行了
+                                        modelsTmp[0].TbPropertyCategoryId = "@Model.TbPropertyCategoryId";
+                                        return { models: kendo.stringify(options.models) };
+                                    }
 
                                     if (operation !== "read" && options.models) {
                                         return { models: kendo.stringify(options.models) };
@@ -87,11 +85,25 @@
                                 pageSizes: true,
                                 buttonCount: 5
                             },
-                            toolbar: ["create"],
+                            @if(Model.TbPropertyCategoryId != null)
+                            {
+                                <Text>
+                                toolbar: ["create"],
+                                </Text>
+                            }
                             columns: [
                                 { field: "Name", title: "属性名称" },
                                 { field: "ValueKey", title: "属性值" },
-                                { command: ["edit", "destroy"], title: "&nbsp;", width: "200px" }],
+                                {
+                                    command: ["edit"
+                                        @if(Model.TbPropertyCategoryId != null)
+                                        {
+                                            <Text>
+                                            , "destroy"
+                                            </Text>
+                                        }
+                                    ], title: "&nbsp;", width: "200px"
+                                }],
                             editable: "popup"
                         });
                     });

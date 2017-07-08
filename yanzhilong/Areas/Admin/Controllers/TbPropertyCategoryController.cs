@@ -27,17 +27,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         public ActionResult TbPropertyCategoryItems()
         {
             TbPropertyCategoryModel tbPropertyCategoryModel = new TbPropertyCategoryModel();
-            tbPropertyCategoryModel.TbPropertyCategoryItems = getTbPropertyCategoryItems();
             return PartialView(tbPropertyCategoryModel);
-        }
-
-        private List<SelectListItem> getTbPropertyCategoryItems()
-        {
-            IEnumerable<TbPropertyCategory> tbPropertyCategorys = tbPropertyCategoryService.GetEntrys(new TbPropertyCategory());
-            var selectItemList = new List<SelectListItem>();
-            var selectList = new SelectList(tbPropertyCategorys, "Id", "Name");
-            selectItemList.AddRange(selectList);
-            return selectItemList;
         }
 
         [JsonCallback]

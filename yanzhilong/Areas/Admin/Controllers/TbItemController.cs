@@ -32,6 +32,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             return Json(entrymodels);
         }
 
+        [HttpPost]
         [JsonCallback]
         public ActionResult Update()
         {

@@ -242,6 +242,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
+    <Compile Include="Domain\CommonEnum.cs" />
     <Compile Include="Domain\SxColor.cs" />
     <Compile Include="Domain\SxImage.cs" />
     <Compile Include="Domain\SxMainImage.cs" />
@@ -1262,7 +1263,9 @@
     <EmbeddedResource Include="MapFiles\SxSsize.xml" />
     <EmbeddedResource Include="MapFiles\TbItem.xml" />
     <EmbeddedResource Include="MapFiles\TbProperty.xml" />
-    <EmbeddedResource Include="MapFiles\TbPropertyCategory.xml" />
+    <EmbeddedResource Include="MapFiles\TbPropertyCategory.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -1416,7 +1419,6 @@
     <Content Include="Areas\Admin\Views\TbProperty\Index.cshtml" />
     <Content Include="Areas\Admin\Views\TbPropertyCategory\Index.cshtml" />
     <Content Include="Areas\Admin\Views\TbItem\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\TbPropertyCategory\TbPropertyCategoryItems.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>

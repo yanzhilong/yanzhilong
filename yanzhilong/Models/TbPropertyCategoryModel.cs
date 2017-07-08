@@ -29,10 +29,5 @@ namespace yanzhilong.Models
         [DisplayName("值")]
         public string ValueKey { get; set; }
 
-        /// <summary>
-        /// 属性分类列表
-        /// </summary>
-        [DisplayName("属性分类列表")]
-        public IList<SelectListItem> TbPropertyCategoryItems { get; set; } //淘宝属性分类列表
     }
 }

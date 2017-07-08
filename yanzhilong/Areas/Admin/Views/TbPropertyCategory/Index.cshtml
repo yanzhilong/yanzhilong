@@ -83,10 +83,21 @@
                             columns: [
                                 { field: "Name", title: "分类名称" },
                                 { field: "ValueKey", title: "分类值" },
-                                { command: ["edit", "destroy"], title: "&nbsp;", width: "200px" }],
+                                { command: ["edit", "destroy", { name: "详情", click: showDetails }], title: "&nbsp;", width: "300px" }],
                             editable: "popup"
                         });
                     });
+
+                    //显示详情
+                    function showDetails(e) {
+                        e.preventDefault();
+                        var tr = $(e.target).closest("tr"); // get the current table row (tr)
+                        var data = this.dataItem(tr);
+                        var Id = data.Id;
+                        //alert("Details for: " + data.Name);
+                        window.location.href = "@Url.Action("Index", "TbProperty")" + "?TbPropertyCategoryId=" + Id;
+                    }
+
 
                 </script>
             </div>

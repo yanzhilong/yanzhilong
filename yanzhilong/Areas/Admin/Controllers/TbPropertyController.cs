@@ -28,13 +28,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult List(string TbPropertyCategoryId)
         {
-            var models = JsonConvert.DeserializeObject<IEnumerable<TbPropertyModel>>(Request.Params["models"]);
             TbProperty entry = new TbProperty { tbPropertyCategory = new TbPropertyCategory { Id = TbPropertyCategoryId } };
-            if (models != null && models.Count() > 0)
-            {
-                IList<TbPropertyModel> modellist = models.ToList<TbPropertyModel>();
-                entry = modellist[0].ToEntity();
-            }
             var entrys = tbPropertyService.GetEntrys(entry);
             IEnumerable<TbPropertyModel> entrymodels = entrys.Select(x => x.ToModel());
             return Json(entrymodels);
