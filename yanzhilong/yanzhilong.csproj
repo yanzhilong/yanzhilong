@@ -293,6 +293,7 @@
     <Compile Include="Service\SxPropertyServiceMB.cs" />
     <Compile Include="Service\SxShoeServiceMB.cs" />
     <Compile Include="Service\SxSsizeServiceMB.cs" />
+    <Compile Include="Service\MakeTbItemService.cs" />
     <Compile Include="Service\TbItemService.cs" />
     <Compile Include="Service\TbPropertyCategoryService.cs" />
     <Compile Include="Service\TbPropertyService.cs" />

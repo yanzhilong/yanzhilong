@@ -1,0 +1,131 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" Description="Generates a C# class for use with NHibnate" %>
+<%@ Property Name="DomainName" Type="System.String" Default="Domain" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="ModelName" Type="System.String" Default="Model" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="ModelAttribute" Type="System.String" Default="编号:string:Id" Category="Object" Description="实体类属性(,号隔开多个属性,:隔开注释类型和名称)" %>
+
+<%@ Import Namespace="System.Collections.Generic" %>
+<%
+    List<string[]>attributes = new List<string[]>();
+    foreach(string str in ModelAttribute.Split(',')){
+        string[] aa = str.Split(':');
+        attributes.Add(aa);
+    }
+%>
+@model <%=ModelName%>
+@{
+    ViewBag.sidebar = "";
+    ViewBag.Title = "";
+}
+
+<div class="content-header clearfix">
+    <h1 class="page-header"></h1>
+
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+
+            <div class="panel panel-default">
+                <div id="grid"></div>
+                <script>
+
+                    $(document).ready(function () {
+                        var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "<%=DomainName%>"))";
+                        var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "<%=DomainName%>"))";
+                        var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "<%=DomainName%>"))";
+                        var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "<%=DomainName%>"))",
+
+                        dataSource = new kendo.data.DataSource({
+                            transport: {
+                                read: {
+                                    url: ReadUrl,
+                                    dataType: "jsonp"
+                                },
+                                update: {
+                                    url: UpdateUrl,
+                                    dataType: "jsonp"
+                                },
+                                destroy: {
+                                    url: DestroyUrl,
+                                    type: "post",
+                                    dataType: "jsonp"
+                                },
+                                create: {
+                                    url: CreateUrl,
+                                    type: "post",
+                                    dataType: "jsonp"
+                                },
+                                parameterMap: function (options, operation) {
+
+                                    if (operation !== "read" && options.models) {
+                                        return { models: kendo.stringify(options.models) };
+                                    }
+                                }
+                            },
+                            batch: true,
+                            pageSize: 20,
+                            schema: {
+                                model: {
+                                    id: "Id",
+                                    fields: {
+                                        Id: { editable: false, nullable: true },
+                                <% for(int i = 0; i < attributes.Count; i++)%>
+                                <%{%>
+                                      <%
+                                        string[] strs = attributes[i];
+                                        if(strs[2].Equals("Id")){
+                                            break;
+                                        }
+                                      %>
+                                      <%if(i < resultattributes.Count - 1){%>
+                                        <%=strs[2]%>: { editable: true, type: "<%=strs[1]%>" },
+                                      <%}else{%>
+                                        <%=strs[2]%>: { editable: true, type: "<%=strs[1]%>" }
+                                      <%}%>
+                                <%}%>
+                                    }
+                                }
+                            }
+                        });
+                        dataSource.bind("error", dataSource_error);
+
+                        function dataSource_error(e) {
+                            var responsejson = e.xhr.responseText;
+                            alert(e.status);
+                        }
+
+                        $("#grid").kendoGrid({
+                            dataSource: dataSource,
+                            sortable: true,
+                            pageable: {
+                                refresh: true,
+                                pageSizes: true,
+                                buttonCount: 5
+                            },
+                            toolbar: ["create"],
+                            columns: [
+                        <% for(int i = 0; i < attributes.Count; i++)%>
+                        <%{%>
+                              <%
+                                string[] strs = attributes[i];
+                                if(strs[2].Equals("Id")){
+                                    break;
+                                }
+                              %>
+                              <%if(i < resultattributes.Count - 1){%>
+                                { field: "<%=strs[2]%>", title: "<%=strs[0]%>" },
+                              <%}else{%>
+                                { field: "<%=strs[2]%>", title: "<%=strs[0]%>" }
+                              <%}%>
+                        <%}%>
+                                { command: ["edit", "destroy"], title: "&nbsp;", width: "80px" } //显示编辑及删除按钮
+                            ],
+                            editable: "popup"
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

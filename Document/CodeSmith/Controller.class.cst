@@ -1,0 +1,95 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" Description="Generates a C# class for use with NHibnate" %>
+<%@ Property Name="DomainName" Type="System.String" Default="Domain" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="DomainNamespace" Type="System.String" Default="Crs.Core.Domain.Domains" Category="Object" Description="The class namespace that the mapping file should use" %>
+<%@ Property Name="ModelName" Type="System.String" Default="Model" Category="Object" Description="Table that the mapping file is based on" %>
+<%@ Property Name="ModelNamespace" Type="System.String" Default="Crs.Core.Model.Models" Category="Object" Description="The class namespace that the mapping file should use" %>
+<%@ Property Name="ServiceNamespace" Type="System.String" Default="Crs.Services.Services" Category="Object" Description="The class namespace that the mapping file should use" %>
+<%@ Import Namespace="System.Collections.Generic" %>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using yanzhilong.filter;
+using <%=DomainNamespace%>;
+using <%=ModelNamespace%>;
+using <%=ServiceNamespace%>;
+using yanzhilong.Infrastructure.Mapper;
+using Newtonsoft.Json;
+
+namespace yanzhilong.Areas.Admin.Controllers
+{
+    public class <%=DomainName%>Controller : Controller
+    {
+        private <%=DomainName%>Service <%=MakeCamel(DomainName)%>Service = new <%=DomainName%>Service();
+
+        [Authentication]
+        public ActionResult Index()
+        {
+           
+            return View();
+        }
+
+        [JsonCallback]
+        public ActionResult List()
+        {
+            var entrys = <%=MakeCamel(DomainName)%>Service.GetEntrys(new <%=DomainName%> {});
+            IEnumerable< <%=ModelName%>> entrymodels = entrys.Select(x => x.ToModel());
+
+            return Json(entrymodels);
+        }
+
+        [JsonCallback]
+        public ActionResult Update()
+        {
+            var models = JsonConvert.DeserializeObject<IEnumerable< <%=ModelName%>>>(Request.Params["models"]);
+            if (models != null)
+            {
+                IEnumerable< <%=DomainName%>> entrys = models.Select(e => e.ToEntity());
+                <%=MakeCamel(DomainName)%>Service.UpdateEntrys(entrys.ToList<SxShoe>());
+            }
+            return Json(models);
+        }
+
+        [JsonCallback]
+        public ActionResult Create()
+        {
+            var models = JsonConvert.DeserializeObject<IEnumerable< <%=ModelName%>>>(Request.Params["models"]);
+
+            if (models != null)
+            {
+                foreach (<%=ModelName%> entity in models)
+                {
+                    entity.Id = Guid.NewGuid().ToString();
+                }
+                IEnumerable< <%=DomainName%>> entitys = models.Select(e => e.ToEntity());
+                <%=MakeCamel(DomainName)%>Service.AddEntrys(entitys.ToList< <%=DomainName%>>());
+            }
+            return Json(models);
+        }
+
+        [JsonCallback]
+        public ActionResult Delete()
+        {
+            var callback = Request.Params["callback"];
+            var models = JsonConvert.DeserializeObject<IEnumerable< <%=ModelName%>>>(Request.Params["models"]);
+            if (models != null)
+            {
+                IEnumerable< <%=DomainName%>> entitys = models.Select(e => e.ToEntity());
+                <%=MakeCamel(DomainName)%>Service.DeleteEntrys(entitys.ToList< <%=DomainName%>>());
+            }
+            return Json(models);
+        }
+    }
+}
+
+<script runat="template">
+/// <summary>
+/// 获取首字母小写的字符串
+/// </summary>
+/// <param name="value">字符串(例如:Xiangyisheng)</param>
+/// <returns>Xiangyisheng => xiangyisheng</returns>
+public string MakeCamel(string value)
+{
+    return value.Substring(0, 1).ToLower() + value.Substring(1);
+}
+</script>
