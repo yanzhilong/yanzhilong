@@ -15,7 +15,7 @@ namespace yanzhilongtest
         {
             UserService userCRUD = new UserService();
             User user = new User();
-            user.UserID = Guid.NewGuid().ToString();
+            user.Id = Guid.NewGuid().ToString();
             user.UserName = "yanzhilong";
             user.Email = "51877421@qq.com";
             user.MobilePhone = "15959210703";

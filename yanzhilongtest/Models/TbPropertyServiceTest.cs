@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Crs.Core.Infrastructure;
 using yanzhilong.Service;
 using yanzhilong.Domain;
 
@@ -12,13 +11,11 @@ namespace Crs.Services.Tests.ServiceTests
     [TestClass]
     public class TbPropertyServiceTest
     {
-        static ITbPropertyService tbPropertyService;
+        static TbPropertyService tbPropertyService;
 
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            EngineContext.Initialize(false);
-            tbPropertyService = EngineContext.Current.Resolve<ITbPropertyService>();
         }
 
 

@@ -57,9 +57,9 @@
                                     fields: {
                                         Id: { editable: false, nullable: true },
                                         Title: { validation: { required: true } },
-                                        Url: { validation: { required: true }}, 
-                                        Price: { validation: { required: true }}, 
-                                        Popularity: { validation: { required: true }}, 
+                                        Url: { validation: { required: true }},
+                                        Price: { validation: { required: true }},
+                                        Popularity: { validation: { required: true }},
                                         UpdateStr: { validation: { required: true }},
                                         Sort: { validation: { required: true }}
                                     }
@@ -88,11 +88,34 @@
                                 { field: "Popularity", title: "人气", width: "80px"},
                                 { field: "UpdateStr", title: "更新", width: "180px" },
                                 { field: "Sort", title: "更新排序", width: "80px"},
-                                { command: ["destroy"], title: "&nbsp;", width: "200px" }],
+                                { command: ["destroy", { name: "生成宝贝", click: makeTbItem }], title: "&nbsp;", width: "200px" }],
                             editable: "popup"
                         });
                     });
 
+                    //生成宝贝
+                    function makeTbItem(e) {
+                        e.preventDefault();
+                        var tr = $(e.target).closest("tr"); // get the current table row (tr)
+                        var data = this.dataItem(tr);
+                        var Id = data.Id;
+                        var url = "@Url.Action("MakeTbItem", "Shoe")";
+                        $.ajax({
+                            url: url,
+                            data: {Id : Id},
+                            success: function (data) {
+                                if (data != null && data.success) {
+                                    alert(data.responseText);
+                                } else {
+                                    // DoSomethingElse()
+                                    alert(data.responseText);
+                                }
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert(thrownError);
+                            }
+                        });
+                    }
                 </script>
             </div>
         </div>

@@ -82,7 +82,6 @@ namespace yanzhilong.Areas.Admin.Controllers
             TbItem tbItem_en_title = tbItemService.GetEntry(new TbItem() { DataTypeEnum = TbDataTypeEnum.ENGLISHTITLE });
             TbItem tbItem_cn_title = tbItemService.GetEntry(new TbItem() { DataTypeEnum = TbDataTypeEnum.CNTITLE });
             TbItem tbItem_default_value = tbItemService.GetEntry(new TbItem() { DataTypeEnum = TbDataTypeEnum.DEFAULTDATA });
-            tbItem_default_value.title = "呵呵可可园欧文i";
             List<TbItem> tbItem_tbdatas = tbItemService.GetEntrys(new TbItem() { DataTypeEnum = TbDataTypeEnum.TBDATA }).ToList<TbItem>();
             tbItems.Add(tbItem_en_title);
             tbItems.Add(tbItem_cn_title);

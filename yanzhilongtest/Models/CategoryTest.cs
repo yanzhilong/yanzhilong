@@ -14,7 +14,7 @@ namespace yanzhilongtest
         {
             CategoryService categoryCRUD = new CategoryService();
             Category category = new Category();
-            category.CategoryID = Guid.NewGuid().ToString();
+            category.Id = Guid.NewGuid().ToString();
             category.Name = "英文";
             categoryCRUD.Create(category);
     }
@@ -31,7 +31,7 @@ namespace yanzhilongtest
         {
             CategoryService categoryCRUD = new CategoryService();
             Category category = new Category();
-            category.CategoryID = "1f1c4189-3792-4a91-8d08-c0d04e18a0a3";
+            category.Id = "1f1c4189-3792-4a91-8d08-c0d04e18a0a3";
             category.Name = "C#";
             categoryCRUD.Update(category);
         }

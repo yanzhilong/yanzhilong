@@ -17,17 +17,16 @@ namespace yanzhilongtest
         {
             ArticleService articleCRUD = new ArticleService();
             Article article = new Article();
-            article.ArticleID = Guid.NewGuid().ToString();
+            article.Id = Guid.NewGuid().ToString();
             article.Title = ".Net MVC学习";
             article.Content = ".Net MVC学习,.Net MVC学习,.Net MVC学习,.Net MVC学习,.Net MVC学习,.Net MVC学习,.Net MVC学习,.Net MVC学习,.Net MVC学习,.Net MVC学习,.Net MVC学习";
             article.CreateAt = DateTime.Now;
-            article.Disc = "第一次学习好紧张";
-            article.Notes = "asd";
+            article.Description = "第一次学习好紧张";
             User user = new User();
-            user.UserID = "1f1c4189-3792-4a91-8d08-c0d04e18a0ae";
+            user.Id = "1f1c4189-3792-4a91-8d08-c0d04e18a0ae";
             article.user = user;
             Category category = new Category();
-            category.CategoryID = "46ed952b-ec26-4bb9-a544-13a8d78dabf3";
+            category.Id = "46ed952b-ec26-4bb9-a544-13a8d78dabf3";
             article.category = category;
             articleCRUD.Create(article);
     }
@@ -44,16 +43,15 @@ namespace yanzhilongtest
         {
             ArticleService articleCRUD = new ArticleService();
             Article article = new Article();
-            article.ArticleID = "79a29500-89d5-4bc7-bdfb-6bfbdde32c95";
+            article.Id = "79a29500-89d5-4bc7-bdfb-6bfbdde32c95";
             article.Title = "爬虫33";
             article.Content = "";
             article.CreateAt = DateTime.Now;
-            article.Disc = "Disc";
-            article.Notes = "Notes";
+            article.Description = "Disc";
             User user = new User();
-            user.UserID = "1f1c4189-3792-4a91-8d08-c0d04e18a0ae";
+            user.Id = "1f1c4189-3792-4a91-8d08-c0d04e18a0ae";
             Category category = new Category();
-            category.CategoryID = "1f1c4189-3792-4a91-8d08-c0d04e18a0a3";
+            category.Id = "1f1c4189-3792-4a91-8d08-c0d04e18a0a3";
             article.user = user;
             article.category = category;
             articleCRUD.Update(article);
