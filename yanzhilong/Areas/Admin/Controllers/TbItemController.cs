@@ -32,7 +32,8 @@ namespace yanzhilong.Areas.Admin.Controllers
             IEnumerable<TbItemModel> entrymodels = entrys.Select(x => x.ToModel());
             return Json(entrymodels);
         }
-        
+
+        [ValidateInput(false)]
         [JsonCallback]
         public ActionResult Update()
         {
@@ -45,6 +46,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             return Json(models);
         }
 
+        [ValidateInput(false)]
         [JsonCallback]
         public ActionResult Create()
         {
@@ -62,6 +64,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             return Json(models);
         }
 
+        [ValidateInput(false)]
         [JsonCallback]
         public ActionResult Delete()
         {
