@@ -345,7 +345,7 @@ ModelNamespace:yanzhilong.Models
 ModelAttribute:编号:string:Id,名称:string:Name,值:string:Value,属性分类:string:TbPropertyCategoryId
 
 InsertMapAttribute:Id:Id,Name:Name,Value:Value,tbPropertyCategory.Id:TbPropertyCategoryId
-ResultMapAttribute:Id:Id:string,Name:Name:string,Value:Value:string,propertyCategory.Id:PropertyCategoryId:string
+ResultMapAttribute:Id:Id:string,Name:Name:string,Value:Value:string,propertyCategory.Id:TbPropertyCategoryId:string
 
 ServiceNamespace:yanzhilong.Service
 
@@ -384,3 +384,20 @@ ResultMapAttribute:Id:Id:string,title:title:string,cid:cid:string,seller_cids:se
 ServiceNamespace:yanzhilong.Service
 
 TableName:tb_item
+
+淘宝属性和分类关系表
+BaseNamespace:yanzhilong
+DomainName:TbPropertyMapping
+DomainNamespace:yanzhilong.Domain
+DomainAttribute:编号:string:Id,属性:TbProperty:tbProperty,属性分类:TbPropertyCategory:tbPropertyCategory
+
+ModelName:TbPropertyMappingModel
+ModelNamespace:yanzhilong.Models
+ModelAttribute:编号:string:Id,属性:TbProperty:tbProperty,属性分类:TbPropertyCategory:tbPropertyCategory
+
+InsertMapAttribute:Id:Id,tbProperty.Id:TbPropertyId,tbPropertyCategory.Id:TbPropertyCategoryId
+ResultMapAttribute:Id:Id:string,tbProperty.Id:TbPropertyId:string,propertyCategory.Id:TbPropertyCategoryId:string
+
+ServiceNamespace:yanzhilong.Service
+
+TableName:tb_propertymapping

@@ -64,7 +64,7 @@ namespace yanzhilong.Service
         private string makeTbItempicture(SxShoe sxShoe)
         {
             StringBuilder sb = new StringBuilder();
-            IList<SxMainImage> sxMainImages = sxMainImageServiceMB.GetEntrys(new SxMainImage { sxShoe = new SxShoe { Id = sxShoe.Id } }).ToList<SxMainImage>();
+            IList<SxMainImage> sxMainImages = sxMainImageServiceMB.GetEntrys(new SxMainImage { sxShoe = new SxShoe { Id = sxShoe.Id }, Sort = -1 }).ToList<SxMainImage>();
             int index = 0;
             foreach (SxMainImage sx in sxMainImages)
             {
@@ -103,37 +103,43 @@ namespace yanzhilong.Service
 
             IList<TbProperty> tbPropertyssize = tbPropertyService.GetEntrys(new TbProperty { tbPropertyCategory = new TbPropertyCategory { Id = tbPropertyCategorysize.Id } }).ToList<TbProperty>();
 
-            IList<SxSsize> sxSizes = sxSsizeServiceMB.GetEntrys(new SxSsize { sxShoe = new SxShoe { Id = sxShoe.Id } }).ToList<SxSsize>();
+            IList<SxSsize> sxSizes = sxSsizeServiceMB.GetEntrys(new SxSsize { sxShoe = new SxShoe { Id = sxShoe.Id }, Num = -1 }).ToList<SxSsize>();
 
+            int mCustomNum = 0;
             foreach (SxColor sxColor in sxColors)
             {
                 bool isFind = false;
+                TbProperty mTp = null;
                 foreach (TbProperty tp in tbPropertyscolor)
                 {
-                    int mCustomNum = 0;
+                    
                     if (sxColor.Name.Equals(tp.Name))
                     {
                         sb.Append(tbPropertyCategorycolor.ValueKey + ":" + tp.ValueKey + ";");
                         isFind = true;
+                        mTp = tp;
                         break;
                     }
-                    //这个颜色没找到，要添加到自定义中
-                    if (!isFind)
+                }
+                //这个颜色没找到，要添加到自定义中
+                if (!isFind)
+                {
+                    mCustomNum = customNum;
+                    //添加自定义的宝贝属性
+                    sb.Append(tbPropertyCategorycolor.ValueKey + ":" + customNum + ";");
+                    //添加自定义属性名称
+                    customProperty.Append(tbPropertyCategorycolor.ValueKey + ":" + customNum + ":" + sxColor.Name + ";");
+                    customNum--;
+                }
+                //添加这个颜色的尺码，保存到销售属性中
+                foreach (SxSsize sxSize in sxSizes)
+                {
+                    foreach (TbProperty tpsize in tbPropertyssize)
                     {
-                        mCustomNum = customNum;
-                        //添加自定义的宝贝属性
-                        sb.Append(tbPropertyCategorycolor.ValueKey + ":" + customNum + ";");
-                        //添加自定义属性名称
-                        customProperty.Append(tbPropertyCategorycolor.ValueKey + ":" + customNum + ":" + sxColor.Name + ";");
-                        customNum--;
-                    }
-                    //添加这个颜色的尺码，保存到销售属性中
-                    foreach(SxSsize sxSize in sxSizes)
-                    {
-                        foreach (TbProperty tpsize in tbPropertyssize)
+                        if (sxSize.Num == int.Parse(tpsize.Name))
                         {
                             //添加销售
-                            saleProperty.Append((sxShoe.Price + AddPrice).ToString() + ":100::" + tbPropertyCategorycolor.ValueKey + ":" + (mCustomNum == 0 ? tp.ValueKey : mCustomNum + "") + ";");
+                            saleProperty.Append((sxShoe.Price + AddPrice).ToString() + ":100::" + tbPropertyCategorycolor.ValueKey + ":" + (mCustomNum == 0 ? mTp.ValueKey : mCustomNum + "") + ";");
                             saleProperty.Append(tbPropertyCategorysize.ValueKey + ":" + tpsize.ValueKey + ";");
                         }
                     }
@@ -179,7 +185,7 @@ namespace yanzhilong.Service
         private string makeTbItemDescription(SxShoe sxShoe)
         {
             StringBuilder sb = new StringBuilder();
-            IList<SxImage> sxImages = sxImageServiceMB.GetEntrys(new SxImage { sxShoe = new SxShoe { Id = sxShoe.Id} }).ToList<SxImage>();
+            IList<SxImage> sxImages = sxImageServiceMB.GetEntrys(new SxImage { sxShoe = new SxShoe { Id = sxShoe.Id},Sort = -1 }).ToList<SxImage>();
             foreach(SxImage sx in sxImages)
             {
                 //提取url后面的文件名字

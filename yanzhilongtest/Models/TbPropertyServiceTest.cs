@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using yanzhilong.Service;
 using yanzhilong.Domain;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// 使用CodeSmith自动生成
@@ -11,7 +13,8 @@ namespace Crs.Services.Tests.ServiceTests
     [TestClass]
     public class TbPropertyServiceTest
     {
-        static TbPropertyService tbPropertyService;
+        static TbPropertyService tbPropertyService = new TbPropertyService();
+        static TbPropertyCategoryService tbPropertyCategoryService = new TbPropertyCategoryService();
 
         [ClassInitialize]
         public static void Init(TestContext context)
@@ -23,6 +26,22 @@ namespace Crs.Services.Tests.ServiceTests
         public void BeforeTest()
         {
             Console.WriteLine("测试之前");
+        }
+
+
+        [TestMethod]
+        public void CreateTest1()
+        {
+            IList<TbProperty> tps = tbPropertyService.GetEntrys(new TbProperty { tbPropertyCategory = new TbPropertyCategory { Id = "c1d06a63-5615-4142-bbce-7853bdfed12e" } }).ToList<TbProperty>();
+
+            List<TbProperty> tpnew = new List<TbProperty>();
+            foreach (TbProperty tp in tps)
+            {
+                tp.Id = Guid.NewGuid().ToString();
+                tp.tbPropertyCategory = new TbPropertyCategory { Id = "76bf0abb-1c72-4f21-9ca1-1f6668e9ce39" };
+                tpnew.Add(tp);
+            }
+            tbPropertyService.AddEntrys(tps);
         }
 
 

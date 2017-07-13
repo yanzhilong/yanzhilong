@@ -60,6 +60,24 @@ namespace yanzhilong.Infrastructure.Mapper
         }
         #endregion
 
+        #region TbPropertyMapping
+
+        public static TbPropertyMappingModel ToModel(this TbPropertyMapping entity)
+        {
+            return entity.MapTo<TbPropertyMapping, TbPropertyMappingModel>();
+        }
+
+        public static TbPropertyMapping ToEntity(this TbPropertyMappingModel model)
+        {
+            return model.MapTo<TbPropertyMappingModel, TbPropertyMapping>();
+        }
+
+        public static TbPropertyMapping ToEntity(this TbPropertyMappingModel model, TbPropertyMapping destination)
+        {
+            return model.MapTo(destination);
+        }
+        #endregion
+
         #region TbPropertyCategory
 
         public static TbPropertyCategoryModel ToModel(this TbPropertyCategory entity)

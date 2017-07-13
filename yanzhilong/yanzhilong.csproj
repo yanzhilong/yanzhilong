@@ -252,6 +252,7 @@
     <Compile Include="Domain\TbItem.cs" />
     <Compile Include="Domain\TbProperty.cs" />
     <Compile Include="Domain\TbPropertyCategory.cs" />
+    <Compile Include="Domain\TbPropertyMapping.cs" />
     <Compile Include="Domain\UploadFile.cs" />
     <Compile Include="Domain\FileEnum.cs" />
     <Compile Include="Domain\ViewTotal.cs" />
@@ -281,6 +282,7 @@
     <Compile Include="Models\SxSsizeModel.cs" />
     <Compile Include="Models\TbItemModel.cs" />
     <Compile Include="Models\TbPropertyCategoryModel.cs" />
+    <Compile Include="Models\TbPropertyMappingModel.cs" />
     <Compile Include="Models\TbPropertyModel.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MbRepository.cs" />
@@ -296,6 +298,7 @@
     <Compile Include="Service\MakeTbItemService.cs" />
     <Compile Include="Service\TbItemService.cs" />
     <Compile Include="Service\TbPropertyCategoryService.cs" />
+    <Compile Include="Service\TbPropertyMappingService.cs" />
     <Compile Include="Service\TbPropertyService.cs" />
     <Compile Include="Service\ViewTotalService.cs" />
     <Compile Include="Service\CategoryService.cs" />
@@ -1268,6 +1271,7 @@
     <EmbeddedResource Include="MapFiles\TbPropertyCategory.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="MapFiles\TbPropertyMapping.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

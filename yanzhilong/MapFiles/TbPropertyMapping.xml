@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="TbPropertyMapping" xmlns="http://ibatis.apache.org/mapping"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+  <alias>
+    <typeAlias alias="TbPropertyMapping" type="yanzhilong.Domain.TbPropertyMapping,yanzhilong" />   
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SelectAllResult" class="TbPropertyMapping">
+       <result property="Id" column="Id" dbType="VARCHAR" type="string" />
+       <result property="tbProperty.Id" column="TbPropertyId" dbType="VARCHAR" type="string" />
+       <result property="tbPropertyCategory.Id" column="TbPropertyCategoryId" dbType="VARCHAR" type="string" />
+    </resultMap>     
+  </resultMaps>
+
+  <statements>
+    <select id="SelectAllTbPropertyMappings" resultMap="SelectAllResult">
+      <![CDATA[  
+      SELECT 
+      Id,
+      TbPropertyId,
+      TbPropertyCategoryId
+      FROM tb_propertymapping
+      ]]>
+    </select>
+
+    <select id="SelectTbPropertyMappingByCondition" parameterClass="TbPropertyMapping" resultMap="SelectAllResult" extends="SelectAllTbPropertyMappings">
+      <dynamic prepend="WHERE">
+      
+       <isNotEmpty prepend="AND" property="Id">
+          <![CDATA[  
+           Id = #Id#
+            ]]>
+        </isNotEmpty>
+        
+       <isNotEmpty prepend="AND" property="tbProperty.Id">
+          <![CDATA[  
+           TbPropertyId = #tbProperty.Id#
+            ]]>
+        </isNotEmpty>
+        
+       <isNotEmpty prepend="AND" property="tbPropertyCategory.Id">
+          <![CDATA[  
+           TbPropertyCategoryId = #tbPropertyCategory.Id#
+            ]]>
+        </isNotEmpty>
+        
+      </dynamic>
+    </select>
+    
+    <insert id="InsertTbPropertyMapping" parameterClass="TbPropertyMapping">
+      <![CDATA[ 
+      INSERT INTO tb_propertymapping
+      (
+      Id,
+      TbPropertyId,
+      TbPropertyCategoryId
+      )
+      VALUES
+      (
+      #Id#,
+      #tbProperty.Id#,
+      #tbPropertyCategory.Id#
+      )
+      ]]>
+    </insert>
+    
+    <update id="UpdateTbPropertyMapping" parameterClass="TbPropertyMapping">
+      <![CDATA[           
+      UPDATE tb_propertymapping SET   
+      Id=#Id#,
+      TbPropertyId=#tbProperty.Id#,
+      TbPropertyCategoryId=#tbPropertyCategory.Id#
+      WHERE Id = #Id#
+      ]]>
+    </update>
+   
+    <delete id="DeleteTbPropertyMapping" parameterClass="TbPropertyMapping">
+      <![CDATA[
+      Delete From tb_propertymapping Where Id = #Id#
+      ]]>
+    </delete>
+
+  </statements>
+</sqlMap>

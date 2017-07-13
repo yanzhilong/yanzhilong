@@ -78,6 +78,12 @@ namespace yanzhilong.Infrastructure.Mapper
             cfg.CreateMap<TbPropertyCategory, TbPropertyCategoryModel>();
 
             cfg.CreateMap<TbPropertyCategoryModel, TbPropertyCategory>();
+
+            //TbPropertyMapping
+            cfg.CreateMap<TbPropertyMapping, TbPropertyMappingModel>();
+
+            cfg.CreateMap<TbPropertyMappingModel, TbPropertyMapping>();
+
         };
 
         public static void Init()
