@@ -1425,6 +1425,8 @@
     <Content Include="Areas\Admin\Views\TbProperty\Index.cshtml" />
     <Content Include="Areas\Admin\Views\TbPropertyCategory\Index.cshtml" />
     <Content Include="Areas\Admin\Views\TbItem\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TbProperty\PropertyMapping.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\PropertySelect.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>

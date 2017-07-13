@@ -44,7 +44,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
         
        <isNotEmpty prepend="AND" property="ValueKey">
           <![CDATA[  
-           Value = #ValueKey#
+           ValueKey = #ValueKey#
             ]]>
         </isNotEmpty>
         
@@ -55,6 +55,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
         </isNotEmpty>
         
       </dynamic>
+    </select>
+
+    <select id="SelectTbPropertyByCondition1" parameterClass="TbProperty" resultMap="SelectAllResult" extends="SelectAllTbPropertys">
+      <![CDATA[ 
+      Where Name = #Name# and ValueKey = #ValueKey# and TbPropertyCategoryId = "00000000-0000-0000-0000-000000000000"
+      ]]>
     </select>
     
     <insert id="InsertTbProperty" parameterClass="TbProperty">

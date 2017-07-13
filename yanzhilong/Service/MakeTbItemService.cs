@@ -22,6 +22,7 @@ namespace yanzhilong.Service
         private SxMainImageServiceMB sxMainImageServiceMB = new SxMainImageServiceMB();
         private SxPropertyServiceMB sxPropertyServiceMB = new SxPropertyServiceMB();
         private SxSsizeServiceMB sxSsizeServiceMB = new SxSsizeServiceMB();
+        private TbPropertyMappingService tbPropertyMappingService = new TbPropertyMappingService();
         private float AddPrice = 30;
         
         #endregion
@@ -158,7 +159,16 @@ namespace yanzhilong.Service
                 {
                     if (tpc.Name.Contains(sp.Name))
                     {
-                        IList<TbProperty> tbPropertys = tbPropertyService.GetEntrys(new TbProperty { tbPropertyCategory = new TbPropertyCategory { Id = tpc.Id } }).ToList<TbProperty>();
+                        List<TbPropertyMapping> tpms = tbPropertyMappingService.GetEntrys(new TbPropertyMapping { tbPropertyCategory = new TbPropertyCategory { Id = tpc.Id } } ).ToList<TbPropertyMapping>();
+                        IList<TbProperty> tbPropertys = new List<TbProperty>();
+                        foreach (TbPropertyMapping tpm in tpms)
+                        {
+                            TbProperty tp = tbPropertyService.GetEntry(tpm.tbProperty);
+                            if(tp != null)
+                            {
+                                tbPropertys.Add(tp);
+                            }
+                        }
 
                         foreach(TbProperty tp in tbPropertys)
                         {

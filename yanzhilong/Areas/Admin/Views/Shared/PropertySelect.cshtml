@@ -1,0 +1,114 @@
+﻿
+<div id="property_select_div" style="height:90%">
+    <div id="property_select" style="height:100%"></div>
+</div>
+<button type="button" id="PropertySelect" class="btn btn-primary" style="display:none;margin-top:10px;margin-left:10px">选择</button>
+<script>
+
+    function GetPropertyInit() {
+        $("#property_select_div").children().remove();
+        $("#property_select_div").append('<div id="property_select" style="height:100%"></div>');
+    }
+
+    function GetPropertys() {
+        GetPropertyInit();
+        checkedIds = {};//清空已经选择的数组
+        var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "TbProperty"))";
+
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read:  {
+                    url: ReadUrl,
+                    dataType: "jsonp"
+                },
+                parameterMap: function(options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return {models: kendo.stringify(options.models)};
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "Id",
+                    fields: {
+                        Id: { editable: false, nullable: true },
+                        Name: { validation: { required: true } },
+                        ValueKey: { validation: { required: true } },
+                    }
+                }
+            }
+        });
+        dataSource.bind("error", dataSource_error);
+
+        function dataSource_error(e) {
+            var responsejson = e.xhr.responseText;
+            alert(e.status);
+        }
+        var grid = $("#property_select").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            dataBound: onDataBound,//定义选择的
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            columns: [
+               { template: "<input type='checkbox' class='checkbox' />" },
+               { field: "Name", title: "属性名称" },
+               { field: "ValueKey", title: "属性值" }
+            ]
+        }).data("kendoGrid");
+
+        grid.table.on("click", ".checkbox", selectRow);
+    }
+
+    var checkedIds = {};
+
+    //on click of the checkbox:
+    function selectRow() {
+        var checked = this.checked,
+        row = $(this).closest("tr"),
+        grid = $("#property_select").data("kendoGrid"),
+        dataItem = grid.dataItem(row);
+
+        checkedIds[dataItem.id] = checked;
+        checkRow();
+    }
+
+    function checkRow() {
+        var has = false;
+        for (var i in checkedIds) {
+            if (checkedIds[i]) {
+                has = true;
+                break;
+            }
+        }
+        if (has) {
+            $("#PropertySelect").css("display", "block");
+        } else {
+            $("#PropertySelect").css("display", "none");
+        }
+    }
+
+    function onDataBound(e) {
+    }
+
+    $("#PropertySelect").click(function () {
+        var checked = [];
+        for (var i in checkedIds) {
+            if (checkedIds[i]) {
+                checked.push(i);
+            }
+        }
+        $("#PropertySelect").css("display", "none");//隐藏选择按钮
+        checkedIds = {};//清空原来选择的数据
+        //刷新当前分类下的设备列表数据
+        $('#property_select').data('kendoGrid').dataSource.read();
+        $('#property_select').data('kendoGrid').refresh();
+        PropertySelect(checked);
+    });
+
+</script>

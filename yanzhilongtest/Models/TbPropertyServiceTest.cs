@@ -4,6 +4,7 @@ using yanzhilong.Service;
 using yanzhilong.Domain;
 using System.Collections.Generic;
 using System.Linq;
+using yanzhilong.Repository;
 
 /// <summary>
 /// 使用CodeSmith自动生成
@@ -15,6 +16,7 @@ namespace Crs.Services.Tests.ServiceTests
     {
         static TbPropertyService tbPropertyService = new TbPropertyService();
         static TbPropertyCategoryService tbPropertyCategoryService = new TbPropertyCategoryService();
+        static TbPropertyMappingService tbPropertyMappingService = new TbPropertyMappingService();
 
         [ClassInitialize]
         public static void Init(TestContext context)
@@ -42,6 +44,55 @@ namespace Crs.Services.Tests.ServiceTests
                 tpnew.Add(tp);
             }
             tbPropertyService.AddEntrys(tps);
+        }
+
+        [TestMethod]
+        public void CreateTest2()
+        {
+            List<TbPropertyCategory> tbPropertyCategorys = tbPropertyCategoryService.GetEntrys(new TbPropertyCategory { }).ToList<TbPropertyCategory>();
+
+            foreach (TbPropertyCategory tpc in tbPropertyCategorys)
+            {
+                List<TbProperty> tps = tbPropertyService.GetEntrys(new TbProperty { tbPropertyCategory = new TbPropertyCategory { Id = tpc.Id } }).ToList<TbProperty>();
+                List<TbPropertyMapping> tpms = new List<TbPropertyMapping>();
+                foreach(TbProperty tp in tps)
+                {
+                    TbProperty tpnew = getProperty(tp);
+                    TbPropertyMapping tpm = new TbPropertyMapping();
+                    tpm.Id = Guid.NewGuid().ToString();
+                    tpm.tbProperty = tpnew;
+                    tpm.tbPropertyCategory = tpc;
+                    tpms.Add(tpm);
+                }
+                tbPropertyMappingService.AddEntrys(tpms);
+            }
+        }
+
+        [TestMethod]
+        public void CreateTest3()
+        {
+            TbProperty tp = new TbProperty();
+            tp.Name = "纯羊毛";
+            tp.ValueKey = "3229201";
+            TbProperty tpnew = getProperty(tp);
+            string name = "aa";
+        }
+
+        public TbProperty getProperty(TbProperty tbProperty)
+        {
+            IRepository<TbProperty> _Repository = new MbRepository<TbProperty>();
+            TbProperty resultentry = _Repository.GetByCondition("SelectTbPropertyByCondition1", tbProperty);
+            if(resultentry == null)
+            {
+                TbProperty tp = new TbProperty();
+                tp.Id = Guid.NewGuid().ToString();
+                tp.Name = tbProperty.Name;
+                tp.ValueKey = tbProperty.ValueKey;
+                tp.tbPropertyCategory = new TbPropertyCategory { Id = Guid.Empty.ToString() };
+                tbPropertyService.AddEntry(tp);
+                return tp;
+            }
+            return resultentry;
         }
 
 

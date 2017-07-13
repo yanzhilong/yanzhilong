@@ -1,12 +1,17 @@
-﻿@model TbPropertyModel
+﻿@model TbPropertyMappingModel
 @{
-    ViewBag.sidebar = "淘宝属性";
-    ViewBag.Title = "淘宝属性";
+    ViewBag.sidebar = "淘宝属性分类";
+    ViewBag.Title = "淘宝属性关联";
 }
 
 <div class="content-header clearfix">
     <h1 class="page-header">淘宝属性管理</h1>
 </div>
+
+<!-- 模版 -->
+<script id="template" type="text/x-kendo-template">
+    <a class="k-button" href="\#" onclick="template_click()">关联属性</a>
+</script>
 
 <div class="content">
     <div class="form-horizontal">
@@ -14,13 +19,20 @@
 
             <div class="panel panel-default">
                 <div id="grid"></div>
+                
+
                 <script>
 
+                    var mWindow = null;
+
+                    //添加子项目
+                    function template_click() {
+                        mWindow.data("kendoWindow").center().open();
+                    }
+
                     $(document).ready(function () {
-                        var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "TbProperty"))";
-                        var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "TbProperty"))";
-                        var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "TbProperty"))";
-                        var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "TbProperty"))",
+                        var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("PropertyMappingList", "TbProperty"))" + "?TbPropertyCategoryId=" + "@Model.tbPropertyCategory.Id";
+                        var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("DeletePropertyMappingList", "TbProperty"))"  + "?TbPropertyCategoryId=" + "@Model.tbPropertyCategory.Id",
 
                         dataSource = new kendo.data.DataSource({
                             transport: {
@@ -28,18 +40,8 @@
                                     url: ReadUrl,
                                     dataType: "jsonp"
                                 },
-                                update: {
-                                    url: UpdateUrl,
-
-                                    dataType: "jsonp"
-                                },
                                 destroy: {
                                     url: DestroyUrl,
-                                    type: "post",
-                                    dataType: "jsonp"
-                                },
-                                create: {
-                                    url: CreateUrl,
                                     type: "post",
                                     dataType: "jsonp"
                                 },
@@ -78,18 +80,54 @@
                                 pageSizes: true,
                                 buttonCount: 5
                             },
-                            toolbar: ["create"],
+                            toolbar: [{ template: kendo.template($("#template").html()) }],
                             columns: [
                                 { field: "Name", title: "属性名称" },
                                 { field: "ValueKey", title: "属性值" },
-                                { command: ["edit", "destroy"], title: "&nbsp;", width: "200px"}
+                                { command: ["destroy"], title: "&nbsp;", width: "200px" }
                             ],
                             editable: "popup"
                         });
+
+                        //初始化添加检查单的窗口
+                        mWindow = $("#Window");
+                        mWindow.kendoWindow({
+                            width: "600px",
+                            title: "选择要关联的属性",
+                            visible: false
+                        }).data("kendoWindow");
+
+                        //获得属性列表
+                        GetPropertys();
                     });
+
+                    function PropertySelect(checked) {
+                        var url = "@Url.Action("CreatePropertyMappingList", "TbProperty")" + "?TbPropertyCategoryId=" + "@Model.tbPropertyCategory.Id";
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            data: { PropertyIds:checked },
+                            success: function (data) {
+                                if (data != null && data.success) {
+                                    $('#grid').data('kendoGrid').dataSource.read();
+                                    $('#grid').data('kendoGrid').refresh();
+                                } else {
+                                    alert(data.responseText);
+                                }
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert(thrownError);
+                            }
+                        });
+                    }
 
                 </script>
             </div>
         </div>
     </div>
+</div>
+
+<div id="Window" style="height:600px">
+    <!-- 故障描述选择窗口 -->
+    @Html.Partial("PropertySelect")
 </div>
