@@ -30,17 +30,26 @@ namespace Crs.Services.Tests.ServiceTests
             Console.WriteLine("测试之前");
         }
 
+        [TestMethod]
+        public void CreateTest0()
+        {
+            List<TbPropertyMapping> tms = tbPropertyMappingService.GetEntrys(new TbPropertyMapping { }).ToList<TbPropertyMapping>();
+
+            foreach(TbPropertyMapping tm in tms)
+            {
+
+            }
+        }
 
         [TestMethod]
         public void CreateTest1()
         {
-            IList<TbProperty> tps = tbPropertyService.GetEntrys(new TbProperty { tbPropertyCategory = new TbPropertyCategory { Id = "c1d06a63-5615-4142-bbce-7853bdfed12e" } }).ToList<TbProperty>();
+            IList<TbProperty> tps = tbPropertyService.GetEntrys(new TbProperty { }).ToList<TbProperty>();
 
             List<TbProperty> tpnew = new List<TbProperty>();
             foreach (TbProperty tp in tps)
             {
                 tp.Id = Guid.NewGuid().ToString();
-                tp.tbPropertyCategory = new TbPropertyCategory { Id = "76bf0abb-1c72-4f21-9ca1-1f6668e9ce39" };
                 tpnew.Add(tp);
             }
             tbPropertyService.AddEntrys(tps);
@@ -53,7 +62,7 @@ namespace Crs.Services.Tests.ServiceTests
 
             foreach (TbPropertyCategory tpc in tbPropertyCategorys)
             {
-                List<TbProperty> tps = tbPropertyService.GetEntrys(new TbProperty { tbPropertyCategory = new TbPropertyCategory { Id = tpc.Id } }).ToList<TbProperty>();
+                List<TbProperty> tps = tbPropertyService.GetEntrys(new TbProperty { }).ToList<TbProperty>();
                 List<TbPropertyMapping> tpms = new List<TbPropertyMapping>();
                 foreach(TbProperty tp in tps)
                 {
@@ -88,7 +97,6 @@ namespace Crs.Services.Tests.ServiceTests
                 tp.Id = Guid.NewGuid().ToString();
                 tp.Name = tbProperty.Name;
                 tp.ValueKey = tbProperty.ValueKey;
-                tp.tbPropertyCategory = new TbPropertyCategory { Id = Guid.Empty.ToString() };
                 tbPropertyService.AddEntry(tp);
                 return tp;
             }

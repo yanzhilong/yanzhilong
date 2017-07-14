@@ -27,11 +27,5 @@ namespace yanzhilong.Models
         /// </summary>
         [DisplayName("值")]
         public string ValueKey { get; set; }
-       
-        /// <summary>
-        /// 属性分类
-        /// </summary>
-        [DisplayName("属性分类")]
-        public string TbPropertyCategoryId { get; set; }
     }
 }

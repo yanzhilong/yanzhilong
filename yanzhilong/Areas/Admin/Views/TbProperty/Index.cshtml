@@ -78,10 +78,29 @@
                                 pageSizes: true,
                                 buttonCount: 5
                             },
+                            filterable: {
+                                mode: "row"
+                            },
                             toolbar: ["create"],
                             columns: [
-                                { field: "Name", title: "属性名称" },
-                                { field: "ValueKey", title: "属性值" },
+                                {
+                                    field: "Name", title: "属性名称",
+                                    filterable: {
+                                        cell: {
+                                            operator: "contains",
+                                            suggestionOperator: "contains"
+                                        }
+                                    }
+                                },
+                                {
+                                    field: "ValueKey", title: "属性值",
+                                    filterable: {
+                                        cell: {
+                                            operator: "contains",
+                                            suggestionOperator: "contains"
+                                        }
+                                    }
+                                },
                                 { command: ["edit", "destroy"], title: "&nbsp;", width: "200px"}
                             ],
                             editable: "popup"

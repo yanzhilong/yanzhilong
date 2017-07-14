@@ -77,7 +77,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             List<TbPropertyMapping> tpms = new List<TbPropertyMapping>();
             foreach(string id in PropertyIds)
             {
-                TbPropertyMapping tpmexits = tbPropertyMappingService.GetEntry(new TbPropertyMapping { tbProperty = new TbProperty { Id = id } } );
+                TbPropertyMapping tpmexits = tbPropertyMappingService.GetEntry(new TbPropertyMapping { tbProperty = new TbProperty { Id = id },tbPropertyCategory = new TbPropertyCategory { Id = TbPropertyCategoryId } } );
                 if (tpmexits != null)
                 {
                     continue;

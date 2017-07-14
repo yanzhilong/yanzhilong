@@ -67,12 +67,10 @@ namespace yanzhilong.Infrastructure.Mapper
             cfg.CreateMap<TbItemModel, TbItem>();
 
             //TbProperty
-            cfg.CreateMap<TbProperty, TbPropertyModel>()
-            .ForMember(dest => dest.TbPropertyCategoryId, mo => mo.MapFrom(src => src.tbPropertyCategory.Id));
+            cfg.CreateMap<TbProperty, TbPropertyModel>();
 
 
-            cfg.CreateMap<TbPropertyModel, TbProperty>()
-            .ForMember(dest => dest.tbPropertyCategory, mo => mo.MapFrom(src => new TbPropertyCategory { Id = src.TbPropertyCategoryId }));
+            cfg.CreateMap<TbPropertyModel, TbProperty>();
 
             //TbPropertyCategory
             cfg.CreateMap<TbPropertyCategory, TbPropertyCategoryModel>();

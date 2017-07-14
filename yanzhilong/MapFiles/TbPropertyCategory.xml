@@ -11,7 +11,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
        <result property="Id" column="Id" dbType="VARCHAR" type="string" />
        <result property="Name" column="Name" dbType="VARCHAR" type="string" />
        <result property="ValueKey" column="ValueKey" dbType="VARCHAR" type="string" />
-    </resultMap>     
+    </resultMap>
+
+    <resultMap id="SelectAllResultExtend" class="TbPropertyCategory">
+      <result property="Id" column="TbPropertyCategoryId" dbType="VARCHAR" type="string" />
+      <result property="Name" column="TbPropertyCategoryName" dbType="VARCHAR" type="string" />
+      <result property="ValueKey" column="TbPropertyCategoryValueKey" dbType="VARCHAR" type="string" />
+    </resultMap>
   </resultMaps>
 
   <statements>

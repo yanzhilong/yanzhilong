@@ -11,8 +11,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
        <result property="Id" column="Id" dbType="VARCHAR" type="string" />
        <result property="Name" column="Name" dbType="VARCHAR" type="string" />
        <result property="ValueKey" column="ValueKey" dbType="VARCHAR" type="string" />
-       <result property="tbPropertyCategory.Id" column="TbPropertyCategoryId" dbType="VARCHAR" type="string" />
-    </resultMap>     
+    </resultMap>
+
+    <resultMap id="SelectAllResultExtend" class="TbProperty">
+      <result property="Id" column="TbPropertyId" dbType="VARCHAR" type="string" />
+      <result property="Name" column="TbPropertyName" dbType="VARCHAR" type="string" />
+      <result property="ValueKey" column="TbPropertyValueKey" dbType="VARCHAR" type="string" />
+    </resultMap>
   </resultMaps>
 
   <statements>
@@ -21,8 +26,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       SELECT 
       Id,
       Name,
-      ValueKey,
-      TbPropertyCategoryId
+      ValueKey
       FROM tb_property
       ]]>
     </select>
@@ -48,36 +52,22 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
             ]]>
         </isNotEmpty>
         
-       <isNotEmpty prepend="AND" property="tbPropertyCategory.Id">
-          <![CDATA[  
-           TbPropertyCategoryId = #tbPropertyCategory.Id#
-            ]]>
-        </isNotEmpty>
-        
       </dynamic>
     </select>
 
-    <select id="SelectTbPropertyByCondition1" parameterClass="TbProperty" resultMap="SelectAllResult" extends="SelectAllTbPropertys">
-      <![CDATA[ 
-      Where Name = #Name# and ValueKey = #ValueKey# and TbPropertyCategoryId = "00000000-0000-0000-0000-000000000000"
-      ]]>
-    </select>
-    
     <insert id="InsertTbProperty" parameterClass="TbProperty">
       <![CDATA[ 
       INSERT INTO tb_property
       (
       Id,
       Name,
-      ValueKey,
-      TbPropertyCategoryId
+      ValueKey
       )
       VALUES
       (
       #Id#,
       #Name#,
-      #ValueKey#,
-      #tbPropertyCategory.Id#
+      #ValueKey#
       )
       ]]>
     </insert>
@@ -87,8 +77,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       UPDATE tb_property SET   
       Id=#Id#,
       Name=#Name#,
-      ValueKey=#ValueKey#,
-      TbPropertyCategoryId=#tbPropertyCategory.Id#
+      ValueKey=#ValueKey#
       WHERE Id = #Id#
       ]]>
     </update>

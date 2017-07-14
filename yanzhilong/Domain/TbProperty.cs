@@ -24,9 +24,5 @@ namespace yanzhilong.Domain
         /// </summary>
         public string ValueKey { get; set; }
        
-        /// <summary>
-        /// 属性分类
-        /// </summary>
-        public TbPropertyCategory tbPropertyCategory { get; set; }
     }
 }

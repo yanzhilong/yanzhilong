@@ -9,22 +9,26 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
   <resultMaps>
     <resultMap id="SelectAllResult" class="TbPropertyMapping">
        <result property="Id" column="Id" dbType="VARCHAR" type="string" />
-       <result property="tbProperty.Id" column="TbPropertyId" dbType="VARCHAR" type="string" />
-       <result property="tbPropertyCategory.Id" column="TbPropertyCategoryId" dbType="VARCHAR" type="string" />
-    </resultMap>     
+       <result property="tbProperty" resultMapping="TbProperty.SelectAllResultExtend" />
+       <result property="tbPropertyCategory" resultMapping="TbPropertyCategory.SelectAllResultExtend" />
+    </resultMap>
   </resultMaps>
-
+  
   <statements>
     <select id="SelectAllTbPropertyMappings" resultMap="SelectAllResult">
       <![CDATA[  
       SELECT 
-      Id,
-      TbPropertyId,
-      TbPropertyCategoryId
-      FROM tb_propertymapping
+      PM.Id,
+      PM.TbPropertyId,
+      PM.TbPropertyCategoryId,
+      P.Name TbPropertyName,
+      P.ValueKey TbPropertyValueKey,
+      PC.Name TbPropertyCategoryName,
+      PC.ValueKey TbPropertyCategoryValueKey
+      FROM tb_propertymapping PM inner join tb_property P on PM.TbPropertyId = P.Id inner join tb_propertycategory PC on PM.TbPropertyCategoryId = PC.Id
       ]]>
     </select>
-
+    
     <select id="SelectTbPropertyMappingByCondition" parameterClass="TbPropertyMapping" resultMap="SelectAllResult" extends="SelectAllTbPropertyMappings">
       <dynamic prepend="WHERE">
       
@@ -36,13 +40,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
         
        <isNotEmpty prepend="AND" property="tbProperty.Id">
           <![CDATA[  
-           TbPropertyId = #tbProperty.Id#
+           PM.TbPropertyId = #tbProperty.Id#
             ]]>
         </isNotEmpty>
         
        <isNotEmpty prepend="AND" property="tbPropertyCategory.Id">
           <![CDATA[  
-           TbPropertyCategoryId = #tbPropertyCategory.Id#
+           PM.TbPropertyCategoryId = #tbPropertyCategory.Id#
             ]]>
         </isNotEmpty>
         

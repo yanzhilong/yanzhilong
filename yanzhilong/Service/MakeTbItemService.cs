@@ -35,7 +35,9 @@ namespace yanzhilong.Service
             tbItem.title = sxShoe.Title;
             tbItem.price = (sxShoe.Price + AddPrice).ToString();
             tbItem.cid = makeTbItemCid(sxShoe);
-            tbItem.description = makeTbItemDescription(sxShoe);
+            string[] DescAndWireDesc = makeTbItemDescriptionAndWirelessDesc(sxShoe);
+            tbItem.description = DescAndWireDesc[0];
+            tbItem.wireless_desc = DescAndWireDesc[1];
             string[] catePropsAndinput_custom_cpvAndskuProps = makeTbItemCateProps(sxShoe);
             tbItem.cateProps = catePropsAndinput_custom_cpvAndskuProps[0];//宝贝属性
             tbItem.input_custom_cpv = catePropsAndinput_custom_cpvAndskuProps[1];//自定义属性
@@ -73,6 +75,7 @@ namespace yanzhilong.Service
                 string RegexStr = @"\d.*\.jpg";
                 Match mt = Regex.Match(sx.Url, RegexStr);
                 sb.Append(mt.Value + ":1:" + index + ":|;");
+                index++;
             }
             return sb.ToString();
         }
@@ -100,10 +103,10 @@ namespace yanzhilong.Service
 
             TbPropertyCategory tbPropertyCategorysize = tbPropertyCategoryService.GetEntry(new TbPropertyCategory { Name = "尺码" });
 
-            IList<TbProperty> tbPropertyscolor = tbPropertyService.GetEntrys(new TbProperty { tbPropertyCategory = new TbPropertyCategory { Id = tbPropertyCategorycolor.Id } }).ToList<TbProperty>();
+            List<TbProperty> tbPropertyscolor = tbPropertyMappingService.GetEntrys(new TbPropertyMapping { tbPropertyCategory = new TbPropertyCategory { Id = tbPropertyCategorycolor.Id } }).ToList<TbPropertyMapping>().Select(t => t.tbProperty).ToList<TbProperty>();
 
-            IList<TbProperty> tbPropertyssize = tbPropertyService.GetEntrys(new TbProperty { tbPropertyCategory = new TbPropertyCategory { Id = tbPropertyCategorysize.Id } }).ToList<TbProperty>();
-
+            List<TbProperty> tbPropertyssize = tbPropertyMappingService.GetEntrys(new TbPropertyMapping { tbPropertyCategory = new TbPropertyCategory { Id = tbPropertyCategorysize.Id } }).ToList<TbPropertyMapping>().Select(t => t.tbProperty).ToList<TbProperty>();
+            
             IList<SxSsize> sxSizes = sxSsizeServiceMB.GetEntrys(new SxSsize { sxShoe = new SxShoe { Id = sxShoe.Id }, Num = -1 }).ToList<SxSsize>();
 
             int mCustomNum = 0;
@@ -157,7 +160,7 @@ namespace yanzhilong.Service
             {
                 foreach (TbPropertyCategory tpc in tbPropertyCategorys)
                 {
-                    if (tpc.Name.Contains(sp.Name))
+                    if (tpc.Name.Contains(sp.Name) && CheckProperryCategory(tpc.Name, sp.Name))
                     {
                         List<TbPropertyMapping> tpms = tbPropertyMappingService.GetEntrys(new TbPropertyMapping { tbPropertyCategory = new TbPropertyCategory { Id = tpc.Id } } ).ToList<TbPropertyMapping>();
                         IList<TbProperty> tbPropertys = new List<TbProperty>();
@@ -185,16 +188,29 @@ namespace yanzhilong.Service
             return new string[] { sb.ToString(), customProperty.ToString(), saleProperty.ToString() };
         }
 
-
+        /// <summary>
+        /// 检查一些特殊的不能直接用名称包含来确认的情况
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckProperryCategory(string TbPropertyCategoryName, string SxPropertyName)
+        {
+            if (TbPropertyCategoryName.Equals("鞋跟高") && SxPropertyName.Equals("鞋跟"))
+            {
+                return false;
+            }
+            return true;
+        }
 
         /// <summary>
         /// 定义宝贝描述
         /// </summary>
         /// <param name="sxShoe"></param>
         /// <returns></returns>
-        private string makeTbItemDescription(SxShoe sxShoe)
+        private string[] makeTbItemDescriptionAndWirelessDesc(SxShoe sxShoe)
         {
             StringBuilder sb = new StringBuilder();
+            StringBuilder sbwireless = new StringBuilder();
+            sbwireless.Append("<wapDesc>");
             IList<SxImage> sxImages = sxImageServiceMB.GetEntrys(new SxImage { sxShoe = new SxShoe { Id = sxShoe.Id},Sort = -1 }).ToList<SxImage>();
             foreach(SxImage sx in sxImages)
             {
@@ -203,9 +219,12 @@ namespace yanzhilong.Service
                 string RegexStr = @"\d.*\.jpg";
                 Match mt = Regex.Match(sx.Url, RegexStr);
                 string path = string.Format("<IMG align=middle src=\"FILE:///d:\\sooxie\\{0}\">", mt.Value);
+                string wirelesspath = string.Format("<img>{0}</img>", mt.Value);
                 sb.Append(path);
+                sbwireless.Append(wirelesspath);
             }
-            return sb.ToString();
+            sbwireless.Append("</wapDesc>");
+            return new string[] { sb.ToString(), sbwireless.ToString()};
         }
 
         /// <summary>
@@ -219,6 +238,7 @@ namespace yanzhilong.Service
             //得到款式
             string kuanshi = null;
             string xietoukuanshi = null;
+            string bihefangshi = null;
             foreach (SxProperty sxProperty in sxPropertys)
             {
                 if (sxProperty.Name.Equals("款式"))
@@ -229,8 +249,18 @@ namespace yanzhilong.Service
                 {
                     xietoukuanshi = sxProperty.Value;
                 }
+                if (sxProperty.Name.Equals("闭合方式"))
+                {
+                    bihefangshi = sxProperty.Value;
+                }
             }
-            if((kuanshi != null && (kuanshi.Equals("一字拖") || kuanshi.Equals("夹趾") || kuanshi.Equals("人字拖"))) || (xietoukuanshi != null && xietoukuanshi.Equals("夹趾")))
+
+            if (bihefangshi != null && (bihefangshi.Equals("套筒")))
+            {
+                return "50011745"; //凉鞋
+            }
+
+            if ((kuanshi != null && (kuanshi.Equals("一字拖") || kuanshi.Equals("夹趾") || kuanshi.Equals("人字拖"))) || (xietoukuanshi != null && xietoukuanshi.Equals("夹趾")))
             {
                 return "50011746"; //拖鞋
             }
