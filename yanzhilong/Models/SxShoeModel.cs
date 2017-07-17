@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace yanzhilong.Models
 {
@@ -64,6 +65,20 @@ namespace yanzhilong.Models
         [DisplayName("时间排序")]
         public int Sort { get; set; }
 
+        /// <summary>
+        /// 第一张主图
+        /// </summary>
+        public string MainImage { get; set; }
 
+        /// <summary>
+        /// 类目
+        /// </summary>
+        public int Cid { get; set; }
+
+
+        /// <summary>
+        /// 类目选择
+        /// </summary>
+        public List<SelectListItem> CidItems { get; set; }
     }
 }

@@ -72,7 +72,7 @@ namespace yanzhilong.Service
             foreach (SxMainImage sx in sxMainImages)
             {
                 //提取url后面的文件名字
-                string RegexStr = @"\d.*\.jpg";
+                string RegexStr = @"\d+";
                 Match mt = Regex.Match(sx.Url, RegexStr);
                 sb.Append(mt.Value + ":1:" + index + ":|;");
                 index++;
@@ -219,7 +219,7 @@ namespace yanzhilong.Service
                 string RegexStr = @"\d.*\.jpg";
                 Match mt = Regex.Match(sx.Url, RegexStr);
                 string path = string.Format("<IMG align=middle src=\"FILE:///d:\\sooxie\\{0}\">", mt.Value);
-                string wirelesspath = string.Format("<img>{0}</img>", mt.Value);
+                string wirelesspath = string.Format("<img>d:\\sooxie\\620\\{0}</img>", mt.Value);
                 sb.Append(path);
                 sbwireless.Append(wirelesspath);
             }
@@ -234,6 +234,10 @@ namespace yanzhilong.Service
         /// <returns></returns>
         private string makeTbItemCid(SxShoe sxShoe)
         {
+            if(sxShoe.Cid != 0)
+            {
+                return sxShoe.Cid + "";
+            }
             IList<SxProperty> sxPropertys = sxPropertyServiceMB.GetEntrys(new SxProperty { sxShoe = new SxShoe { Id = sxShoe.Id } }).ToList<SxProperty>();
             //得到款式
             string kuanshi = null;

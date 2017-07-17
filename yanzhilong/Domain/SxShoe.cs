@@ -54,6 +54,9 @@ namespace yanzhilong.Domain
         /// </summary>
         public int Sort { get; set; }
 
-
+        /// <summary>
+        /// 类目
+        /// </summary>
+        public int Cid { get; set; }
     }
 }

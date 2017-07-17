@@ -17,6 +17,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       <result property="UpdateStr" column="UpdateStr" dbType="VARCHAR" type="string" />
       <result property="Market" column="Market" dbType="VARCHAR" type="string" />
       <result property="Sort" column="Sort" dbType="INT" type="int" />
+      <result property="Cid" column="Cid" dbType="INT" type="int" />
     </resultMap>
   </resultMaps>
 
@@ -32,7 +33,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       Popularity,
       UpdateStr,
       Market,
-      Sort
+      Sort,
+      Cid
       FROM sx_shoe
       ]]>
     </select>
@@ -94,6 +96,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
             ]]>
         </isGreaterThan>
 
+        <isGreaterThan prepend="AND" compareValue="0" property="Cid">
+          <![CDATA[  
+           Cid = #Cid#
+            ]]>
+        </isGreaterThan>
+
       </dynamic>
     </select>
 
@@ -109,7 +117,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       Popularity,
       UpdateStr,
       Market,
-      Sort
+      Sort,
+      Cid
       )
       VALUES
       (
@@ -121,7 +130,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       #Popularity#,
       #UpdateStr#,
       #Market#,
-      #Sort#
+      #Sort#,
+      #Cid#
       )
       ]]>
     </insert>
@@ -137,7 +147,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       Popularity=#Popularity#,
       UpdateStr=#UpdateStr#,
       Market=#Market#,
-      Sort=#Sort#
+      Sort=#Sort#,
+      Cid=#Cid#
       WHERE Id = #Id#
       ]]>
     </update>

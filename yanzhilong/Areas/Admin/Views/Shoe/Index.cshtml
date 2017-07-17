@@ -1,12 +1,16 @@
-﻿@{
+﻿@model SxShoeModel
+@{
     ViewBag.sidebar = "鞋子管理";
     ViewBag.Title = "鞋子管理/导出";
+    
+    HtmlString CidItemsHtml = Html.DropDownListFor(model => model.Cid, Model.CidItems, htmlAttributes: new{required = "required", @class = "k-input" });
+    string CidItems = CidItemsHtml.ToHtmlString();
+    string CidItemsReplace = CidItems.Replace("\r\n","");
 }
 
 <div class="content-header clearfix">
     <h1 class="page-header">文章分类管理</h1>
 </div>
-
 <div class="content">
     <div class="form-horizontal">
         <div class="panel-group">
@@ -56,12 +60,14 @@
                                     id: "Id",
                                     fields: {
                                         Id: { editable: false, nullable: true },
-                                        Title: { validation: { required: true } },
-                                        Url: { validation: { required: true }},
-                                        Price: { validation: { required: true }},
-                                        Popularity: { validation: { required: true }},
-                                        UpdateStr: { validation: { required: true }},
-                                        Sort: { validation: { required: true }}
+                                        MainImage: { editable: false, nullable: true },
+                                        Title: { editable: false, validation: { required: true } },
+                                        Url: { editable: false,validation: { required: true }},
+                                        Price: { editable: false,validation: { required: true }},
+                                        Popularity: { editable: false,validation: { required: true }},
+                                        UpdateStr: { editable: false,validation: { required: true }},
+                                        Sort: { editable: false,validation: { required: true } },
+                                        Cid: { validation: { required: true } }
                                     }
                                 }
                             }
@@ -82,13 +88,22 @@
                                 buttonCount: 5
                             },
                             columns: [
+                                {
+                                    field: "MainImage",
+                                    title: "预览图片",
+                                    width: 100,
+                                    template: "<div class='customer-photo'" +
+                                    "style='background-image: url(#:data.MainImage#);'></div>"
+                                },
                                 { field: "Title", title: "标题", width: "350px"},
-                                { field: "Url", title: "网址" },
+                                {
+                                    field: "Url", title: "网址", editable: false, template: "<a href=\"#:data.Url#\" target=\"__blank\">#:data.Url#</a>"},
                                 { field: "Price", title: "价格", width: "80px"},
                                 { field: "Popularity", title: "人气", width: "80px"},
                                 { field: "UpdateStr", title: "更新", width: "180px" },
-                                { field: "Sort", title: "更新排序", width: "80px"},
-                                { command: ["destroy", { name: "生成宝贝", click: makeTbItem }], title: "&nbsp;", width: "200px" }],
+                                { field: "Sort", title: "更新排序", width: "80px" },
+                                { field: "Cid", title: "类目", width: "80px", editor: leveSelect },
+                                { command: ["edit","destroy", { name: "生成宝贝", click: makeTbItem }], title: "&nbsp;", width: "280px" }],
                             editable: "popup"
                         });
                     });
@@ -116,8 +131,30 @@
                             }
                         });
                     }
+
+                    function leveSelect(container, options) {
+                            var select2 = '@Html.Raw(CidItemsReplace)';
+                            $(select2).appendTo(container);
+                    }
+
                 </script>
             </div>
         </div>
     </div>
 </div>
+
+<style type="text/css">
+    .customer-photo {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-size: 80px 80px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+</style>
