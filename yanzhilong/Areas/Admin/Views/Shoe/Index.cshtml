@@ -10,6 +10,9 @@
 
 <div class="content-header clearfix">
     <h1 class="page-header">文章分类管理</h1>
+    <div class="pull-right" >
+        <button id="maketbshoe" class="btn bg-blue">全部生成宝贝</button>
+    </div>
 </div>
 <div class="content">
     <div class="form-horizontal">
@@ -18,6 +21,8 @@
             <div class="panel panel-default">
                 <div id="grid"></div>
                 <script>
+
+
 
                     $(document).ready(function () {
                         var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "Shoe"))";
@@ -87,6 +92,9 @@
                                 pageSizes: true,
                                 buttonCount: 5
                             },
+                            filterable: {
+                                mode: "row"
+                            },
                             columns: [
                                 {
                                     field: "MainImage",
@@ -96,15 +104,71 @@
                                     "style='background-image: url(#:data.MainImage#);'></div>"
                                 },
                                 { field: "Title", title: "标题", width: "350px"},
+                                { field: "Url", title: "网址", editable: false, template: "<a href=\"#:data.Url#\" target=\"__blank\">#:data.Url#</a>"},
                                 {
-                                    field: "Url", title: "网址", editable: false, template: "<a href=\"#:data.Url#\" target=\"__blank\">#:data.Url#</a>"},
-                                { field: "Price", title: "价格", width: "80px"},
-                                { field: "Popularity", title: "人气", width: "80px"},
+                                    field: "Price", title: "价格", width: "80px",
+                                    filterable: {
+                                        cell: {
+                                            operator: "contains",
+                                            suggestionOperator: "contains"
+                                        }
+                                    }
+                                },
+                                {
+                                    field: "Popularity", title: "人气", width: "80px",
+                                    filterable: {
+                                        cell: {
+                                            operator: "contains",
+                                            suggestionOperator: "contains"
+                                        }
+                                    }
+                                },
                                 { field: "UpdateStr", title: "更新", width: "180px" },
                                 { field: "Sort", title: "更新排序", width: "80px" },
                                 { field: "Cid", title: "类目", width: "80px", editor: leveSelect },
                                 { command: ["edit","destroy", { name: "生成宝贝", click: makeTbItem }], title: "&nbsp;", width: "280px" }],
                             editable: "popup"
+                        });
+
+                        $("#maketbshoe").click(function () {
+
+                            var dataSource = $("#grid").data("kendoGrid").dataSource;
+                            var filters = dataSource.filter();//搜索选项
+                            var allData = dataSource.data();//全部数据
+                            var query = new kendo.data.Query(allData);
+                            var data = query.filter(filters).data;//筛选后的数据
+                            var displayedData = $("#grid").data().kendoGrid.dataSource.view()
+                            var displayedDataAsJSON = JSON.stringify(displayedData);
+                            
+                            var mycars = new Array()
+                            for (var i = 0; i < allData.length; i++) {
+                                mycars.push(allData[i]);
+                            }
+                            var filter = new Object();
+                            filter.sxShoeModels = mycars;
+                            var filterjson = JSON.stringify(filter);
+                            var shoelistjson = JSON.stringify({ sxShoeModels: mycars })
+                            //将数据提交
+                            var url = "@Url.Action("MakeTbItems", "Shoe")";
+                            $.ajax({
+                            cache: false,
+                                type: 'POST',
+                                url: url,
+                                data: { sxShoeModels: JSON.stringify(mycars) },
+                                dataType: 'json',
+                                success: function(data) {
+                                    if (data != null && data.success) {
+                                        alert(data.responseText);
+                                    } else {
+                                        // DoSomethingElse()
+                                        alert(data.responseText);
+                                    }
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError);
+                                }
+                        });
+
                         });
                     });
 

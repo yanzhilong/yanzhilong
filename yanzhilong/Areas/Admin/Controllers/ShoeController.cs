@@ -75,6 +75,13 @@ namespace yanzhilong.Areas.Admin.Controllers
             return Json(new { success = true, responseText = "生成成功" }, JsonRequestBehavior.AllowGet);//设置返回值，并允许get请求
         }
 
+        [HttpPost]
+        public ActionResult MakeTbItems(List<SxShoeModel> sxShoeModels)
+        {
+            var models = JsonConvert.DeserializeObject<IEnumerable<SxShoeModel>>(Request.Params["sxShoeModels"]);
+            return Json(new { success = true, responseText = "生成成功" }, JsonRequestBehavior.AllowGet);//设置返回值，并允许get请求
+        }
+
         [JsonCallback]
         public ActionResult Create()
         {

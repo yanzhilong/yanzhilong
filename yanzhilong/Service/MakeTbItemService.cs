@@ -96,6 +96,8 @@ namespace yanzhilong.Service
             int customNum = -1001;
             //品牌:其它
             sb.Append("20000:29534;");
+            //适用对象,青年
+            sb.Append("122216608:3267959;");
             //颜色
             IList<SxColor> sxColors = sxColorServiceMB.GetEntrys(new SxColor { sxShoe = new SxShoe { Id = sxShoe.Id } }).ToList<SxColor>();
 
@@ -166,7 +168,7 @@ namespace yanzhilong.Service
                         IList<TbProperty> tbPropertys = new List<TbProperty>();
                         foreach (TbPropertyMapping tpm in tpms)
                         {
-                            TbProperty tp = tbPropertyService.GetEntry(tpm.tbProperty);
+                            TbProperty tp = tpm.tbProperty;
                             if(tp != null)
                             {
                                 tbPropertys.Add(tp);
@@ -195,6 +197,14 @@ namespace yanzhilong.Service
         private bool CheckProperryCategory(string TbPropertyCategoryName, string SxPropertyName)
         {
             if (TbPropertyCategoryName.Equals("鞋跟高") && SxPropertyName.Equals("鞋跟"))
+            {
+                return false;
+            }
+            if (TbPropertyCategoryName.Equals("跟底款式(鞋跟)") && SxPropertyName.Equals("款式"))
+            {
+                return false;
+            }
+            if (TbPropertyCategoryName.Equals("鞋头款式") && SxPropertyName.Equals("款式"))
             {
                 return false;
             }
