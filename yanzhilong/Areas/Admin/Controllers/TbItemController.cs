@@ -11,6 +11,7 @@ using yanzhilong.Service;
 using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Helper;
 using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
@@ -25,12 +26,30 @@ namespace yanzhilong.Areas.Admin.Controllers
             return View();
         }
 
+        [HttpPost]
         [JsonCallback]
         public ActionResult List()
         {
             var entrys = tbItemService.GetEntrys(new TbItem() { datatype = -1 });
             IEnumerable<TbItemModel> entrymodels = entrys.Select(x => x.ToModel());
+
             return Json(entrymodels);
+            //var serializer = new JavaScriptSerializer();
+            //serializer.MaxJsonLength = Int32.MaxValue;
+            
+            //var result = new ContentResult
+            //{
+            //    Content = serializer.Serialize(entrymodels),
+            //    ContentType = "application/json"
+            //};
+            ////return result;
+
+            //JsonResult js = new JsonResult();
+            //JavaScriptSerializer jss = new JavaScriptSerializer();
+            //jss.MaxJsonLength = Int32.MaxValue;
+            //js.Data = jss.Serialize(entrymodels);
+            //js.MaxJsonLength = Int32.MaxValue;
+            //return js;
         }
 
         [ValidateInput(false)]

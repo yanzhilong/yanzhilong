@@ -37,7 +37,9 @@ namespace yanzhilong.filter
                 try
                 {
                     jr = (JsonResult)filterContext.Result;
-                    var jsonstring = new JavaScriptSerializer().Serialize(jr.Data);
+                    var serializer = new JavaScriptSerializer();
+                    serializer.MaxJsonLength = Int32.MaxValue;
+                    var jsonstring = serializer.Serialize(jr.Data);
 
                     jsonBuilder.AppendFormat("({0})", jsonstring);
                     ContentResult cr = new ContentResult();

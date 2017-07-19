@@ -92,9 +92,6 @@
                                 pageSizes: true,
                                 buttonCount: 5
                             },
-                            filterable: {
-                                mode: "row"
-                            },
                             columns: [
                                 {
                                     field: "MainImage",
@@ -103,26 +100,10 @@
                                     template: "<div class='customer-photo'" +
                                     "style='background-image: url(#:data.MainImage#);'></div>"
                                 },
-                                { field: "Title", title: "标题", width: "350px"},
+                                { field: "Title", title: "标题", width: "350px" },
                                 { field: "Url", title: "网址", editable: false, template: "<a href=\"#:data.Url#\" target=\"__blank\">#:data.Url#</a>"},
-                                {
-                                    field: "Price", title: "价格", width: "80px",
-                                    filterable: {
-                                        cell: {
-                                            operator: "contains",
-                                            suggestionOperator: "contains"
-                                        }
-                                    }
-                                },
-                                {
-                                    field: "Popularity", title: "人气", width: "80px",
-                                    filterable: {
-                                        cell: {
-                                            operator: "contains",
-                                            suggestionOperator: "contains"
-                                        }
-                                    }
-                                },
+                                { field: "Price", title: "价格", width: "80px" },
+                                { field: "Popularity", title: "人气", width: "80px" },
                                 { field: "UpdateStr", title: "更新", width: "180px" },
                                 { field: "Sort", title: "更新排序", width: "80px" },
                                 { field: "Cid", title: "类目", width: "80px", editor: leveSelect },

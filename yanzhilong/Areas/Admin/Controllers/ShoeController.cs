@@ -79,6 +79,13 @@ namespace yanzhilong.Areas.Admin.Controllers
         public ActionResult MakeTbItems(List<SxShoeModel> sxShoeModels)
         {
             var models = JsonConvert.DeserializeObject<IEnumerable<SxShoeModel>>(Request.Params["sxShoeModels"]);
+            foreach(SxShoeModel sxShoeModel in models)
+            {
+                SxShoe sxShoe = shoeCRUD.GetEntry(new SxShoe { Id = sxShoeModel.Id, Popularity = -1, Price = -1, Sort = -1 });
+                TbItem tbItem = makeTbItemService.makeTbItem(sxShoe);
+                tbItem.Id = Guid.NewGuid().ToString();
+                tbItemService.AddEntry(tbItem);
+            }
             return Json(new { success = true, responseText = "生成成功" }, JsonRequestBehavior.AllowGet);//设置返回值，并允许get请求
         }
 

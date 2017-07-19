@@ -248,6 +248,8 @@ namespace yanzhilong.Service
             {
                 return sxShoe.Cid + "";
             }
+            return "50012906"; //低帮鞋
+
             IList<SxProperty> sxPropertys = sxPropertyServiceMB.GetEntrys(new SxProperty { sxShoe = new SxShoe { Id = sxShoe.Id } }).ToList<SxProperty>();
             //得到款式
             string kuanshi = null;
