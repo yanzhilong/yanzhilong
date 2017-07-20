@@ -106,7 +106,7 @@
                                 { field: "Popularity", title: "人气", width: "80px" },
                                 { field: "UpdateStr", title: "更新", width: "180px" },
                                 { field: "Sort", title: "更新排序", width: "80px" },
-                                { field: "Cid", title: "类目", width: "80px", editor: leveSelect },
+                                { field: "Cid", title: "类目", width: "80px", editor: CidSelect, template: "#=CidStr#" },
                                 { command: ["edit","destroy", { name: "生成宝贝", click: makeTbItem }], title: "&nbsp;", width: "280px" }],
                             editable: "popup"
                         });
@@ -177,7 +177,7 @@
                         });
                     }
 
-                    function leveSelect(container, options) {
+                    function CidSelect(container, options) {
                             var select2 = '@Html.Raw(CidItemsReplace)';
                             $(select2).appendTo(container);
                     }

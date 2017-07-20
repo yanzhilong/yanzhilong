@@ -42,7 +42,7 @@ namespace yanzhilong.Domain
 
                     return "凉鞋";
             }
-            return null;
+            return "未选择";
         }
 
         public static List<SelectListItem> GetShoeCidItems()
