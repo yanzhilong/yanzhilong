@@ -13,16 +13,21 @@ namespace yanzhilong.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         private UserService userCRUD = new UserService();
+
         // GET: Admin/Home
         [Authentication]
         public ActionResult Index()
         {
-            //if (HttpContext.Session["UserID"] == null)
-            //{
-            //    return RedirectToAction("Login");
-            //}
             return View();
         }
+
+        [Authentication]
+        public ActionResult Index1()
+        {
+            return View();
+        }
+
+
         public ActionResult Login()
         {
             return View();

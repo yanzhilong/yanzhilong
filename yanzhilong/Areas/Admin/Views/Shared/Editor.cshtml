@@ -17,7 +17,8 @@
 
 
 <div id="EditorMd" style="clear:both">
-    <textarea style="display:none;" name="test_editormd_markdown_doc">###Hello world!</textarea>
+    <!-- textarea里面可以写入默认会有的内容 -->>
+    <textarea style="display:none;" name="test_editormd_markdown_doc">[TOC] </textarea>
 </div>
 
 @Scripts.Render("~/bundles/jquery")
@@ -37,14 +38,14 @@
                 taskList: true,
                 codeFold: true,
                 searchReplace: true,
-                path: "/Content/editor.md-master/lib/",
-                imageUpload: true,
-                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                imageUploadURL: "/File/UploadEditor",
+                path: "/Content/editor.md-master/lib/",//指定Editor.md的lib包位置
+                imageUpload: true,//允许上传图片
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],//限制上传的格式
+                imageUploadURL: "/File/UploadEditor",//图片上传的URL
                 onload: function () {
                     var keyMap = {
                         "Ctrl-S": function (cm) {
-                            AutoPost();
+                            AutoPost();//监听快捷键事件，保存文件
                         }
                     };
                     this.addKeyMap(keyMap);
@@ -52,17 +53,11 @@
             });
         });
 
-        //var t2 = window.setInterval("AutoPost()", 30000);
-
         $("#save").click(function () {
             AutoPost();
             //alert("保存");
         });
-
-        
     });
-        
-
 
     //自动保存
     function AutoPost() {
