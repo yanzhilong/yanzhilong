@@ -28,6 +28,9 @@
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- 自己加的Kendo -->
+    @Styles.Render("~/bundles/kendo/css")
+    @Styles.Render("~/bundles/kendo/css")
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -265,7 +268,7 @@ desired effect
 
                     @Html.Partial("Menu")
 
-                    <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
+                    @*<li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
                     <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                     <li class="treeview">
                         <a href="#">
@@ -278,7 +281,7 @@ desired effect
                             <li><a href="#">Link in level 2</a></li>
                             <li><a href="#">Link in level 2</a></li>
                         </ul>
-                    </li>
+                    </li>*@
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>
@@ -415,6 +418,9 @@ desired effect
     <script src="/Content/AdminLTE-2.4.0-rc/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/Content/AdminLTE-2.4.0-rc/dist/js/adminlte.min.js"></script>
+
+    <!-- 自己加的Kendo -->
+    @Scripts.Render("~/bundles/kendo/js")
 
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
