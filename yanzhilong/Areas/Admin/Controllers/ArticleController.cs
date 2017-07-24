@@ -11,6 +11,7 @@ using yanzhilong.Domain;
 using yanzhilong.Service;
 using yanzhilong.Models;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
@@ -19,69 +20,44 @@ namespace yanzhilong.Areas.Admin.Controllers
         private ArticleService articleCRUD = new ArticleService();
         private CategoryService categoryCRUD = new CategoryService();
         private UserService userCRUD = new UserService();
-        // GET: Article
+
         [Authentication]
         public ActionResult Index()
-        {
-            return List();
-        }
-
-        [Authentication]
-        public ActionResult List(int page = 1, string CategoryID = null)
-        {
-            return Result("List", page, CategoryID);
-        }
-        [Authentication]
-        public ActionResult Result(string actionName,int page = 1, string CategoryID = null)
-        {
-            PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, articleCRUD.GetCount(CategoryID));
-            pagemodel.actionName = actionName;
-            pagemodel.controllerName = "Article";
-            ViewBag.pagemodel = pagemodel;
-
-            var articles = articleCRUD.GetArticles(page, CategoryID);
-            IEnumerable<ArticleModel> articleModels = articles.Select(x => x.ToModel());
-
-            
-            return View("Index", articleModels);
-        }
-
-        // GET: GuestBook/Create
-        [Authentication]
-        public ActionResult Create()
         {
             ArticleModel articleModel = new ArticleModel();
             articleModel.CategorySelectItems = getCateGorys();
             return View(articleModel);
         }
 
-        public ActionResult Test()
+        [Authentication]
+        [JsonCallback]
+        public ActionResult List()
         {
-            return View();
+            var articles = articleCRUD.GetArticles();
+            IEnumerable<ArticleModel> articleModels = articles.Select(x => x.ToModel());
+            return Json(articleModels);
         }
 
-        // POST: GuestBook/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [ValidateInput(false)]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authentication]
-        public ActionResult Create( ArticleModel articleModel)
+        [JsonCallback]
+        public ActionResult Create()
         {
-            JavaScriptSerializer jss;
-            if (ModelState.IsValid)
+            var models = JsonConvert.DeserializeObject<IEnumerable<ArticleModel>>(Request.Params["models"]);
+
+            if (models != null)
             {
-                articleModel.Id = Guid.NewGuid().ToString();
-                articleModel.CreateAt = DateTime.Now;
-                string userID = HttpContext.Session["UserID"] as string;
-                articleModel.UserID = userID;
-                Article article = articleModel.ToEntity();
-                articleCRUD.Create(article);
-                return RedirectToAction("Index");
+                foreach (ArticleModel model in models)
+                {
+                    model.Id = Guid.NewGuid().ToString();
+                    model.CreateAt = DateTime.Now;
+                    string userID = HttpContext.Session["UserID"] as string;
+                    model.UserID = userID;
+                }
+                IEnumerable<Article> entitys = models.Select(e => e.ToEntity());
+                articleCRUD.AddEntrys(entitys.ToList<Article>());
             }
-            articleModel.CategorySelectItems = getCateGorys();
-            return View(articleModel);
+            return Json(models);
         }
 
         [Authentication]
@@ -103,16 +79,30 @@ namespace yanzhilong.Areas.Admin.Controllers
         }
 
         [Authentication]
-        public ActionResult Edit(string id)
+        [JsonCallback]
+        public ActionResult Update()
         {
-            if (id == null)
+            var models = JsonConvert.DeserializeObject<IEnumerable<ArticleModel>>(Request.Params["models"]);
+            if (models != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                IEnumerable<Article> entity = models.Select(e => e.ToEntity());
+                articleCRUD.UpdateEntrys(entity.ToList<Article>());
             }
-            Article article = articleCRUD.GetArticleById(id);
-            ArticleModel articleModel = article.ToModel();
-            articleModel.CategorySelectItems = getCateGorys();
-            return View(articleModel);
+            return Json(models);
+        }
+
+        [Authentication]
+        [JsonCallback]
+        public ActionResult Delete()
+        {
+            var callback = Request.Params["callback"];
+            var models = JsonConvert.DeserializeObject<IEnumerable<ArticleModel>>(Request.Params["models"]);
+            if (models != null)
+            {
+                IEnumerable<Article> entitys = models.Select(e => e.ToEntity());
+                articleCRUD.DeleteEntrys(entitys.ToList<Article>());
+            }
+            return Json(models);
         }
 
         [Authentication]
@@ -147,15 +137,6 @@ namespace yanzhilong.Areas.Admin.Controllers
             selectItemList.AddRange(selectList);
             return selectItemList;
         }
-        [Authentication]
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            articleCRUD.Delete(id);
-            return RedirectToAction("Index");
-        }
+
     }
 }

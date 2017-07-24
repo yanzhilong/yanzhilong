@@ -24,7 +24,8 @@ namespace yanzhilong
                       "~/Content/site.css",
                       "~/Content/list.css",
                       "~/Content/doc.css"));
-            
+
+
             //教程详情,生成侧边栏js
             bundles.Add(new ScriptBundle("~/bundles/tutorials_details").Include(
                       "~/Scripts/tutorials_details.js"));

@@ -1,94 +1,91 @@
-﻿@model IEnumerable<yanzhilong.Models.CategoryModel>
-
-@{
-    ViewBag.sidebar = "分类管理";
-    ViewBag.Title = "文章分类";
-    PageModel pagemode = ViewBag.pagemodel as PageModel;
+﻿@{
+    ViewBag.Title = "分类管理";
+    ViewBag.HeaderTitle = "分类管理";
+    ViewBag.ActiveMenuItemSystemName = "Category";
 }
 
-<div class="content-header clearfix">
-    <h1 class="page-header">文章分类管理</h1>
-</div>
+@section Head{
+    <style type=text/css>
+        
+    </style>
+}
 
-<div class="content">
-    <div class="form-horizontal">
-        <div class="panel-group">
+@section HeadRight{
 
-            <div class="panel panel-default">
-                <div id="grid"></div>
-                <script>
+}
 
-                    $(document).ready(function () {
-                        var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "Category"))";
-                        var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "Category"))";
-                        var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "Category"))";
-                        var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "Category"))",
+<div class="panel panel-default">
+    <div id="grid"></div>
+    <script>
 
-                        dataSource = new kendo.data.DataSource({
-                            transport: {
-                                read:  {
-                                    url: ReadUrl,
-                                    dataType: "jsonp"
-                                },
-                                update: {
-                                    url: UpdateUrl,
+        $(document).ready(function () {
+            var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "Category"))";
+            var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "Category"))";
+            var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "Category"))";
+            var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "Category"))",
 
-                                    dataType: "jsonp"
-                                },
-                                destroy: {
-                                    url: DestroyUrl,
-                                    type: "post",
-                                    dataType: "jsonp"
-                                },
-                                create: {
-                                    url: CreateUrl,
-                                    type: "post",
-                                    dataType: "jsonp"
-                                },
-                                parameterMap: function (options, operation) {
+            dataSource = new kendo.data.DataSource({
+                transport: {
+                    read:  {
+                        url: ReadUrl,
+                        dataType: "jsonp"
+                    },
+                    update: {
+                        url: UpdateUrl,
 
-                                    if (operation !== "read" && options.models) {
-                                        return {models: kendo.stringify(options.models)};
-                                    }
-                                }
-                            },
-                            batch: true,
-                            pageSize: 20,
-                            schema: {
-                                model: {
-                                    id: "Id",
-                                    fields: {
-                                        Id: { editable: false, nullable: true },
-                                        Name: { validation: { required: true } }
-                                    }
-                                }
-                            }
-                        });
-                        dataSource.bind("error", dataSource_error);
+                        dataType: "jsonp"
+                    },
+                    destroy: {
+                        url: DestroyUrl,
+                        type: "post",
+                        dataType: "jsonp"
+                    },
+                    create: {
+                        url: CreateUrl,
+                        type: "post",
+                        dataType: "jsonp"
+                    },
+                    parameterMap: function (options, operation) {
 
-                        function dataSource_error(e) {
-                            var responsejson = e.xhr.responseText;
-                            alert(e.status);
+                        if (operation !== "read" && options.models) {
+                            return {models: kendo.stringify(options.models)};
                         }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            Name: { validation: { required: true } }
+                        }
+                    }
+                }
+            });
+            dataSource.bind("error", dataSource_error);
 
-                        $("#grid").kendoGrid({
-                            dataSource: dataSource,
-                            sortable: true,
-                            pageable: {
-                                refresh: true,
-                                pageSizes: true,
-                                buttonCount: 5
-                            },
-                            toolbar: ["create"],
-                            columns: [
-                                { field:"Name", title: "分类名称" },
-                                { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
-                            editable: "popup"
-                        });
-                    });
+            function dataSource_error(e) {
+                var responsejson = e.xhr.responseText;
+                alert(e.status);
+            }
 
-                </script>
-            </div>
-        </div>
-    </div>
+            $("#grid").kendoGrid({
+                dataSource: dataSource,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                toolbar: ["create"],
+                columns: [
+                    { field:"Name", title: "分类名称" },
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
+                editable: "popup"
+            });
+        });
+
+    </script>
 </div>

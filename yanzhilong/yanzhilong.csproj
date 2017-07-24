@@ -244,6 +244,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
     <Compile Include="Domain\CommonEnum.cs" />
+    <Compile Include="Domain\Kendo\DataSourceRequest.cs" />
+    <Compile Include="Domain\Kendo\DataSourceResult.cs" />
     <Compile Include="Domain\SxColor.cs" />
     <Compile Include="Domain\SxImage.cs" />
     <Compile Include="Domain\SxMainImage.cs" />

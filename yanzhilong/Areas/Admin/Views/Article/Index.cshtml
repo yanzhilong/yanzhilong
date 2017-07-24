@@ -1,73 +1,159 @@
-﻿@model IEnumerable<yanzhilong.Models.ArticleModel>
-
+﻿@model ArticleModel
 @{
-    ViewBag.sidebar = "文章管理";
     ViewBag.Title = "文章管理";
-    PageModel pagemode = ViewBag.pagemodel as PageModel;
+    ViewBag.HeaderTitle = "文章管理";
+    ViewBag.ActiveMenuItemSystemName = "Article";
+
+    //将下拉列表生成html
+    HtmlString CidItemsHtml = Html.DropDownListFor(model => model.CategoryID, Model.CategorySelectItems, htmlAttributes: new { required = "required", @class = "k-input", id = "CategoryId" });
+    //HtmlString CidItemsHtml = Html.DropDownListFor(model => model.CategoryID,Model.CategorySelectItems);
+
+    string CidItems = CidItemsHtml.ToHtmlString();
+    string CidItemsReplace = CidItems.Replace("\r\n", "");
+}
+
+@section Head{
+    <style type=text/css>
+
+        /* 单行模式 */
+        .k-grid td {
+            white-space: nowrap;
+        }
+</style>
+}
+
+@section HeadRight{
+    
 }
 
 
-<h1 class="page-header">文章管理</h1>
-@Html.ActionLink("创建新文章", "Create", "Article")
-<div class="table-responsive">
-    <table class="table table-striped table-manage">
-        <thead>
-            <tr>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
+<div class="panel panel-default">
+    <div id="grid"></div>
+    <script>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
+        $(document).ready(function () {
+            var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "Article"))";
+            var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "Article"))";
+            var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "Article"))";
+            var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "Article"))",
 
-                <th style="width:150px">
-                    @Html.DisplayNameFor(model => model.CategoryName)
-                </th>
+            dataSource = new kendo.data.DataSource({
+                transport: {
+                    read:  {
+                        url: ReadUrl,
+                        dataType: "jsonp"
+                    },
+                    update: {
+                        url: UpdateUrl,
+                        dataType: "jsonp"
+                    },
+                    destroy: {
+                        url: DestroyUrl,
+                        dataType: "jsonp"
+                    },
+                    create: {
+                        url: CreateUrl,
+                        type: "post",
+                        dataType: "jsonp"
+                    },
+                    parameterMap: function (options, operation) {
 
-                <th style="width:200px">
-                    @Html.DisplayNameFor(model => model.CreateAt)
-                </th>
+                        if (operation == "create" || operation == "update" && options.models) {
+                            var modelsTmp = options.models;
+                            //存入指定属性的值，通过工具栏的新增按钮，都是创建一个，所以取下标为0的就行了
+                            modelsTmp[0].CategoryName = $("#CategoryId").find("option:selected").text();
+                            return { models: kendo.stringify(options.models) };
+                        }
 
-                <th>
-                    操作
-                </th>
-            </tr>
-        </thead>
-        <tbody>
+                        if (operation !== "read" && options.models) {
+                            return {models: kendo.stringify(options.models)};
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            Title: { validation: { required: true } },
+                            Content: { },
+                            Description: { validation: { required: true } },
+                            CreateAt: { editable: false, type: "date" },
+                            CategoryID: { validation: { required: true } },
+                            CategoryName: {  },
+                            DisplayName: { editable: false, validation: { required: false } },
+                            PV: { editable: false, type: "int" }
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
+                        }
+                    }
+                }
+            });
+            dataSource.bind("error", dataSource_error);
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CategoryName)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreateAt)
-                    </td>
-
-                    <td>
-                        @Html.ActionLink("编辑", "Edit", "Article", new { id = item.Id }, new { target = "_blank" }) |
-                        @Html.ActionLink("详情", "Details", "Article", new { id = item.Id, area = "" }, new { target = "_blank" }) |
-                        @Html.ActionLink("删除", "Delete", "Article", new { id = item.Id }, null)
-                    </td>
-                </tr>
+            function dataSource_error(e) {
+                var responsejson = e.xhr.responseText;
+                alert(e.status);
             }
-        </tbody>
-    </table>
-</div>
 
-<div class="container">
-    <!--  分页视图 -->
-    @Html.Partial("Paging", pagemode)
+            $("#grid").kendoGrid({
+                dataSource: dataSource,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                toolbar: ["create"],
+                columns: [
+                    { field: "Title", title: "标题" },
+                    { field: "Content", title: "内容", editor: ContentEditor },
+                    { field: "Description", title: "描述", editor: DescriptionEditor},
+                    { field: "CreateAt", title: "创建时间",width: "250px", format: "{0: yyyy年MM月dd日 HH:mm:ss}" },
+                    { field: "CategoryID", title: "分类",width: "150px", editor: CategorySelect, template: "#=CategoryName#"},
+                    { field: "PV", title: "浏览", width: "80px"},
+
+                    { command: ["edit", "destroy", { name: "编辑内容", click: editContent }, { name: "详情", click: showDetails }], title: "&nbsp;", width: "350px" }],
+                editable: "popup"
+            });
+        });
+
+        function CategorySelect(container, options) {
+            var select2 = '@Html.Raw(CidItemsReplace)';
+            $(select2).appendTo(container);
+        }
+
+        var DescriptionEditor = function (container, options) {
+            $('<textarea data-bind="value: ' + options.field + '" rows = 5></textarea>').appendTo(container);
+        };
+
+        var ContentEditor = function (container, options) {
+            $('<input type="text" disabled="disabled" />').appendTo(container);
+        };
+
+        //显示详情
+        function showDetails(e) {
+            e.preventDefault();
+            var tr = $(e.target).closest("tr"); // get the current table row (tr)
+            var data = this.dataItem(tr);
+            var Id = data.Id;
+            //alert("Details for: " + data.Name);
+            //window.location.href = "@Url.Action("Details","Article",new { area = ""})" + "?Id=" + Id;
+            window.open("@Url.Action("Details","Article",new { area = ""})" + "?Id=" + Id);
+        }
+
+        //编辑内容
+        function editContent(e) {
+            e.preventDefault();
+            var tr = $(e.target).closest("tr"); // get the current table row (tr)
+            var data = this.dataItem(tr);
+            var Id = data.Id;
+            //alert("Details for: " + data.Name);
+            //window.location.href = "@Url.Action("Details","Article",new { area = ""})" + "?Id=" + Id;
+            window.open("@Url.Action("Content", "Article")" + "?Id=" + Id);
+        }
+
+    </script>
 </div>

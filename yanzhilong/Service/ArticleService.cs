@@ -11,7 +11,7 @@ using yanzhilong.Repository;
 
 namespace yanzhilong.Service
 {
-    public class ArticleService
+    public class ArticleService : IBaseService<Article>
     {
         IRepository<Article> repository = new MbRepository<Article>();
         
@@ -89,6 +89,81 @@ namespace yanzhilong.Service
         public void Delete(string articleID)
         {
             repository.Delete("DeleteArticle", new Article { Id = articleID});
+        }
+
+        public void AddEntry(Article entry)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddEntrys(IList<Article> entrys)
+        {
+            repository.Insert("InsertArticle", entrys);
+        }
+
+        public void DeleteEntry(Article entry)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteEntrys(IList<Article> entrys)
+        {
+            repository.Delete("DeleteArticle", entrys);
+        }
+
+        public void UpdateEntry(Article entry)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateEntrys(IList<Article> entrys)
+        {
+            repository.Update("UpdateArticle", entrys);
+        }
+
+        public IEnumerable<Article> GetEntrys(Article entry)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Article> GetEntrys(Article entry, int page, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Article> GetEntrys(object parameterObject, int page, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Article> GetEntrys(int skip, int take, Article entry)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Article> GetEntrys(int skip, int take, object parameterObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Article GetEntry(Article entry)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Article GetEntry(object parameterObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCount(Article entry)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCount(object parameterObject)
+        {
+            throw new NotImplementedException();
         }
     }
 }

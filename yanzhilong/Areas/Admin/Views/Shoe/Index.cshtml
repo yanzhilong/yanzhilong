@@ -1,191 +1,190 @@
 ﻿@model SxShoeModel
+
 @{
-    ViewBag.sidebar = "鞋子管理";
-    ViewBag.Title = "鞋子管理/导出";
-    
-    HtmlString CidItemsHtml = Html.DropDownListFor(model => model.Cid, Model.CidItems, htmlAttributes: new{required = "required", @class = "k-input" });
+    ViewBag.Title = "鞋子管理";
+    ViewBag.HeaderTitle = "鞋子管理";
+    ViewBag.ActiveMenuItemSystemName = "Shoe";
+
+    HtmlString CidItemsHtml = Html.DropDownListFor(model => model.Cid, Model.CidItems, htmlAttributes: new { required = "required", @class = "k-input" });
     string CidItems = CidItemsHtml.ToHtmlString();
-    string CidItemsReplace = CidItems.Replace("\r\n","");
+    string CidItemsReplace = CidItems.Replace("\r\n", "");
+
 }
 
-<div class="content-header clearfix">
-    <h1 class="page-header">文章分类管理</h1>
-    <div class="pull-right" >
-        <button id="maketbshoe" class="btn bg-blue">全部生成宝贝</button>
-    </div>
-</div>
-<div class="content">
-    <div class="form-horizontal">
-        <div class="panel-group">
+@section Head{
+    <style type=text/css>
 
-            <div class="panel panel-default">
-                <div id="grid"></div>
-                <script>
+    </style>
+}
 
+@section HeadRight{
+<button id="maketbshoe" class="btn bg-blue">全部生成宝贝</button>
+}
 
+<div class="panel panel-default">
+    <div id="grid"></div>
 
-                    $(document).ready(function () {
-                        var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "Shoe"))";
-                        var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "Shoe"))";
-                        var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "Shoe"))";
-                        var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "Shoe"))",
+    <script>
 
-                        dataSource = new kendo.data.DataSource({
-                            transport: {
-                                read:  {
-                                    url: ReadUrl,
-                                    dataType: "jsonp"
-                                },
-                                update: {
-                                    url: UpdateUrl,
+        $(document).ready(function () {
+            var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "Shoe"))";
+            var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "Shoe"))";
+            var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "Shoe"))";
+            var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "Shoe"))",
 
-                                    dataType: "jsonp"
-                                },
-                                destroy: {
-                                    url: DestroyUrl,
-                                    type: "post",
-                                    dataType: "jsonp"
-                                },
-                                create: {
-                                    url: CreateUrl,
-                                    type: "post",
-                                    dataType: "jsonp"
-                                },
-                                parameterMap: function (options, operation) {
+            dataSource = new kendo.data.DataSource({
+                transport: {
+                    read:  {
+                        url: ReadUrl,
+                        dataType: "jsonp"
+                    },
+                    update: {
+                        url: UpdateUrl,
 
-                                    if (operation !== "read" && options.models) {
-                                        return {models: kendo.stringify(options.models)};
-                                    }
-                                }
-                            },
-                            batch: true,
-                            pageSize: 20,
-                            schema: {
-                                model: {
-                                    id: "Id",
-                                    fields: {
-                                        Id: { editable: false, nullable: true },
-                                        MainImage: { editable: false, nullable: true },
-                                        Title: { editable: false, validation: { required: true } },
-                                        Url: { editable: false,validation: { required: true }},
-                                        Price: { editable: false,validation: { required: true }},
-                                        Popularity: { editable: false,validation: { required: true }},
-                                        UpdateStr: { editable: false,validation: { required: true }},
-                                        Sort: { editable: false,validation: { required: true } },
-                                        Cid: { validation: { required: true } }
-                                    }
-                                }
-                            }
-                        });
-                        dataSource.bind("error", dataSource_error);
+                        dataType: "jsonp"
+                    },
+                    destroy: {
+                        url: DestroyUrl,
+                        type: "post",
+                        dataType: "jsonp"
+                    },
+                    create: {
+                        url: CreateUrl,
+                        type: "post",
+                        dataType: "jsonp"
+                    },
+                    parameterMap: function (options, operation) {
 
-                        function dataSource_error(e) {
-                            var responsejson = e.xhr.responseText;
-                            alert(e.status);
+                        if (operation !== "read" && options.models) {
+                            return {models: kendo.stringify(options.models)};
                         }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            MainImage: { editable: false, nullable: true },
+                            Title: { editable: false, validation: { required: true } },
+                            Url: { editable: false,validation: { required: true }},
+                            Price: { editable: false,validation: { required: true }},
+                            Popularity: { editable: false,validation: { required: true }},
+                            UpdateStr: { editable: false,validation: { required: true }},
+                            Sort: { editable: false,validation: { required: true } },
+                            Cid: { validation: { required: true } }
+                        }
+                    }
+                }
+            });
+            dataSource.bind("error", dataSource_error);
 
-                        $("#grid").kendoGrid({
-                            dataSource: dataSource,
-                            sortable: true,
-                            pageable: {
-                                refresh: true,
-                                pageSizes: true,
-                                buttonCount: 5
-                            },
-                            columns: [
-                                {
-                                    field: "MainImage",
-                                    title: "预览图片",
-                                    width: 100,
-                                    template: "<div class='customer-photo'" +
-                                    "style='background-image: url(#:data.MainImage#);'></div>"
-                                },
-                                { field: "Title", title: "标题", width: "350px" },
-                                { field: "Url", title: "网址", editable: false, template: "<a href=\"#:data.Url#\" target=\"__blank\">#:data.Url#</a>"},
-                                { field: "Price", title: "价格", width: "80px" },
-                                { field: "Popularity", title: "人气", width: "80px" },
-                                { field: "UpdateStr", title: "更新", width: "180px" },
-                                { field: "Sort", title: "更新排序", width: "80px" },
-                                { field: "Cid", title: "类目", width: "80px", editor: CidSelect, template: "#=CidStr#" },
-                                { command: ["edit","destroy", { name: "生成宝贝", click: makeTbItem }], title: "&nbsp;", width: "280px" }],
-                            editable: "popup"
-                        });
+            function dataSource_error(e) {
+                var responsejson = e.xhr.responseText;
+                alert(e.status);
+            }
 
-                        $("#maketbshoe").click(function () {
+            $("#grid").kendoGrid({
+                dataSource: dataSource,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                columns: [
+                    {
+                        field: "MainImage",
+                        title: "预览图片",
+                        width: 100,
+                        template: "<div class='customer-photo'" +
+                        "style='background-image: url(#:data.MainImage#);'></div>"
+                    },
+                    { field: "Title", title: "标题", width: "350px" },
+                    { field: "Url", title: "网址", editable: false, template: "<a href=\"#:data.Url#\" target=\"__blank\">#:data.Url#</a>"},
+                    { field: "Price", title: "价格", width: "80px" },
+                    { field: "Popularity", title: "人气", width: "80px" },
+                    { field: "UpdateStr", title: "更新", width: "180px" },
+                    { field: "Sort", title: "更新排序", width: "80px" },
+                    { field: "Cid", title: "类目", width: "80px", editor: CidSelect, template: "#=CidStr#" },
+                    { command: ["edit","destroy", { name: "生成宝贝", click: makeTbItem }], title: "&nbsp;", width: "280px" }],
+                editable: "popup"
+            });
 
-                            var dataSource = $("#grid").data("kendoGrid").dataSource;
-                            var filters = dataSource.filter();//搜索选项
-                            var allData = dataSource.data();//全部数据
-                            var query = new kendo.data.Query(allData);
-                            var data = query.filter(filters).data;//筛选后的数据
-                            var displayedData = $("#grid").data().kendoGrid.dataSource.view()
-                            var displayedDataAsJSON = JSON.stringify(displayedData);
+            $("#maketbshoe").click(function () {
+
+                var dataSource = $("#grid").data("kendoGrid").dataSource;
+                var filters = dataSource.filter();//搜索选项
+                var allData = dataSource.data();//全部数据
+                var query = new kendo.data.Query(allData);
+                var data = query.filter(filters).data;//筛选后的数据
+                var displayedData = $("#grid").data().kendoGrid.dataSource.view()
+                var displayedDataAsJSON = JSON.stringify(displayedData);
                             
-                            var mycars = new Array()
-                            for (var i = 0; i < allData.length; i++) {
-                                mycars.push(allData[i]);
-                            }
-                            var filter = new Object();
-                            filter.sxShoeModels = mycars;
-                            var filterjson = JSON.stringify(filter);
-                            var shoelistjson = JSON.stringify({ sxShoeModels: mycars })
-                            //将数据提交
-                            var url = "@Url.Action("MakeTbItems", "Shoe")";
-                            $.ajax({
-                            cache: false,
-                                type: 'POST',
-                                url: url,
-                                data: { sxShoeModels: JSON.stringify(mycars) },
-                                dataType: 'json',
-                                success: function(data) {
-                                    if (data != null && data.success) {
-                                        alert(data.responseText);
-                                    } else {
-                                        // DoSomethingElse()
-                                        alert(data.responseText);
-                                    }
-                                },
-                                error: function(xhr, ajaxOptions, thrownError) {
-                                    alert(thrownError);
-                                }
-                        });
-
-                        });
-                    });
-
-                    //生成宝贝
-                    function makeTbItem(e) {
-                        e.preventDefault();
-                        var tr = $(e.target).closest("tr"); // get the current table row (tr)
-                        var data = this.dataItem(tr);
-                        var Id = data.Id;
-                        var url = "@Url.Action("MakeTbItem", "Shoe")";
-                        $.ajax({
-                            url: url,
-                            data: {Id : Id},
-                            success: function (data) {
-                                if (data != null && data.success) {
-                                    alert(data.responseText);
-                                } else {
-                                    // DoSomethingElse()
-                                    alert(data.responseText);
-                                }
-                            },
-                            error: function (xhr, ajaxOptions, thrownError) {
-                                alert(thrownError);
-                            }
-                        });
+                var mycars = new Array()
+                for (var i = 0; i < allData.length; i++) {
+                    mycars.push(allData[i]);
+                }
+                var filter = new Object();
+                filter.sxShoeModels = mycars;
+                var filterjson = JSON.stringify(filter);
+                var shoelistjson = JSON.stringify({ sxShoeModels: mycars })
+                //将数据提交
+                var url = "@Url.Action("MakeTbItems", "Shoe")";
+                $.ajax({
+                cache: false,
+                    type: 'POST',
+                    url: url,
+                    data: { sxShoeModels: JSON.stringify(mycars) },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data != null && data.success) {
+                            alert(data.responseText);
+                        } else {
+                            // DoSomethingElse()
+                            alert(data.responseText);
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
                     }
+            });
 
-                    function CidSelect(container, options) {
-                            var select2 = '@Html.Raw(CidItemsReplace)';
-                            $(select2).appendTo(container);
+            });
+        });
+
+        //生成宝贝
+        function makeTbItem(e) {
+            e.preventDefault();
+            var tr = $(e.target).closest("tr"); // get the current table row (tr)
+            var data = this.dataItem(tr);
+            var Id = data.Id;
+            var url = "@Url.Action("MakeTbItem", "Shoe")";
+            $.ajax({
+                url: url,
+                data: {Id : Id},
+                success: function (data) {
+                    if (data != null && data.success) {
+                        alert(data.responseText);
+                    } else {
+                        // DoSomethingElse()
+                        alert(data.responseText);
                     }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(thrownError);
+                }
+            });
+        }
 
-                </script>
-            </div>
-        </div>
-    </div>
+        function CidSelect(container, options) {
+                var select2 = '@Html.Raw(CidItemsReplace)';
+                $(select2).appendTo(container);
+        }
+
+    </script>
 </div>
 
 <style type="text/css">

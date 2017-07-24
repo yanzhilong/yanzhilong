@@ -12,6 +12,7 @@ using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Helper;
 using Newtonsoft.Json;
 using System.Web.Script.Serialization;
+using yanzhilong.Domain.Kendo;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
@@ -92,6 +93,13 @@ namespace yanzhilong.Areas.Admin.Controllers
             if (models != null)
             {
                 IEnumerable<TbItem> entrys = models.Select(e => e.ToEntity());
+                foreach (TbItem t in entrys)
+                {
+                    if(t.DataTypeEnum != TbDataTypeEnum.TBDATA)
+                    {
+                        return Json(new DataSourceResult{ Errors = "系统保留数据，不能删除"});
+                    }
+                }
                 tbItemService.DeleteEntrys(entrys.ToList<TbItem>());
             }
             return Json(models);
@@ -115,7 +123,17 @@ namespace yanzhilong.Areas.Admin.Controllers
             {
                 return Json(new { success = 1, url = UploadFile.Url });
             }
-            return Json(new { success = 0, message = "上传失败" });
+            return Json(new { success = 0, message = "导出失败" });
+        }
+
+        [JsonCallback]
+        public ActionResult DeleteAll()
+        {
+            
+            List<TbItem> tbItem_tbdatas = tbItemService.GetEntrys(new TbItem() { DataTypeEnum = TbDataTypeEnum.TBDATA }).ToList<TbItem>();
+            tbItemService.DeleteEntrys(tbItem_tbdatas);
+            
+            return Json(new { success = 1, message = "删除成功" });
         }
     }
 }
