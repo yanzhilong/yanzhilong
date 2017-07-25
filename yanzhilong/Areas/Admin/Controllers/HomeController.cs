@@ -40,11 +40,13 @@ namespace yanzhilong.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 user.PasswordHash = PasswordHelper.GetMd5HashStr(user.PasswordHash);
-                User user1 = userCRUD.CheckUser(user);
-                if (user1 != null)
+                UserLoginResultEnum userLoginResultEnum = userCRUD.ValidateUser(user.UserName,user.PasswordHash);
+                if (userLoginResultEnum == UserLoginResultEnum.Successful)
                 {
+                    var mUser = userCRUD.GetEntry(new User { UserName = user.UserName });
+
                     //保存session
-                    HttpContext.Session["UserID"] = user1.Id;
+                    HttpContext.Session["UserID"] = mUser.Id;
                     //string userID = HttpContext.Session["UserID"] as string;
                     return RedirectToAction("Index");
                 }

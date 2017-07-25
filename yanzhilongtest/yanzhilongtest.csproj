@@ -83,6 +83,7 @@
     <Compile Include="Models\TbPropertyCategoryServiceTest.cs" />
     <Compile Include="Models\TbPropertyServiceTest.cs" />
     <Compile Include="Models\CategoryTest.cs" />
+    <Compile Include="Models\Test.cs" />
     <Compile Include="Models\UserTest.cs" />
     <Compile Include="Models\ArticleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -13,15 +13,56 @@ namespace yanzhilong.Domain
     public class User
     {
         public string Id { get; set; }
-        [Required] //必填项
-        [DisplayName("用户名")] //显示在Label上的名字
+        
+        /// <summary>
+        /// 用户名
+        /// </summary>
         public string UserName { get; set; }
-        public string DisplayName { get; set; }
-        [Required] //必填项
-        [DisplayName("密码")] //显示在Label上的名字
-        public string PasswordHash { get; set; }
+
+        /// <summary>
+        /// 邮箱
+        /// </summary>
         public string Email { get; set; }
-        public string MobilePhone { get; set; }
-        public DateTime CreateAt { get; set; }
+
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        public string PhoneNumber { get; set; }
+        
+        /// <summary>
+        /// 密码哈希
+        /// </summary>
+        public string PasswordHash { get; set; }
+
+        /// <summary>
+        /// 密码加盐
+        /// </summary>
+        public string Salt { get; set; }
+
+        /// <summary>
+        /// 昵称
+        /// </summary>
+        public string DisplayName { get; set; }
+
+        /// <summary>
+        /// 注册时间
+        /// </summary>
+        public DateTime CreateDate { get; set; }
+
+        /// <summary>
+        /// 登陆失败次数
+        /// </summary>
+        public int FailedLoginAttempts { get; set; }
+
+        /// <summary>
+        /// 最后登陆时间
+        /// </summary>
+        public DateTime LastLoginDateUtc { get; set; }
+
+        /// <summary>
+        /// 不能登陆截止时间
+        /// </summary>
+        public DateTime? CannotLoginUntilDateUtc { get; set; }
+        
     }
 }

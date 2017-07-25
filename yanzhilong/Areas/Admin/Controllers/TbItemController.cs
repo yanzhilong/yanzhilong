@@ -113,9 +113,9 @@ namespace yanzhilong.Areas.Admin.Controllers
             TbItem tbItem_cn_title = tbItemService.GetEntry(new TbItem() { DataTypeEnum = TbDataTypeEnum.CNTITLE });
             TbItem tbItem_default_value = tbItemService.GetEntry(new TbItem() { DataTypeEnum = TbDataTypeEnum.DEFAULTDATA });
             List<TbItem> tbItem_tbdatas = tbItemService.GetEntrys(new TbItem() { DataTypeEnum = TbDataTypeEnum.TBDATA }).ToList<TbItem>();
+
             tbItems.Add(tbItem_en_title);
             tbItems.Add(tbItem_cn_title);
-            tbItems.Add(tbItem_default_value);
             tbItems.AddRange(tbItem_tbdatas);
             UploadFile UploadFile = filePersistenceService.WriteFile(tbItems);
 
@@ -123,7 +123,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             {
                 return Json(new { success = 1, url = UploadFile.Url });
             }
-            return Json(new { success = 0, message = "导出失败" });
+            return Json(new { success = 1, message = "导出成功" });
         }
 
         [JsonCallback]

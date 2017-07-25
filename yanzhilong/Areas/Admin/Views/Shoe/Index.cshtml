@@ -18,7 +18,7 @@
 }
 
 @section HeadRight{
-<button id="maketbshoe" class="btn bg-blue">全部生成宝贝</button>
+<button id="maketbshoe" data-toggle="modal" data-target="#makeItems" class="btn bg-blue">全部生成宝贝</button>
 }
 
 <div class="panel panel-default">
@@ -113,7 +113,7 @@
                 editable: "popup"
             });
 
-            $("#maketbshoe").click(function () {
+            $("#affirm_make").click(function () {
 
                 var dataSource = $("#grid").data("kendoGrid").dataSource;
                 var filters = dataSource.filter();//搜索选项
@@ -142,6 +142,7 @@
                     success: function(data) {
                         if (data != null && data.success) {
                             alert(data.responseText);
+                            $('#makeItems').modal('hide');
                         } else {
                             // DoSomethingElse()
                             alert(data.responseText);
@@ -202,3 +203,22 @@
     }
 
 </style>
+
+<!-- 全部生成宝贝 -->
+<div class="modal fade" id="makeItems" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">全部生成宝贝</h4>
+            </div>
+            <div class="modal-body">
+                <p>将当前鞋子全部生成宝贝</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="affirm_make">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

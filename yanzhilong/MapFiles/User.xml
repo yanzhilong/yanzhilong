@@ -14,12 +14,18 @@
     <resultMap id="SelectAllResult" class="User">
       <result property="Id" column="Id" dbType="char" type="string" />
       <result property="UserName" column="UserName" dbType="varchar" type="string" />
-      <result property="DisplayName" column="DisplayName" dbType="varchar" type="string" />
-      <result property="PasswordHash" column="PasswordHash" dbType="varchar" type="string" />
       <result property="Email" column="Email" dbType="varchar" type="string" />
-      <result property="MobilePhone" column="MobilePhone" dbType="varchar" type="string" />
-      <result property="CreateAt" column="CreateAt" dbType="datetime" type="DateTime" />
+      <result property="PhoneNumber" column="PhoneNumber" dbType="varchar" type="string" />
+      <result property="PasswordHash" column="PasswordHash" dbType="varchar" type="string" />
+      <result property="Salt" column="Salt" dbType="varchar" type="string" />
+      <result property="DisplayName" column="DisplayName" dbType="varchar" type="string" />
+      <result property="CreateDate" column="CreateDate" dbType="datetime" type="DateTime" />
+      <result property="FailedLoginAttempts" column="FailedLoginAttempts" dbType="int" type="int" />
+      <result property="LastLoginDateUtc" column="LastLoginDateUtc" dbType="datetime" type="DateTime" />
+      <result property="CannotLoginUntilDateUtc" column="CannotLoginUntilDateUtc" dbType="datetime" type="DateTime" />
+      
     </resultMap>
+
 
     <!-- 这里可以配置其它只需要指定字段的映射文件(这里是不返回ID) -->
   </resultMaps>
@@ -32,18 +38,18 @@
     <insert id="InsertUser" parameterClass="User" >
       <![CDATA[  
       insert into User  
-      (Id,UserName,DisplayName,PasswordHash,Email,MobilePhone,CreateAt)  
+      (Id,UserName,Email,PhoneNumber,PasswordHash,Salt,DisplayName,CreateDate,FailedLoginAttempts,LastLoginDateUtc,CannotLoginUntilDateUtc)  
       values  
-      (#Id#,#UserName#,#DisplayName#,#PasswordHash#,#Email#,#MobilePhone#,#CreateAt#)  
+      (#Id#,#UserName#,#Email#,#PhoneNumber#,#PasswordHash#,#Salt#,#DisplayName#,#CreateDate#,#FailedLoginAttempts#,#LastLoginDateUtc#,#CannotLoginUntilDateUtc#)
       ]]>
     </insert>
-
+    
     <!-- parameterClass表示传入的参数为int -->
-    <delete id="DeleteUser" parameterClass="string">
+    <delete id="DeleteUser" parameterClass="User">
       <![CDATA[
           delete from User  
           where  
-          Id = #value#  
+          Id = #Id#  
           ]]>
     </delete>
     
@@ -52,11 +58,15 @@
       <![CDATA[  
           UPDATE User SET  
           UserName=#UserName#,
-          DisplayName=#DisplayName#,
-          PasswordHash=#PasswordHash#,
           Email=#Email#,
-          MobilePhone=#MobilePhone#,
-          CreateAt=#CreateAt#
+          PhoneNumber=#PhoneNumber#,
+          PasswordHash=#PasswordHash#,
+          Salt=#Salt#,
+          DisplayName=#DisplayName#,
+          CreateDate=#CreateDate#,
+          FailedLoginAttempts=#FailedLoginAttempts#,
+          LastLoginDateUtc=#LastLoginDateUtc#,
+          CannotLoginUntilDateUtc=#CannotLoginUntilDateUtc#,
           WHERE  
           Id=#Id#  
           ]]>
@@ -67,30 +77,44 @@
       <![CDATA[  
           SELECT Id
           ,UserName
-          ,DisplayName
-          ,PasswordHash
           ,Email
-          ,MobilePhone
-          ,CreateAt
+          ,PhoneNumber
+          ,PasswordHash
+          ,Salt
+          ,DisplayName
+          ,CreateDate
+          ,FailedLoginAttempts
+          ,LastLoginDateUtc
+          ,CannotLoginUntilDateUtc
           FROM User
           ]]>
     </select>
     
     <!-- #value# 是点位符会被传入的parameterClass的string类型代替 -->
-    <select id="SelectUserById" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllUser">
-      <![CDATA[  
-          where Id = #value#  
-          ]]>
+    <select id="SelectUserByCondition" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllUser">
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="Id">
+          <![CDATA[  
+           Id = #Id#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="UserName">
+          <![CDATA[  
+           UserName = #UserName#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Email">
+          <![CDATA[  
+           Email = #Email#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="PhoneNumber">
+          <![CDATA[  
+           PhoneNumber = #PhoneNumber#
+            ]]>
+        </isNotEmpty>
+      </dynamic>
     </select>
-
-    <!-- #value# 是点位符会被传入的parameterClass的string类型代替 -->
-    <select id="CheckUser" parameterClass="string" resultMap="SelectAllResult" extends="SelectAllUser">
-      <![CDATA[  
-          where UserName = #UserName# and
-          PasswordHash = #PasswordHash#
-          ]]>
-    </select>
-    
 
   </statements>
 

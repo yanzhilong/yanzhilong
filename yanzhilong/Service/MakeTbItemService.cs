@@ -32,7 +32,17 @@ namespace yanzhilong.Service
             TbItem tbItem = tbItemService.GetEntry(new TbItem { DataTypeEnum = TbDataTypeEnum.DEFAULTDATA });
             tbItem.DataTypeEnum = TbDataTypeEnum.TBDATA;
             tbItem.Id = Guid.NewGuid().ToString();
-            tbItem.title = sxShoe.Title;
+            //标题不能超过30
+            string title = "";
+            if (sxShoe.Title.Length > 30)
+            {
+                title = sxShoe.Title.Substring(0, 30);
+            }
+            else
+            {
+                title = sxShoe.Title;
+            }
+            tbItem.title = title;
             tbItem.price = (sxShoe.Price + AddPrice).ToString();
             tbItem.cid = makeTbItemCid(sxShoe);
             string[] DescAndWireDesc = makeTbItemDescriptionAndWirelessDesc(sxShoe);
