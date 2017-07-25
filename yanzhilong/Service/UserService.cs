@@ -61,15 +61,25 @@ namespace yanzhilong.Service
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public UserRegistResult RegisterUser(User user,string Password)
+        public UserRegistResult RegisterUser(User user,string Password,UserRegisterTypeEnum urt)
         {
             var result = new UserRegistResult();
 
             if (user == null)
                 throw new ArgumentNullException("request");
-
-            var mUser = this.GetEntry( user );
-
+            User mUser = null;
+            switch (urt)
+            {
+                case UserRegisterTypeEnum.UserName:
+                    mUser = this.GetEntry(new User { UserName = user.UserName });
+                    break;
+                case UserRegisterTypeEnum.Email:
+                    mUser = this.GetEntry(new User { Email = user.Email });
+                    break;
+                case UserRegisterTypeEnum.PhoneNumber:
+                    mUser = this.GetEntry(new User { PhoneNumber = user.PhoneNumber });
+                    break;
+            }
             if (mUser != null)
             {
                 result.AddError("当前用户已经注册");
@@ -85,18 +95,6 @@ namespace yanzhilong.Service
                 }
             }
 
-            if (String.IsNullOrWhiteSpace(Password))
-            {
-                result.AddError("密码不能为空");
-                return result;
-            }
-
-            if (String.IsNullOrEmpty(user.UserName) && String.IsNullOrEmpty(user.Email) && String.IsNullOrEmpty(user.PhoneNumber))
-            {
-                result.AddError("用户名或手机或邮箱不能为空");
-                return result;
-            }
-            
             user.CreateDate = DateTime.Now;
             
             //保存历史密码暂不实现

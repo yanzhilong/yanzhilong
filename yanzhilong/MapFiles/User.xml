@@ -66,7 +66,7 @@
           CreateDate=#CreateDate#,
           FailedLoginAttempts=#FailedLoginAttempts#,
           LastLoginDateUtc=#LastLoginDateUtc#,
-          CannotLoginUntilDateUtc=#CannotLoginUntilDateUtc#,
+          CannotLoginUntilDateUtc=#CannotLoginUntilDateUtc#
           WHERE  
           Id=#Id#  
           ]]>

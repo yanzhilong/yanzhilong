@@ -1,4 +1,4 @@
-﻿@model yanzhilong.Domain.User
+﻿@model yanzhilong.Models.UserLoginModel
 @{
     Layout = "_Layout.cshtml";
     ViewBag.Title = "登陆";
@@ -11,12 +11,14 @@
         <h2 class="form-signin-heading">欢迎您！</h2>
         @Html.ValidationSummary(true, "请输入合法的用户名或密码", new { @class = "text-danger" })
 
-        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", placeholder = "用户名" } })
-        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.UserNameOrEmailOrPhoneNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "用户名" } })
+        @Html.ValidationMessageFor(model => model.UserNameOrEmailOrPhoneNumber, "", new { @class = "text-danger" })
 
-        @Html.EditorFor(model => model.PasswordHash, new { htmlAttributes = new { @class = "form-control", placeholder = "密码",type = "password" } })
-        @Html.ValidationMessageFor(model => model.PasswordHash, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "密码",type = "password" } })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
         <input type="submit" value="登陆" class="btn btn-lg btn-primary btn-block" />
 
+        @Html.ActionLink("注册","Register",null,new { @class="btn btn-lg btn-primary btn-block", style = "margin-top:10px" });
+        @*<input type="button" value="注册" class="btn btn-lg btn-primary btn-block" style="margin-top:10px" />*@
 }

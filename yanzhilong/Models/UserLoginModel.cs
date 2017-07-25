@@ -9,14 +9,13 @@ namespace yanzhilong.Models
 {
     public class UserLoginModel
     {
-        public string Id { get; set; }
 
         [Required] //必填项
-        [DisplayName("用户名")] //显示在Label上的名字
-        public string UserName { get; set; }
+        [DisplayName("用户名邮箱或手机")] //显示在Label上的名字
+        public string UserNameOrEmailOrPhoneNumber { get; set; }
 
         [Required] //必填项
         [DisplayName("密码")] //显示在Label上的名字
-        public string PasswordHash { get; set; }
+        public string Password { get; set; }
     }
 }
