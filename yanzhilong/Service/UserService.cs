@@ -16,8 +16,9 @@ namespace yanzhilong.Service
         private readonly IRepository<User> repository = new MbRepository<User>();
         private readonly SaltedHash saltedHash = new SaltedHash();
 
-        public UserLoginResultEnum ValidateUser(string UserNameOrEmailOrPhoneNumber, string Password)
+        public UserLoginResult ValidateUser(string UserNameOrEmailOrPhoneNumber, string Password)
         {
+            UserLoginResult ulr = new UserLoginResult();
             var user = this.GetEntry(new User { UserName = UserNameOrEmailOrPhoneNumber });
             if (user == null)
                 user = this.GetEntry(new User { Email = UserNameOrEmailOrPhoneNumber });
@@ -25,12 +26,35 @@ namespace yanzhilong.Service
                 user = this.GetEntry(new User { PhoneNumber = UserNameOrEmailOrPhoneNumber });
 
             if (user == null)
-                return UserLoginResultEnum.UserNotExist;
+            {
+                ulr.UserLoginResultEnum = UserLoginResultEnum.UserNotExist;
+                return ulr;
+            }
+                
             if (user.CannotLoginUntilDateUtc.HasValue && user.CannotLoginUntilDateUtc.Value > DateTime.Now)
-                return UserLoginResultEnum.LockedOut;
+            {
+                ulr.UserLoginResultEnum = UserLoginResultEnum.LockedOut;
+                return ulr;
+            }
 
             if (!PasswordsMatch(user, Password))
             {
+                if (user.LastFailedLoginDateUtc != null)
+                {
+                    //判断最后一次错误时间和现在的间隔
+                    TimeSpan ts = DateTime.Now - user.LastFailedLoginDateUtc.Value;
+                    if (ts.TotalSeconds > 5 * 60)
+                    {
+                        //重置计数器
+                        user.FailedLoginAttempts = 1;
+                        user.LastFailedLoginDateUtc = DateTime.Now;
+                        this.UpdateEntry(user);
+                        ulr.TryCount = 5 - user.FailedLoginAttempts;
+                        ulr.UserLoginResultEnum = UserLoginResultEnum.WrongPassword;
+                        return ulr;
+                    }
+                }
+
                 //密码错误，最多重试5次,锁定时间五分钟
                 user.FailedLoginAttempts++;
                 //if (_customerSettings.FailedPasswordAllowedAttempts > 0 &&
@@ -39,21 +63,31 @@ namespace yanzhilong.Service
                 {
                     //锁定
                     user.CannotLoginUntilDateUtc = DateTime.Now.AddMinutes(5);
+                    user.LastFailedLoginDateUtc = DateTime.Now;
                     //重置计数器
                     user.FailedLoginAttempts = 0;
+                    this.UpdateEntry(user);
+                    ulr.UserLoginResultEnum = UserLoginResultEnum.LockedOut;
+                    return ulr;
                 }
-                this.UpdateEntry(user);
 
-                return UserLoginResultEnum.WrongPassword;
+                user.CannotLoginUntilDateUtc = null;
+                user.LastFailedLoginDateUtc = DateTime.Now;
+                this.UpdateEntry(user);
+                ulr.TryCount = 5 - user.FailedLoginAttempts;
+                ulr.UserLoginResultEnum = UserLoginResultEnum.WrongPassword;
+                return ulr;
             }
 
             //更新登陆信息
             user.FailedLoginAttempts = 0;
+            user.LastFailedLoginDateUtc = null;
             user.CannotLoginUntilDateUtc = null;
             user.LastLoginDateUtc = DateTime.Now;
             this.UpdateEntry(user);
 
-            return UserLoginResultEnum.Successful;
+            ulr.UserLoginResultEnum = UserLoginResultEnum.Successful;
+            return ulr;
         }
         
         /// <summary>
@@ -95,8 +129,9 @@ namespace yanzhilong.Service
                 }
             }
 
+            user.Id = Guid.NewGuid().ToString();
             user.CreateDate = DateTime.Now;
-            
+            user.LastLoginDateUtc = DateTime.Now;
             //保存历史密码暂不实现
             //var customerPassword = new CustomerPassword
             //{
@@ -127,6 +162,80 @@ namespace yanzhilong.Service
             return result;
         }
 
+        /// <summary>
+        /// 更新用户信息
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public UseUpdateResult UpdateUserInfo(User user)
+        {
+
+            User mUser = this.GetEntry(new User { Id = user.Id });
+            User mUserName = this.GetEntry(new User { UserName = user.UserName });
+            User mUserEmail = this.GetEntry(new User { Email = user.Email });
+            User mUserPhoneNumber = this.GetEntry(new User { PhoneNumber = user.PhoneNumber });
+
+            var result = new UseUpdateResult();
+
+            if (!string.IsNullOrEmpty(user.UserName) && !mUser.Id.Equals(mUserName.Id))
+            {
+                result.AddError("用户名已经被占用");
+            }
+
+            if (!string.IsNullOrEmpty(user.Email) && !mUser.Id.Equals(mUserEmail.Id))
+            {
+                result.AddError("邮箱已经被占用");
+            }
+
+            if (!string.IsNullOrEmpty(user.PhoneNumber) && !mUser.Id.Equals(mUserPhoneNumber.Id))
+            {
+                result.AddError("手机已经被占用");
+            }
+
+            if(string.IsNullOrEmpty(user.UserName) && string.IsNullOrEmpty(user.Email) && string.IsNullOrEmpty(user.PhoneNumber))
+            {
+                result.AddError("邮箱和手机必须保留一项");
+            }
+
+            if (!result.Success)
+            {
+                return result;
+            }
+
+            this.UpdateEntry(user);
+            return result;
+        }
+
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public UseModifyPasswordResult ModifyPassword(string UserId, string PasswordOld, string PasswordNew)
+        {
+            User user = this.GetEntry(new User { Id = UserId});
+            var result = new UseModifyPasswordResult();
+
+            string salt;
+            string hash;
+
+            if (!PasswordsMatch(user, PasswordOld))
+            {
+                result.AddError("旧密码不正确");
+            }
+            else
+            {
+               
+                saltedHash.GetHashAndSaltString(PasswordNew, out hash, out salt);
+                user.PasswordHash = hash;
+                user.Salt = salt;
+                this.UpdateEntry(user);
+            }
+            return result;
+        }
+
+        
         /// <summary>
         /// 密码验证
         /// </summary>

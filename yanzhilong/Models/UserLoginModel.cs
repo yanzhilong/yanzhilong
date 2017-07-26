@@ -16,6 +16,8 @@ namespace yanzhilong.Models
 
         [Required] //必填项
         [DisplayName("密码")] //显示在Label上的名字
+        [DataType(DataType.Password)]
+        [StringLength(100, ErrorMessage = "密码长度不能小于6位", MinimumLength = 6)]
         public string Password { get; set; }
     }
 }

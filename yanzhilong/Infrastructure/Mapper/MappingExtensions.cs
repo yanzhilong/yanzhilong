@@ -234,5 +234,18 @@ namespace yanzhilong.Infrastructure.Mapper
 
         #endregion
 
+        #region User
+
+        public static UserModel ToModel(this User entity)
+        {
+            return entity.MapTo<User, UserModel>();
+        }
+
+        public static User ToEntity(this UserModel model)
+        {
+            return model.MapTo<UserModel, User>();
+        }
+
+        #endregion
     }
 }

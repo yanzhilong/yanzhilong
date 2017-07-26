@@ -82,6 +82,11 @@ namespace yanzhilong.Infrastructure.Mapper
 
             cfg.CreateMap<TbPropertyMappingModel, TbPropertyMapping>();
 
+            //User
+            cfg.CreateMap<User, UserModel>();
+
+            cfg.CreateMap<UserModel, User>();
+
         };
 
         public static void Init()

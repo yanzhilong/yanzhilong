@@ -87,6 +87,22 @@ desired effect
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
+
+                <div class="navbar-custom-menu" style="margin-right:50px">
+                    <ul class="nav navbar-nav">
+                        <li class="account-info">
+                            严志龙
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Logout", "Home", new {area = "admin"}, null)">
+                                注销
+                            </a>
+                        </li>
+
+                        
+                    </ul>
+                </div>
+
                 <!-- Navbar Right Menu -->
                 <!-- 右侧菜单，这里先屏蔽 -->
                 <div class="navbar-custom-menu" style="display:none">

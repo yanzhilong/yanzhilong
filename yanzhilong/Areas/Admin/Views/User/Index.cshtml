@@ -1,0 +1,99 @@
+﻿@model UserModel
+@{
+    ViewBag.Title = "个人中心";
+    ViewBag.HeaderTitle = "个人中心";
+    ViewBag.ActiveMenuItemSystemName = "UserInfo";
+}
+
+@section Head{
+    <style type=text/css>
+        .form-control-text {
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+        }
+
+    </style>
+}
+
+@section HeadRight{
+    
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">基本信息</h3>
+    </div>
+    <div class="content">
+        @using (Html.BeginForm("Edit","User"))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        @Html.ValidationSummary(true, "请求参数不正确", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        <span class="form-control-text">@Model.UserName</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.DisplayName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", rows = 8 } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", rows = 8 } })
+                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        <span class="form-control-text">@Convert.ToDateTime(Model.CreateDate).ToString("yyyy-MM-dd HH:mm:ss")</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastLoginDateUtc, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        <span class="form-control-text">@Convert.ToDateTime(Model.LastLoginDateUtc).ToString("yyyy-MM-dd HH:mm:ss")</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-2">
+                        <input type="submit" value="保存" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

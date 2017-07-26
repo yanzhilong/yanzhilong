@@ -23,7 +23,13 @@ namespace yanzhilong.Models
 
         [Required] //必填项
         [DisplayName("密码")] //显示在Label上的名字
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [DisplayName("确认密码")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "密码必须一致")]
+        [DataType(DataType.Password)]
+        public string RepPassword { get; set; }
 
         /// <summary>
         /// 注册类型

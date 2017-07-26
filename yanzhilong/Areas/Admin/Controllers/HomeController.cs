@@ -34,8 +34,8 @@ namespace yanzhilong.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserLoginResultEnum userLoginResultEnum = userCRUD.ValidateUser(ulm.UserNameOrEmailOrPhoneNumber, ulm.Password);
-                if (userLoginResultEnum == UserLoginResultEnum.Successful)
+                UserLoginResult userLoginResult = userCRUD.ValidateUser(ulm.UserNameOrEmailOrPhoneNumber, ulm.Password);
+                if (userLoginResult.UserLoginResultEnum == UserLoginResultEnum.Successful)
                 {
                     var mUser = userCRUD.GetEntry(new User { UserName = ulm.UserNameOrEmailOrPhoneNumber });
                     if(mUser == null)
@@ -51,19 +51,40 @@ namespace yanzhilong.Areas.Admin.Controllers
                     //string userID = HttpContext.Session["UserID"] as string;
                     return RedirectToAction("Index");
                 }
+                else
+                {
+                    switch (userLoginResult.UserLoginResultEnum)
+                    {
+                        case UserLoginResultEnum.LockedOut:
+                            ModelState.AddModelError("","密码错误次数上限，锁定状态，等待5分钟后再试");
+                            break;
+                        case UserLoginResultEnum.UserNotExist:
+                            ModelState.AddModelError("", "用户不存在");
+                            break;
+                        case UserLoginResultEnum.WrongPassword:
+                            ModelState.AddModelError("", "密码错误");
+                            ModelState.AddModelError("", string.Format("最多可以尝试{0}次", userLoginResult.TryCount));
+                            break;
+                    }
+                }
             }
-            return View("Login");
+            return View("Login", ulm);
         }
 
         public ActionResult Register()
         {
             UserRegisterModel urm = new UserRegisterModel();
-            urm.RegisterTypeItems = new List<SelectListItem>();
-            urm.RegisterTypeItems.Add(new SelectListItem { Value = (int)UserRegisterTypeEnum.UserName + "", Text = "用户名注册"});
-            urm.RegisterTypeItems.Add(new SelectListItem { Value = (int)UserRegisterTypeEnum.Email + "", Text = "邮箱注册" });
-            urm.RegisterTypeItems.Add(new SelectListItem { Value = (int)UserRegisterTypeEnum.PhoneNumber + "", Text = "手机注册" });
-
+            urm.RegisterTypeItems = RegisterTypeItems();
             return View(urm);
+        }
+
+        public List<SelectListItem> RegisterTypeItems()
+        {
+            List<SelectListItem> RegisterTypeItems = new List<SelectListItem>();
+            RegisterTypeItems.Add(new SelectListItem { Value = (int)UserRegisterTypeEnum.UserName + "", Text = "用户名注册" });
+            RegisterTypeItems.Add(new SelectListItem { Value = (int)UserRegisterTypeEnum.Email + "", Text = "邮箱注册" });
+            RegisterTypeItems.Add(new SelectListItem { Value = (int)UserRegisterTypeEnum.PhoneNumber + "", Text = "手机注册" });
+            return RegisterTypeItems;
         }
 
         [HttpPost]
@@ -112,13 +133,29 @@ namespace yanzhilong.Areas.Admin.Controllers
                     {
                         ModelState.AddModelError("", err);
                     }
+                    urm.RegisterTypeItems = RegisterTypeItems();
+                    return View("Register", urm);
                 }
-                return View("Index");
             }
             else
             {
-                return View("Register");
+                urm.RegisterTypeItems = RegisterTypeItems();
+                return View("Register", urm);
             }
+        }
+        
+        public ActionResult Logout()
+        {
+            //保存session
+            HttpContext.Session.Remove("UserID");
+            return RedirectToAction("Login");
+        }
+
+        public ActionResult UserName()
+        {
+            //保存session
+            HttpContext.Session.Remove("UserID");
+            return RedirectToAction("Login");
         }
     }
 }

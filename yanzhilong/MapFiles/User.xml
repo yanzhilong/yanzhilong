@@ -23,6 +23,8 @@
       <result property="FailedLoginAttempts" column="FailedLoginAttempts" dbType="int" type="int" />
       <result property="LastLoginDateUtc" column="LastLoginDateUtc" dbType="datetime" type="DateTime" />
       <result property="CannotLoginUntilDateUtc" column="CannotLoginUntilDateUtc" dbType="datetime" type="DateTime" />
+      <result property="LastFailedLoginDateUtc" column="LastFailedLoginDateUtc" dbType="datetime" type="DateTime" />
+
       
     </resultMap>
 
@@ -38,9 +40,9 @@
     <insert id="InsertUser" parameterClass="User" >
       <![CDATA[  
       insert into User  
-      (Id,UserName,Email,PhoneNumber,PasswordHash,Salt,DisplayName,CreateDate,FailedLoginAttempts,LastLoginDateUtc,CannotLoginUntilDateUtc)  
+      (Id,UserName,Email,PhoneNumber,PasswordHash,Salt,DisplayName,CreateDate,FailedLoginAttempts,LastLoginDateUtc,CannotLoginUntilDateUtc,LastFailedLoginDateUtc)  
       values  
-      (#Id#,#UserName#,#Email#,#PhoneNumber#,#PasswordHash#,#Salt#,#DisplayName#,#CreateDate#,#FailedLoginAttempts#,#LastLoginDateUtc#,#CannotLoginUntilDateUtc#)
+      (#Id#,#UserName#,#Email#,#PhoneNumber#,#PasswordHash#,#Salt#,#DisplayName#,#CreateDate#,#FailedLoginAttempts#,#LastLoginDateUtc#,#CannotLoginUntilDateUtc#,#LastFailedLoginDateUtc#)
       ]]>
     </insert>
     
@@ -66,7 +68,8 @@
           CreateDate=#CreateDate#,
           FailedLoginAttempts=#FailedLoginAttempts#,
           LastLoginDateUtc=#LastLoginDateUtc#,
-          CannotLoginUntilDateUtc=#CannotLoginUntilDateUtc#
+          CannotLoginUntilDateUtc=#CannotLoginUntilDateUtc#,
+          LastFailedLoginDateUtc=#LastFailedLoginDateUtc#
           WHERE  
           Id=#Id#  
           ]]>
@@ -86,6 +89,7 @@
           ,FailedLoginAttempts
           ,LastLoginDateUtc
           ,CannotLoginUntilDateUtc
+          ,LastFailedLoginDateUtc
           FROM User
           ]]>
     </select>
