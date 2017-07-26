@@ -87,10 +87,19 @@
                     { field: "Description", title: "描述"},
                     { field: "Url", title: "网址" },
                     { field: "TypeStr", title: "类型", width: "80px"},
-                    { command: ["edit", "destroy"], title: "&nbsp;", width: "350px" }
+                    { command: ["edit", "destroy", { name: "详情", click: showDetails }], title: "&nbsp;", width: "350px" }
                 ],
                 editable: "popup"
             });
         });
+        //显示详情
+        function showDetails(e) {
+            e.preventDefault();
+            var tr = $(e.target).closest("tr"); // get the current table row (tr)
+            var data = this.dataItem(tr);
+            var Id = data.Id;
+            //alert("Details for: " + data.Name);
+            window.location.href = "@Url.Action("Details", "File")" + "/" + Id;
+        }
     </script>
 </div>

@@ -1,0 +1,81 @@
+﻿@model UploadFileModel
+@{
+    ViewBag.Title = "文件详情";
+    ViewBag.HeaderTitle = "文件详情";
+    ViewBag.ActiveMenuItemSystemName = "UploadFile";
+}
+
+@section Head{
+    <style type=text/css>
+    .form-control-text {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+    }
+</style>
+}
+
+@section HeadRight{
+    
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">文件信息</h3>
+    </div>
+    <div class="content">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        @Html.ValidationSummary(true, "请求参数不正确", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SaveName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        <span class="form-control-text">@Model.SaveName</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UploadName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        <span class="form-control-text">@Model.UploadName</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        <span class="form-control-text">@Model.Url</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TypeStr, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        <span class="form-control-text">@Model.TypeStr</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-2">
+                        @Html.ActionLink("下载", "Download", "File", new { Id = Model.Id }, new { target = "_blank ", @class="btn btn-default" });
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>

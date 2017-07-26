@@ -8904,6 +8904,7 @@
     <Content Include="Areas\Admin\Views\User\ModifyPasswordSuccess.cshtml" />
     <Content Include="Areas\Admin\Views\User\ModifyUserInfoSuccess.cshtml" />
     <Content Include="Areas\Admin\Views\File\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\File\Details.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>

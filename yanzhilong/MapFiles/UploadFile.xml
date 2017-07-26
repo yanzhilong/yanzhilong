@@ -78,6 +78,11 @@
           FROM UploadFile
           ]]>
       <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="Id">
+          <![CDATA[  
+           Id = #Id#
+            ]]>
+        </isNotEmpty>
         <isNotEmpty prepend="AND" property="SaveName">
           <![CDATA[  
            SaveName = #SaveName#

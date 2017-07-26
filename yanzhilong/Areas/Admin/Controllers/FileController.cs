@@ -46,6 +46,22 @@ namespace yanzhilong.Areas.Admin.Controllers
             return Json(new { success = 0, message = "上传失败" });
         }
 
+        public ActionResult Details(string Id)
+        {
+            if (string.IsNullOrEmpty(Id))
+            {
+                return HttpNotFound();
+            }
+            UploadFile uf = fileService.GetEntry(new UploadFile { Id = Id, Type = -1 });
+            return View(uf.ToModel());
+        }
+        
+        public FileResult Download(string Id)
+        {
+            UploadFile uf = fileService.GetEntry(new UploadFile { Id = Id, Type = -1 });
+            return File(filePersistenceService.MakeFilePath(uf), "multipart/form-data", uf.SaveName);
+        }
+
         [Authentication]
         public ActionResult Index()
         {

@@ -183,6 +183,16 @@ namespace yanzhilong.Service
         }
 
         /// <summary>
+        /// 得到文件路径
+        /// </summary>
+        /// <param name="uploadFile"></param>
+        public string MakeFilePath(UploadFile uploadFile)
+        {
+            string filePath = HttpContext.Current.Request.MapPath(uploadFile.Url);
+            return filePath;
+        }
+
+        /// <summary>
         /// 得到保存的路径
         /// </summary>
         /// <param name="fileEnum"></param>

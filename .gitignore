@@ -272,5 +272,5 @@ __pycache__/
 # tools/
 
 # 
-yanzhilong/img/*
 yanzhilong/file/*
+yanzhilong/file/
