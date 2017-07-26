@@ -11,47 +11,86 @@ using yanzhilong.Repository;
 
 namespace yanzhilong.Service
 {
-    public class UploadFileService
+    public class UploadFileService : IBaseService<UploadFile>
     {
-        IRepository<UploadFile> repository = new MbRepository<UploadFile>();
+        IRepository<UploadFile> _Repository = new MbRepository<UploadFile>();
         
-        public void Create(UploadFile file)
+        
+        public void AddEntry(UploadFile entry)
         {
-            repository.Insert("InsertUploadFile", file);
-        }
-         
-        public UploadFile SelectUploadFileByCondition(UploadFile file)
-        {
-            UploadFile result = repository.GetByCondition("SelectUploadFileByCondition", file);
-            return result;
+            _Repository.Insert("InsertUploadFile", entry);
         }
 
-        public IList<UploadFile> GetUploadFiles()
+        public void AddEntrys(IList<UploadFile> entrys)
         {
-            IList<UploadFile> files = repository.GetList("SelectUploadFileByCondition", null);
-            return files;
-        }
- 
-        public IList<UploadFile> GetArticles(int pageCount)
-        {
-            IList<UploadFile> files = repository.GetList("SelectUploadFileByCondition", null, pageCount);
-            return files;
+            _Repository.Insert("InsertUploadFile", entrys);
         }
 
-        public int GetCount()
+        public void DeleteEntry(UploadFile entry)
         {
-            int count = repository.GetObject<int>("SelectUploadFileCount", null);
-            return count;            
+            _Repository.Delete("DeleteUploadFile", entry);
         }
 
-        public void Update(UploadFile file)
+        public void DeleteEntrys(IList<UploadFile> entrys)
         {
-            repository.Update("UpdateUploadFile", file);
+            _Repository.Delete("DeleteUploadFile", entrys);
         }
 
-        public void Delete(string Id)
+        public void UpdateEntry(UploadFile entry)
         {
-            repository.Delete("DeleteFile", new Article { Id = Id});
+            _Repository.Update("UpdateUploadFile", entry);
+        }
+
+        public void UpdateEntrys(IList<UploadFile> entrys)
+        {
+            _Repository.Update("UpdateUploadFile", entrys);
+        }
+
+        public IEnumerable<UploadFile> GetEntrys(UploadFile entry)
+        {
+            IList<UploadFile> uploadFiles = _Repository.GetList("SelectUploadFileByCondition", entry);
+            return uploadFiles;
+        }
+
+        public IEnumerable<UploadFile> GetEntrys(UploadFile entry, int page, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<UploadFile> GetEntrys(object parameterObject, int page, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<UploadFile> GetEntrys(int skip, int take, UploadFile entry)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<UploadFile> GetEntrys(int skip, int take, object parameterObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UploadFile GetEntry(UploadFile entry)
+        {
+            UploadFile uploadFile = _Repository.GetByCondition("SelectUploadFileByCondition", entry);
+            return uploadFile;
+        }
+
+        public UploadFile GetEntry(object parameterObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCount(UploadFile entry)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCount(object parameterObject)
+        {
+            throw new NotImplementedException();
         }
     }
 }

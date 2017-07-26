@@ -247,5 +247,19 @@ namespace yanzhilong.Infrastructure.Mapper
         }
 
         #endregion
+
+        #region UploadFile
+
+        public static UploadFileModel ToModel(this UploadFile entity)
+        {
+            return entity.MapTo<UploadFile, UploadFileModel>();
+        }
+
+        public static UploadFile ToEntity(this UploadFileModel model)
+        {
+            return model.MapTo<UploadFileModel, UploadFile>();
+        }
+
+        #endregion
     }
 }

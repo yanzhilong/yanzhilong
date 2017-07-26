@@ -87,6 +87,11 @@ namespace yanzhilong.Infrastructure.Mapper
 
             cfg.CreateMap<UserModel, User>();
 
+            //UploadFile
+            cfg.CreateMap<UploadFile, UploadFileModel>();
+
+            cfg.CreateMap<UploadFileModel, UploadFile>();
+
         };
 
         public static void Init()

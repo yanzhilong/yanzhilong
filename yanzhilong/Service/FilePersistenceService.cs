@@ -43,7 +43,7 @@ namespace yanzhilong.Service
                 uploadFile.UploadName = UploadName;
                 uploadFile.Url = Url;
                 uploadFile.Type = (int)fileEnum;
-                fileService.Create(uploadFile);
+                fileService.AddEntry(uploadFile);
                 return uploadFile;
             }
             catch (Exception e)
@@ -158,12 +158,27 @@ namespace yanzhilong.Service
                 uploadFile.UploadName = UploadName;
                 uploadFile.Url = Url;
                 uploadFile.Type = (int)FileEnum.TEMP;
-                fileService.Create(uploadFile);
+                fileService.AddEntry(uploadFile);
                 return uploadFile;
             }
             catch (Exception e)
             {
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="uploadFile"></param>
+        public void DeleteFile(UploadFile uploadFile)
+        {
+            string filePath = HttpContext.Current.Request.MapPath(uploadFile.Url);
+            FileInfo file = new FileInfo(filePath);//指定文件路径
+            if (file.Exists)//判断文件是否存在
+            {
+                file.Attributes = FileAttributes.Normal;//将文件属性设置为普通,比方说只读文件设置为普通
+                file.Delete();//删除文件
             }
         }
 
@@ -178,6 +193,8 @@ namespace yanzhilong.Service
             {
                 case FileEnum.IMG:
                     return "/file/img/";
+                case FileEnum.RESOURCE:
+                    return "/file/resource/";
                 case FileEnum.TEMP:
                     return "/file/temp/";
             }
