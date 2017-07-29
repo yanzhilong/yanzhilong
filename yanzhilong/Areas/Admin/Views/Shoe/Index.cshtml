@@ -144,16 +144,14 @@
                         template: "<div class='customer-photo'" +
                         "style='background-image: url(#:data.MainImage#);'></div>"
                     },
-                    {
-                        field: "Title", title: "标题", width: "350px"
-                    },
+                    {field: "Title", title: "标题"},
                     { field: "Url", title: "网址", editable: false, template: "<a href=\"#:data.Url#\" target=\"__blank\">#:data.Url#</a>"},
-                    { field: "Price", title: "价格", width: "80px" },
-                    { field: "Popularity", title: "人气", width: "80px" },
-                    { field: "UpdateStr", title: "更新", width: "180px" },
-                    { field: "Sort", title: "更新排序", width: "80px" },
-                    { field: "Number", title: "商家编码", width: "80px" },
-                    { field: "Cid", title: "类目", width: "80px", editor: CidSelect, template: "#=CidStr#" },
+                    { field: "Price", title: "价格" },
+                    { field: "Popularity", title: "人气" },
+                    { field: "UpdateStr", title: "更新" },
+                    { field: "Sort", title: "更新排序" },
+                    { field: "Number", title: "商家编码" },
+                    { field: "Cid", title: "类目", editor: CidSelect, template: "#=CidStr#" },
                     { command: ["edit","destroy", { name: "生成宝贝", click: makeTbItem }], title: "&nbsp;", width: "280px" }],
                 editable: "popup"
             });
