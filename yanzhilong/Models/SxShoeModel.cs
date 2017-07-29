@@ -110,5 +110,18 @@ namespace yanzhilong.Models
         /// 类目选择
         /// </summary>
         public List<SelectListItem> CidItems { get; set; }
+
+        /// <summary>
+        /// 标题
+        /// </summary>
+        [DisplayName("标题")]
+        public string FilterTitle { get; set; }
+
+        /// <summary>
+        /// 商家编号
+        /// </summary>
+        [DisplayName("商家编号")]
+        public string FilterNumber { get; set; }
+
     }
 }

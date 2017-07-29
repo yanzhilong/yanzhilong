@@ -36,10 +36,23 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult List()
         {
-            var categorys = shoeCRUD.GetEntrys(new SxShoe {Price = -1, Popularity = -1, Sort = -1 });
+            var models = JsonConvert.DeserializeObject<IEnumerable<SxShoeModel>>(Request.Params["models"]);
+            SxShoeModel sxShoeModel = models.ToList()[0];
+
+            var categorys = shoeCRUD.GetEntrys(new SxShoe { Price = -1, Popularity = -1, Sort = -1 });
             //IEnumerable<SxShoeModel> categoryModels = categorys.Select(x => x.ToModel());
 
-            List<SxMainImage> mainImagesAll = sxMainImageServiceMB.GetEntrys(new SxMainImage { sxShoe = new SxShoe { },Sort = -1 }).ToList<SxMainImage>();
+            if (sxShoeModel != null && !string.IsNullOrEmpty(sxShoeModel.FilterTitle))
+            {
+                categorys = categorys.Where(s => s.Title.Contains(sxShoeModel.FilterTitle));
+            }
+
+            if (sxShoeModel != null && !string.IsNullOrEmpty(sxShoeModel.FilterNumber))
+            {
+                categorys = categorys.Where(s => s.Number.Equals(sxShoeModel.FilterNumber));
+            }
+
+            List<SxMainImage> mainImagesAll = sxMainImageServiceMB.GetEntrys(new SxMainImage { sxShoe = new SxShoe { }, Sort = -1 }).ToList<SxMainImage>();
 
             IEnumerable<SxShoeModel> categoryModels = categorys.Select(x => {
 
@@ -49,7 +62,7 @@ namespace yanzhilong.Areas.Admin.Controllers
                 model.MainImage = smi != null ? smi.Url : "";
                 return model;
             });
-            
+
             return Json(categoryModels);
         }
 
@@ -68,7 +81,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult MakeTbItem(string Id)
         {
-            SxShoe sxShoe = shoeCRUD.GetEntry(new SxShoe { Id = Id,Popularity = -1,Price = -1,Sort = -1});
+            SxShoe sxShoe = shoeCRUD.GetEntry(new SxShoe { Id = Id, Popularity = -1, Price = -1, Sort = -1 });
             TbItem tbItem = makeTbItemService.makeTbItem(sxShoe);
             tbItem.Id = Guid.NewGuid().ToString();
             tbItemService.AddEntry(tbItem);
@@ -79,7 +92,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         public ActionResult MakeTbItems(List<SxShoeModel> sxShoeModels)
         {
             var models = JsonConvert.DeserializeObject<IEnumerable<SxShoeModel>>(Request.Params["sxShoeModels"]);
-            foreach(SxShoeModel sxShoeModel in models)
+            foreach (SxShoeModel sxShoeModel in models)
             {
                 SxShoe sxShoe = shoeCRUD.GetEntry(new SxShoe { Id = sxShoeModel.Id, Popularity = -1, Price = -1, Sort = -1 });
                 TbItem tbItem = makeTbItemService.makeTbItem(sxShoe);
@@ -115,7 +128,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             {
                 List<SxShoe> categorys = models.Select(e => e.ToEntity()).ToList(); ;
                 //删除size
-                List<SxSsize> SxSsizes = sxSsizeServiceMB.GetEntrys(new SxSsize { sxShoe = new SxShoe { Id = categorys[0].Id },Num = -1 }).ToList();
+                List<SxSsize> SxSsizes = sxSsizeServiceMB.GetEntrys(new SxSsize { sxShoe = new SxShoe { Id = categorys[0].Id }, Num = -1 }).ToList();
                 sxSsizeServiceMB.DeleteEntrys(SxSsizes);
                 //删除image
                 List<SxImage> SxImage = sxImageServiceMB.GetEntrys(new SxImage { sxShoe = new SxShoe { Id = categorys[0].Id }, Sort = -1 }).ToList();

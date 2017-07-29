@@ -13,13 +13,49 @@
 
 @section Head{
     <style type=text/css>
-
     </style>
 }
 
 @section HeadRight{
-<button id="maketbshoe" data-toggle="modal" data-target="#makeItems" class="btn bg-blue">全部生成宝贝</button>
+    <button id="maketbshoe" data-toggle="modal" data-target="#makeItems" class="btn bg-blue">全部生成宝贝</button>
 }
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">过滤筛选</h3>
+    </div>
+    <div class="content">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        @Html.ValidationSummary(true, "请求参数不正确", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FilterTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.FilterNumber, new { htmlAttributes = new { @class = "form-control", id = "FilterTitle" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FilterNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.FilterNumber, new { htmlAttributes = new { @class = "form-control", id = "FilterNumber" } })
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
 
 <div class="panel panel-default">
     <div id="grid"></div>
@@ -55,6 +91,11 @@
                     },
                     parameterMap: function (options, operation) {
 
+                        //传过滤的models到后台
+                        if (operation == "read") {
+                            return { models: kendo.stringify(FilterModels()) };
+                        }
+
                         if (operation !== "read" && options.models) {
                             return {models: kendo.stringify(options.models)};
                         }
@@ -73,7 +114,8 @@
                             Price: { editable: false,validation: { required: true }},
                             Popularity: { editable: false,validation: { required: true }},
                             UpdateStr: { editable: false,validation: { required: true }},
-                            Sort: { editable: false,validation: { required: true } },
+                            Sort: { editable: false, validation: { required: true } },
+                            Number: { editable: false, validation: { required: true } },
                             Cid: { validation: { required: true } }
                         }
                     }
@@ -102,12 +144,15 @@
                         template: "<div class='customer-photo'" +
                         "style='background-image: url(#:data.MainImage#);'></div>"
                     },
-                    { field: "Title", title: "标题", width: "350px" },
+                    {
+                        field: "Title", title: "标题", width: "350px"
+                    },
                     { field: "Url", title: "网址", editable: false, template: "<a href=\"#:data.Url#\" target=\"__blank\">#:data.Url#</a>"},
                     { field: "Price", title: "价格", width: "80px" },
                     { field: "Popularity", title: "人气", width: "80px" },
                     { field: "UpdateStr", title: "更新", width: "180px" },
                     { field: "Sort", title: "更新排序", width: "80px" },
+                    { field: "Number", title: "商家编码", width: "80px" },
                     { field: "Cid", title: "类目", width: "80px", editor: CidSelect, template: "#=CidStr#" },
                     { command: ["edit","destroy", { name: "生成宝贝", click: makeTbItem }], title: "&nbsp;", width: "280px" }],
                 editable: "popup"
@@ -122,7 +167,7 @@
                 var data = query.filter(filters).data;//筛选后的数据
                 var displayedData = $("#grid").data().kendoGrid.dataSource.view()
                 var displayedDataAsJSON = JSON.stringify(displayedData);
-                            
+
                 var mycars = new Array()
                 for (var i = 0; i < allData.length; i++) {
                     mycars.push(allData[i]);
@@ -151,9 +196,30 @@
                     error: function(xhr, ajaxOptions, thrownError) {
                         alert(thrownError);
                     }
-            });
+                });
 
             });
+
+            //得到过滤的Models
+            function FilterModels() {
+                var array = new Array()
+                filter = new Object();
+                filter.FilterTitle = $("#FilterTitle").val();
+                filter.FilterNumber = $("#FilterNumber").val();
+                array[0] = filter;
+                filterModels = array;
+                return filterModels;
+            }
+
+            //设置筛选事件
+            $('#FilterTitle').bind('input propertychange', function () { Filter()});
+            $('#FilterNumber').bind('input propertychange', function () { Filter()});
+
+            function Filter() {
+                $('#grid').data('kendoGrid').dataSource.read();
+                $('#grid').data('kendoGrid').refresh();
+            }
+
         });
 
         //生成宝贝
@@ -201,7 +267,6 @@
         box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
         margin-left: 5px;
     }
-
 </style>
 
 <!-- 全部生成宝贝 -->
