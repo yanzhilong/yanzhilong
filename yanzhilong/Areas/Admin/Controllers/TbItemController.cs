@@ -24,14 +24,37 @@ namespace yanzhilong.Areas.Admin.Controllers
         [Authentication]
         public ActionResult Index()
         {
-            return View();
+            TbItemModel tim = new TbItemModel();
+            return View(tim);
         }
 
         [HttpPost]
         [JsonCallback]
         public ActionResult List()
         {
-            var entrys = tbItemService.GetEntrys(new TbItem() { datatype = -1 });
+            var models = JsonConvert.DeserializeObject<IEnumerable<TbItemModel>>(Request.Params["models"]);
+            TbItemModel tbItemModel = models.ToList()[0];
+
+            var entrys = tbItemService.GetEntrys(new TbItem() { datatype = 3,sxurl = tbItemModel.sxurl, tburl = tbItemModel.tburl });
+
+            //if (tbItemModel != null && !string.IsNullOrEmpty(tbItemModel.sxurl))
+            //{
+            //    entrys = entrys.Where(s => !string.IsNullOrEmpty(s.sxurl) && s.sxurl.Equals(tbItemModel.sxurl));
+            //}
+
+            //if (tbItemModel != null && !string.IsNullOrEmpty(tbItemModel.tburl))
+            //{
+            //    entrys = entrys.Where(s => !string.IsNullOrEmpty(s.tburl) && s.tburl.Equals(tbItemModel.tburl));
+            //}
+
+            if (!string.IsNullOrEmpty(tbItemModel.tburl) && tbItemModel.tburl.Equals("null"))
+            {
+                entrys = tbItemService.GetEntrys(new TbItem() { datatype = 3, sxurl = tbItemModel.sxurl });
+
+                entrys = entrys.Where(s => string.IsNullOrEmpty(s.tburl));
+            }
+
+
             IEnumerable<TbItemModel> entrymodels = entrys.Select(x => x.ToModel());
 
             return Json(entrymodels);
@@ -105,18 +128,23 @@ namespace yanzhilong.Areas.Admin.Controllers
             return Json(models);
         }
 
+        [ValidateInput(false)]
         [JsonCallback]
         public ActionResult ExportCsv()
         {
+            var models = JsonConvert.DeserializeObject<IEnumerable<TbItemModel>>(Request.Params["models"]);
+
             List<TbItem> tbItems = new List<TbItem>();
             TbItem tbItem_en_title = tbItemService.GetEntry(new TbItem() { DataTypeEnum = TbDataTypeEnum.ENGLISHTITLE });
             TbItem tbItem_cn_title = tbItemService.GetEntry(new TbItem() { DataTypeEnum = TbDataTypeEnum.CNTITLE });
             TbItem tbItem_default_value = tbItemService.GetEntry(new TbItem() { DataTypeEnum = TbDataTypeEnum.DEFAULTDATA });
             List<TbItem> tbItem_tbdatas = tbItemService.GetEntrys(new TbItem() { DataTypeEnum = TbDataTypeEnum.TBDATA }).ToList<TbItem>();
 
+            List<TbItem> tbItem_tbs = models.Select(t => t.ToEntity()).ToList();
+
             tbItems.Add(tbItem_en_title);
             tbItems.Add(tbItem_cn_title);
-            tbItems.AddRange(tbItem_tbdatas);
+            tbItems.AddRange(tbItem_tbs);
             UploadFile UploadFile = filePersistenceService.WriteFile(tbItems);
 
             if (UploadFile != null)

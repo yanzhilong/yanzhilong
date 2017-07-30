@@ -43,6 +43,7 @@ namespace yanzhilong.Service
                 title = sxShoe.Title;
             }
             tbItem.title = title;
+            tbItem.sxurl = sxShoe.Url;
             tbItem.price = (sxShoe.Price + AddPrice).ToString();
             tbItem.cid = makeTbItemCid(sxShoe);
             string[] DescAndWireDesc = makeTbItemDescriptionAndWirelessDesc(sxShoe);

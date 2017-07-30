@@ -399,7 +399,18 @@ namespace yanzhilong.Models
        /// </summary>
        [DisplayName("数据类型(英文标题中文标题数据)")]
        public int datatype { get; set; }
-       
+
+        /// <summary>
+        /// 搜鞋url
+        /// </summary>
+        [DisplayName("搜鞋url")]
+        public string sxurl { get; set; }
+
+        /// <summary>
+        /// 淘宝url
+        /// </summary>
+        [DisplayName("淘宝url")]
+        public string tburl { get; set; }
 
     }
 }

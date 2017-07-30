@@ -328,7 +328,17 @@ namespace yanzhilong.Domain
         /// 关联线下服务
         /// </summary>
         public string o2o_bind_service { get; set; }
-       
+
+        /// <summary>
+        /// 搜鞋url
+        /// </summary>
+        public string sxurl { get; set; }
+
+        /// <summary>
+        /// 淘宝url
+        /// </summary>
+        public string tburl { get; set; }
+
         /// <summary>
         /// 数据类型(英文标题中文标题数据)
         /// </summary>

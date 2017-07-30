@@ -17,7 +17,7 @@
 }
 
 @section HeadRight{
-    <button id="maketbshoe" data-toggle="modal" data-target="#makeItems" class="btn bg-blue">全部生成宝贝</button>
+    @*<button id="maketbshoe" data-toggle="modal" data-target="#makeItems" class="btn bg-blue">全部生成宝贝</button>*@
 }
 
 <div class="panel panel-default">
@@ -104,6 +104,7 @@
                 batch: true,
                 pageSize: 20,
                 schema: {
+                    errors: "Errors",//指定错误字段
                     model: {
                         id: "Id",
                         fields: {
@@ -119,6 +120,11 @@
                             Cid: { validation: { required: true } }
                         }
                     }
+                },
+                //指定错误处理方法
+                error: function (e) {
+                    display_kendoui_grid_error(e);//显示错误
+                    this.cancelChanges();//取消修改
                 }
             });
             dataSource.bind("error", dataSource_error);

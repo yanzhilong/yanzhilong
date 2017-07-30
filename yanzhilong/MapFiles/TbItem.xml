@@ -73,6 +73,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
        <result property="add_qualification" column="add_qualification" dbType="VARCHAR" type="string" />
        <result property="o2o_bind_service" column="o2o_bind_service" dbType="VARCHAR" type="string" />
        <result property="datatype" column="datatype" dbType="INT" type="int" />
+      <result property="sxurl" column="sxurl" dbType="VARCHAR" type="string" />
+      <result property="tburl" column="tburl" dbType="VARCHAR" type="string" />
+
     </resultMap>     
   </resultMaps>
 
@@ -144,7 +147,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       qualification,
       add_qualification,
       o2o_bind_service,
-      datatype
+      datatype,
+      sxurl,
+      tburl
       FROM tb_item
       ]]>
     </select>
@@ -541,6 +546,18 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
            datatype = #datatype#
             ]]>
         </isGreaterThan>
+
+        <isNotEmpty prepend="AND" property="sxurl">
+          <![CDATA[  
+           sxurl = #sxurl#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="tburl">
+          <![CDATA[  
+           tburl = #tburl#
+            ]]>
+        </isNotEmpty>
         
       </dynamic>
     </select>
@@ -613,7 +630,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       qualification,
       add_qualification,
       o2o_bind_service,
-      datatype
+      datatype,
+      tburl,
+      sxurl
       )
       VALUES
       (
@@ -681,7 +700,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       #qualification#,
       #add_qualification#,
       #o2o_bind_service#,
-      #datatype#
+      #datatype#,
+      #tburl#,
+      #sxurl#
       )
       ]]>
     </insert>
@@ -753,7 +774,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
       qualification=#qualification#,
       add_qualification=#add_qualification#,
       o2o_bind_service=#o2o_bind_service#,
-      datatype=#datatype#
+      datatype=#datatype#,
+      sxurl=#sxurl#,
+      tburl=#tburl#
       WHERE Id = #Id#
       ]]>
     </update>

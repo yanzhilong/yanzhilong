@@ -8,6 +8,7 @@ using yanzhilong.Models;
 using yanzhilong.Service;
 using yanzhilong.Infrastructure.Mapper;
 using Newtonsoft.Json;
+using yanzhilong.Domain.Kendo;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
@@ -19,10 +20,10 @@ namespace yanzhilong.Areas.Admin.Controllers
         private SxSsizeServiceMB sxSsizeServiceMB = new SxSsizeServiceMB();
         private SxPropertyServiceMB sxPropertyServiceMB = new SxPropertyServiceMB();
         private SxColorServiceMB sxColorServiceMB = new SxColorServiceMB();
+        private TbItemService tbItemService = new TbItemService();
 
 
         private MakeTbItemService makeTbItemService = new MakeTbItemService();
-        private TbItemService tbItemService = new TbItemService();
 
 
         [Authentication]
@@ -82,6 +83,14 @@ namespace yanzhilong.Areas.Admin.Controllers
         public ActionResult MakeTbItem(string Id)
         {
             SxShoe sxShoe = shoeCRUD.GetEntry(new SxShoe { Id = Id, Popularity = -1, Price = -1, Sort = -1 });
+            //判断是否已经生成了
+            TbItem t = tbItemService.GetEntry(new TbItem { datatype = -1, sxurl = sxShoe.Url });
+
+            if(t != null)
+            {
+                return Json(new { success = false, responseText = "已经生成过宝贝" }, JsonRequestBehavior.AllowGet);//设置返回值，并允许get请求
+            }
+
             TbItem tbItem = makeTbItemService.makeTbItem(sxShoe);
             tbItem.Id = Guid.NewGuid().ToString();
             tbItemService.AddEntry(tbItem);

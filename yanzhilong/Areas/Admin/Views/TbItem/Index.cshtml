@@ -1,4 +1,4 @@
-﻿@model TbPropertyCategoryModel
+﻿@model TbItemModel
 
 @{
     ViewBag.Title = "淘宝宝贝";
@@ -14,10 +14,47 @@
 
 @section HeadRight{
 
-<button data-toggle="modal" data-target="#deleteAllItem" class="btn bg-blue">删除全部宝贝</button>
+@*<button data-toggle="modal" data-target="#deleteAllItem" class="btn bg-blue">删除全部宝贝</button>*@
 <button data-toggle="modal" data-target="#myModal" class="btn bg-blue">导出CSV</button>
 
 }
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">过滤筛选</h3>
+    </div>
+    <div class="content">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        @Html.ValidationSummary(true, "请求参数不正确", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.sxurl, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.sxurl, new { htmlAttributes = new { @class = "form-control", id = "sxurl" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.tburl, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.tburl, new { htmlAttributes = new { @class = "form-control", id = "tburl" } })
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
 
 <div class="panel panel-default">
     <div id="grid"></div>
@@ -53,7 +90,13 @@
                     },
                     parameterMap: function (options, operation) {
 
+                        //传过滤的models到后台
+                        if (operation == "read") {
+                            return { models: kendo.stringify(FilterModels()) };
+                        }
+
                         if (operation !== "read" && options.models) {
+                            var models = options.models;
                             return { models: kendo.stringify(options.models) };
                         }
                     }
@@ -129,7 +172,9 @@
                             qualification: { editable: true, type: "string" },
                             add_qualification: { editable: true, type: "string" },
                             o2o_bind_service: { editable: true, type: "string" },
-                            datatype: { editable: true, type: "int" }
+                            datatype: { editable: true, type: "int" },
+                            sxurl: { editable: true, type: "string" },
+                            tburl: { editable: true, type: "string" }
                         }
                     }
                 },
@@ -157,69 +202,71 @@
                 toolbar: ["create"],
                 columns: [
                     { field: "title", title: "宝贝名称" },
-                    { field: "cid", title: "宝贝类目" },
-                    { field: "seller_cids", title: "店铺类目" },
-                    { field: "stuff_status", title: "新旧程度" },
-                    { field: "location_state", title: "省" },
-                    { field: "location_city", title: "城市" },
-                    { field: "item_type", title: "出售方式" },
-                    { field: "price", title: "宝贝价格" },
-                    { field: "auction_increment", title: "加价幅度" },
-                    { field: "num", title: "宝贝数量" },
-                    { field: "valid_thru", title: "有效期" },
-                    { field: "freight_payer", title: "运费承担" },
-                    { field: "post_fee", title: "平邮" },
-                    { field: "ems_fee", title: "EMS" },
-                    { field: "express_fee", title: "快递" },
-                    { field: "has_invoice", title: "发票" },
-                    { field: "has_warranty", title: "保修" },
-                    { field: "approve_status", title: "放入仓库" },
-                    { field: "has_showcase", title: "橱窗推荐" },
-                    { field: "list_time", title: "开始时间" },
-                    { field: "description", title: "宝贝描述" },
-                    { field: "cateProps", title: "宝贝属性" },
-                    { field: "postage_id", title: "邮费模版ID" },
-                    { field: "has_discount", title: "会员打折" },
-                    { field: "modified", title: "修改时间" },
-                    { field: "upload_fail_msg", title: "上传状态" },
-                    { field: "picture_status", title: "图片状态" },
-                    { field: "auction_point", title: "返点比例" },
-                    { field: "picture", title: "新图片" },
-                    { field: "video", title: "视频" },
-                    { field: "skuProps", title: "销售属性组合" },
-                    { field: "inputPids", title: "用户输入ID串" },
-                    { field: "inputValues", title: "用户输入名 - 值对" },
-                    { field: "outer_id", title: "商家编码" },
-                    { field: "propAlias", title: "销售属性别名" },
-                    { field: "auto_fill", title: "代充类型" },
-                    { field: "num_id", title: "数字ID" },
-                    { field: "local_cid", title: "本地ID" },
-                    { field: "navigation_type", title: "宝贝分类" },
-                    { field: "user_name", title: "用户名称" },
-                    { field: "syncStatus", title: "宝贝状态" },
-                    { field: "is_lighting_consigment", title: "闪电发货" },
-                    { field: "is_xinpin", title: "新品" },
-                    { field: "foodparame", title: "食品专项" },
-                    { field: "features", title: "尺码库" },
-                    { field: "buyareatype", title: "采购地" },
-                    { field: "global_stock_type", title: "库存类型" },
-                    { field: "global_stock_country", title: "国家地区" },
-                    { field: "sub_stock_type", title: "库存计数" },
-                    { field: "item_size", title: "物流体积" },
-                    { field: "item_weight", title: "物流重量" },
-                    { field: "sell_promise", title: "退换货承诺" },
-                    { field: "custom_design_flag", title: "定制工具" },
-                    { field: "wireless_desc", title: "无线详情" },
-                    { field: "barcode", title: "商品条形码" },
-                    { field: "sku_barcode", title: "sku 条形码" },
-                    { field: "newprepay", title: "7天退货" },
-                    { field: "subtitle", title: "宝贝卖点" },
-                    { field: "cpv_memo", title: "属性值备注" },
-                    { field: "input_custom_cpv", title: "自定义属性值" },
-                    { field: "qualification", title: "商品资质" },
-                    { field: "add_qualification", title: "增加商品资质" },
-                    { field: "o2o_bind_service", title: "关联线下服务" },
+                    //{ field: "cid", title: "宝贝类目" },
+                    //{ field: "seller_cids", title: "店铺类目" },
+                    //{ field: "stuff_status", title: "新旧程度" },
+                    //{ field: "location_state", title: "省" },
+                    //{ field: "location_city", title: "城市" },
+                    //{ field: "item_type", title: "出售方式" },
+                    //{ field: "price", title: "宝贝价格" },
+                    //{ field: "auction_increment", title: "加价幅度" },
+                    //{ field: "num", title: "宝贝数量" },
+                    //{ field: "valid_thru", title: "有效期" },
+                    //{ field: "freight_payer", title: "运费承担" },
+                    //{ field: "post_fee", title: "平邮" },
+                    //{ field: "ems_fee", title: "EMS" },
+                    //{ field: "express_fee", title: "快递" },
+                    //{ field: "has_invoice", title: "发票" },
+                    //{ field: "has_warranty", title: "保修" },
+                    //{ field: "approve_status", title: "放入仓库" },
+                    //{ field: "has_showcase", title: "橱窗推荐" },
+                    //{ field: "list_time", title: "开始时间" },
+                    //{ field: "description", title: "宝贝描述" },
+                    //{ field: "cateProps", title: "宝贝属性" },
+                    //{ field: "postage_id", title: "邮费模版ID" },
+                    //{ field: "has_discount", title: "会员打折" },
+                    //{ field: "modified", title: "修改时间" },
+                    //{ field: "upload_fail_msg", title: "上传状态" },
+                    //{ field: "picture_status", title: "图片状态" },
+                    //{ field: "auction_point", title: "返点比例" },
+                    //{ field: "picture", title: "新图片" },
+                    //{ field: "video", title: "视频" },
+                    //{ field: "skuProps", title: "销售属性组合" },
+                    //{ field: "inputPids", title: "用户输入ID串" },
+                    //{ field: "inputValues", title: "用户输入名 - 值对" },
+                    //{ field: "outer_id", title: "商家编码" },
+                    //{ field: "propAlias", title: "销售属性别名" },
+                    //{ field: "auto_fill", title: "代充类型" },
+                    //{ field: "num_id", title: "数字ID" },
+                    //{ field: "local_cid", title: "本地ID" },
+                    //{ field: "navigation_type", title: "宝贝分类" },
+                    //{ field: "user_name", title: "用户名称" },
+                    //{ field: "syncStatus", title: "宝贝状态" },
+                    //{ field: "is_lighting_consigment", title: "闪电发货" },
+                    //{ field: "is_xinpin", title: "新品" },
+                    //{ field: "foodparame", title: "食品专项" },
+                    //{ field: "features", title: "尺码库" },
+                    //{ field: "buyareatype", title: "采购地" },
+                    //{ field: "global_stock_type", title: "库存类型" },
+                    //{ field: "global_stock_country", title: "国家地区" },
+                    //{ field: "sub_stock_type", title: "库存计数" },
+                    //{ field: "item_size", title: "物流体积" },
+                    //{ field: "item_weight", title: "物流重量" },
+                    //{ field: "sell_promise", title: "退换货承诺" },
+                    //{ field: "custom_design_flag", title: "定制工具" },
+                    //{ field: "wireless_desc", title: "无线详情" },
+                    //{ field: "barcode", title: "商品条形码" },
+                    //{ field: "sku_barcode", title: "sku 条形码" },
+                    //{ field: "newprepay", title: "7天退货" },
+                    //{ field: "subtitle", title: "宝贝卖点" },
+                    //{ field: "cpv_memo", title: "属性值备注" },
+                    //{ field: "input_custom_cpv", title: "自定义属性值" },
+                    //{ field: "qualification", title: "商品资质" },
+                    //{ field: "add_qualification", title: "增加商品资质" },
+                    //{ field: "o2o_bind_service", title: "关联线下服务" },
                     { field: "datatype", title: "数据类型" },
+                    { field: "sxurl", title: "搜鞋链接", template: "<a href=\"#:data.sxurl#\" target=\"__blank\">#:data.sxurl#</a>" },
+                    { field: "tburl", title: "淘宝链接", template: "<a href=\"#:data.tburl#\" target=\"__blank\">#:data.tburl#</a>" },
                     { command: ["edit", "destroy"], title: "&nbsp;", width: "80px" } //显示编辑及删除按钮
                 ],
                 editable: "popup"
@@ -229,10 +276,22 @@
             $("#affirm_export").click(function () {
                 //确定删除
                 var url = "@Url.Action("ExportCsv", "TbItem")";
+                var kendoGrid = $('#grid').data("kendoGrid");
+                var dataSource = $('#grid').data("kendoGrid").dataSource;
+                var data = $('#grid').data("kendoGrid").dataSource.data();
+                var dataSource1 = $("#grid").data().kendoGrid.dataSource;
+
+                var models = new Array();
+                for (var i = 0; i < data.length; i++) {
+                    model = data[i];
+                    models.push(model);
+                }
+
+                var displayedData = $("#grid").data().kendoGrid.dataSource.view()
                 $.ajax({
                     type: 'POST',
                     url: url,
-                    data: "",
+                    data: { models: kendo.stringify(models) },
                     success: function (data) {
                         if (data != null && data.success) {
                             $('#myModal').modal('hide');
@@ -267,6 +326,26 @@
                     }
                 });
             })
+
+            //得到过滤的Models
+            function FilterModels() {
+                var array = new Array()
+                filter = new Object();
+                filter.sxurl = $("#sxurl").val();
+                filter.tburl = $("#tburl").val();
+                array[0] = filter;
+                filterModels = array;
+                return filterModels;
+            }
+
+            //设置筛选事件
+            $('#sxurl').bind('input propertychange', function () { Filter() });
+            $('#tburl').bind('input propertychange', function () { Filter() });
+
+            function Filter() {
+                $('#grid').data('kendoGrid').dataSource.read();
+                $('#grid').data('kendoGrid').refresh();
+            }
 
         });
     </script>
