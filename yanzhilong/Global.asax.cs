@@ -20,6 +20,7 @@ namespace yanzhilong
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
 
+            Autofac.Application_Start();
             //初始化AutoMapper
             AutoMapperConfiguration.Init();
         }
