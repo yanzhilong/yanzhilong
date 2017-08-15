@@ -253,6 +253,9 @@
     <Compile Include="Domain\CommonEnum.cs" />
     <Compile Include="Domain\Kendo\DataSourceRequest.cs" />
     <Compile Include="Domain\Kendo\DataSourceResult.cs" />
+    <Compile Include="Domain\PermissionRecord.cs" />
+    <Compile Include="Domain\Role.cs" />
+    <Compile Include="Domain\RolePermissionRecord.cs" />
     <Compile Include="Domain\SxColor.cs" />
     <Compile Include="Domain\SxImage.cs" />
     <Compile Include="Domain\SxMainImage.cs" />
@@ -265,6 +268,7 @@
     <Compile Include="Domain\TbPropertyMapping.cs" />
     <Compile Include="Domain\UploadFile.cs" />
     <Compile Include="Domain\FileEnum.cs" />
+    <Compile Include="Domain\UserRole.cs" />
     <Compile Include="Domain\UseUpdateResult.cs" />
     <Compile Include="Domain\UserRegisterTypeEnum.cs" />
     <Compile Include="Domain\UserLoginResultEnum.cs" />
