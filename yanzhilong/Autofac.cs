@@ -68,7 +68,14 @@ namespace yanzhilong
             builder.RegisterGeneric(typeof(MbRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
             builder.RegisterType<CategoryService>();
-            
+
+            builder.RegisterType<RoleServiceMB>();
+            builder.RegisterType<RolePermissionRecordServiceMB>();
+            builder.RegisterType<UserRoleServiceMB>();
+            builder.RegisterType<PermissionRecordServiceMB>();
+
+
+
         }
     }
 }

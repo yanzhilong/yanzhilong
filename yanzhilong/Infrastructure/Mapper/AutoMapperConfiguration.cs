@@ -92,6 +92,16 @@ namespace yanzhilong.Infrastructure.Mapper
 
             cfg.CreateMap<UploadFileModel, UploadFile>();
 
+            //Role
+            cfg.CreateMap<Role, RoleModel>();
+
+            cfg.CreateMap<RoleModel, Role>();
+
+            //Role
+            cfg.CreateMap<PermissionRecord, PermissionRecordModel>();
+
+            cfg.CreateMap<PermissionRecordModel, PermissionRecord>();
+
         };
 
         public static void Init()

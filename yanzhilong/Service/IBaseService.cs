@@ -8,7 +8,7 @@ namespace yanzhilong.Service
 {
     public interface IBaseService<T>
     {
-        void AddEntity(T entity);
+        void AddEntry(T entry);
 
         void AddEntrys(IList<T> entrys);
 

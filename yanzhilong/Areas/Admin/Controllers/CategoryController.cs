@@ -17,17 +17,11 @@ namespace yanzhilong.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private CategoryService categoryCRUD = new CategoryService();
-        [Authentication]
-        public ActionResult Index(int page = 1)
-        {
-            PageModel pagemodel = new PageModel(Constant.PAGESIZE, page, categoryCRUD.GetCount());
-            pagemodel.actionName = "Index";
-            pagemodel.controllerName = "Category";
-            ViewBag.pagemodel = pagemodel;
 
-            var categorys = categoryCRUD.GetCategorys(page);
-            IEnumerable<CategoryModel> categoryModels = categorys.Select(x => x.ToModel());
-            return View(categoryModels);
+        [Authentication]
+        public ActionResult Index()
+        {
+            return View();
         }
 
 
@@ -72,7 +66,6 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Delete()
         {
-            var callback = Request.Params["callback"];
             var models = JsonConvert.DeserializeObject<IEnumerable<CategoryModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -80,7 +73,6 @@ namespace yanzhilong.Areas.Admin.Controllers
                 categoryCRUD.Delete(categorys.ToList<Category>());
             }
             return Json(models);
-            //return new JsonpResult<object>(models, callback);
         }
     }
 }

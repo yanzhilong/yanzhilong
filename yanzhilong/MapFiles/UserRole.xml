@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="UserRole" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!-- 设置别名，用于底下指定类型的时候不需要全全类名(包括长的空间名 ),最后一个参数是项目的命名空间名 -->
+  <alias>
+    <typeAlias alias="UserRole" type="yanzhilong.Domain.UserRole, yanzhilong"/>
+
+  </alias>
+
+  <!-- 数据库到实体类的映射表 -->
+  <resultMaps>
+
+    <!-- 数据库的全部字段到实体类的映射 -->
+    <resultMap id="UserRoleResult" class="UserRole">
+      <result property="Id" column="Id" dbType="char" type="string" />
+      <result property="user.Id" column="UserId" dbType="char" type="string" />
+      <result property="role.Id" column="RoleId" dbType="char" type="string" />
+      
+    </resultMap>
+
+  </resultMaps>
+
+  <!-- 声明执行语句列表，可以包含多个<select>、<insert>、<update>、<delete>节点 -->
+  <!-- 为了避免SQL语句出现的'<'和'>'会和配置文件的<>冲突，所以SQL语句都写在<![CDATA[  与  ]]>之间 -->
+  <statements>
+
+    <!-- 添加句子SQL语句 -->
+    <insert id="InsertUserRole" parameterClass="UserRole" >
+      <![CDATA[  
+      insert into UserRole  
+      (Id,UserId,RoleId)  
+      values  
+      (#Id#,#user.Id#,#role.Id#)  
+      ]]>
+    </insert>
+
+    <!-- parameterClass表示传入的参数为int -->
+    <delete id="DeleteUserRole" parameterClass="UserRole">
+      <![CDATA[
+          delete from UserRole  
+          where
+          Id = #Id#  
+          ]]>
+    </delete>
+
+    <!-- #UserName# 表示传入实体类参数的属性，表示实体的的属性 -->
+    <update id="UpdateUserRole" parameterClass="UserRole">
+      <![CDATA[  
+          UPDATE UserRole SET  
+          UserId=#user.Id#,
+          RoleId=#role.Id#
+          WHERE  
+          Id=#Id#
+          ]]>
+    </update>
+
+    <select id="SelectUserRole" parameterClass="UserRole" resultMap="UserRoleResult">
+      <![CDATA[  
+          SELECT Id
+          ,UserId
+          ,RoleId
+          FROM UserRole  
+          ]]>
+    </select>
+    
+    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
+    <select id="SelectUserRoleByCondition" parameterClass="UserRole" resultMap="UserRoleResult" extends="SelectUserRole">
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="Id">
+          <![CDATA[  
+           Id = #Id#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="user.Id">
+          <![CDATA[  
+           UserId = #user.Id#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="role.Id">
+          <![CDATA[  
+           RoleId = #role.Id#
+            ]]>
+        </isNotEmpty>
+
+      </dynamic>
+    </select>
+
+  </statements>
+
+</sqlMap>

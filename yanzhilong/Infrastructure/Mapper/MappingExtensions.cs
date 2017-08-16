@@ -261,5 +261,33 @@ namespace yanzhilong.Infrastructure.Mapper
         }
 
         #endregion
+
+        #region Role
+
+        public static RoleModel ToModel(this Role entity)
+        {
+            return entity.MapTo<Role, RoleModel>();
+        }
+
+        public static Role ToEntity(this RoleModel model)
+        {
+            return model.MapTo<RoleModel, Role>();
+        }
+
+        #endregion
+
+        #region PermissionRecord
+
+        public static PermissionRecordModel ToModel(this PermissionRecord entity)
+        {
+            return entity.MapTo<PermissionRecord, PermissionRecordModel>();
+        }
+
+        public static PermissionRecord ToEntity(this PermissionRecordModel model)
+        {
+            return model.MapTo<PermissionRecordModel, PermissionRecord>();
+        }
+
+        #endregion
     }
 }

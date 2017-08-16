@@ -239,6 +239,8 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\EditorMdController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PermissionRecordController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\TbItemController.cs" />
@@ -290,6 +292,9 @@
     <Compile Include="Menu\Extensions.cs" />
     <Compile Include="Menu\SiteMapNode.cs" />
     <Compile Include="Menu\XmlSiteMap.cs" />
+    <Compile Include="Models\PermissionRecordModel.cs" />
+    <Compile Include="Models\RolePermissionRecordModel.cs" />
+    <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Domain\ArticleCount.cs" />
     <Compile Include="Models\CategoryModel.cs" />
@@ -320,6 +325,9 @@
     <Compile Include="Service\FilePersistenceService.cs" />
     <Compile Include="Service\FileService.cs" />
     <Compile Include="Service\IBaseService.cs" />
+    <Compile Include="Service\PermissionRecordServiceMB.cs" />
+    <Compile Include="Service\RolePermissionRecordServiceMB.cs" />
+    <Compile Include="Service\UserRoleServiceMB.cs" />
     <Compile Include="Service\SxColorServiceMB.cs" />
     <Compile Include="Service\SxImageServiceMB.cs" />
     <Compile Include="Service\SxMainImageServiceMB.cs" />
@@ -327,6 +335,7 @@
     <Compile Include="Service\SxShoeServiceMB.cs" />
     <Compile Include="Service\SxSsizeServiceMB.cs" />
     <Compile Include="Service\MakeTbItemService.cs" />
+    <Compile Include="Service\RoleServiceMB.cs" />
     <Compile Include="Service\TbItemService.cs" />
     <Compile Include="Service\TbPropertyCategoryService.cs" />
     <Compile Include="Service\TbPropertyMappingService.cs" />
@@ -8103,6 +8112,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MapFiles\TbPropertyMapping.xml" />
+    <EmbeddedResource Include="MapFiles\Role.xml" />
+    <EmbeddedResource Include="MapFiles\UserRole.xml" />
+    <EmbeddedResource Include="MapFiles\RolePermissionRecord.xml" />
+    <EmbeddedResource Include="MapFiles\PermissionRecord.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -8916,6 +8929,9 @@
     <Content Include="Areas\Admin\Views\User\ModifyUserInfoSuccess.cshtml" />
     <Content Include="Areas\Admin\Views\File\Index.cshtml" />
     <Content Include="Areas\Admin\Views\File\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PermissionRecord\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\Details.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>

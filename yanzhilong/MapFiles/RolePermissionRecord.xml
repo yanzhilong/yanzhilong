@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="RolePermissionRecord" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!-- 设置别名，用于底下指定类型的时候不需要全全类名(包括长的空间名 ),最后一个参数是项目的命名空间名 -->
+  <alias>
+    <typeAlias alias="RolePermissionRecord" type="yanzhilong.Domain.RolePermissionRecord, yanzhilong"/>
+
+  </alias>
+
+  <!-- 数据库到实体类的映射表 -->
+  <resultMaps>
+
+    <!-- 数据库的全部字段到实体类的映射 -->
+    <resultMap id="RolePermissionRecordResult" class="RolePermissionRecord">
+      <result property="Id" column="Id" dbType="char" type="string" />
+      <result property="Role.Id" column="RoleId" dbType="char" type="string" />
+      <result property="PermissionRecord.Id" column="PermissionRecordId" dbType="char" type="string" />
+      <result property="Options" column="Options" dbType="varchar" type="string" />
+
+    </resultMap>
+
+  </resultMaps>
+
+  <!-- 声明执行语句列表，可以包含多个<select>、<insert>、<update>、<delete>节点 -->
+  <!-- 为了避免SQL语句出现的'<'和'>'会和配置文件的<>冲突，所以SQL语句都写在<![CDATA[  与  ]]>之间 -->
+  <statements>
+
+    <!-- 添加句子SQL语句 -->
+    <insert id="InsertRolePermissionRecord" parameterClass="RolePermissionRecord" >
+      <![CDATA[  
+      insert into RolePermissionRecord  
+      (Id,RoleId,PermissionRecordId,Options)  
+      values  
+      (#Id#,#Role.Id#,#PermissionRecord.Id#,#Options#)  
+      ]]>
+    </insert>
+
+    <!-- parameterClass表示传入的参数为int -->
+    <delete id="DeleteRolePermissionRecord" parameterClass="RolePermissionRecord">
+      <![CDATA[
+          delete from RolePermissionRecord  
+          where
+          Id = #Id#  
+          ]]>
+    </delete>
+
+    <!-- #UserName# 表示传入实体类参数的属性，表示实体的的属性 -->
+    <update id="UpdateRolePermissionRecord" parameterClass="RolePermissionRecord">
+      <![CDATA[  
+          UPDATE RolePermissionRecord SET  
+          RoleId=#Role.Id#,
+          PermissionRecordId=#PermissionRecord.Id#,
+          Options=#Options#
+          WHERE  
+          Id=#Id#
+          ]]>
+    </update>
+
+    <select id="SelectRolePermissionRecord" parameterClass="RolePermissionRecord" resultMap="RolePermissionRecordResult">
+      <![CDATA[  
+          SELECT Id
+          ,RoleId
+          ,PermissionRecordId
+          ,Options
+          FROM RolePermissionRecord  
+          ]]>
+    </select>
+    
+    <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样-->
+    <select id="SelectRolePermissionRecordByCondition" parameterClass="RolePermissionRecord" resultMap="RolePermissionRecordResult" extends="SelectRolePermissionRecord">
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="Id">
+          <![CDATA[  
+           Id = #Id#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="Role.Id">
+          <![CDATA[  
+           RoleId = #Role.Id#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="PermissionRecord.Id">
+          <![CDATA[  
+           PermissionRecordId = #PermissionRecord.Id#
+            ]]>
+        </isNotEmpty>
+
+      </dynamic>
+    </select>
+
+  </statements>
+
+</sqlMap>
