@@ -19,6 +19,13 @@
 
     </resultMap>
 
+    <!-- 新增的映射文件，用于引用 -->
+    <resultMap id="PermissionRecordExtend" class="PermissionRecord">
+      <result property="Id" column="PermissionRecordId" dbType="VARCHAR" type="string" />
+      <result property="Name" column="PermissionRecordName" dbType="VARCHAR" type="string" />
+      <result property="SystemName" column="PermissionRecordSystemName" dbType="VARCHAR" type="string" />
+    </resultMap>
+    
   </resultMaps>
 
   <!-- 声明执行语句列表，可以包含多个<select>、<insert>、<update>、<delete>节点 -->

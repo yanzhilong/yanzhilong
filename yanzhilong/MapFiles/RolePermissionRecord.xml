@@ -15,7 +15,7 @@
     <resultMap id="RolePermissionRecordResult" class="RolePermissionRecord">
       <result property="Id" column="Id" dbType="char" type="string" />
       <result property="Role.Id" column="RoleId" dbType="char" type="string" />
-      <result property="PermissionRecord.Id" column="PermissionRecordId" dbType="char" type="string" />
+      <result property="PermissionRecord" resultMapping="PermissionRecord.PermissionRecordExtend" />
       <result property="Options" column="Options" dbType="varchar" type="string" />
 
     </resultMap>
@@ -59,11 +59,13 @@
 
     <select id="SelectRolePermissionRecord" parameterClass="RolePermissionRecord" resultMap="RolePermissionRecordResult">
       <![CDATA[  
-          SELECT Id
-          ,RoleId
-          ,PermissionRecordId
-          ,Options
-          FROM RolePermissionRecord  
+          SELECT RPR.Id
+          ,RPR.RoleId
+          ,RPR.PermissionRecordId
+          ,RPR.Options
+          ,PR.Name PermissionRecordName
+          ,PR.SystemName PermissionRecordSystemName
+          FROM RolePermissionRecord RPR inner join PermissionRecord PR on RPR.PermissionRecordId = PR.Id
           ]]>
     </select>
     
@@ -72,17 +74,17 @@
       <dynamic prepend="WHERE">
         <isNotEmpty prepend="AND" property="Id">
           <![CDATA[  
-           Id = #Id#
+           RPR.Id = #Id#
             ]]>
         </isNotEmpty>
         <isNotEmpty prepend="AND" property="Role.Id">
           <![CDATA[  
-           RoleId = #Role.Id#
+           RPR.RoleId = #Role.Id#
             ]]>
         </isNotEmpty>
         <isNotEmpty prepend="AND" property="PermissionRecord.Id">
           <![CDATA[  
-           PermissionRecordId = #PermissionRecord.Id#
+           RPR.PermissionRecordId = #PermissionRecord.Id#
             ]]>
         </isNotEmpty>
 

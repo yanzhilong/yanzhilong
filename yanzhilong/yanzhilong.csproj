@@ -320,12 +320,14 @@
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MbRepository.cs" />
+    <Compile Include="Security\PermissionRecordProvider.cs" />
     <Compile Include="Security\SaltedHash.cs" />
     <Compile Include="Autofac.cs" />
     <Compile Include="Service\FilePersistenceService.cs" />
     <Compile Include="Service\FileService.cs" />
     <Compile Include="Service\IBaseService.cs" />
     <Compile Include="Service\PermissionRecordServiceMB.cs" />
+    <Compile Include="Service\PermissionService.cs" />
     <Compile Include="Service\RolePermissionRecordServiceMB.cs" />
     <Compile Include="Service\UserRoleServiceMB.cs" />
     <Compile Include="Service\SxColorServiceMB.cs" />

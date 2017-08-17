@@ -1,17 +1,77 @@
-﻿
+﻿@model RoleModel
 @{
-    Layout = null;
+    ViewBag.Title = "角色权限管理";
+    ViewBag.HeaderTitle = "角色权限管理";
+    ViewBag.ActiveMenuItemSystemName = "Role";
+    List<PermissionRecordModel> PermissionRecordModels = ViewBag.PermissionRecords as List<PermissionRecordModel>;
 }
 
-<!DOCTYPE html>
+@section Head{
+    <style type=text/css>
+    </style>
+}
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div> 
+@section HeadRight{
+<button type="submit" id="save" class="btn bg-blue" style="margin-right:20px">
+    <i class="fa fa-floppy-o"></i>
+    保存
+</button>
+}
+
+<div class="panel panel-default">
+    
+    <div class="panel-body">
+        @using (Html.BeginForm("Update", "Role", FormMethod.Post, new { id = "RoleForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.HiddenFor(model => model.Id)
+                @Html.ValidationSummary(true, "请求参数不正确", new { @class = "text-danger" })
+
+                <div class="scroll-wrapper">
+                    <table class="table table-hover table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="col">
+                                    <strong>功能模块</strong>
+                                </th>
+                                <th scope="col">
+                                    <strong>配置名称</strong>
+                                </th>
+                                <th scope="col">
+                                    <strong>授权</strong>
+                                </th>
+                            </tr>
+                            @foreach (PermissionRecordModel prm in PermissionRecordModels)
+                            {
+                                <tr>
+                                    <td>
+                                        <span>@prm.Name</span>
+                                    </td>
+                                    <td>
+                                        <span>@prm.SystemName</span>
+                                    </td>
+                                    <td>
+                                        <input class="@prm.SystemName)" type="checkbox" value="@(prm.SystemName)" name="allow_@(prm.Id)" @(prm.Authorize ? " checked=checked" : null) />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        }
     </div>
-</body>
-</html>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //其它按钮提交表单
+        $("#save").click(function () {
+            $("#RoleForm").submit()
+        });
+
+    });
+</script>
