@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.IO;
 using System.Linq;
 using System.Web.Routing;
 using System.Xml;
 using yanzhilong.Helper;
+using yanzhilong.Service;
 
 namespace yanzhilong.Menu
 {
@@ -121,9 +123,10 @@ namespace yanzhilong.Menu
             if (!string.IsNullOrEmpty(permissionNames))
             {
                 siteMapNode.Visible = true;
-                //var permissionService = EngineContext.Current.Resolve<IPermissionService>();
-                //siteMapNode.Visible = permissionNames.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                //   .Any(permissionName => permissionService.Authorize(permissionName.Trim()));
+                var UserService = Autofac.Scope.Resolve<UserService>();
+                var permissionService = Autofac.Scope.Resolve<PermissionService>();
+                siteMapNode.Visible = permissionNames.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                   .Any(permissionName => permissionService.Authorize(permissionName.Trim()));
             }
             else
             {

@@ -13,7 +13,22 @@ namespace yanzhilong.Areas.Admin.Controllers
 {
     public class HomeController : Controller
     {
-        private UserService userCRUD = new UserService();
+        private readonly UserService userCRUD;
+        private readonly UserRoleServiceMB _UserRoleServiceMB;
+        private readonly RolePermissionRecordServiceMB _RolePermissionRecordServiceMB;
+        private readonly ICacheService _CacheService;
+
+
+        public HomeController(UserService userService, 
+            UserRoleServiceMB userRoleServiceMB,
+            RolePermissionRecordServiceMB rolePermissionRecordServiceMB,
+            ICacheService cacheService)
+        {
+            this._UserRoleServiceMB = userRoleServiceMB;
+            this.userCRUD = userService;
+            this._RolePermissionRecordServiceMB = rolePermissionRecordServiceMB;
+            this._CacheService = cacheService;
+        }
 
         // GET: Admin/Home
         [Authentication]
@@ -46,8 +61,20 @@ namespace yanzhilong.Areas.Admin.Controllers
                     {
                         mUser = userCRUD.GetEntry(new User { PhoneNumber = ulm.UserNameOrEmailOrPhoneNumber });
                     }
+                    List<UserRole> UserRoles = _UserRoleServiceMB.GetEntrys(new UserRole { user = mUser }).ToList();
+                    mUser.UserRoles = UserRoles.Select(ur => ur.role).ToList();
+
+                    foreach (var item in mUser.UserRoles)
+                    {
+                        List<RolePermissionRecord> RolePermissionRecords = _RolePermissionRecordServiceMB.GetEntrys(new RolePermissionRecord { Role = item }).ToList();
+                        List<PermissionRecord> PermissionRecords = RolePermissionRecords.Select(pr => pr.PermissionRecord).ToList();
+                        item.PermissionRecords = PermissionRecords;
+                    }
+                    userCRUD.CurrentUser = mUser;
+                    _CacheService.Set(mUser.Id, mUser, 60);//缓存
                     //保存session
                     HttpContext.Session["UserID"] = mUser.Id;
+                   
                     //string userID = HttpContext.Session["UserID"] as string;
                     return RedirectToAction("Index");
                 }

@@ -14,13 +14,18 @@ namespace yanzhilong.Areas.Admin.Controllers
 {
     public class UserController : Controller
     {
-        private UserService userCRUD = new UserService();
-       
+        private readonly UserService _UserService;
+
+        public UserController(UserService userService)
+        {
+            this._UserService = userService;
+        }
+
         [Authentication]
         public ActionResult Index()
         {
             string UserId = (string)HttpContext.Session["UserID"];
-            User user = userCRUD.GetEntry(new User { Id = UserId });
+            User user = _UserService.GetEntry(new User { Id = UserId });
             return View(user.ToModel());
         }
 
@@ -29,11 +34,11 @@ namespace yanzhilong.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserModel userModel)
         {
-            User user = userCRUD.GetEntry(new User { Id = userModel.Id });
+            User user = _UserService.GetEntry(new User { Id = userModel.Id });
             user.Email = userModel.Email;
             user.PhoneNumber = userModel.PhoneNumber;
             user.DisplayName = userModel.DisplayName;
-            UseUpdateResult useUpdateResult = userCRUD.UpdateUserInfo(user);
+            UseUpdateResult useUpdateResult = _UserService.UpdateUserInfo(user);
             if (useUpdateResult.Success)
             {
                 return View("ModifyUserInfoSuccess");
@@ -62,7 +67,7 @@ namespace yanzhilong.Areas.Admin.Controllers
             {
                 return View(umpm);
             }
-            UseModifyPasswordResult umpr = userCRUD.ModifyPassword(umpm.Id, umpm.PasswordOld, umpm.PasswordNew);
+            UseModifyPasswordResult umpr = _UserService.ModifyPassword(umpm.Id, umpm.PasswordOld, umpm.PasswordNew);
             if (umpr.Success)
             {
                 return View("ModifyPasswordSuccess");

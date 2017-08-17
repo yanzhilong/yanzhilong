@@ -15,6 +15,37 @@ namespace yanzhilong.Service
     {
         private readonly IRepository<User> repository = new MbRepository<User>();
         private readonly SaltedHash saltedHash = new SaltedHash();
+        private readonly ICacheService _CacheService;
+        private User _CachedUser;
+
+        public UserService(ICacheService cacheService)
+        {
+            this._CacheService = cacheService;
+        }
+
+        public User CurrentUser
+        {
+            get
+            {
+                if (_CachedUser != null)
+                    return _CachedUser;
+                string UserId = (string)HttpContext.Current.Session["UserID"];
+                User user = null;
+                if (!string.IsNullOrEmpty(UserId))
+                {
+                    user = _CacheService.Get<User>(UserId);
+                }
+                if(!string.IsNullOrEmpty(UserId) && user == null)
+                {
+                    user = GetEntry(new User { Id = UserId });
+                }
+                return user;
+            }
+            set
+            {
+                _CachedUser = value;
+            }
+        }//当前用户
 
         public UserLoginResult ValidateUser(string UserNameOrEmailOrPhoneNumber, string Password)
         {

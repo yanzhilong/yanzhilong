@@ -68,5 +68,16 @@ namespace yanzhilong.Domain
         /// 最后一次登陆失败时间
         /// </summary>
         public DateTime? LastFailedLoginDateUtc { get; set; }
+
+        /// <summary>
+        /// 用户角色
+        /// </summary>
+        private List<Role> _UserRoles;
+
+        public virtual List<Role> UserRoles
+        {
+            get { return _UserRoles ?? (_UserRoles = new List<Role>()); }
+            set { _UserRoles = value; }
+        }
     }
 }

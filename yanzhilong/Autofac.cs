@@ -15,6 +15,14 @@ namespace yanzhilong
     {
         public static IContainer Container { get; set; }
 
+        public static ILifetimeScope Scope
+        {
+            get
+            {
+                return Container.BeginLifetimeScope();
+            }
+        }
+
         public static void Application_Start()
         {
             // Create your builder.
@@ -67,6 +75,8 @@ namespace yanzhilong
 
             builder.RegisterGeneric(typeof(MbRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
+            builder.RegisterType<UserService>().InstancePerLifetimeScope(); ;
+
             builder.RegisterType<CategoryService>();
 
             builder.RegisterType<RoleServiceMB>();
@@ -74,7 +84,9 @@ namespace yanzhilong
             builder.RegisterType<UserRoleServiceMB>();
             builder.RegisterType<PermissionRecordServiceMB>();
 
+            builder.RegisterType<PermissionService>();
 
+            builder.RegisterType<MemoryCacheService>().As<ICacheService>().Named<ICacheService>("MemoryCacheService").SingleInstance();
 
         }
     }

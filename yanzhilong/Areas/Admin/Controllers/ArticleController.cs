@@ -19,7 +19,6 @@ namespace yanzhilong.Areas.Admin.Controllers
     {
         private ArticleService articleCRUD = new ArticleService();
         private CategoryService categoryCRUD = new CategoryService();
-        private UserService userCRUD = new UserService();
 
         [Authentication]
         public ActionResult Index()
