@@ -21,5 +21,8 @@ namespace yanzhilong.Models
 
         [DisplayName("配置名称")] //显示在Label上的名字
         public string SystemName { get; set; }//配置名称
+
+        [DisplayName("是否授权")] //显示在Label上的名字
+        public bool Authorize { get; set; }//是否授权
     }
 }

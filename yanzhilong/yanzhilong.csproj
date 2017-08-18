@@ -8937,6 +8937,9 @@
     <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PermissionRecord\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\Role.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Role.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>

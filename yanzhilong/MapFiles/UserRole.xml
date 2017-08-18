@@ -15,7 +15,7 @@
     <resultMap id="UserRoleResult" class="UserRole">
       <result property="Id" column="Id" dbType="char" type="string" />
       <result property="user.Id" column="UserId" dbType="char" type="string" />
-      <result property="role.Id" column="RoleId" dbType="char" type="string" />
+      <result property="role" resultMapping="Role.RoleExtend" />
       
     </resultMap>
 
@@ -57,10 +57,12 @@
 
     <select id="SelectUserRole" parameterClass="UserRole" resultMap="UserRoleResult">
       <![CDATA[  
-          SELECT Id
-          ,UserId
-          ,RoleId
-          FROM UserRole  
+          SELECT UR.Id
+          ,UR.UserId
+          ,UR.RoleId
+          ,R.Name RoleName
+          ,R.SystemName RoleSystemName
+          FROM UserRole UR inner join Role R on UR.RoleId = R.Id
           ]]>
     </select>
     
