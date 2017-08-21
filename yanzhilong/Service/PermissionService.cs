@@ -8,20 +8,20 @@ namespace yanzhilong.Service
 {
     public class PermissionService
     {
-        private readonly UserService _UserService;
+        private readonly UserAuthService _UserAuthService;
         private readonly RolePermissionRecordServiceMB _RolePermissionRecordServiceMB;
 
 
-        public PermissionService(UserService userService,
+        public PermissionService(UserAuthService userAuthService,
             RolePermissionRecordServiceMB rolePermissionRecordServiceMB)
         {
-            this._UserService = userService;
+            this._UserAuthService = userAuthService;
             this._RolePermissionRecordServiceMB = rolePermissionRecordServiceMB;
         }
 
         public bool Authorize(string SystemName)
         {
-            foreach (var role in _UserService.CurrentUser.UserRoles)
+            foreach (var role in _UserAuthService.CurrentUser.UserRoles)
                 if (Authorize(SystemName, role))
                     //yes, we have such permission
                     return true;

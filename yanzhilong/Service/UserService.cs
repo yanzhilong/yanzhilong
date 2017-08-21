@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using yanzhilong.Domain;
 using yanzhilong.Helper;
 using yanzhilong.Repository;
@@ -16,37 +17,18 @@ namespace yanzhilong.Service
         private readonly IRepository<User> repository = new MbRepository<User>();
         private readonly SaltedHash saltedHash = new SaltedHash();
         private readonly ICacheService _CacheService;
-        private User _CachedUser;
 
         public UserService(ICacheService cacheService)
         {
             this._CacheService = cacheService;
         }
-
-        public User CurrentUser
-        {
-            get
-            {
-                if (_CachedUser != null)
-                    return _CachedUser;
-                string UserId = (string)HttpContext.Current.Session["UserID"];
-                User user = null;
-                if (!string.IsNullOrEmpty(UserId))
-                {
-                    user = _CacheService.Get<User>(UserId);
-                }
-                if(!string.IsNullOrEmpty(UserId) && user == null)
-                {
-                    user = GetEntry(new User { Id = UserId });
-                }
-                return user;
-            }
-            set
-            {
-                _CachedUser = value;
-            }
-        }//当前用户
-
+        
+        /// <summary>
+        /// 验证用户
+        /// </summary>
+        /// <param name="UserNameOrEmailOrPhoneNumber">用户名，邮箱，电话</param>
+        /// <param name="Password">密码</param>
+        /// <returns></returns>
         public UserLoginResult ValidateUser(string UserNameOrEmailOrPhoneNumber, string Password)
         {
             UserLoginResult ulr = new UserLoginResult();
@@ -163,31 +145,12 @@ namespace yanzhilong.Service
             user.Id = Guid.NewGuid().ToString();
             user.CreateDate = DateTime.Now;
             user.LastLoginDateUtc = DateTime.Now;
-            //保存历史密码暂不实现
-            //var customerPassword = new CustomerPassword
-            //{
-            //    Id = Guid.NewGuid().ToString(),
-            //    CustomerId = request.Customer.Id,
-            //    Customer = request.Customer,
-            //    PasswordFormat = PasswordFormat.MD5,
-            //    CreatedOnUtc = DateTime.Now
-            //};
 
             string salt;
             string hash;
             saltedHash.GetHashAndSaltString(Password, out hash, out salt);
             user.PasswordHash = hash;
             user.Salt = salt;
-
-            //customerPassword.PasswordSalt = salt;
-            //customerPassword.Password = hash;
-            //customerPassword.DigestHa1Hash = digestHash;
-
-            //_customerService.InsertCustomerPassword(customerPassword);
-
-            //request.Customer.Active = request.IsApproved;
-
-            //add to 'Registered' role
 
             this.AddEntry(user);
             return result;

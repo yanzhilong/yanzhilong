@@ -11,27 +11,28 @@ using yanzhilong.Service;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseAdminController
     {
         private readonly UserService userCRUD;
         private readonly UserRoleServiceMB _UserRoleServiceMB;
         private readonly RolePermissionRecordServiceMB _RolePermissionRecordServiceMB;
-        private readonly ICacheService _CacheService;
+        private readonly UserAuthService _UserAuthService;
 
 
         public HomeController(UserService userService, 
             UserRoleServiceMB userRoleServiceMB,
             RolePermissionRecordServiceMB rolePermissionRecordServiceMB,
-            ICacheService cacheService)
+            ICacheService cacheService,
+            UserAuthService userAuthService)
         {
             this._UserRoleServiceMB = userRoleServiceMB;
             this.userCRUD = userService;
             this._RolePermissionRecordServiceMB = rolePermissionRecordServiceMB;
-            this._CacheService = cacheService;
+            this._UserAuthService = userAuthService;
         }
 
         // GET: Admin/Home
-        [Authentication]
+        
         public ActionResult Index()
         {
             return View();
@@ -70,8 +71,8 @@ namespace yanzhilong.Areas.Admin.Controllers
                         List<PermissionRecord> PermissionRecords = RolePermissionRecords.Select(pr => pr.PermissionRecord).ToList();
                         item.PermissionRecords = PermissionRecords;
                     }
-                    userCRUD.CurrentUser = mUser;
-                    _CacheService.Set(mUser.Id, mUser, 60);//缓存
+                    _UserAuthService.SignIn(mUser,true);
+
                     //保存session
                     HttpContext.Session["UserID"] = mUser.Id;
                    
@@ -175,6 +176,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         {
             //保存session
             HttpContext.Session.Remove("UserID");
+            _UserAuthService.SignOut();
             return RedirectToAction("Login");
         }
 

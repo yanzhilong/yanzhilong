@@ -237,6 +237,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ArticleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\EditorMdController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileController.cs" />
@@ -279,6 +280,7 @@
     <Compile Include="Domain\UseModifyPasswordResult.cs" />
     <Compile Include="Domain\UserRegistResult.cs" />
     <Compile Include="Domain\ViewTotal.cs" />
+    <Compile Include="filter\AdminAuthorizeAttribute.cs" />
     <Compile Include="filter\AuthenticationAttribute.cs" />
     <Compile Include="filter\JsonCallbackAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -332,6 +334,7 @@
     <Compile Include="Service\PermissionRecordServiceMB.cs" />
     <Compile Include="Service\PermissionService.cs" />
     <Compile Include="Service\RolePermissionRecordServiceMB.cs" />
+    <Compile Include="Service\UserAuthService.cs" />
     <Compile Include="Service\UserRoleServiceMB.cs" />
     <Compile Include="Service\SxColorServiceMB.cs" />
     <Compile Include="Service\SxImageServiceMB.cs" />
@@ -8174,6 +8177,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\BaseAdmin\" />
+    <Folder Include="Views\BaseAdmin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
