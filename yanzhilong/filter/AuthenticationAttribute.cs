@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using yanzhilong.Service;
 
 namespace yanzhilong.filter
 {
@@ -12,7 +14,8 @@ namespace yanzhilong.filter
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (filterContext.HttpContext.Session["UserID"] == null)
+            var userAuthService = Autofac.Scope.Resolve<UserAuthService>();
+            if (userAuthService.CurrentUser == null)
             {
                 filterContext.Result = new EmptyResult();
                 //跳转到登陆页

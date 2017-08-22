@@ -243,6 +243,7 @@
     <Compile Include="Areas\Admin\Controllers\FileController.cs" />
     <Compile Include="Areas\Admin\Controllers\PermissionRecordController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SecurityController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\TbItemController.cs" />
@@ -327,7 +328,7 @@
     <Compile Include="Security\SaltedHash.cs" />
     <Compile Include="Autofac.cs" />
     <Compile Include="Service\FilePersistenceService.cs" />
-    <Compile Include="Service\FileService.cs" />
+    <Compile Include="Service\UploadFileService.cs" />
     <Compile Include="Service\IBaseService.cs" />
     <Compile Include="Service\ICacheService.cs" />
     <Compile Include="Service\MemoryCacheService.cs" />
@@ -8945,7 +8946,9 @@
     <Content Include="Areas\Admin\Views\User\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Role.cshtml" />
     <Content Include="Areas\Admin\Views\User\Role.cshtml" />
+    <Content Include="Areas\Admin\Views\Security\AccessDenied.cshtml" />
     <None Include="Project_Readme.html" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Content\AdminLTE-2.4.0-rc\bower_components\moment\moment.d.ts" />

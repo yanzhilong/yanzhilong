@@ -11,18 +11,21 @@ using yanzhilong.Service;
 using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Helper;
 using Newtonsoft.Json;
+using yanzhilong.Security;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class TbPropertyController : Controller
+    public class TbPropertyController : BaseAdminController
     {
         private TbPropertyService tbPropertyService = new TbPropertyService();
         private TbPropertyCategoryService tbPropertyCategoryService = new TbPropertyCategoryService();
         private TbPropertyMappingService tbPropertyMappingService = new TbPropertyMappingService();
 
-        [Authentication]
         public ActionResult Index()
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbProperty))
+            return AccessDeniedView();
+
             TbProperty entry = new TbProperty();
             return View(entry.ToModel());
         }
@@ -30,6 +33,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult List()
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbProperty))
+                return AuthorizeGrid();
+
             TbProperty entry = new TbProperty();
             var entrys = tbPropertyService.GetEntrys(entry);
             IEnumerable<TbPropertyModel> entrymodels = entrys.Select(x => x.ToModel());
@@ -39,6 +45,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         
         public ActionResult PropertyMapping(string TbPropertyCategoryId)
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbProperty))
+                return AccessDeniedView();
+
             TbPropertyMapping tpm = new TbPropertyMapping();
             tpm.tbPropertyCategory = new TbPropertyCategory { Id = TbPropertyCategoryId };
             return View(tpm.ToModel());
@@ -53,6 +62,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult PropertyMappingList(string TbPropertyCategoryId)
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbProperty))
+                return AuthorizeGrid();
+
             List<TbPropertyMapping> tpms = tbPropertyMappingService.GetEntrys(new TbPropertyMapping { tbPropertyCategory = new TbPropertyCategory { Id = TbPropertyCategoryId } }).ToList<TbPropertyMapping>();
             List<TbProperty> tps = new List<TbProperty>();
             foreach (TbPropertyMapping tpm in tpms)
@@ -74,6 +86,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult CreatePropertyMappingList(string TbPropertyCategoryId, List<string> PropertyIds)
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbProperty))
+                return AuthorizeJson();
+
             List<TbPropertyMapping> tpms = new List<TbPropertyMapping>();
             foreach(string id in PropertyIds)
             {
@@ -96,6 +111,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult DeletePropertyMappingList(string TbPropertyCategoryId)
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbProperty))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<TbPropertyModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -120,6 +138,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Update()
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbProperty))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<TbPropertyModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -132,6 +153,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Create()
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbProperty))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<TbPropertyModel>>(Request.Params["models"]);
 
             if (models != null)
@@ -149,6 +173,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Delete()
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbProperty))
+                return AuthorizeGrid();
+
             var callback = Request.Params["callback"];
             var models = JsonConvert.DeserializeObject<IEnumerable<TbPropertyModel>>(Request.Params["models"]);
             if (models != null)

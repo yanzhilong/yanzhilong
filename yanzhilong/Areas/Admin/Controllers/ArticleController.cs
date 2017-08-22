@@ -12,36 +12,54 @@ using yanzhilong.Service;
 using yanzhilong.Models;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using yanzhilong.Security;
+using yanzhilong.Domain.Kendo;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class ArticleController : Controller
+    public class ArticleController : BaseAdminController
     {
-        private ArticleService articleCRUD = new ArticleService();
-        private CategoryService categoryCRUD = new CategoryService();
+        private readonly ArticleService _ArticleService;
+        private readonly CategoryService _CategoryService;
+        private readonly UserAuthService _UserAuthService;
 
-        [Authentication]
+        public ArticleController(ArticleService articleService,
+            CategoryService categoryService,
+            UserAuthService userAuthService)
+        {
+            this._ArticleService = articleService;
+            this._CategoryService = categoryService;
+            this._UserAuthService = userAuthService;
+        }
+
         public ActionResult Index()
         {
+            if (!Authorize(PermissionRecordProvider.ManageArticle))
+                return AccessDeniedView();
+
             ArticleModel articleModel = new ArticleModel();
             articleModel.CategorySelectItems = getCateGorys();
             return View(articleModel);
         }
 
-        [Authentication]
         [JsonCallback]
         public ActionResult List()
         {
-            var articles = articleCRUD.GetArticles();
+            if (!Authorize(PermissionRecordProvider.ManageArticle))
+                return AccessDeniedView();
+
+            var articles = _ArticleService.GetArticles();
             IEnumerable<ArticleModel> articleModels = articles.Select(x => x.ToModel());
             return Json(articleModels);
         }
 
         [HttpPost]
-        [Authentication]
         [JsonCallback]
         public ActionResult Create()
         {
+            if (!Authorize(PermissionRecordProvider.ManageArticle))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<ArticleModel>>(Request.Params["models"]);
 
             if (models != null)
@@ -50,76 +68,88 @@ namespace yanzhilong.Areas.Admin.Controllers
                 {
                     model.Id = Guid.NewGuid().ToString();
                     model.CreateAt = DateTime.Now;
-                    string userID = HttpContext.Session["UserID"] as string;
+                    string userID = _UserAuthService.CurrentUser.Id;
                     model.UserID = userID;
                 }
                 IEnumerable<Article> entitys = models.Select(e => e.ToEntity());
-                articleCRUD.AddEntrys(entitys.ToList<Article>());
+                _ArticleService.AddEntrys(entitys.ToList<Article>());
             }
             return Json(models);
         }
 
-        [Authentication]
         public string ContentGet(string Id)
         {
-            Article article = articleCRUD.GetArticleById(Id);
+            if (!Authorize(PermissionRecordProvider.ManageArticle))
+                return AccessDenied;
+
+            Article article = _ArticleService.GetArticleById(Id);
             return article.Content;
         }
 
         [ValidateInput(false)]
         [HttpPost]
-        [Authentication]
         public JsonResult ContentUpdate(string Id,string MarkDown)
         {
-            Article article = articleCRUD.GetArticleById(Id);
+            if (!Authorize(PermissionRecordProvider.ManageArticle))
+                return AuthorizeJson();
+
+            Article article = _ArticleService.GetArticleById(Id);
             article.Content = MarkDown;
-            articleCRUD.Update(article);
+            _ArticleService.Update(article);
             return Json(new { success = true, responseText = "保存成功" }, JsonRequestBehavior.AllowGet);
         }
 
-        [Authentication]
         [JsonCallback]
         public ActionResult Update()
         {
+            if (!Authorize(PermissionRecordProvider.ManageArticle))
+                return AuthorizeJson();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<ArticleModel>>(Request.Params["models"]);
             if (models != null)
             {
                 IEnumerable<Article> entity = models.Select(e => e.ToEntity());
-                articleCRUD.UpdateEntrys(entity.ToList<Article>());
+                _ArticleService.UpdateEntrys(entity.ToList<Article>());
             }
             return Json(models);
         }
 
-        [Authentication]
         [JsonCallback]
         public ActionResult Delete()
         {
+            if (!Authorize(PermissionRecordProvider.ManageArticle))
+                return AuthorizeJson();
+
             var callback = Request.Params["callback"];
             var models = JsonConvert.DeserializeObject<IEnumerable<ArticleModel>>(Request.Params["models"]);
             if (models != null)
             {
                 IEnumerable<Article> entitys = models.Select(e => e.ToEntity());
-                articleCRUD.DeleteEntrys(entitys.ToList<Article>());
+                _ArticleService.DeleteEntrys(entitys.ToList<Article>());
             }
             return Json(models);
         }
 
-        [Authentication]
         public ActionResult Content(string Id)
         {
+            if (!Authorize(PermissionRecordProvider.ManageArticle))
+                return AccessDeniedView();
+
             EditorModel editorModel = new EditorModel { Get = Url.Action("ContentGet", "Article"), Post = Url.Action("ContentUpdate", "Article"), ParameterId = Id };
             return View(editorModel);
         }
 
         [ValidateInput(false)]
         [HttpPost]
-        [Authentication]
         public ActionResult Edit(ArticleModel articleModel)
         {
+            if (!Authorize(PermissionRecordProvider.ManageArticle))
+                return AccessDeniedView();
+
             if (ModelState.IsValid)
             {
                 Article article = articleModel.ToEntity();
-                articleCRUD.Update(article);
+                _ArticleService.Update(article);
                 return RedirectToAction("Index");
             }
             articleModel.CategorySelectItems = getCateGorys();
@@ -128,7 +158,7 @@ namespace yanzhilong.Areas.Admin.Controllers
 
         private List<SelectListItem> getCateGorys()
         {
-            IEnumerable<Category> categorys = categoryCRUD.GetCategorys();
+            IEnumerable<Category> categorys = _CategoryService.GetCategorys();
             var selectItemList = new List<SelectListItem>() {
                 new SelectListItem(){Value="",Text="请选择",Selected=true}
             };

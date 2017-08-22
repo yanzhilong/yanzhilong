@@ -77,7 +77,25 @@ namespace yanzhilong
 
             builder.RegisterType<UserService>().InstancePerLifetimeScope(); ;
 
+            builder.RegisterType<ArticleService>();
             builder.RegisterType<CategoryService>();
+            builder.RegisterType<FilePersistenceService>();
+            builder.RegisterType<UploadFileService>();
+            builder.RegisterType<MakeTbItemService>();
+            builder.RegisterType<MemoryCacheService>();
+            builder.RegisterType<SxColorServiceMB>();
+            builder.RegisterType<SxImageServiceMB>();
+            builder.RegisterType<SxMainImageServiceMB>();
+            builder.RegisterType<SxPropertyServiceMB>();
+            builder.RegisterType<SxShoeServiceMB>();
+            builder.RegisterType<SxSsizeServiceMB>();
+            builder.RegisterType<TbItemService>();
+            builder.RegisterType<TbPropertyCategoryService>();
+            builder.RegisterType<TbPropertyMappingService>();
+            builder.RegisterType<TbPropertyService>();
+            builder.RegisterType<UserService>();
+            builder.RegisterType<ViewTotalService>();
+
 
             builder.RegisterType<RoleServiceMB>();
             builder.RegisterType<RolePermissionRecordServiceMB>();

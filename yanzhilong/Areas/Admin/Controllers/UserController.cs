@@ -8,36 +8,43 @@ using yanzhilong.filter;
 using yanzhilong.Helper;
 using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Models;
+using yanzhilong.Security;
 using yanzhilong.Service;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseAdminController
     {
         private readonly UserService _UserService;
         private readonly UserRoleServiceMB _UserRoleServiceMB;
         private readonly RoleServiceMB _RoleServiceMB;
-
-
+        private readonly UserAuthService _UserAuthService;
 
         public UserController(UserService userService,
             UserRoleServiceMB userRoleServiceMB,
-            RoleServiceMB roleServiceMB)
+            RoleServiceMB roleServiceMB,
+            UserAuthService userAuthService)
         {
             this._UserService = userService;
             this._UserRoleServiceMB = userRoleServiceMB;
             this._RoleServiceMB = roleServiceMB;
+            this._UserAuthService = userAuthService;
         }
 
-        [Authentication]
         public ActionResult Index()
         {
+            if (!Authorize(PermissionRecordProvider.ManageUser))
+                return AccessDeniedView();
+
             return View();
         }
 
         [JsonCallback]
         public ActionResult List()
         {
+            if (!Authorize(PermissionRecordProvider.ManageUser))
+                return AuthorizeGrid();
+
             var entrys = _UserService.GetEntrys(new User { });
 
             IEnumerable<UserModel> entrymodels = entrys.Select(x => x.ToModel());
@@ -45,17 +52,20 @@ namespace yanzhilong.Areas.Admin.Controllers
             return Json(entrymodels);
         }
 
-        [Authentication]
         public ActionResult Details()
         {
-            string UserId = (string)HttpContext.Session["UserID"];
-            User user = _UserService.GetEntry(new User { Id = UserId });
+            if (!Authorize(PermissionRecordProvider.ManageUser))
+                return AccessDeniedView();
+
+            User user = _UserAuthService.CurrentUser;
             return View(user.ToModel());
         }
 
-        [Authentication]
         public ActionResult Role(string Id)
         {
+            if (!Authorize(PermissionRecordProvider.ManageUser))
+                return AccessDeniedView();
+
             User user = _UserService.GetEntry(new User { Id = Id });
 
             IEnumerable<Role> roles = _RoleServiceMB.GetEntrys(new Role { });
@@ -77,9 +87,11 @@ namespace yanzhilong.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Authentication]
         public ActionResult Role(UserModel UserModel, FormCollection form)
         {
+            if (!Authorize(PermissionRecordProvider.ManageUser))
+                return AccessDeniedView();
+
             //删除当前用户的所有角色
             List<UserRole> deletes = _UserRoleServiceMB.GetEntrys(new UserRole { user = new User { Id = UserModel.Id } }).ToList<UserRole>();
             _UserRoleServiceMB.DeleteEntrys(deletes);
@@ -120,10 +132,12 @@ namespace yanzhilong.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Authentication]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserModel userModel)
         {
+            if (!Authorize(PermissionRecordProvider.ManageUser))
+                return AccessDeniedView();
+
             User user = _UserService.GetEntry(new User { Id = userModel.Id });
             user.Email = userModel.Email;
             user.PhoneNumber = userModel.PhoneNumber;
@@ -140,16 +154,14 @@ namespace yanzhilong.Areas.Admin.Controllers
             return View("Index",userModel);
         }
 
-        [Authentication]
         public ActionResult ModifyPassword()
         {
             UserModifyPasswordModel umpm = new UserModifyPasswordModel();
-            umpm.Id = (string)HttpContext.Session["UserID"];
+            umpm.Id = _UserAuthService.CurrentUser.Id;
             return View(umpm);
         }
 
         [HttpPost]
-        [Authentication]
         [ValidateAntiForgeryToken]
         public ActionResult ModifyPassword(UserModifyPasswordModel umpm)
         {

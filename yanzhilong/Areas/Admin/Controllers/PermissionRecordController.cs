@@ -10,10 +10,11 @@ using yanzhilong.Models;
 using yanzhilong.Service;
 using yanzhilong.Infrastructure.Mapper;
 using Newtonsoft.Json;
+using yanzhilong.Security;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class PermissionRecordController : Controller
+    public class PermissionRecordController : BaseAdminController
     {
         private readonly PermissionRecordServiceMB _PermissionRecordServiceMB;
 
@@ -22,15 +23,20 @@ namespace yanzhilong.Areas.Admin.Controllers
             this._PermissionRecordServiceMB = permissionRecordServiceMB;
         }
 
-        [Authentication]
         public ActionResult Index()
         {
+            if (!Authorize(PermissionRecordProvider.ManagePermissionRecord))
+                return AccessDeniedView();
+
             return View();
         }
         
         [JsonCallback]
         public ActionResult List()
         {
+            if (!Authorize(PermissionRecordProvider.ManagePermissionRecord))
+                return AuthorizeGrid();
+
             var entrys = _PermissionRecordServiceMB.GetEntrys(new PermissionRecord { });
 
             IEnumerable<PermissionRecordModel> entrymodels = entrys.Select(x => x.ToModel());
@@ -41,6 +47,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Update()
         {
+            if (!Authorize(PermissionRecordProvider.ManagePermissionRecord))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<PermissionRecordModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -53,6 +62,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Create()
         {
+            if (!Authorize(PermissionRecordProvider.ManagePermissionRecord))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<PermissionRecordModel>>(Request.Params["models"]);
 
             if (models != null)
@@ -70,6 +82,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Delete()
         {
+            if (!Authorize(PermissionRecordProvider.ManagePermissionRecord))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<PermissionRecordModel>>(Request.Params["models"]);
             if (models != null)
             {

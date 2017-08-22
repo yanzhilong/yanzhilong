@@ -7,7 +7,7 @@ using yanzhilong.Models;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class EditorMdController : Controller
+    public class EditorMdController : BaseAdminController
     {
         // GET: Admin/EditorMd
         public ActionResult Index(EditorModel editorModel)

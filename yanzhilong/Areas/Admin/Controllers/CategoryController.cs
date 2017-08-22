@@ -11,16 +11,19 @@ using yanzhilong.Service;
 using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Helper;
 using Newtonsoft.Json;
+using yanzhilong.Security;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseAdminController
     {
         private CategoryService categoryCRUD = new CategoryService();
 
-        [Authentication]
         public ActionResult Index()
         {
+            if (!Authorize(PermissionRecordProvider.ManageCategory))
+                return AccessDeniedView();
+
             return View();
         }
 
@@ -28,6 +31,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult List()
         {
+            if (!Authorize(PermissionRecordProvider.ManageCategory))
+                return AuthorizeGrid();
+
             var categorys = categoryCRUD.GetCategorys();
             IEnumerable<CategoryModel> categoryModels = categorys.Select(x => x.ToModel());
 
@@ -37,6 +43,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Update()
         {
+            if (!Authorize(PermissionRecordProvider.ManageCategory))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<CategoryModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -49,6 +58,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Create()
         {
+            if (!Authorize(PermissionRecordProvider.ManageCategory))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<CategoryModel>>(Request.Params["models"]);
 
             if (models != null)
@@ -66,6 +78,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Delete()
         {
+            if (!Authorize(PermissionRecordProvider.ManageCategory))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<CategoryModel>>(Request.Params["models"]);
             if (models != null)
             {

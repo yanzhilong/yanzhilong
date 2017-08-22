@@ -21,7 +21,8 @@ namespace yanzhilong.Service
 
         public bool Authorize(string SystemName)
         {
-            foreach (var role in _UserAuthService.CurrentUser.UserRoles)
+            User user = _UserAuthService.CurrentUser;
+            foreach (var role in user.UserRoles)
                 if (Authorize(SystemName, role))
                     //yes, we have such permission
                     return true;

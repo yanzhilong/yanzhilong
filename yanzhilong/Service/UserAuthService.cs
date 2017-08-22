@@ -12,14 +12,21 @@ namespace yanzhilong.Service
     {
         private readonly ICacheService _CacheService;
         private readonly UserService _UserService;
+        private readonly UserRoleServiceMB _UserRoleServiceMB;
+        private readonly RolePermissionRecordServiceMB _RolePermissionRecordServiceMB;
 
         private User _CachedUser;
 
-        public UserAuthService(ICacheService cacheService, UserService userService)
+        public UserAuthService(ICacheService cacheService, 
+            UserService userService,
+            UserRoleServiceMB userRoleServiceMB,
+            RolePermissionRecordServiceMB rolePermissionRecordServiceMB)
         {
             this._CacheService = cacheService;
             this._UserService = userService;
-            
+            this._RolePermissionRecordServiceMB = rolePermissionRecordServiceMB;
+            this._UserRoleServiceMB = userRoleServiceMB;
+
         }
 
         public User CurrentUser
@@ -72,6 +79,24 @@ namespace yanzhilong.Service
         }
 
         /// <summary>
+        /// 获得用户权限
+        /// </summary>
+        /// <returns></returns>
+        public List<Role> GetUserRoles(User user)
+        {
+            List<UserRole> UserRoles = _UserRoleServiceMB.GetEntrys(new UserRole { user = user }).ToList();
+            var Roles = UserRoles.Select(ur => ur.role).ToList();
+
+            foreach (var item in Roles)
+            {
+                List<RolePermissionRecord> RolePermissionRecords = _RolePermissionRecordServiceMB.GetEntrys(new RolePermissionRecord { Role = item }).ToList();
+                List<PermissionRecord> PermissionRecords = RolePermissionRecords.Select(pr => pr.PermissionRecord).ToList();
+                item.PermissionRecords = PermissionRecords;
+            }
+            return Roles;
+        }
+
+        /// <summary>
         /// 注销 
         /// </summary>
         public virtual void SignOut()
@@ -81,7 +106,6 @@ namespace yanzhilong.Service
                 _CacheService.Remove(_CachedUser.Id);
                 _CachedUser = null;
             }
-
             FormsAuthentication.SignOut();
         }
 
@@ -94,16 +118,14 @@ namespace yanzhilong.Service
             if (_CachedUser != null)
                 return _CachedUser;
 
-            if (HttpContext.Current == null ||
-                HttpContext.Current.Request == null ||
-                !HttpContext.Current.Request.IsAuthenticated ||
-                !(HttpContext.Current.User.Identity is FormsIdentity))
+            var cookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
+            if(cookie == null)
             {
                 return null;
             }
+            var ticket = FormsAuthentication.Decrypt(cookie.Value);
 
-            var formsIdentity = (FormsIdentity)HttpContext.Current.User.Identity;
-            var user = GetAuthenticatedCustomerFromTicket(formsIdentity.Ticket);
+            var user = GetAuthenticatedCustomerFromTicket(ticket);
             if (user != null)
                 _CachedUser = user;
             return _CachedUser;
@@ -123,12 +145,13 @@ namespace yanzhilong.Service
             User user = null;
             if (!String.IsNullOrWhiteSpace(userId))
             {
-                user = _CacheService.Get<User>(user.Id);
+                user = _CacheService.Get<User>(userId);
             }
 
             if (user == null)
             {
-                user = _UserService.GetEntry(new User { Id = user.Id });
+                user = _UserService.GetEntry(new User { Id = userId });
+                user.UserRoles = GetUserRoles(user);
                 _CacheService.Set(user.Id, user, 60);
             }
             return user;

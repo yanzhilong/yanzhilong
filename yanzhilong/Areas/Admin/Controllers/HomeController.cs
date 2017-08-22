@@ -7,6 +7,7 @@ using yanzhilong.Domain;
 using yanzhilong.filter;
 using yanzhilong.Helper;
 using yanzhilong.Models;
+using yanzhilong.Security;
 using yanzhilong.Service;
 
 namespace yanzhilong.Areas.Admin.Controllers
@@ -40,6 +41,10 @@ namespace yanzhilong.Areas.Admin.Controllers
 
         public ActionResult Login()
         {
+            if (_UserAuthService.CurrentUser != null)
+            {
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
             UserLoginModel ulm = new UserLoginModel();
             return View(ulm);
         }
@@ -62,21 +67,10 @@ namespace yanzhilong.Areas.Admin.Controllers
                     {
                         mUser = userCRUD.GetEntry(new User { PhoneNumber = ulm.UserNameOrEmailOrPhoneNumber });
                     }
-                    List<UserRole> UserRoles = _UserRoleServiceMB.GetEntrys(new UserRole { user = mUser }).ToList();
-                    mUser.UserRoles = UserRoles.Select(ur => ur.role).ToList();
+                    mUser.UserRoles = _UserAuthService.GetUserRoles(mUser);
 
-                    foreach (var item in mUser.UserRoles)
-                    {
-                        List<RolePermissionRecord> RolePermissionRecords = _RolePermissionRecordServiceMB.GetEntrys(new RolePermissionRecord { Role = item }).ToList();
-                        List<PermissionRecord> PermissionRecords = RolePermissionRecords.Select(pr => pr.PermissionRecord).ToList();
-                        item.PermissionRecords = PermissionRecords;
-                    }
-                    _UserAuthService.SignIn(mUser,true);
-
-                    //保存session
-                    HttpContext.Session["UserID"] = mUser.Id;
+                    _UserAuthService.SignIn(mUser, ulm.RememberMe);
                    
-                    //string userID = HttpContext.Session["UserID"] as string;
                     return RedirectToAction("Index");
                 }
                 else
@@ -151,9 +145,10 @@ namespace yanzhilong.Areas.Admin.Controllers
                 {
                     var mUser = userCRUD.GetEntry(user);
 
-                    //保存session
-                    HttpContext.Session["UserID"] = mUser.Id;
-                    //string userID = HttpContext.Session["UserID"] as string;
+                    mUser.UserRoles = _UserAuthService.GetUserRoles(mUser);
+
+                    _UserAuthService.SignIn(mUser, false);
+
                     return RedirectToAction("Index");
                 }else
                 {
@@ -174,16 +169,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         
         public ActionResult Logout()
         {
-            //保存session
-            HttpContext.Session.Remove("UserID");
             _UserAuthService.SignOut();
-            return RedirectToAction("Login");
-        }
-
-        public ActionResult UserName()
-        {
-            //保存session
-            HttpContext.Session.Remove("UserID");
             return RedirectToAction("Login");
         }
     }

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Autofac
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -91,7 +92,10 @@ desired effect
                 <div class="navbar-custom-menu" style="margin-right:50px">
                     <ul class="nav navbar-nav">
                         <li class="account-info">
-                            严志龙
+                            @{ 
+                                var _UserAuthService = Autofac.Scope.Resolve<UserAuthService>();
+                            }
+                            @(_UserAuthService.CurrentUser != null ? _UserAuthService.CurrentUser.DisplayName : "未登陆")
                         </li>
                         <li>
                             <a href="@Url.Action("Logout", "Home", new {area = "admin"}, null)">

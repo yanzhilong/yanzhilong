@@ -24,8 +24,7 @@ namespace yanzhilong.filter
                     && controllerName.Equals("Home", StringComparison.InvariantCultureIgnoreCase)
                     && actionName.Equals("Login", StringComparison.InvariantCultureIgnoreCase))
                     return;
-
-
+                
                 filterContext.Result = new EmptyResult();
                 //跳转到登陆页
                 filterContext.HttpContext.Response.Redirect("/Admin/Home/Login");

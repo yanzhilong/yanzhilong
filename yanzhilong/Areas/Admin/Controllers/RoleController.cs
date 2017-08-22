@@ -11,10 +11,11 @@ using yanzhilong.Service;
 using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Helper;
 using Newtonsoft.Json;
+using yanzhilong.Security;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class RoleController : Controller
+    public class RoleController : BaseAdminController
     {
         private readonly RoleServiceMB _RoleServiceMB;
         private readonly RolePermissionRecordServiceMB _RolePermissionRecordServiceMB;
@@ -30,15 +31,20 @@ namespace yanzhilong.Areas.Admin.Controllers
             this._PermissionRecordServiceMB = permissionRecordServiceMB;
         }
 
-        [Authentication]
         public ActionResult Index()
         {
+            if (!Authorize(PermissionRecordProvider.ManageRole))
+                return AccessDeniedView();
+
             return View();
         }
         
         [JsonCallback]
         public ActionResult List()
         {
+            if (!Authorize(PermissionRecordProvider.ManageRole))
+                return AuthorizeGrid();
+
             var entrys = _RoleServiceMB.GetEntrys(new Role { });
 
             IEnumerable<RoleModel> entrymodels = entrys.Select(x => x.ToModel());
@@ -49,6 +55,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Update()
         {
+            if (!Authorize(PermissionRecordProvider.ManageRole))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<RoleModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -61,6 +70,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Create()
         {
+            if (!Authorize(PermissionRecordProvider.ManageRole))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<RoleModel>>(Request.Params["models"]);
 
             if (models != null)
@@ -78,6 +90,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Delete()
         {
+            if (!Authorize(PermissionRecordProvider.ManageRole))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<RoleModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -89,6 +104,9 @@ namespace yanzhilong.Areas.Admin.Controllers
 
         public ActionResult Details(string Id)
         {
+            if (!Authorize(PermissionRecordProvider.ManageRole))
+                return AccessDeniedView();
+
             Role role = _RoleServiceMB.GetEntry(new Role { Id = Id });
 
             IEnumerable<PermissionRecord> PermissionRecords = _PermissionRecordServiceMB.GetEntrys(new PermissionRecord { });
@@ -111,6 +129,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Update(RoleModel RoleModel, FormCollection form)
         {
+            if (!Authorize(PermissionRecordProvider.ManageRole))
+                return AccessDeniedView();
+
             //删除当前角色的所有权限
             List<RolePermissionRecord> deletes = _RolePermissionRecordServiceMB.GetEntrys(new RolePermissionRecord { Role = new Role { Id = RoleModel.Id } }).ToList<RolePermissionRecord>();
             _RolePermissionRecordServiceMB.DeleteEntrys(deletes);

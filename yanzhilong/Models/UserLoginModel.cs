@@ -19,5 +19,8 @@ namespace yanzhilong.Models
         [DataType(DataType.Password)]
         [StringLength(100, ErrorMessage = "密码长度不能小于6位", MinimumLength = 6)]
         public string Password { get; set; }
+        
+        [DisplayName("保持登录")]
+        public bool RememberMe { get; set; }
     }
 }

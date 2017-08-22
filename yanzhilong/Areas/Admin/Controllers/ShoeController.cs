@@ -9,10 +9,11 @@ using yanzhilong.Service;
 using yanzhilong.Infrastructure.Mapper;
 using Newtonsoft.Json;
 using yanzhilong.Domain.Kendo;
+using yanzhilong.Security;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class ShoeController : Controller
+    public class ShoeController : BaseAdminController
     {
         private SxShoeServiceMB shoeCRUD = new SxShoeServiceMB();
         private SxMainImageServiceMB sxMainImageServiceMB = new SxMainImageServiceMB();
@@ -26,9 +27,11 @@ namespace yanzhilong.Areas.Admin.Controllers
         private MakeTbItemService makeTbItemService = new MakeTbItemService();
 
 
-        [Authentication]
         public ActionResult Index()
         {
+            if (!Authorize(PermissionRecordProvider.ManageShoe))
+                return AccessDeniedView();
+
             SxShoeModel SxShoeModel = new SxShoeModel();
             SxShoeModel.CidItems = ShoeCidHelper.GetShoeCidItems();
             return View(SxShoeModel);
@@ -37,6 +40,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult List()
         {
+            if (!Authorize(PermissionRecordProvider.ManageShoe))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<SxShoeModel>>(Request.Params["models"]);
             SxShoeModel sxShoeModel = models.ToList()[0];
 
@@ -70,6 +76,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Update()
         {
+            if (!Authorize(PermissionRecordProvider.ManageShoe))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<SxShoeModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -82,6 +91,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult MakeTbItem(string Id)
         {
+            if (!Authorize(PermissionRecordProvider.ManageShoe))
+                return AuthorizeJson();
+
             SxShoe sxShoe = shoeCRUD.GetEntry(new SxShoe { Id = Id, Popularity = -1, Price = -1, Sort = -1 });
             //判断是否已经生成了
             TbItem t = tbItemService.GetEntry(new TbItem { datatype = -1, sxurl = sxShoe.Url });
@@ -100,6 +112,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult MakeTbItems(List<SxShoeModel> sxShoeModels)
         {
+            if (!Authorize(PermissionRecordProvider.ManageShoe))
+                return AuthorizeJson();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<SxShoeModel>>(Request.Params["sxShoeModels"]);
             foreach (SxShoeModel sxShoeModel in models)
             {
@@ -114,6 +129,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Create()
         {
+            if (!Authorize(PermissionRecordProvider.ManageShoe))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<SxShoeModel>>(Request.Params["models"]);
 
             if (models != null)
@@ -131,6 +149,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Delete()
         {
+            if (!Authorize(PermissionRecordProvider.ManageShoe))
+                return AuthorizeGrid();
+
             var callback = Request.Params["callback"];
             var models = JsonConvert.DeserializeObject<IEnumerable<SxShoeModel>>(Request.Params["models"]);
             if (models != null)

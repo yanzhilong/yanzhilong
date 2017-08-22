@@ -18,5 +18,7 @@ namespace yanzhilong.Security
         public static readonly string ManageTbProperty = "ManageTbProperty";//淘宝属性管理
         public static readonly string ManageTbPropertyCategory = "ManageTbPropertyCategory";//淘宝属性分类管理
         public static readonly string ManageTbItem = "ManageTbItem";//淘宝宝贝管理
+        public static readonly string ManageUser = "ManageUser";//用户管理
+
     }
 }

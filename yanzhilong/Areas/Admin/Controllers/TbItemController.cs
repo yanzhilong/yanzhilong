@@ -13,17 +13,20 @@ using yanzhilong.Helper;
 using Newtonsoft.Json;
 using System.Web.Script.Serialization;
 using yanzhilong.Domain.Kendo;
+using yanzhilong.Security;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class TbItemController : Controller
+    public class TbItemController : BaseAdminController
     {
         private TbItemService tbItemService = new TbItemService();
         private FilePersistenceService filePersistenceService = new FilePersistenceService();
 
-        [Authentication]
         public ActionResult Index()
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbItem))
+                return AccessDeniedView();
+
             TbItemModel tim = new TbItemModel();
             return View(tim);
         }
@@ -32,6 +35,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult List()
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbItem))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<TbItemModel>>(Request.Params["models"]);
             TbItemModel tbItemModel = models.ToList()[0];
 
@@ -80,6 +86,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Update()
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbItem))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<TbItemModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -93,6 +102,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Create()
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbItem))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<TbItemModel>>(Request.Params["models"]);
 
             if (models != null)
@@ -111,7 +123,9 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult Delete()
         {
-            var callback = Request.Params["callback"];
+            if (!Authorize(PermissionRecordProvider.ManageTbItem))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<TbItemModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -129,9 +143,11 @@ namespace yanzhilong.Areas.Admin.Controllers
         }
 
         [ValidateInput(false)]
-        [JsonCallback]
         public ActionResult ExportCsv()
         {
+            if (!Authorize(PermissionRecordProvider.ManageTbItem))
+                return AuthorizeJson();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<TbItemModel>>(Request.Params["models"]);
 
             List<TbItem> tbItems = new List<TbItem>();
@@ -154,10 +170,11 @@ namespace yanzhilong.Areas.Admin.Controllers
             return Json(new { success = 1, message = "导出成功" });
         }
 
-        [JsonCallback]
         public ActionResult DeleteAll()
         {
-            
+            if (!Authorize(PermissionRecordProvider.ManageTbItem))
+                return AuthorizeJson();
+
             List<TbItem> tbItem_tbdatas = tbItemService.GetEntrys(new TbItem() { DataTypeEnum = TbDataTypeEnum.TBDATA }).ToList<TbItem>();
             tbItemService.DeleteEntrys(tbItem_tbdatas);
             

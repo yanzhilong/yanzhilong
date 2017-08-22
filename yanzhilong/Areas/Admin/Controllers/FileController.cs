@@ -12,20 +12,23 @@ using yanzhilong.Domain;
 using yanzhilong.filter;
 using yanzhilong.Infrastructure.Mapper;
 using yanzhilong.Models;
+using yanzhilong.Security;
 using yanzhilong.Service;
 
 namespace yanzhilong.Areas.Admin.Controllers
 {
-    public class FileController : Controller
+    public class FileController : BaseAdminController
     {
         private UploadFileService fileService = new UploadFileService();
         private FilePersistenceService filePersistenceService = new FilePersistenceService();
 
 
-        [Authentication]
         [HttpPost]
         public JsonResult Upload(HttpPostedFileBase file)
         {
+            if (!Authorize(PermissionRecordProvider.ManageResource))
+                return AuthorizeJson();
+
             JsonResult js = new JsonResult();
             JavaScriptSerializer jss = new JavaScriptSerializer();
             UploadFile UploadFile = filePersistenceService.WriteFile(file, FileEnum.IMG);
@@ -33,10 +36,12 @@ namespace yanzhilong.Areas.Admin.Controllers
             return Json(new { result = UploadFile != null ? UploadFile.Url : "" });
         }
 
-        [Authentication]
         [HttpPost]
         public JsonResult UploadEditor()
         {
+            if (!Authorize(PermissionRecordProvider.ManageResource))
+                return AuthorizeJson();
+
             HttpPostedFileBase EditFile = Request.Files["editormd-image-file"];
             UploadFile UploadFile = filePersistenceService.WriteFile(EditFile, FileEnum.IMG);
             if (UploadFile != null)
@@ -48,6 +53,9 @@ namespace yanzhilong.Areas.Admin.Controllers
 
         public ActionResult Details(string Id)
         {
+            if (!Authorize(PermissionRecordProvider.ManageResource))
+                return AccessDeniedView();
+
             if (string.IsNullOrEmpty(Id))
             {
                 return HttpNotFound();
@@ -58,30 +66,39 @@ namespace yanzhilong.Areas.Admin.Controllers
         
         public FileResult Download(string Id)
         {
+            if (!Authorize(PermissionRecordProvider.ManageResource))
+                throw new FileNotFoundException();
+
             UploadFile uf = fileService.GetEntry(new UploadFile { Id = Id, Type = -1 });
             return File(filePersistenceService.MakeFilePath(uf), "multipart/form-data", uf.SaveName);
         }
 
-        [Authentication]
         public ActionResult Index()
         {
+            if (!Authorize(PermissionRecordProvider.ManageResource))
+                return AccessDeniedView();
+
             UploadFile uploadFile = new UploadFile();
             return View(uploadFile.ToModel());
         }
 
-        [Authentication]
         [JsonCallback]
         public ActionResult List()
         {
+            if (!Authorize(PermissionRecordProvider.ManageResource))
+                return AuthorizeGrid();
+
             var uploadFiles = fileService.GetEntrys(new UploadFile { Type = -1 }).ToList();
             List<UploadFileModel> uploadFileModels = uploadFiles.Select(x => x.ToModel()).ToList();
             return Json(uploadFileModels);
         }
 
-        [Authentication]
         [JsonCallback]
         public ActionResult Update()
         {
+            if (!Authorize(PermissionRecordProvider.ManageResource))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<UploadFileModel>>(Request.Params["models"]);
             if (models != null)
             {
@@ -91,10 +108,12 @@ namespace yanzhilong.Areas.Admin.Controllers
             return Json(models);
         }
 
-        [Authentication]
         [JsonCallback]
         public ActionResult Delete()
         {
+            if (!Authorize(PermissionRecordProvider.ManageResource))
+                return AuthorizeGrid();
+
             var models = JsonConvert.DeserializeObject<IEnumerable<UploadFileModel>>(Request.Params["models"]);
             if (models != null)
             {
