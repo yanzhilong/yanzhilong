@@ -1,0 +1,71 @@
+﻿@model UserModel
+@{
+    ViewBag.Title = "用户管理";
+    ViewBag.HeaderTitle = "用户管理";
+    ViewBag.ActiveMenuItemSystemName = "UserManage";
+    List<RoleModel> RoleModels = ViewBag.Roles as List<RoleModel>;
+}
+
+@section Head{
+    <style type=text/css>
+    </style>
+}
+
+@section HeadRight{
+    <button type="submit" id="save" class="btn bg-blue" style="margin-right:20px">
+        <i class="fa fa-floppy-o"></i>
+        保存
+    </button>
+}
+
+<div class="panel panel-default">
+
+    <div class="panel-body">
+        @using (Html.BeginForm("Role", "User", FormMethod.Post, new { id = "RoleForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.HiddenFor(model => model.Id)
+                @Html.ValidationSummary(true, "请求参数不正确", new { @class = "text-danger" })
+
+                <div class="scroll-wrapper">
+                    <table class="table table-hover table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="col">
+                                    <strong>角色</strong>
+                                </th>
+                                <th scope="col">
+                                    <strong>授权</strong>
+                                </th>
+                            </tr>
+                            @foreach (RoleModel rm in RoleModels)
+                            {
+                                <tr>
+                                    <td>
+                                        <span>@rm.Name</span>
+                                    </td>
+                                    <td>
+                                        <input class="@rm.SystemName)" type="checkbox" value="@(rm.SystemName)" name="allow_@(rm.Id)" @(rm.Authorize ? " checked=checked" : null) />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //其它按钮提交表单
+        $("#save").click(function () {
+            $("#RoleForm").submit()
+        });
+
+    });
+</script>

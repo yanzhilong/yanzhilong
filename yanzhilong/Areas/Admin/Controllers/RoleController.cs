@@ -39,7 +39,7 @@ namespace yanzhilong.Areas.Admin.Controllers
         [JsonCallback]
         public ActionResult List()
         {
-            var entrys = _RoleServiceMB.GetEntrys(new Role{ });
+            var entrys = _RoleServiceMB.GetEntrys(new Role { });
 
             IEnumerable<RoleModel> entrymodels = entrys.Select(x => x.ToModel());
 

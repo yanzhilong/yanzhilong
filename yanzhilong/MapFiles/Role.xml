@@ -18,6 +18,13 @@
       <result property="SystemName" column="SystemName" dbType="varchar" type="string" />
       
     </resultMap>
+
+    <!-- 新增的映射文件，用于引用 -->
+    <resultMap id="RoleExtend" class="Role">
+      <result property="Id" column="RoleId" dbType="VARCHAR" type="string" />
+      <result property="Name" column="RoleName" dbType="VARCHAR" type="string" />
+      <result property="SystemName" column="RoleSystemName" dbType="VARCHAR" type="string" />
+    </resultMap>
     
   </resultMaps>
 
