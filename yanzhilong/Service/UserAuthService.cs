@@ -65,6 +65,10 @@ namespace yanzhilong.Service
             {
                 cookie.Expires = ticket.Expiration;
             }
+            else
+            {
+                cookie.Expires = DateTime.Now.Add(FormsAuthentication.Timeout);
+            }
             cookie.Secure = FormsAuthentication.RequireSSL;
             cookie.Path = FormsAuthentication.FormsCookiePath;
             if (FormsAuthentication.CookieDomain != null)
