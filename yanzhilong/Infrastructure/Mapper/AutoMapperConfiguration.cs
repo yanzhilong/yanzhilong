@@ -102,6 +102,11 @@ namespace yanzhilong.Infrastructure.Mapper
 
             cfg.CreateMap<PermissionRecordModel, PermissionRecord>();
 
+            //JdXiuXian
+            cfg.CreateMap<JdXiuXian, JdXiuXianModel>();
+
+            cfg.CreateMap<JdXiuXianModel, JdXiuXian>();
+
         };
 
         public static void Init()

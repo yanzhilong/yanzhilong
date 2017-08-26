@@ -127,7 +127,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
     <update id="Update<%=DomainName%>" parameterClass="<%=DomainName%>">
       <![CDATA[           
       UPDATE <%=TableName%> SET   
-      <% for(int i = 0; i < resultattributes.Count; i++)%>
+      <% for(int i = 1; i < resultattributes.Count; i++)%>
       <%{%>
             <%
             string[] inse = resultattributes[i];

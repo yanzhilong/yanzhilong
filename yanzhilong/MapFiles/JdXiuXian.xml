@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="JdXiuXian" xmlns="http://ibatis.apache.org/mapping"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+  <alias>
+    <typeAlias alias="JdXiuXian" type="yanzhilong.Domain.JdXiuXian,yanzhilong" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SelectAllResult" class="JdXiuXian">
+      <result property="Id" column="Id" dbType="VARCHAR" type="string" />
+      <result property="Title" column="Title" dbType="VARCHAR" type="string" />
+      <result property="addWareVOadContent" column="addWareVOadContent" dbType="VARCHAR" type="string" />
+      <result property="combobox_caption_brandId" column="combobox_caption_brandId" dbType="VARCHAR" type="string" />
+      <result property="addWareVOis7ToReturn" column="addWareVOis7ToReturn" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_91768" column="attid_3_1_91768" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_11853" column="attid_3_1_11853" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_11864" column="attid_3_1_11864" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_91791" column="attid_3_1_91791" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_14919" column="attid_3_1_14919" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_14850" column="attid_3_1_14850" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_14888" column="attid_3_1_14888" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_11839" column="attid_3_1_11839" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_104886" column="attid_3_1_104886" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_91794" column="attid_3_1_91794" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_14941" column="attid_3_1_14941" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_91800" column="attid_3_1_91800" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_91801" column="attid_3_1_91801" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_91805" column="attid_3_1_91805" dbType="VARCHAR" type="string" />
+      <result property="attid_3_1_91806" column="attid_3_1_91806" dbType="VARCHAR" type="string" />
+      <result property="addWareVOweight" column="addWareVOweight" dbType="VARCHAR" type="string" />
+      <result property="addWareVOlength" column="addWareVOlength" dbType="VARCHAR" type="string" />
+      <result property="addWareVOwide" column="addWareVOwide" dbType="VARCHAR" type="string" />
+      <result property="addWareVOhigh" column="addWareVOhigh" dbType="VARCHAR" type="string" />
+      <result property="areaId1" column="areaId1" dbType="VARCHAR" type="string" />
+      <result property="areaId2" column="areaId2" dbType="VARCHAR" type="string" />
+      <result property="fareId" column="fareId" dbType="VARCHAR" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="SelectAllJdXiuXians" resultMap="SelectAllResult">
+      <![CDATA[  
+      SELECT 
+      Id,
+      Title,
+      addWareVOadContent,
+      combobox_caption_brandId,
+      addWareVOis7ToReturn,
+      attid_3_1_91768,
+      attid_3_1_11853,
+      attid_3_1_11864,
+      attid_3_1_91791,
+      attid_3_1_14919,
+      attid_3_1_14850,
+      attid_3_1_14888,
+      attid_3_1_11839,
+      attid_3_1_104886,
+      attid_3_1_91794,
+      attid_3_1_14941,
+      attid_3_1_91800,
+      attid_3_1_91801,
+      attid_3_1_91805,
+      attid_3_1_91806,
+      addWareVOweight,
+      addWareVOlength,
+      addWareVOwide,
+      addWareVOhigh,
+      areaId1,
+      areaId2,
+      fareId
+      FROM jd_xiuxian
+      ]]>
+    </select>
+
+    <select id="SelectJdXiuXianByCondition" parameterClass="JdXiuXian" resultMap="SelectAllResult" extends="SelectAllJdXiuXians">
+      <dynamic prepend="WHERE">
+
+        <isNotEmpty prepend="AND" property="Id">
+          <![CDATA[  
+           Id = #Id#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Title">
+          <![CDATA[  
+           Title = #Title#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="addWareVOadContent">
+          <![CDATA[  
+           addWareVOadContent = #addWareVOadContent#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="combobox_caption_brandId">
+          <![CDATA[  
+           combobox_caption_brandId = #combobox_caption_brandId#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="addWareVOis7ToReturn">
+          <![CDATA[  
+           addWareVOis7ToReturn = #addWareVOis7ToReturn#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_91768">
+          <![CDATA[  
+           attid_3_1_91768 = #attid_3_1_91768#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_11853">
+          <![CDATA[  
+           attid_3_1_11853 = #attid_3_1_11853#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_11864">
+          <![CDATA[  
+           attid_3_1_11864 = #attid_3_1_11864#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_91791">
+          <![CDATA[  
+           attid_3_1_91791 = #attid_3_1_91791#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_14919">
+          <![CDATA[  
+           attid_3_1_14919 = #attid_3_1_14919#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_14850">
+          <![CDATA[  
+           attid_3_1_14850 = #attid_3_1_14850#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_14888">
+          <![CDATA[  
+           attid_3_1_14888 = #attid_3_1_14888#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_11839">
+          <![CDATA[  
+           attid_3_1_11839 = #attid_3_1_11839#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_104886">
+          <![CDATA[  
+           attid_3_1_104886 = #attid_3_1_104886#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_91794">
+          <![CDATA[  
+           attid_3_1_91794 = #attid_3_1_91794#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_14941">
+          <![CDATA[  
+           attid_3_1_14941 = #attid_3_1_14941#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_91800">
+          <![CDATA[  
+           attid_3_1_91800 = #attid_3_1_91800#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_91801">
+          <![CDATA[  
+           attid_3_1_91801 = #attid_3_1_91801#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_91805">
+          <![CDATA[  
+           attid_3_1_91805 = #attid_3_1_91805#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="attid_3_1_91806">
+          <![CDATA[  
+           attid_3_1_91806 = #attid_3_1_91806#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="addWareVOweight">
+          <![CDATA[  
+           addWareVOweight = #addWareVOweight#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="addWareVOlength">
+          <![CDATA[  
+           addWareVOlength = #addWareVOlength#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="addWareVOwide">
+          <![CDATA[  
+           addWareVOwide = #addWareVOwide#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="addWareVOhigh">
+          <![CDATA[  
+           addWareVOhigh = #addWareVOhigh#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="areaId1">
+          <![CDATA[  
+           areaId1 = #areaId1#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="areaId2">
+          <![CDATA[  
+           areaId2 = #areaId2#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="fareId">
+          <![CDATA[  
+           fareId = #fareId#
+            ]]>
+        </isNotEmpty>
+
+      </dynamic>
+    </select>
+
+    <insert id="InsertJdXiuXian" parameterClass="JdXiuXian">
+      <![CDATA[ 
+      INSERT INTO jd_xiuxian
+      (
+      Id,
+      Title,
+      addWareVOadContent,
+      combobox_caption_brandId,
+      addWareVOis7ToReturn,
+      attid_3_1_91768,
+      attid_3_1_11853,
+      attid_3_1_11864,
+      attid_3_1_91791,
+      attid_3_1_14919,
+      attid_3_1_14850,
+      attid_3_1_14888,
+      attid_3_1_11839,
+      attid_3_1_104886,
+      attid_3_1_91794,
+      attid_3_1_14941,
+      attid_3_1_91800,
+      attid_3_1_91801,
+      attid_3_1_91805,
+      attid_3_1_91806,
+      addWareVOweight,
+      addWareVOlength,
+      addWareVOwide,
+      addWareVOhigh,
+      areaId1,
+      areaId2,
+      fareId
+      )
+      VALUES
+      (
+      #Id#,
+      #Title#,
+      #addWareVOadContent#,
+      #combobox_caption_brandId#,
+      #addWareVOis7ToReturn#,
+      #attid_3_1_91768#,
+      #attid_3_1_11853#,
+      #attid_3_1_11864#,
+      #attid_3_1_91791#,
+      #attid_3_1_14919#,
+      #attid_3_1_14850#,
+      #attid_3_1_14888#,
+      #attid_3_1_11839#,
+      #attid_3_1_104886#,
+      #attid_3_1_91794#,
+      #attid_3_1_14941#,
+      #attid_3_1_91800#,
+      #attid_3_1_91801#,
+      #attid_3_1_91805#,
+      #attid_3_1_91806#,
+      #addWareVOweight#,
+      #addWareVOlength#,
+      #addWareVOwide#,
+      #addWareVOhigh#,
+      #areaId1#,
+      #areaId2#,
+      #fareId#
+      )
+      ]]>
+    </insert>
+
+    <update id="UpdateJdXiuXian" parameterClass="JdXiuXian">
+      <![CDATA[           
+      UPDATE jd_xiuxian SET   
+      Title=#Title#,
+      addWareVOadContent=#addWareVOadContent#,
+      combobox_caption_brandId=#combobox_caption_brandId#,
+      addWareVOis7ToReturn=#addWareVOis7ToReturn#,
+      attid_3_1_91768=#attid_3_1_91768#,
+      attid_3_1_11853=#attid_3_1_11853#,
+      attid_3_1_11864=#attid_3_1_11864#,
+      attid_3_1_91791=#attid_3_1_91791#,
+      attid_3_1_14919=#attid_3_1_14919#,
+      attid_3_1_14850=#attid_3_1_14850#,
+      attid_3_1_14888=#attid_3_1_14888#,
+      attid_3_1_11839=#attid_3_1_11839#,
+      attid_3_1_104886=#attid_3_1_104886#,
+      attid_3_1_91794=#attid_3_1_91794#,
+      attid_3_1_14941=#attid_3_1_14941#,
+      attid_3_1_91800=#attid_3_1_91800#,
+      attid_3_1_91801=#attid_3_1_91801#,
+      attid_3_1_91805=#attid_3_1_91805#,
+      attid_3_1_91806=#attid_3_1_91806#,
+      addWareVOweight=#addWareVOweight#,
+      addWareVOlength=#addWareVOlength#,
+      addWareVOwide=#addWareVOwide#,
+      addWareVOhigh=#addWareVOhigh#,
+      areaId1=#areaId1#,
+      areaId2=#areaId2#,
+      fareId=#fareId#
+      WHERE Id = #Id#
+      ]]>
+    </update>
+
+    <delete id="DeleteJdXiuXian" parameterClass="JdXiuXian">
+      <![CDATA[
+      Delete From jd_xiuxian Where Id = #Id#
+      ]]>
+    </delete>
+
+  </statements>
+</sqlMap>

@@ -244,6 +244,7 @@
     <Compile Include="Areas\Admin\Controllers\PermissionRecordController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SecurityController.cs" />
+    <Compile Include="Areas\Admin\Controllers\JdXiuXianController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\TbItemController.cs" />
@@ -256,6 +257,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
     <Compile Include="Domain\CommonEnum.cs" />
+    <Compile Include="Domain\JdXiuXian.cs" />
     <Compile Include="Domain\Kendo\DataSourceRequest.cs" />
     <Compile Include="Domain\Kendo\DataSourceResult.cs" />
     <Compile Include="Domain\PermissionRecord.cs" />
@@ -296,6 +298,7 @@
     <Compile Include="Menu\Extensions.cs" />
     <Compile Include="Menu\SiteMapNode.cs" />
     <Compile Include="Menu\XmlSiteMap.cs" />
+    <Compile Include="Models\JdXiuXianModel.cs" />
     <Compile Include="Models\PermissionRecordModel.cs" />
     <Compile Include="Models\RolePermissionRecordModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
@@ -328,6 +331,7 @@
     <Compile Include="Security\SaltedHash.cs" />
     <Compile Include="Autofac.cs" />
     <Compile Include="Service\FilePersistenceService.cs" />
+    <Compile Include="Service\JdXiuXianServiceMB.cs" />
     <Compile Include="Service\UploadFileService.cs" />
     <Compile Include="Service\IBaseService.cs" />
     <Compile Include="Service\ICacheService.cs" />
@@ -8125,6 +8129,7 @@
     <EmbeddedResource Include="MapFiles\UserRole.xml" />
     <EmbeddedResource Include="MapFiles\RolePermissionRecord.xml" />
     <EmbeddedResource Include="MapFiles\PermissionRecord.xml" />
+    <EmbeddedResource Include="MapFiles\JdXiuXian.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

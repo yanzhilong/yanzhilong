@@ -289,5 +289,19 @@ namespace yanzhilong.Infrastructure.Mapper
         }
 
         #endregion
+
+        #region JdXiuXian
+
+        public static JdXiuXianModel ToModel(this JdXiuXian entity)
+        {
+            return entity.MapTo<JdXiuXian, JdXiuXianModel>();
+        }
+
+        public static JdXiuXian ToEntity(this JdXiuXianModel model)
+        {
+            return model.MapTo<JdXiuXianModel, JdXiuXian>();
+        }
+
+        #endregion
     }
 }
