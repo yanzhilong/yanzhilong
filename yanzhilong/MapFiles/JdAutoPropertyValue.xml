@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="JdAutoPropertyValue" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+  <!-- 设置别名，用于底下指定类型的时候不需要全全类名(包括长的空间名 ),最后一个参数是项目的命名空间名 -->
+  <alias>
+    <typeAlias alias="JdAutoPropertyValue" type="yanzhilong.Domain.JdAutoPropertyValue, yanzhilong"/>
+  </alias>
+
+  <!-- 数据库到实体类的映射表 -->
+  <resultMaps>
+    
+    <!-- 数据库的全部字段到实体类的映射 -->
+    <resultMap id="JdAutoPropertyValueResult" class="JdAutoPropertyValue">
+      <result property="Id" column="Id" dbType="char" type="string" />
+      <result property="JdAutoId" column="JdAutoId" dbType="varchar" type="string" />
+      <result property="PropertyName" column="PropertyName" dbType="varchar" type="string" />
+      <result property="PropertyKey" column="PropertyKey" dbType="varchar" type="string" />
+      <result property="ValueName" column="ValueName" dbType="varchar" type="string" />
+      <result property="ValueValue" column="ValueValue" dbType="varchar" type="string" />
+      <result property="IsCheck" column="IsCheck" dbType="int" type="int" />
+
+    </resultMap>
+    
+  </resultMaps>
+
+  <!-- 声明执行语句列表，可以包含多个<select>、<insert>、<update>、<delete>节点 -->
+  <!-- 为了避免SQL语句出现的'<'和'>'会和配置文件的<>冲突，所以SQL语句都写在<![CDATA[  与  ]]>之间 -->
+  <statements>
+
+    <!-- 添加句子SQL语句 -->
+    <insert id="InsertJdAutoPropertyValue" parameterClass="JdAutoPropertyValue" >
+      <![CDATA[  
+      insert into jd_autopropertyvalue
+      (Id,JdAutoId,PropertyName,PropertyKey,ValueName,ValueValue,IsCheck)  
+      values  
+      (#Id#,#JdAutoId#,#PropertyName#,#PropertyKey#,#ValueName#,#ValueValue#,#IsCheck#)  
+      ]]>
+    </insert>
+
+    <!-- parameterClass表示传入的参数为int -->
+    <delete id="DeleteJdAutoPropertyValue" parameterClass="JdAutoPropertyValue">
+      <![CDATA[
+          delete from jd_autopropertyvalue  
+          where  
+          Id = #Id#  
+          ]]>
+    </delete>
+    
+    <!-- #UserName# 表示传入实体类参数的属性，表示实体的的属性 -->
+    <update id="UpdateJdAutoPropertyValue" parameterClass="JdAutoPropertyValue">
+      <![CDATA[  
+          UPDATE jd_autopropertyvalue SET  
+          JdAutoId=#JdAutoId#,
+          PropertyName=#PropertyName#,
+          PropertyKey=#PropertyKey#,
+          ValueName=#ValueName#,
+          ValueValue=#ValueValue#,
+          IsCheck=#IsCheck#          
+          WHERE  
+          Id=#Id#
+          ]]>
+    </update>
+    
+     <!--resultMap="SelectAllResult"表示数据库字段与实体类的映射关系和上面配置的SelectAllResult一样--> 
+    <select id="SelectJdAutoPropertyValueByCondition" parameterClass="JdAutoPropertyValue" resultMap="JdAutoPropertyValueResult">
+      <![CDATA[  
+          SELECT Id
+          ,JdAutoId
+          ,PropertyName
+          ,PropertyKey
+          ,ValueName
+          ,ValueValue
+          ,IsCheck 
+          FROM jd_autopropertyvalue
+          ]]>
+      <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="Id">
+          <![CDATA[  
+           Id = #Id#
+            ]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="JdAutoId">
+          <![CDATA[  
+           JdAutoId = #JdAutoId#
+            ]]>
+        </isNotEmpty>
+      </dynamic>
+    </select>
+    
+  </statements>
+
+</sqlMap>

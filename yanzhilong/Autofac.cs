@@ -105,9 +105,10 @@ namespace yanzhilong
             builder.RegisterType<PermissionService>();
             builder.RegisterType<UserAuthService>();
 
-            builder.RegisterType<JdXiuXianServiceMB>();
+            builder.RegisterType<JdAutoMB>();
+            builder.RegisterType<JdAutoPropertyValueMB>();
 
-            
+
 
             builder.RegisterType<MemoryCacheService>().As<ICacheService>().Named<ICacheService>("MemoryCacheService").SingleInstance();
 

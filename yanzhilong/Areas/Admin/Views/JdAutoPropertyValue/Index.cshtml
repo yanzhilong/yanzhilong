@@ -1,0 +1,126 @@
+﻿@model JdAutoPropertyValueModel
+
+@{
+    ViewBag.Title = "填单属性";
+    ViewBag.HeaderTitle = "填单属性";
+    ViewBag.ActiveMenuItemSystemName = "JdAuto";
+
+    //将下拉列表生成html
+    HtmlString CheckItemsHtml = Html.DropDownListFor(model => model.IsCheck, Model.CheckItems, htmlAttributes: new { required = "required", @class = "k-input" });
+    string CheckItems = CheckItemsHtml.ToHtmlString();
+    string CheckItemsReplace = CheckItems.Replace("\r\n", "");
+}
+
+@section Head{
+    <style type=text/css>
+    </style>
+}
+
+@section HeadRight{
+
+}
+<div class="panel panel-default">
+    <div id="grid"></div>
+    <script>
+
+        $(document).ready(function () {
+            var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "JdAutoPropertyValue"))" + "?JdAutoId=" + "@ViewBag.JdAutoId";
+            var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "JdAutoPropertyValue"))";
+            var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "JdAutoPropertyValue"))";
+            var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "JdAutoPropertyValue"))",
+
+            dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: ReadUrl,
+                        dataType: "jsonp"
+                    },
+                    update: {
+                        url: UpdateUrl,
+
+                        dataType: "jsonp"
+                    },
+                    destroy: {
+                        url: DestroyUrl,
+                        type: "post",
+                        dataType: "jsonp"
+                    },
+                    create: {
+                        url: CreateUrl,
+                        type: "post",
+                        dataType: "jsonp"
+                    },
+                    parameterMap: function (options, operation) {
+
+                        if (operation == "create"  && options.models) {
+                            var modelsTmp = options.models;
+                            //存入指定属性的值，通过工具栏的新增按钮，都是创建一个，所以取下标为0的就行了
+                            modelsTmp[0].JdAutoId = "@ViewBag.JdAutoId";
+                            return { models: kendo.stringify(options.models) };
+                        }
+
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            PropertyName: { validation: { required: true } },
+                            PropertyKey: { validation: { required: true } },
+                            ValueName: { validation: { required: true } },
+                            ValueValue: { validation: { required: true } },
+                            IsCheck: { validation: { required: true } },
+                            CheckStr: { validation: { required: false } }
+                        }
+                    }
+                }
+            });
+            dataSource.bind("error", dataSource_error);
+
+            function dataSource_error(e) {
+                var responsejson = e.xhr.responseText;
+                alert(e.status);
+            }
+
+            $("#grid").kendoGrid({
+                dataSource: dataSource,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                toolbar: ["create"],
+                columns: [
+                    { field: "PropertyName", title: "属性名称" },
+                    { field: "PropertyKey", title: "属性-键" },
+                    { field: "ValueName", title: "值名称" },
+                    { field: "ValueValue", title: "值" },
+                    { field: "IsCheck", title: "是否是选择框", editor: CheckSelect, template: "#=CheckStr#" },
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: "300px" }],
+                editable: "popup"
+            });
+        });
+
+        function CheckSelect(container, options) {
+            var select2 = '@Html.Raw(CheckItemsReplace)';
+            $(select2).appendTo(container);
+        }
+
+        //显示详情
+        function showDetails(e) {
+            e.preventDefault();
+            var tr = $(e.target).closest("tr"); // get the current table row (tr)
+            var data = this.dataItem(tr);
+            var Id = data.Id;
+            //alert("Details for: " + data.Name);
+            window.location.href = "@Url.Action("Index", "JdAutoPropertyValue")" + "?JdAutoId=" + Id;
+        }
+    </script>
+</div>

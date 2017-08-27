@@ -241,10 +241,11 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\EditorMdController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileController.cs" />
+    <Compile Include="Areas\Admin\Controllers\JdAutoPropertyValueController.cs" />
     <Compile Include="Areas\Admin\Controllers\PermissionRecordController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SecurityController.cs" />
-    <Compile Include="Areas\Admin\Controllers\JdXiuXianController.cs" />
+    <Compile Include="Areas\Admin\Controllers\JdAutoController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\TbItemController.cs" />
@@ -257,6 +258,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
     <Compile Include="Domain\CommonEnum.cs" />
+    <Compile Include="Domain\JdAuto.cs" />
+    <Compile Include="Domain\JdAutoPropertyValue.cs" />
+    <Compile Include="Domain\JdCid.cs" />
+    <Compile Include="Domain\JdCidPropertyValue.cs" />
+    <Compile Include="Domain\JdProperty.cs" />
+    <Compile Include="Domain\JdValue.cs" />
     <Compile Include="Domain\JdXiuXian.cs" />
     <Compile Include="Domain\Kendo\DataSourceRequest.cs" />
     <Compile Include="Domain\Kendo\DataSourceResult.cs" />
@@ -298,6 +305,8 @@
     <Compile Include="Menu\Extensions.cs" />
     <Compile Include="Menu\SiteMapNode.cs" />
     <Compile Include="Menu\XmlSiteMap.cs" />
+    <Compile Include="Models\JdAutoModel.cs" />
+    <Compile Include="Models\JdAutoPropertyValueModel.cs" />
     <Compile Include="Models\JdXiuXianModel.cs" />
     <Compile Include="Models\PermissionRecordModel.cs" />
     <Compile Include="Models\RolePermissionRecordModel.cs" />
@@ -331,7 +340,8 @@
     <Compile Include="Security\SaltedHash.cs" />
     <Compile Include="Autofac.cs" />
     <Compile Include="Service\FilePersistenceService.cs" />
-    <Compile Include="Service\JdXiuXianServiceMB.cs" />
+    <Compile Include="Service\JdAutoPropertyValueMB.cs" />
+    <Compile Include="Service\JdAutoMB.cs" />
     <Compile Include="Service\UploadFileService.cs" />
     <Compile Include="Service\IBaseService.cs" />
     <Compile Include="Service\ICacheService.cs" />
@@ -8129,7 +8139,8 @@
     <EmbeddedResource Include="MapFiles\UserRole.xml" />
     <EmbeddedResource Include="MapFiles\RolePermissionRecord.xml" />
     <EmbeddedResource Include="MapFiles\PermissionRecord.xml" />
-    <EmbeddedResource Include="MapFiles\JdXiuXian.xml" />
+    <EmbeddedResource Include="MapFiles\JdAuto.xml" />
+    <EmbeddedResource Include="MapFiles\JdAutoPropertyValue.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -8937,7 +8948,9 @@
     <Content Include="Content\AdminLTE-2.4.0-rc\yarn.lock" />
     <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\Menu.cshtml" />
-    <Content Include="Areas\Admin\sitemap.config" />
+    <Content Include="Areas\Admin\sitemap.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\Admin\Views\Home\Register.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\ModifyPassword.cshtml" />
@@ -8952,6 +8965,8 @@
     <Content Include="Areas\Admin\Views\Role\Role.cshtml" />
     <Content Include="Areas\Admin\Views\User\Role.cshtml" />
     <Content Include="Areas\Admin\Views\Security\AccessDenied.cshtml" />
+    <Content Include="Areas\Admin\Views\JdAuto\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\JdAutoPropertyValue\Index.cshtml" />
     <None Include="Project_Readme.html" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>

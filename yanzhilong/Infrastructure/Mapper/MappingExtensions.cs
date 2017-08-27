@@ -290,16 +290,30 @@ namespace yanzhilong.Infrastructure.Mapper
 
         #endregion
 
-        #region JdXiuXian
+        #region JdAuto
 
-        public static JdXiuXianModel ToModel(this JdXiuXian entity)
+        public static JdAutoModel ToModel(this JdAuto entity)
         {
-            return entity.MapTo<JdXiuXian, JdXiuXianModel>();
+            return entity.MapTo<JdAuto, JdAutoModel>();
         }
 
-        public static JdXiuXian ToEntity(this JdXiuXianModel model)
+        public static JdAuto ToEntity(this JdAutoModel model)
         {
-            return model.MapTo<JdXiuXianModel, JdXiuXian>();
+            return model.MapTo<JdAutoModel, JdAuto>();
+        }
+
+        #endregion
+
+        #region JdAutoPropertyValue
+
+        public static JdAutoPropertyValueModel ToModel(this JdAutoPropertyValue entity)
+        {
+            return entity.MapTo<JdAutoPropertyValue, JdAutoPropertyValueModel>();
+        }
+
+        public static JdAutoPropertyValue ToEntity(this JdAutoPropertyValueModel model)
+        {
+            return model.MapTo<JdAutoPropertyValueModel, JdAutoPropertyValue>();
         }
 
         #endregion
