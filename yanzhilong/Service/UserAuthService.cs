@@ -63,7 +63,8 @@ namespace yanzhilong.Service
             //设置过期时间
             if (ticket.IsPersistent)
             {
-                cookie.Expires = ticket.Expiration;
+                //cookie.Expires = ticket.Expiration;
+                cookie.Expires = DateTime.Now.AddDays(365); ;
             }
             else
             {
