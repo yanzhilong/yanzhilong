@@ -64,11 +64,7 @@ namespace yanzhilong.Service
             if (ticket.IsPersistent)
             {
                 //cookie.Expires = ticket.Expiration;
-                cookie.Expires = DateTime.Now.AddDays(365); ;
-            }
-            else
-            {
-                cookie.Expires = DateTime.Now.Add(FormsAuthentication.Timeout);
+                cookie.Expires = DateTime.Now.AddDays(30); ;
             }
             cookie.Secure = FormsAuthentication.RequireSSL;
             cookie.Path = FormsAuthentication.FormsCookiePath;
@@ -106,10 +102,19 @@ namespace yanzhilong.Service
         /// </summary>
         public virtual void SignOut()
         {
+            
             if (_CachedUser != null)
             {
                 _CacheService.Remove(_CachedUser.Id);
                 _CachedUser = null;
+            }
+            else
+            {
+                User user = CurrentUser;
+                if(user != null)
+                {
+                    _CacheService.Remove(user.Id);
+                }
             }
             FormsAuthentication.SignOut();
         }

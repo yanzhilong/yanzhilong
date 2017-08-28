@@ -108,6 +108,7 @@ namespace yanzhilong
             builder.RegisterType<JdAutoServiceMB>();
             builder.RegisterType<JdAutoPropertyValueServiceMB>();
             builder.RegisterType<JdItemServiceMB>();
+            builder.RegisterType<ItemTitleServiceMB>();
 
             
 

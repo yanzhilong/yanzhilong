@@ -331,5 +331,19 @@ namespace yanzhilong.Infrastructure.Mapper
         }
 
         #endregion
+
+        #region ItemTitle
+
+        public static ItemTitleModel ToModel(this ItemTitle entity)
+        {
+            return entity.MapTo<ItemTitle, ItemTitleModel>();
+        }
+
+        public static ItemTitle ToEntity(this ItemTitleModel model)
+        {
+            return model.MapTo<ItemTitleModel, ItemTitle>();
+        }
+
+        #endregion
     }
 }

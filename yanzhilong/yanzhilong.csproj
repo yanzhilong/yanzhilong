@@ -242,6 +242,7 @@
     <Compile Include="Areas\Admin\Controllers\EditorMdController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileController.cs" />
     <Compile Include="Areas\Admin\Controllers\JdAutoPropertyValueController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ItemTitleController.cs" />
     <Compile Include="Areas\Admin\Controllers\PermissionRecordController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SecurityController.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
     <Compile Include="Domain\CommonEnum.cs" />
+    <Compile Include="Domain\ItemTitle.cs" />
     <Compile Include="Domain\JdAuto.cs" />
     <Compile Include="Domain\JdAutoPropertyValue.cs" />
     <Compile Include="Domain\Kendo\DataSourceRequest.cs" />
@@ -302,6 +304,7 @@
     <Compile Include="Menu\Extensions.cs" />
     <Compile Include="Menu\SiteMapNode.cs" />
     <Compile Include="Menu\XmlSiteMap.cs" />
+    <Compile Include="Models\ItemTitleModel.cs" />
     <Compile Include="Models\JdAutoModel.cs" />
     <Compile Include="Models\JdAutoPropertyValueModel.cs" />
     <Compile Include="Models\JdItemModel.cs" />
@@ -338,6 +341,7 @@
     <Compile Include="Security\SaltedHash.cs" />
     <Compile Include="Autofac.cs" />
     <Compile Include="Service\FilePersistenceService.cs" />
+    <Compile Include="Service\ItemTitleServiceMB.cs" />
     <Compile Include="Service\JdAutoPropertyValueServiceMB.cs" />
     <Compile Include="Service\JdAutoServiceMB.cs" />
     <Compile Include="Service\JdItemServiceMB.cs" />
@@ -8141,6 +8145,7 @@
     <EmbeddedResource Include="MapFiles\JdAuto.xml" />
     <EmbeddedResource Include="MapFiles\JdAutoPropertyValue.xml" />
     <EmbeddedResource Include="MapFiles\JdItem.xml" />
+    <EmbeddedResource Include="MapFiles\ItemTitle.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -8968,6 +8973,7 @@
     <Content Include="Areas\Admin\Views\JdAuto\Index.cshtml" />
     <Content Include="Areas\Admin\Views\JdAutoPropertyValue\Index.cshtml" />
     <Content Include="Areas\Admin\Views\JdItem\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ItemTitle\Index.cshtml" />
     <None Include="Project_Readme.html" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>

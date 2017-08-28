@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="ItemTitle" xmlns="http://ibatis.apache.org/mapping"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+  <alias>
+    <typeAlias alias="ItemTitle" type="yanzhilong.Domain.ItemTitle,yanzhilong" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SelectAllResult" class="ItemTitle">
+      <result property="Id" column="Id" dbType="VARCHAR" type="string" />
+      <result property="Name" column="Name" dbType="VARCHAR" type="string" />
+      <result property="TitleItems" column="TitleItems" dbType="VARCHAR" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="SelectAllItemTitles" resultMap="SelectAllResult">
+      <![CDATA[  
+      SELECT 
+      Id,
+      Name,
+      TitleItems
+      FROM itemtitle
+      ]]>
+    </select>
+
+    <select id="SelectItemTitleByCondition" parameterClass="ItemTitle" resultMap="SelectAllResult" extends="SelectAllItemTitles">
+      <dynamic prepend="WHERE">
+
+        <isNotEmpty prepend="AND" property="Id">
+          <![CDATA[  
+           Id = #Id#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="Name">
+          <![CDATA[  
+           Name = #Name#
+            ]]>
+        </isNotEmpty>
+
+        <isNotEmpty prepend="AND" property="TitleItems">
+          <![CDATA[  
+           TitleItems = #TitleItems#
+            ]]>
+        </isNotEmpty>
+
+      </dynamic>
+    </select>
+
+    <insert id="InsertItemTitle" parameterClass="ItemTitle">
+      <![CDATA[ 
+      INSERT INTO itemtitle
+      (
+      Id,
+      Name,
+      TitleItems
+      )
+      VALUES
+      (
+      #Id#,
+      #Name#,
+      #TitleItems#
+      )
+      ]]>
+    </insert>
+
+    <update id="UpdateItemTitle" parameterClass="ItemTitle">
+      <![CDATA[           
+      UPDATE itemtitle SET   
+      Name=#Name#,
+      TitleItems=#TitleItems#
+      WHERE Id = #Id#
+      ]]>
+    </update>
+
+    <delete id="DeleteItemTitle" parameterClass="ItemTitle">
+      <![CDATA[
+      Delete From itemtitle Where Id = #Id#
+      ]]>
+    </delete>
+
+  </statements>
+</sqlMap>

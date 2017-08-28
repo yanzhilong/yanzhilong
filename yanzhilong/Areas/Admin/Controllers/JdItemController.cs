@@ -68,11 +68,25 @@ namespace yanzhilong.Areas.Admin.Controllers
 
             if (models != null)
             {
+                bool Exist = false; 
                 foreach (JdItemModel entry in models)
                 {
                     entry.Id = Guid.NewGuid().ToString();
                     entry.CreateAt = DateTime.Now;
+                    //判断是否有重复的
+                    JdItem ji = _JdItemServiceMB.GetEntry(new JdItem { Url = entry.Url });
+                    Exist = ji != null;
+                    if (Exist)
+                        break;
                 }
+                if (Exist)
+                {
+                    return this.Json(new
+                    {
+                        Errors = "宝贝已经存在"
+                    });
+                }
+                    
                 IEnumerable<JdItem> entrys = models.Select(e => e.ToEntity());
                 _JdItemServiceMB.AddEntrys(entrys.ToList<JdItem>());
             }

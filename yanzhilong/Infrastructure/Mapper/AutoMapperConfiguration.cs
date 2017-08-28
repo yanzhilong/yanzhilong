@@ -117,6 +117,11 @@ namespace yanzhilong.Infrastructure.Mapper
 
             cfg.CreateMap<JdItemModel, JdItem>();
 
+            //ItemTitle
+            cfg.CreateMap<ItemTitle, ItemTitleModel>();
+
+            cfg.CreateMap<ItemTitleModel, ItemTitle>();
+
         };
 
         public static void Init()
