@@ -112,6 +112,11 @@ namespace yanzhilong.Infrastructure.Mapper
 
             cfg.CreateMap<JdAutoPropertyValueModel, JdAutoPropertyValue>();
 
+            //JdItem
+            cfg.CreateMap<JdItem, JdItemModel>();
+
+            cfg.CreateMap<JdItemModel, JdItem>();
+
         };
 
         public static void Init()

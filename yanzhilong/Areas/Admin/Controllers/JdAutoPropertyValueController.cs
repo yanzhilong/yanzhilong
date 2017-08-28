@@ -17,9 +17,9 @@ namespace yanzhilong.Areas.Admin.Controllers
 {
     public class JdAutoPropertyValueController : BaseAdminController
     {
-        private readonly JdAutoPropertyValueMB _JdAutoPropertyValueMB;
+        private readonly JdAutoPropertyValueServiceMB _JdAutoPropertyValueMB;
 
-        public JdAutoPropertyValueController(JdAutoPropertyValueMB jdAutoPropertyValueMB)
+        public JdAutoPropertyValueController(JdAutoPropertyValueServiceMB jdAutoPropertyValueMB)
         {
             _JdAutoPropertyValueMB = jdAutoPropertyValueMB;
         }

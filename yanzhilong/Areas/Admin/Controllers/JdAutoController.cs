@@ -17,11 +17,11 @@ namespace yanzhilong.Areas.Admin.Controllers
 {
     public class JdAutoController : BaseAdminController
     {
-        private readonly JdAutoMB _JdAutoMb;
-        private readonly JdAutoPropertyValueMB _JdAutoPropertyValueMB;
+        private readonly JdAutoServiceMB _JdAutoMb;
+        private readonly JdAutoPropertyValueServiceMB _JdAutoPropertyValueMB;
 
 
-        public JdAutoController(JdAutoMB jdAutoMB, JdAutoPropertyValueMB _jdAutoPropertyValueMB)
+        public JdAutoController(JdAutoServiceMB jdAutoMB, JdAutoPropertyValueServiceMB _jdAutoPropertyValueMB)
         {
             _JdAutoMb = jdAutoMB;
             _JdAutoPropertyValueMB = _jdAutoPropertyValueMB;

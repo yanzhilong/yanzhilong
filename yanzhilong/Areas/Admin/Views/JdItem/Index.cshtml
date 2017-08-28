@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "京东宝贝管理";
+    ViewBag.HeaderTitle = "京东宝贝管理";
+    ViewBag.ActiveMenuItemSystemName = "JdItem";
+}
+
+@section Head{
+    <style type=text/css>
+
+    </style>
+}
+
+@section HeadRight{
+
+}
+
+<div class="panel panel-default">
+    <div id="grid"></div>
+    <script>
+
+        $(document).ready(function () {
+            var ReadUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("List", "JdItem"))";
+            var UpdateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Update", "JdItem"))";
+            var CreateUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Create", "JdItem"))";
+            var DestroyUrl = "@(Request.Url.GetLeftPart(UriPartial.Authority) + Url.Action("Delete", "JdItem"))",
+
+            dataSource = new kendo.data.DataSource({
+                transport: {
+                    read:  {
+                        url: ReadUrl,
+                        dataType: "jsonp"
+                    },
+                    update: {
+                        url: UpdateUrl,
+
+                        dataType: "jsonp"
+                    },
+                    destroy: {
+                        url: DestroyUrl,
+                        type: "post",
+                        dataType: "jsonp"
+                    },
+                    create: {
+                        url: CreateUrl,
+                        type: "post",
+                        dataType: "jsonp"
+                    },
+                    parameterMap: function (options, operation) {
+
+                        if (operation !== "read" && options.models) {
+                            return {models: kendo.stringify(options.models)};
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            Url: { validation: { required: true } },
+                            JNumber: { validation: { required: true } },
+                            CreateAt: { editable: false, nullable: true, type: "date"}
+                        }
+                    }
+                }
+            });
+            dataSource.bind("error", dataSource_error);
+
+            function dataSource_error(e) {
+                var responsejson = e.xhr.responseText;
+                alert(e.status);
+            }
+
+            $("#grid").kendoGrid({
+                dataSource: dataSource,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
+                toolbar: ["create"],
+                columns: [
+                    { field: "Url", title: "搜鞋网址" },
+                    { field: "JNumber", title: "商家编码" },
+                    { field: "CreateAt", title: "创建时间", format: "{0: yyyy年MM月dd日 HH:mm:ss}"  },
+                    { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
+                editable: "popup"
+            });
+        });
+
+    </script>
+</div>

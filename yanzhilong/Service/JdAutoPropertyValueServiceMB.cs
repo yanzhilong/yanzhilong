@@ -8,7 +8,7 @@ using yanzhilong.Domain;
 
 namespace yanzhilong.Service
 {
-    public class JdAutoPropertyValueMB : IBaseService<JdAutoPropertyValue>
+    public class JdAutoPropertyValueServiceMB : IBaseService<JdAutoPropertyValue>
     {
         #region Fields
 

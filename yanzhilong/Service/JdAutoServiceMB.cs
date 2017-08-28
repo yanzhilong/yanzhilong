@@ -8,7 +8,7 @@ using yanzhilong.Domain;
 
 namespace yanzhilong.Service
 {
-    public class JdAutoMB : IBaseService<JdAuto>
+    public class JdAutoServiceMB : IBaseService<JdAuto>
     {
         #region Fields
 

@@ -246,6 +246,7 @@
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SecurityController.cs" />
     <Compile Include="Areas\Admin\Controllers\JdAutoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\JdItemController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\TbItemController.cs" />
@@ -260,11 +261,6 @@
     <Compile Include="Domain\CommonEnum.cs" />
     <Compile Include="Domain\JdAuto.cs" />
     <Compile Include="Domain\JdAutoPropertyValue.cs" />
-    <Compile Include="Domain\JdCid.cs" />
-    <Compile Include="Domain\JdCidPropertyValue.cs" />
-    <Compile Include="Domain\JdProperty.cs" />
-    <Compile Include="Domain\JdValue.cs" />
-    <Compile Include="Domain\JdXiuXian.cs" />
     <Compile Include="Domain\Kendo\DataSourceRequest.cs" />
     <Compile Include="Domain\Kendo\DataSourceResult.cs" />
     <Compile Include="Domain\PermissionRecord.cs" />
@@ -276,6 +272,7 @@
     <Compile Include="Domain\SxProperty.cs" />
     <Compile Include="Domain\SxShoe.cs" />
     <Compile Include="Domain\SxSsize.cs" />
+    <Compile Include="Domain\JdItem.cs" />
     <Compile Include="Domain\TbItem.cs" />
     <Compile Include="Domain\TbProperty.cs" />
     <Compile Include="Domain\TbPropertyCategory.cs" />
@@ -307,6 +304,7 @@
     <Compile Include="Menu\XmlSiteMap.cs" />
     <Compile Include="Models\JdAutoModel.cs" />
     <Compile Include="Models\JdAutoPropertyValueModel.cs" />
+    <Compile Include="Models\JdItemModel.cs" />
     <Compile Include="Models\JdXiuXianModel.cs" />
     <Compile Include="Models\PermissionRecordModel.cs" />
     <Compile Include="Models\RolePermissionRecordModel.cs" />
@@ -340,8 +338,9 @@
     <Compile Include="Security\SaltedHash.cs" />
     <Compile Include="Autofac.cs" />
     <Compile Include="Service\FilePersistenceService.cs" />
-    <Compile Include="Service\JdAutoPropertyValueMB.cs" />
-    <Compile Include="Service\JdAutoMB.cs" />
+    <Compile Include="Service\JdAutoPropertyValueServiceMB.cs" />
+    <Compile Include="Service\JdAutoServiceMB.cs" />
+    <Compile Include="Service\JdItemServiceMB.cs" />
     <Compile Include="Service\UploadFileService.cs" />
     <Compile Include="Service\IBaseService.cs" />
     <Compile Include="Service\ICacheService.cs" />
@@ -8141,6 +8140,7 @@
     <EmbeddedResource Include="MapFiles\PermissionRecord.xml" />
     <EmbeddedResource Include="MapFiles\JdAuto.xml" />
     <EmbeddedResource Include="MapFiles\JdAutoPropertyValue.xml" />
+    <EmbeddedResource Include="MapFiles\JdItem.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -8967,6 +8967,7 @@
     <Content Include="Areas\Admin\Views\Security\AccessDenied.cshtml" />
     <Content Include="Areas\Admin\Views\JdAuto\Index.cshtml" />
     <Content Include="Areas\Admin\Views\JdAutoPropertyValue\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\JdItem\Index.cshtml" />
     <None Include="Project_Readme.html" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>

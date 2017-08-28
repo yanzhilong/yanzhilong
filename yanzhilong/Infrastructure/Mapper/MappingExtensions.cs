@@ -317,5 +317,19 @@ namespace yanzhilong.Infrastructure.Mapper
         }
 
         #endregion
+
+        #region JdItem
+
+        public static JdItemModel ToModel(this JdItem entity)
+        {
+            return entity.MapTo<JdItem, JdItemModel>();
+        }
+
+        public static JdItem ToEntity(this JdItemModel model)
+        {
+            return model.MapTo<JdItemModel, JdItem>();
+        }
+
+        #endregion
     }
 }
