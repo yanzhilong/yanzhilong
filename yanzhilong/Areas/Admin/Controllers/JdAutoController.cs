@@ -54,8 +54,10 @@ namespace yanzhilong.Areas.Admin.Controllers
 
             var entrys = _JdAutoMb.GetEntrys(null);
             IEnumerable<JdAutoModel> entrymodels = entrys.Select(x => x.ToModel());
+            List<JdAutoModel> entrymodelsnew = new List<JdAutoModel>();
+
             //IEnumerable<JdAutoModel> jams = new List<JdAutoModel>();
-            foreach(JdAutoModel jam in entrymodels)
+            foreach (JdAutoModel jam in entrymodels)
             {
                 if (!string.IsNullOrEmpty(jam.PId))
                 {
@@ -67,8 +69,9 @@ namespace yanzhilong.Areas.Admin.Controllers
                         }
                     }
                 }
+                entrymodelsnew.Add(jam);
             }
-            return Json(entrymodels);
+            return Json(entrymodelsnew);
         }
 
         public ActionResult Copy(string Id)
