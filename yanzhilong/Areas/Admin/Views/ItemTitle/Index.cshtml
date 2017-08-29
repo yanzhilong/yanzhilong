@@ -87,7 +87,7 @@
             });
 
             $("#affirm_make").click(function () {
-                Id = $("#ItemId").text();
+                Id = $("#ItemId").val();
                 var url = "@Url.Action("MakeTitle", "ItemTitle")" + "?Id=" + Id;
                 
                 $.ajax({

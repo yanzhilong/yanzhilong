@@ -113,7 +113,7 @@
                 },
                 toolbar: ["create"],
                 columns: [
-                    { field: "Url", title: "搜鞋网址" },
+                    { field: "Url", title: "搜鞋网址", template: "<a href=\"#:data.Url#\" target=\"__blank\">#:data.Url#</a>" },
                     { field: "JNumber", title: "商家编码" },
                     { field: "CreateAt", title: "创建时间", format: "{0: yyyy年MM月dd日 HH:mm:ss}"  },
                     { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }],
