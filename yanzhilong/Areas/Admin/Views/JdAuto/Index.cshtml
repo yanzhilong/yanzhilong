@@ -4,6 +4,14 @@
     ViewBag.Title = "京东填单";
     ViewBag.HeaderTitle = "京东填单";
     ViewBag.ActiveMenuItemSystemName = "JdAuto";
+
+    //将下拉列表生成html
+    HtmlString CidItemsHtml = Html.DropDownListFor(model => model.PId, Model.PJdAutoSelectItems, htmlAttributes: new { @class = "k-input", id = "PId" });
+    //HtmlString CidItemsHtml = Html.DropDownListFor(model => model.CategoryID,Model.CategorySelectItems);
+
+    string CidItems = CidItemsHtml.ToHtmlString();
+    string CidItemsReplace = CidItems.Replace("\r\n", "");
+
 }
 @section Head{
     <style type=text/css>
@@ -46,6 +54,13 @@
                     },
                     parameterMap: function (options, operation) {
 
+                        if (operation == "create" || operation == "update" && options.models) {
+                            var modelsTmp = options.models;
+                            //存入指定属性的值，通过工具栏的新增按钮，都是创建一个，所以取下标为0的就行了
+                            modelsTmp[0].PName = $("#PId").find("option:selected").text();
+                            return { models: kendo.stringify(options.models) };
+                        }
+
                         if (operation !== "read" && options.models) {
                             return { models: kendo.stringify(options.models) };
                         }
@@ -54,15 +69,48 @@
                 batch: true,
                 pageSize: 20,
                 schema: {
+                    errors: "Errors",//指定错误字段
                     model: {
                         id: "Id",
                         fields: {
                             Id: { editable: false, nullable: true },
-                            Name: { validation: { required: true } }
+                            Name: { validation: { required: true } },
+                            PId: { validation: { required: false } },
+                            PName: { validation: { required: false } }
                         }
                     }
-                }
+                },
+                //指定错误处理方法
+                error: function (e) {
+                    display_kendoui_grid_error(e);//显示错误
+                    this.cancelChanges();//取消修改
+                },
             });
+
+            function display_kendoui_grid_error(e) {
+                if (e.errors) {
+                    if ((typeof e.errors) == 'string') {
+                        //显示单条的错误信息
+                        alert(e.errors);
+                    } else {
+                        //显示验证错误
+                        var message = "发生了以下错误:";
+                        //create a message containing all errors.
+                        $.each(e.errors, function (key, value) {
+                            if (value.errors) {
+                                message += "\n";
+                                message += value.errors.join("\n");
+                            }
+                        });
+                        //display the message
+                        alert(message);
+                    }
+                    //ignore empty error
+                } else if (e.errorThrown) {
+                    alert('有错误发生了!!!');
+                }
+            }
+
             dataSource.bind("error", dataSource_error);
 
             function dataSource_error(e) {
@@ -81,10 +129,16 @@
                 toolbar: ["create"],
                 columns: [
                     { field: "Name", title: "填单名称" },
+                    { field: "PId", title: "父级", editor: Select, template: "#=PName#" },
                     { command: ["edit", "destroy", { name: "详情", click: showDetails }, { name: "复制", click: copy }], title: "&nbsp;", width: "400px" }],
                 editable: "popup"
             });
         });
+
+        function Select(container, options) {
+            var select2 = '@Html.Raw(CidItemsReplace)';
+            $(select2).appendTo(container);
+        }
 
         //显示详情
         function showDetails(e) {

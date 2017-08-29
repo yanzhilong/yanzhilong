@@ -32,7 +32,18 @@ namespace yanzhilong.Areas.Admin.Controllers
             if (!Authorize(PermissionRecordProvider.ManageJdAuto))
                 return AccessDeniedView();
 
-            return View();
+            JdAutoModel jdAutoModel = new JdAutoModel();
+
+            IEnumerable<JdAuto> jdAutos = _JdAutoMb.GetEntrys(new JdAuto { });
+            var selectItemList = new List<SelectListItem>() {
+                new SelectListItem(){Value="",Text="请选择",Selected=true}
+            };
+            var selectList = new SelectList(jdAutos, "Id", "Name");
+            selectItemList.AddRange(selectList);
+
+            jdAutoModel.PJdAutoSelectItems = selectItemList;
+
+            return View(jdAutoModel);
         }
         
         [JsonCallback]
@@ -43,6 +54,20 @@ namespace yanzhilong.Areas.Admin.Controllers
 
             var entrys = _JdAutoMb.GetEntrys(null);
             IEnumerable<JdAutoModel> entrymodels = entrys.Select(x => x.ToModel());
+            //IEnumerable<JdAutoModel> jams = new List<JdAutoModel>();
+            foreach(JdAutoModel jam in entrymodels)
+            {
+                if (!string.IsNullOrEmpty(jam.PId))
+                {
+                    foreach (JdAutoModel j in entrymodels)
+                    {
+                        if (jam.PId.Equals(j.Id))
+                        {
+                            jam.PName = j.Name;
+                        }
+                    }
+                }
+            }
             return Json(entrymodels);
         }
 
@@ -71,6 +96,16 @@ namespace yanzhilong.Areas.Admin.Controllers
             if (models != null)
             {
                 IEnumerable<JdAuto> entrys = models.Select(e => e.ToEntity());
+                foreach(JdAuto ja in entrys)
+                {
+                    if (ja.Id.Equals(ja.PId))
+                    {
+                        return this.Json(new
+                        {
+                            Errors = "父级不可以是自己"
+                        });
+                    }
+                }
                 _JdAutoMb.UpdateEntrys(entrys.ToList <JdAuto> ());
             }
             return Json(models);

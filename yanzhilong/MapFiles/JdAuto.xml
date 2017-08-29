@@ -14,6 +14,7 @@
     <resultMap id="JdAutoResult" class="JdAuto">
       <result property="Id" column="Id" dbType="char" type="string" />
       <result property="Name" column="Name" dbType="varchar" type="string" />
+      <result property="PId" column="PId" dbType="char" type="string" />
     </resultMap>
     
   </resultMaps>
@@ -26,9 +27,9 @@
     <insert id="InsertJdAuto" parameterClass="JdAuto" >
       <![CDATA[  
       insert into jd_auto  
-      (Id,Name)  
+      (Id,Name,PId)  
       values  
-      (#Id#,#Name#)  
+      (#Id#,#Name#,#PId#)  
       ]]>
     </insert>
 
@@ -45,7 +46,8 @@
     <update id="UpdateJdAuto" parameterClass="JdAuto">
       <![CDATA[  
           UPDATE jd_auto SET  
-          Name=#Name#
+          Name=#Name#,
+          PId=#PId#
           WHERE  
           Id=#Id#
           ]]>
@@ -56,6 +58,7 @@
       <![CDATA[  
           SELECT Id
           ,Name
+          ,PId
           FROM jd_auto
           ]]>
       <dynamic prepend="WHERE">
