@@ -77,36 +77,6 @@ namespace yanzhilong.Models
         public int Cid { get; set; }
 
         /// <summary>
-        /// 类目
-        /// </summary>
-        public string CidStr
-        {
-            get
-            {
-                switch (Cid)
-                {
-                    case (int)ShoeCidEnum.DIBANG:
-
-                        return "低帮鞋";
-                    case (int)ShoeCidEnum.GAOBANG:
-
-                        return "高帮鞋";
-                    case (int)ShoeCidEnum.TUOXIE:
-
-                        return "拖鞋";
-                    case (int)ShoeCidEnum.LIANGXIE:
-
-                        return "凉鞋";
-                }
-                return "请选择";
-            }
-            set
-            {
-
-            }
-        }
-
-        /// <summary>
         /// 类目选择
         /// </summary>
         public List<SelectListItem> CidItems { get; set; }

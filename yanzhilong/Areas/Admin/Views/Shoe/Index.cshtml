@@ -5,10 +5,6 @@
     ViewBag.HeaderTitle = "鞋子管理";
     ViewBag.ActiveMenuItemSystemName = "Shoe";
 
-    HtmlString CidItemsHtml = Html.DropDownListFor(model => model.Cid, Model.CidItems, htmlAttributes: new { required = "required", @class = "k-input" });
-    string CidItems = CidItemsHtml.ToHtmlString();
-    string CidItemsReplace = CidItems.Replace("\r\n", "");
-
 }
 
 @section Head{
@@ -16,9 +12,6 @@
     </style>
 }
 
-@section HeadRight{
-    @*<button id="maketbshoe" data-toggle="modal" data-target="#makeItems" class="btn bg-blue">全部生成宝贝</button>*@
-}
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -157,53 +150,11 @@
                     { field: "UpdateStr", title: "更新" },
                     { field: "Sort", title: "更新排序" },
                     { field: "Number", title: "商家编码" },
-                    { field: "Cid", title: "类目", editor: CidSelect, template: "#=CidStr#" },
-                    { command: ["edit","destroy", { name: "生成宝贝", click: makeTbItem }], title: "&nbsp;", width: "280px" }],
+                    { command: ["edit","destroy"], title: "&nbsp;", width: "280px" }],
                 editable: "popup"
             });
 
-            $("#affirm_make").click(function () {
-
-                var dataSource = $("#grid").data("kendoGrid").dataSource;
-                var filters = dataSource.filter();//搜索选项
-                var allData = dataSource.data();//全部数据
-                var query = new kendo.data.Query(allData);
-                var data = query.filter(filters).data;//筛选后的数据
-                var displayedData = $("#grid").data().kendoGrid.dataSource.view()
-                var displayedDataAsJSON = JSON.stringify(displayedData);
-
-                var mycars = new Array()
-                for (var i = 0; i < allData.length; i++) {
-                    mycars.push(allData[i]);
-                }
-                var filter = new Object();
-                filter.sxShoeModels = mycars;
-                var filterjson = JSON.stringify(filter);
-                var shoelistjson = JSON.stringify({ sxShoeModels: mycars })
-                //将数据提交
-                var url = "@Url.Action("MakeTbItems", "Shoe")";
-                $.ajax({
-                cache: false,
-                    type: 'POST',
-                    url: url,
-                    data: { sxShoeModels: JSON.stringify(mycars) },
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data != null && data.success) {
-                            alert(data.responseText);
-                            $('#makeItems').modal('hide');
-                        } else {
-                            // DoSomethingElse()
-                            alert(data.responseText);
-                        }
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(thrownError);
-                    }
-                });
-
-            });
-
+            
             //得到过滤的Models
             function FilterModels() {
                 var array = new Array()
@@ -226,35 +177,6 @@
 
         });
 
-        //生成宝贝
-        function makeTbItem(e) {
-            e.preventDefault();
-            var tr = $(e.target).closest("tr"); // get the current table row (tr)
-            var data = this.dataItem(tr);
-            var Id = data.Id;
-            var url = "@Url.Action("MakeTbItem", "Shoe")";
-            $.ajax({
-                url: url,
-                data: {Id : Id},
-                success: function (data) {
-                    if (data != null && data.success) {
-                        alert(data.responseText);
-                    } else {
-                        // DoSomethingElse()
-                        alert(data.responseText);
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(thrownError);
-                }
-            });
-        }
-
-        function CidSelect(container, options) {
-                var select2 = '@Html.Raw(CidItemsReplace)';
-                $(select2).appendTo(container);
-        }
-
     </script>
 </div>
 
@@ -273,21 +195,3 @@
     }
 </style>
 
-<!-- 全部生成宝贝 -->
-<div class="modal fade" id="makeItems" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">全部生成宝贝</h4>
-            </div>
-            <div class="modal-body">
-                <p>将当前鞋子全部生成宝贝</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="affirm_make">确定</button>
-            </div>
-        </div>
-    </div>
-</div>

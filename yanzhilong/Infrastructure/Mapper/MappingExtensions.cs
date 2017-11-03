@@ -24,150 +24,9 @@ namespace yanzhilong.Infrastructure.Mapper
 
         //开始写扩展方法
 
-        #region SxColor
+       
 
-        public static SxColorModel ToModel(this SxColor entity)
-        {
-            return entity.MapTo<SxColor, SxColorModel>();
-        }
-
-        public static SxColor ToEntity(this SxColorModel model)
-        {
-            return model.MapTo<SxColorModel, SxColor>();
-        }
-
-        public static SxColor ToEntity(this SxColorModel model, SxColor destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
-
-        #region TbProperty
-
-        public static TbPropertyModel ToModel(this TbProperty entity)
-        {
-            return entity.MapTo<TbProperty, TbPropertyModel>();
-        }
-
-        public static TbProperty ToEntity(this TbPropertyModel model)
-        {
-            return model.MapTo<TbPropertyModel, TbProperty>();
-        }
-
-        public static TbProperty ToEntity(this TbPropertyModel model, TbProperty destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
-
-        #region TbPropertyMapping
-
-        public static TbPropertyMappingModel ToModel(this TbPropertyMapping entity)
-        {
-            return entity.MapTo<TbPropertyMapping, TbPropertyMappingModel>();
-        }
-
-        public static TbPropertyMapping ToEntity(this TbPropertyMappingModel model)
-        {
-            return model.MapTo<TbPropertyMappingModel, TbPropertyMapping>();
-        }
-
-        public static TbPropertyMapping ToEntity(this TbPropertyMappingModel model, TbPropertyMapping destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
-
-        #region TbPropertyCategory
-
-        public static TbPropertyCategoryModel ToModel(this TbPropertyCategory entity)
-        {
-            return entity.MapTo<TbPropertyCategory, TbPropertyCategoryModel>();
-        }
-
-        public static TbPropertyCategory ToEntity(this TbPropertyCategoryModel model)
-        {
-            return model.MapTo<TbPropertyCategoryModel, TbPropertyCategory>();
-        }
-
-        public static TbPropertyCategory ToEntity(this TbPropertyCategoryModel model, TbPropertyCategory destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
-
-        #region TbItem
-
-        public static TbItemModel ToModel(this TbItem entity)
-        {
-            return entity.MapTo<TbItem, TbItemModel>();
-        }
-
-        public static TbItem ToEntity(this TbItemModel model)
-        {
-            return model.MapTo<TbItemModel, TbItem>();
-        }
-
-        public static TbItem ToEntity(this TbItemModel model, TbItem destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
-
-        #region SxImage
-
-        public static SxImageModel ToModel(this SxImage entity)
-        {
-            return entity.MapTo<SxImage, SxImageModel>();
-        }
-
-        public static SxImage ToEntity(this SxImageModel model)
-        {
-            return model.MapTo<SxImageModel, SxImage>();
-        }
-
-        public static SxImage ToEntity(this SxImageModel model, SxImage destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
-
-
-        #region SxMainImage
-
-        public static SxMainImageModel ToModel(this SxMainImage entity)
-        {
-            return entity.MapTo<SxMainImage, SxMainImageModel>();
-        }
-
-        public static SxMainImage ToEntity(this SxMainImageModel model)
-        {
-            return model.MapTo<SxMainImageModel, SxMainImage>();
-        }
-
-        public static SxMainImage ToEntity(this SxMainImageModel model, SxMainImage destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
-
-        #region SxProperty
-
-        public static SxPropertyModel ToModel(this SxProperty entity)
-        {
-            return entity.MapTo<SxProperty, SxPropertyModel>();
-        }
-
-        public static SxProperty ToEntity(this SxPropertyModel model)
-        {
-            return model.MapTo<SxPropertyModel, SxProperty>();
-        }
-
-        public static SxProperty ToEntity(this SxPropertyModel model, SxProperty destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
+       
 
         #region SxShoe
 
@@ -182,25 +41,6 @@ namespace yanzhilong.Infrastructure.Mapper
         }
 
         public static SxShoe ToEntity(this SxShoeModel model, SxShoe destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
-
-
-        #region SxSsize
-
-        public static SxSsizeModel ToModel(this SxSsize entity)
-        {
-            return entity.MapTo<SxSsize, SxSsizeModel>();
-        }
-
-        public static SxSsize ToEntity(this SxSsizeModel model)
-        {
-            return model.MapTo<SxSsizeModel, SxSsize>();
-        }
-
-        public static SxSsize ToEntity(this SxSsizeModel model, SxSsize destination)
         {
             return model.MapTo(destination);
         }
@@ -318,32 +158,5 @@ namespace yanzhilong.Infrastructure.Mapper
 
         #endregion
 
-        #region JdItem
-
-        public static JdItemModel ToModel(this JdItem entity)
-        {
-            return entity.MapTo<JdItem, JdItemModel>();
-        }
-
-        public static JdItem ToEntity(this JdItemModel model)
-        {
-            return model.MapTo<JdItemModel, JdItem>();
-        }
-
-        #endregion
-
-        #region ItemTitle
-
-        public static ItemTitleModel ToModel(this ItemTitle entity)
-        {
-            return entity.MapTo<ItemTitle, ItemTitleModel>();
-        }
-
-        public static ItemTitle ToEntity(this ItemTitleModel model)
-        {
-            return model.MapTo<ItemTitleModel, ItemTitle>();
-        }
-
-        #endregion
     }
 }

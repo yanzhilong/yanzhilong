@@ -31,56 +31,10 @@ namespace yanzhilong.Infrastructure.Mapper
             cfg.CreateMap<Category, CategoryModel>();
             cfg.CreateMap<CategoryModel, Category>();
 
-            //SxSsize
-            cfg.CreateMap<SxSsize, SxSsizeModel>();
-
-            cfg.CreateMap<SxSsizeModel, SxSsize>();
-
             //SxShoe
             cfg.CreateMap<SxShoe, SxShoeModel>();
 
             cfg.CreateMap<SxShoeModel, SxShoe>();
-
-            //SxProperty
-            cfg.CreateMap<SxProperty, SxPropertyModel>();
-
-            cfg.CreateMap<SxPropertyModel, SxProperty>();
-
-            //SxMainImage
-            cfg.CreateMap<SxMainImage, SxMainImageModel>();
-
-            cfg.CreateMap<SxMainImageModel, SxMainImage>();
-
-            //SxImage
-            cfg.CreateMap<SxImage, SxImageModel>();
-
-            cfg.CreateMap<SxImageModel, SxImage>();
-
-            //SxColor
-            cfg.CreateMap<SxColor, SxColorModel>();
-
-            cfg.CreateMap<SxColorModel, SxColor>();
-
-            //TbItem
-            cfg.CreateMap<TbItem, TbItemModel>();
-
-            cfg.CreateMap<TbItemModel, TbItem>();
-
-            //TbProperty
-            cfg.CreateMap<TbProperty, TbPropertyModel>();
-
-
-            cfg.CreateMap<TbPropertyModel, TbProperty>();
-
-            //TbPropertyCategory
-            cfg.CreateMap<TbPropertyCategory, TbPropertyCategoryModel>();
-
-            cfg.CreateMap<TbPropertyCategoryModel, TbPropertyCategory>();
-
-            //TbPropertyMapping
-            cfg.CreateMap<TbPropertyMapping, TbPropertyMappingModel>();
-
-            cfg.CreateMap<TbPropertyMappingModel, TbPropertyMapping>();
 
             //User
             cfg.CreateMap<User, UserModel>();
@@ -112,15 +66,6 @@ namespace yanzhilong.Infrastructure.Mapper
 
             cfg.CreateMap<JdAutoPropertyValueModel, JdAutoPropertyValue>();
 
-            //JdItem
-            cfg.CreateMap<JdItem, JdItemModel>();
-
-            cfg.CreateMap<JdItemModel, JdItem>();
-
-            //ItemTitle
-            cfg.CreateMap<ItemTitle, ItemTitleModel>();
-
-            cfg.CreateMap<ItemTitleModel, ItemTitle>();
 
         };
 
