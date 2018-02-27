@@ -31,11 +31,6 @@ namespace yanzhilong.Infrastructure.Mapper
             cfg.CreateMap<Category, CategoryModel>();
             cfg.CreateMap<CategoryModel, Category>();
 
-            //SxShoe
-            cfg.CreateMap<SxShoe, SxShoeModel>();
-
-            cfg.CreateMap<SxShoeModel, SxShoe>();
-
             //User
             cfg.CreateMap<User, UserModel>();
 
@@ -55,16 +50,6 @@ namespace yanzhilong.Infrastructure.Mapper
             cfg.CreateMap<PermissionRecord, PermissionRecordModel>();
 
             cfg.CreateMap<PermissionRecordModel, PermissionRecord>();
-
-            //JdAuto
-            cfg.CreateMap<JdAuto, JdAutoModel>();
-
-            cfg.CreateMap<JdAutoModel, JdAuto>();
-
-            //JdAuto
-            cfg.CreateMap<JdAutoPropertyValue, JdAutoPropertyValueModel>();
-
-            cfg.CreateMap<JdAutoPropertyValueModel, JdAutoPropertyValue>();
 
 
         };

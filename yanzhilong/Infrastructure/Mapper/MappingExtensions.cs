@@ -28,23 +28,6 @@ namespace yanzhilong.Infrastructure.Mapper
 
        
 
-        #region SxShoe
-
-        public static SxShoeModel ToModel(this SxShoe entity)
-        {
-            return entity.MapTo<SxShoe, SxShoeModel>();
-        }
-
-        public static SxShoe ToEntity(this SxShoeModel model)
-        {
-            return model.MapTo<SxShoeModel, SxShoe>();
-        }
-
-        public static SxShoe ToEntity(this SxShoeModel model, SxShoe destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
 
         #region Article
 
@@ -126,34 +109,6 @@ namespace yanzhilong.Infrastructure.Mapper
         public static PermissionRecord ToEntity(this PermissionRecordModel model)
         {
             return model.MapTo<PermissionRecordModel, PermissionRecord>();
-        }
-
-        #endregion
-
-        #region JdAuto
-
-        public static JdAutoModel ToModel(this JdAuto entity)
-        {
-            return entity.MapTo<JdAuto, JdAutoModel>();
-        }
-
-        public static JdAuto ToEntity(this JdAutoModel model)
-        {
-            return model.MapTo<JdAutoModel, JdAuto>();
-        }
-
-        #endregion
-
-        #region JdAutoPropertyValue
-
-        public static JdAutoPropertyValueModel ToModel(this JdAutoPropertyValue entity)
-        {
-            return entity.MapTo<JdAutoPropertyValue, JdAutoPropertyValueModel>();
-        }
-
-        public static JdAutoPropertyValue ToEntity(this JdAutoPropertyValueModel model)
-        {
-            return model.MapTo<JdAutoPropertyValueModel, JdAutoPropertyValue>();
         }
 
         #endregion

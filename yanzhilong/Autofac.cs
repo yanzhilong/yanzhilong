@@ -82,7 +82,6 @@ namespace yanzhilong
             builder.RegisterType<FilePersistenceService>();
             builder.RegisterType<UploadFileService>();
             builder.RegisterType<MemoryCacheService>();
-            builder.RegisterType<SxShoeServiceMB>();
             builder.RegisterType<UserService>();
             builder.RegisterType<ViewTotalService>();
 
@@ -94,9 +93,6 @@ namespace yanzhilong
 
             builder.RegisterType<PermissionService>();
             builder.RegisterType<UserAuthService>();
-
-            builder.RegisterType<JdAutoServiceMB>();
-            builder.RegisterType<JdAutoPropertyValueServiceMB>();
 
             
 

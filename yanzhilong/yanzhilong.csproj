@@ -241,27 +241,21 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\EditorMdController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileController.cs" />
-    <Compile Include="Areas\Admin\Controllers\JdAutoPropertyValueController.cs" />
     <Compile Include="Areas\Admin\Controllers\PermissionRecordController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SecurityController.cs" />
-    <Compile Include="Areas\Admin\Controllers\JdAutoController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ShoeController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagingController.cs" />
-    <Compile Include="Domain\JdAuto.cs" />
-    <Compile Include="Domain\JdAutoPropertyValue.cs" />
     <Compile Include="Domain\Kendo\DataSourceRequest.cs" />
     <Compile Include="Domain\Kendo\DataSourceResult.cs" />
     <Compile Include="Domain\PermissionRecord.cs" />
     <Compile Include="Domain\Role.cs" />
     <Compile Include="Domain\RolePermissionRecord.cs" />
-    <Compile Include="Domain\SxShoe.cs" />
     <Compile Include="Domain\UploadFile.cs" />
     <Compile Include="Domain\FileEnum.cs" />
     <Compile Include="Domain\UserRole.cs" />
@@ -312,8 +306,6 @@
     <Compile Include="Security\SaltedHash.cs" />
     <Compile Include="Autofac.cs" />
     <Compile Include="Service\FilePersistenceService.cs" />
-    <Compile Include="Service\JdAutoPropertyValueServiceMB.cs" />
-    <Compile Include="Service\JdAutoServiceMB.cs" />
     <Compile Include="Service\UploadFileService.cs" />
     <Compile Include="Service\IBaseService.cs" />
     <Compile Include="Service\ICacheService.cs" />
@@ -323,7 +315,6 @@
     <Compile Include="Service\RolePermissionRecordServiceMB.cs" />
     <Compile Include="Service\UserAuthService.cs" />
     <Compile Include="Service\UserRoleServiceMB.cs" />
-    <Compile Include="Service\SxShoeServiceMB.cs" />
     <Compile Include="Service\RoleServiceMB.cs" />
     <Compile Include="Service\ViewTotalService.cs" />
     <Compile Include="Service\CategoryService.cs" />
@@ -8085,13 +8076,10 @@
     <EmbeddedResource Include="MapFiles\Category.xml" />
     <EmbeddedResource Include="MapFiles\ViewTotal.xml" />
     <EmbeddedResource Include="MapFiles\UploadFile.xml" />
-    <EmbeddedResource Include="MapFiles\SxShoe.xml" />
     <EmbeddedResource Include="MapFiles\Role.xml" />
     <EmbeddedResource Include="MapFiles\UserRole.xml" />
     <EmbeddedResource Include="MapFiles\RolePermissionRecord.xml" />
     <EmbeddedResource Include="MapFiles\PermissionRecord.xml" />
-    <EmbeddedResource Include="MapFiles\JdAuto.xml" />
-    <EmbeddedResource Include="MapFiles\JdAutoPropertyValue.xml" />
     <Content Include="providers.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -8240,7 +8228,6 @@
     <Content Include="Content\kendo\2014.1.318\kendo.view.min.js.map" />
     <Content Include="Content\kendo\2014.1.318\kendo.web.min.js.map" />
     <Content Include="Content\kendo\2014.1.318\kendo.window.min.js.map" />
-    <Content Include="Areas\Admin\Views\Shoe\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\PropertySelect.cshtml" />
     <Content Include="Content\AdminLTE-2.4.0-rc\.npmignore" />
     <Content Include="Content\AdminLTE-2.4.0-rc\bower.json" />
@@ -8912,8 +8899,6 @@
     <Content Include="Areas\Admin\Views\Role\Role.cshtml" />
     <Content Include="Areas\Admin\Views\User\Role.cshtml" />
     <Content Include="Areas\Admin\Views\Security\AccessDenied.cshtml" />
-    <Content Include="Areas\Admin\Views\JdAuto\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\JdAutoPropertyValue\Index.cshtml" />
     <None Include="Project_Readme.html" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
