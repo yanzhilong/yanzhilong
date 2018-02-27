@@ -23,6 +23,7 @@ namespace yanzhilong.Models
         [DisplayName("文件类型")]
         public int Type { get; set; } //类型
 
+        [DisplayName("文件类型")]
         public string TypeStr
         {
             get

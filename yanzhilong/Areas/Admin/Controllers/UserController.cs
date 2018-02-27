@@ -54,7 +54,7 @@ namespace yanzhilong.Areas.Admin.Controllers
 
         public ActionResult Details()
         {
-            if (!Authorize(PermissionRecordProvider.ManageUser))
+            if (!Authorize(PermissionRecordProvider.ManageUserInfo))
                 return AccessDeniedView();
 
             User user = _UserAuthService.CurrentUser;

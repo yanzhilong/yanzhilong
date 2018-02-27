@@ -24,7 +24,13 @@ namespace yanzhilong.filter
                     && controllerName.Equals("Home", StringComparison.InvariantCultureIgnoreCase)
                     && actionName.Equals("Login", StringComparison.InvariantCultureIgnoreCase))
                     return;
-                
+
+                //注册页面忽略
+                if (!String.IsNullOrEmpty(controllerName) && !String.IsNullOrEmpty(actionName)
+                    && controllerName.Equals("Home", StringComparison.InvariantCultureIgnoreCase)
+                    && actionName.Equals("Register", StringComparison.InvariantCultureIgnoreCase))
+                    return;
+
                 filterContext.Result = new EmptyResult();
                 //跳转到登陆页
                 filterContext.HttpContext.Response.Redirect("/Admin/Home/Login");
