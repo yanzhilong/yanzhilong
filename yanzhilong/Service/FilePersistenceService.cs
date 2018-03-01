@@ -14,6 +14,7 @@ namespace yanzhilong.Service
     {
         private UploadFileService fileService = new UploadFileService();
 
+        static List<String> homefiles = null;
         /// <summary>
         /// 写入上传的文件
         /// </summary>
@@ -94,6 +95,42 @@ namespace yanzhilong.Service
                     return "/file/temp/";
             }
             return null;
+        }
+
+        /// <summary>
+        /// 获得首页目录的
+        /// </summary>
+        /// <returns></returns>
+        public List<String> HomeImages()
+        {
+            if(homefiles !=null)
+            {
+                return RandomSortList(homefiles);
+            }
+            homefiles = new List<String>();
+            string homeimgfolder = HttpContext.Current.Request.MapPath("/file/homeimg/");
+            //string path = Server.MapPath("/file/homeimg/");
+            //Path.Combine(HttpContext.Current.Request.MapPath(MakeFilePath(fileEnum)), SaveName);
+            DirectoryInfo di = new DirectoryInfo(homeimgfolder);
+            //找到该目录下的文件 
+            FileInfo[] fis = di.GetFiles();
+            foreach (FileInfo fi in fis)
+            {
+                string filesave = "/file/homeimg/" + fi.Name;
+                homefiles.Add(filesave);
+            }
+            return homefiles;
+        }
+
+        public List<T> RandomSortList<T>(List<T> ListT)
+        {
+            Random random = new Random();
+            List<T> newList = new List<T>();
+            foreach (T item in ListT)
+            {
+                newList.Insert(random.Next(newList.Count + 1), item);
+            }
+            return newList;
         }
     }
 }

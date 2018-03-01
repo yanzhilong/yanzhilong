@@ -1,77 +1,153 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "严志龙的网站";
     ViewBag.NavActive = 0;//设置导航激活
+    var list = (List<String>)ViewBag.list;
+    var i = 0;
+}
+
+@section head{
+
+    @*布局插件*@
+    <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.min.js"></script>
+
+    @*图片加载插件，在图片加载完成的时候重新布局*@
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 }
 
 <!-- 热门的文章 -->
 <div class="container marketing">
 
+    <div id="grid">
+        @foreach (var item in list)
+        {
+            i++;
+            if (i % 3 == 1)
+            {
+                <div class="item">
+                    <a href="@item" target="_blank">
+                        <img src="@item" style="width:100%">
+                    </a>
+                </div>
+            }
+            else if (i % 3 == 2)
+            {
+                <div class="item item-width2">
+                    <a href="@item" target="_blank">
+                        <img src="@item" style="width:100%">
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="item item-width3">
+                    <a href="@item" target="_blank">
+                        <img src="@item" style="width:100%">
+                    </a>
+                </div>
+            }
+        }
+    </div>
+
     <!-- Three columns of text below the carousel -->
     @*<div class="row">
 
-        @foreach (var item in Model.tutorials)
-            {
+            @foreach (var item in Model.tutorials)
+                {
 
-            <div class="col-lg-4 main_tutorials">
-                <img class="img-circle" src="@(item.ImageUrl)" alt="Generic placeholder image" width="140" height="140">
-                <h3 class="blog-post-title">@item.Title</h3>
-                <p>@item.Disc</p>
-                <p>
-                    @Html.ActionLink("马上学习", "Details","Tutorials", new { id = item.TutorialsID }, new { @class = "btn btn-primary", role = "button" })
-                </p>
-            </div>
+                <div class="col-lg-4 main_tutorials">
+                    <img class="img-circle" src="@(item.ImageUrl)" alt="Generic placeholder image" width="140" height="140">
+                    <h3 class="blog-post-title">@item.Title</h3>
+                    <p>@item.Disc</p>
+                    <p>
+                        @Html.ActionLink("马上学习", "Details","Tutorials", new { id = item.TutorialsID }, new { @class = "btn btn-primary", role = "button" })
+                    </p>
+                </div>
 
-        }
-        
-    </div>*@
+            }
+
+        </div>*@
     <!-- /.row -->
     <!-- START THE FEATURETTES -->
-
     @*<hr class="featurette-divider">*@
 
-    @{ 
-        int i = 0;
-    }
     @*@foreach (var item in Model.products)
-    {
-        <hr class="featurette-divider">
-        if (i % 2 == 0)
         {
-            <div class="row featurette">
-                <div class="col-md-7">
-                    <h2 class="featurette-heading">@Html.ActionLink(item.Name, "Details","Product", new { id = item.ProductID},null)</h2>                    
-                    <p>@item.Disc</p>
-                </div>
-                <div class="col-md-5">
+            <hr class="featurette-divider">
+            if (i % 2 == 0)
+            {
+                <div class="row featurette">
+                    <div class="col-md-7">
+                        <h2 class="featurette-heading">@Html.ActionLink(item.Name, "Details","Product", new { id = item.ProductID},null)</h2>
+                        <p>@item.Disc</p>
+                    </div>
+                    <div class="col-md-5">
 
-                    <a class="thumbnail loaded" href="@Url.Action("Details","Product", new { id = item.ProductID })">
-                        <img class="featurette-image img-responsive center-block" src="@(item.ImageUrl)" alt="Generic placeholder image">
-                    </a>
+                        <a class="thumbnail loaded" href="@Url.Action("Details","Product", new { id = item.ProductID })">
+                            <img class="featurette-image img-responsive center-block" src="@(item.ImageUrl)" alt="Generic placeholder image">
+                        </a>
+                    </div>
                 </div>
-            </div>
-        }
-        else
-        {
-            <div class="row featurette">
-                <div class="col-md-7 col-md-push-5">
-                    <h2 class="featurette-heading">@Html.ActionLink(item.Name, "Details", "Product", new { id = item.ProductID }, null)</h2>
-                    <p>@item.Disc</p>
+            }
+            else
+            {
+                <div class="row featurette">
+                    <div class="col-md-7 col-md-push-5">
+                        <h2 class="featurette-heading">@Html.ActionLink(item.Name, "Details", "Product", new { id = item.ProductID }, null)</h2>
+                        <p>@item.Disc</p>
+                    </div>
+                    <div class="col-md-5 col-md-pull-7">
+                        <a class="thumbnail loaded" href="@Url.Action("Details","Product", new { id = item.ProductID })">
+                            <img class="featurette-image img-responsive center-block" src="@(item.ImageUrl)" alt="Generic placeholder image">
+                        </a>
+                    </div>
                 </div>
-                <div class="col-md-5 col-md-pull-7">
-                    <a class="thumbnail loaded" href="@Url.Action("Details","Product", new { id = item.ProductID })">
-                        <img class="featurette-image img-responsive center-block" src="@(item.ImageUrl)" alt="Generic placeholder image">
-                    </a>
-                </div>
-            </div>
-        }
-        i++;
-    }*@
-   
+            }
+            i++;
+        }*@
+
 </div>
 @section scripts{
     @Scripts.Render("~/bundles/list")
+
+    <style>
+        #grid {
+            margin: 0 auto;
+            background: white;
+        }
+
+        .item {
+            /*width: 100px;*/ /* 控制每个图片宽度 */
+            width: 160px;
+            margin: 2px;
+        }
+
+        .item-width2 {
+            width: 320px;
+        }
+
+        .item-width3 {
+            width: 480px;
+        }
+
+        .item-width4 {
+            width: 640px;
+        }
+    </style>
+
     <script>
 
+        var $grid = $('#grid').masonry({
+            itemSelector: '.item',
+            isAnimated: true,
+            //columnWidth: 450,
+            isFitWidth: true     // 自适应宽度
+        });
+
+        //每加载完成一张图片就重新布局
+        $grid.imagesLoaded().progress(function () {
+            $grid.masonry('layout');
+        });
 
     </script>
 }
